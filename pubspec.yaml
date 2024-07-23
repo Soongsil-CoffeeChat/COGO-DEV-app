@@ -1,0 +1,50 @@
+name: cogo
+description: "cogo_dev_app"
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+
+  #router
+  go_router: ^13.1.0
+
+  # network
+  dio: ^5.3.2
+
+  # status manage
+  provider: ^6.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icons/navigator/
+    - assets/icons/3d_img/
+
+  fonts:
+    - family: PretendardRegular
+      fonts:
+        - asset: assets/fonts/Pretendard-Regular.ttf
+
+    - family: PretendardSemiBold
+      fonts:
+        - asset: assets/fonts/Pretendard-SemiBold.ttf
+
+    - family: PretendardMedium
+      fonts:
+        - asset: assets/fonts/Pretendard-Medium.ttf
