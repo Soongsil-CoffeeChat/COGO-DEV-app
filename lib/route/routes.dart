@@ -14,6 +14,8 @@ import 'package:cogo/features/auth/signup/views/mentor/job_experience_screen.dar
 import 'package:cogo/features/auth/signup/views/mentor/mentor_info_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/profile_intro_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/completion_screen.dart';
+import 'package:cogo/features/auth/signup/views/mentee/interest_selection_screen.dart';
+import 'package:cogo/features/auth/signup/views/mentee/completion_screen.dart';
 
 final AppRouter = GoRouter(
   initialLocation: '/agreement',
@@ -98,6 +100,22 @@ final AppRouter = GoRouter(
                         ),
                       ],
                     ),
+                    GoRoute(
+                      path: 'mentee_interest',
+                      pageBuilder: (context, state) => MaterialPage(
+                        key: state.pageKey,
+                        child: MentesInterestSelectionScreen(),
+                      ),
+                      routes: [
+                        GoRoute(
+                          path: 'mentee_completion',
+                          pageBuilder: (context, state) => MaterialPage(
+                            key: state.pageKey,
+                            child: MenteeCompletionScreen(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],
@@ -106,6 +124,7 @@ final AppRouter = GoRouter(
         ),
       ],
     ),
+    //bottom navigator 동작
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(

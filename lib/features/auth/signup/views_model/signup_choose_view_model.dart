@@ -11,7 +11,7 @@ class SignupChooseViewModel extends ChangeNotifier {
     if (role == '멘토') {
       context.go('/agreement/phone/name/choose/mentor_interest');
     } else if (role == '멘티') {
-      context.go('/mentee');
+      context.go('/agreement/phone/name/choose/mentee_interest');
     }
   }
 }
