@@ -9,7 +9,7 @@ class SignupChooseViewModel extends ChangeNotifier {
     notifyListeners();
     // 역할에 따라 라우팅
     if (role == '멘토') {
-      context.go('/mentor');
+      context.go('/agreement/phone/name/choose/mentor_interest');
     } else if (role == '멘티') {
       context.go('/mentee');
     }

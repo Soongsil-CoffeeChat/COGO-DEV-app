@@ -8,6 +8,12 @@ import 'package:cogo/features/auth/signup/views/agreement_screen.dart';
 import 'package:cogo/features/auth/signup/views/signup_screen_phone.dart';
 import 'package:cogo/features/auth/signup/views/signup_screen_name.dart';
 import 'package:cogo/features/auth/signup/views/signup_screen_choose.dart';
+import 'package:cogo/features/auth/signup/views/mentor/interest_selection_screen.dart';
+import 'package:cogo/features/auth/signup/views/mentor/club_selection_screen.dart';
+import 'package:cogo/features/auth/signup/views/mentor/job_experience_screen.dart';
+import 'package:cogo/features/auth/signup/views/mentor/mentor_info_screen.dart';
+import 'package:cogo/features/auth/signup/views/mentor/profile_intro_screen.dart';
+import 'package:cogo/features/auth/signup/views/mentor/completion_screen.dart';
 
 final AppRouter = GoRouter(
   initialLocation: '/agreement',
@@ -39,6 +45,60 @@ final AppRouter = GoRouter(
                     key: state.pageKey,
                     child: SignupScreenChoose(),
                   ),
+                  routes: [
+                    GoRoute(
+                      path: 'mentor_interest',
+                      pageBuilder: (context, state) => MaterialPage(
+                        key: state.pageKey,
+                        child: InterestSelectionScreen(),
+                      ),
+                      routes: [
+                        GoRoute(
+                          path: 'mentor_club',
+                          pageBuilder: (context, state) => MaterialPage(
+                            key: state.pageKey,
+                            child: ClubSelectionScreen(),
+                          ),
+                          routes: [
+                            GoRoute(
+                              path: 'mentor_job',
+                              pageBuilder: (context, state) => MaterialPage(
+                                key: state.pageKey,
+                                child: JobExperienceScreen(),
+                              ),
+                              routes: [
+                                GoRoute(
+                                  path: 'mentor_info',
+                                  pageBuilder: (context, state) => MaterialPage(
+                                    key: state.pageKey,
+                                    child: MentorInfoScreen(),
+                                  ),
+                                  routes: [
+                                    GoRoute(
+                                      path: 'mentor_profile',
+                                      pageBuilder: (context, state) => MaterialPage(
+                                        key: state.pageKey,
+                                        child: ProfileIntroScreen(),
+                                      ),
+                                      routes: [
+                                        GoRoute(
+                                          path: 'mentor_completion',
+                                          pageBuilder: (context, state) => MaterialPage(
+                                            key: state.pageKey,
+                                            child: CompletionScreen(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -46,11 +106,10 @@ final AppRouter = GoRouter(
         ),
       ],
     ),
-
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(
-          navigationShell: navigationShell, // 명시적 캐스팅
+          navigationShell: navigationShell,
         );
       },
       branches: [

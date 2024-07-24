@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/views_model/signup_choose_view_model.dart';
+import 'package:cogo/features/auth/signup/views_model/mentor/interest_selection_view_model.dart';
 
-class SignupScreenChoose extends StatelessWidget {
+class InterestSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SignupChooseViewModel(),
+      create: (_) => InterestSelectionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -21,13 +21,13 @@ class SignupScreenChoose extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Consumer<SignupChooseViewModel>(
+          child: Consumer<InterestSelectionViewModel>(
             builder: (context, viewModel, child) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '거의 다 되었습니다!',
+                    '나의 관심사 또는 희망하는 \n직종을 하나 선택해주세요',
                     style: TextStyle(
                       fontSize: 18,
                       fontFamily: 'PretendardMedium',
@@ -35,7 +35,7 @@ class SignupScreenChoose extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    '멘토로 가입하실지, 멘티로 가입하실지 알려주세요',
+                    '나중에 관심사가 바뀌어도 수정이 가능해요',
                     style: TextStyle(
                       fontSize: 12,
                       fontFamily: 'PretendardMedium',
@@ -46,12 +46,25 @@ class SignupScreenChoose extends StatelessWidget {
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
                         children: [
-                          _buildRoleButton(context, '멘토', viewModel),
-                          SizedBox(width: 10),
-                          _buildRoleButton(context, '멘티', viewModel),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildInterestButton(context, 'FE', viewModel),
+                              SizedBox(width: 10),
+                              _buildInterestButton(context, 'BE', viewModel),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildInterestButton(context, '기획', viewModel),
+                              SizedBox(width: 10),
+                              _buildInterestButton(context, '디자인', viewModel),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -65,7 +78,7 @@ class SignupScreenChoose extends StatelessWidget {
     );
   }
 
-  Widget _buildRoleButton(BuildContext context, String role, SignupChooseViewModel viewModel) {
+  Widget _buildInterestButton(BuildContext context, String interest, InterestSelectionViewModel viewModel) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -73,11 +86,11 @@ class SignupScreenChoose extends StatelessWidget {
           height: 50,
           child: ElevatedButton(
             onPressed: () {
-              viewModel.selectRole(role, context);
+              viewModel.selectInterest(context, interest);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: viewModel.selectedRole == role ? Colors.black : Colors.grey[300],
-              foregroundColor: viewModel.selectedRole == role ? Colors.white : Colors.black,
+              backgroundColor: viewModel.selectedInterest == interest ? Colors.black : Colors.grey[300],
+              foregroundColor: viewModel.selectedInterest == interest ? Colors.white : Colors.black,
               textStyle: TextStyle(
                 fontFamily: 'PretendardMedium',
                 fontSize: 16,
@@ -86,7 +99,7 @@ class SignupScreenChoose extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            child: Text(role),
+            child: Text(interest),
           ),
         ),
       ),

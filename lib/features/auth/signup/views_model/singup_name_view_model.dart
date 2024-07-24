@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupNameViewModel extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
@@ -18,10 +19,13 @@ class SignupNameViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  void _validateName() {
+  Future<void> _validateName() async {
     final name = nameController.text;
     final isValid = name.isNotEmpty;
     isValidName.value = isValid;
     errorMessage.value = isValid ? null : '성함을 입력해주세요';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', name);
   }
 }
