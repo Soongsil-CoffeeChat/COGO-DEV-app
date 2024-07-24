@@ -38,6 +38,7 @@ flutter:
   assets:
     - assets/icons/navigator/
     - assets/icons/3d_img/
+    - assets/icons/button/
 
   fonts:
     - family: PretendardRegular
