@@ -30,7 +30,7 @@ class PhoneNumberVerificationViewModel extends ChangeNotifier {
   }
 
   void _validatePhoneNumber() {
-    final phoneNumber = phoneController.text;
+    final phoneNumber = phoneController.text.replaceAll('-', '');
     final regex = RegExp(r'^\d{3}\d{4}\d{4}$');
     final isValid = regex.hasMatch(phoneNumber);
     isValidPhoneNumber.value = isValid;

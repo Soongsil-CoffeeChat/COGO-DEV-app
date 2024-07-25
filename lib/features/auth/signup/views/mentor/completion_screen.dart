@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/auth/signup/views_model/mentor/completion_view_model.dart';
 
-class CompletionScreen extends StatelessWidget {
+class MentorCompletionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => CompletionViewModel(),
+      create: (_) => MenteeCompletionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -21,7 +21,7 @@ class CompletionScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Consumer<CompletionViewModel>(
+          child: Consumer<MenteeCompletionViewModel>(
             builder: (context, viewModel, child) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,37 +42,34 @@ class CompletionScreen extends StatelessWidget {
                       color: Colors.grey,
                     ),
                   ),
-                  Spacer(),
+                  SizedBox(height: 20),
                   Center(
                     child: Image.asset(
                       'assets/icons/3d_img/3d_fire.png',
-                      width: 200,
-                      height: 200,
+                      width: 300,
+                      height: 300,
                     ),
                   ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          viewModel.completeApplication(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          foregroundColor: Colors.white,
-                          textStyle: TextStyle(
-                            fontFamily: 'PretendardMedium',
-                            fontSize: 16,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        viewModel.completeApplication(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white,
+                        textStyle: TextStyle(
+                          fontFamily: 'PretendardMedium',
+                          fontSize: 18,
                         ),
-                        child: Text('코고 신청 완료하기'),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
+                      child: Text('코고 가입 완료하기'),
                     ),
                   ),
                 ],

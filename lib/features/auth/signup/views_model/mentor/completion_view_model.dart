@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/common/db/locale_manager.dart';
 
-class CompletionViewModel extends ChangeNotifier {
+class MenteeCompletionViewModel extends ChangeNotifier {
   String? name;
 
   CompletionViewModel() {

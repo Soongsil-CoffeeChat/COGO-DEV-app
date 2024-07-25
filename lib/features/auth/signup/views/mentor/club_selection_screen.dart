@@ -27,7 +27,7 @@ class ClubSelectionScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '(선택) 소속된 동아리가 있나요?',
+                    '소속된 동아리가 있나요?',
                     style: TextStyle(
                       fontSize: 18,
                       fontFamily: 'PretendardMedium',
@@ -66,31 +66,13 @@ class ClubSelectionScreen extends StatelessWidget {
                             ],
                           ),
                           SizedBox(height: 16),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: SizedBox(
-                              width: 105,
-                              height: 45,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  viewModel.skipSelection(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  side: BorderSide(color: Color(0xFFC1C1C1)),
-                                  backgroundColor: Color(0XFFF8F8F8),
-                                  foregroundColor: Color(0xFFC1C1C1),
-                                  textStyle: TextStyle(
-                                    fontFamily: 'PretendardMedium',
-                                    fontSize: 16,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                child: Text('SKIP >'),
-                              ),
-                            ),
+                          Row(
+                            children: [
+                              _buildClubButton(context, 'NO CLUB', viewModel),
+                              SizedBox(width: 10),
+                            ],
                           ),
+                          SizedBox(height: 16),
                         ],
                       ),
                     ),
@@ -119,7 +101,7 @@ class ClubSelectionScreen extends StatelessWidget {
               foregroundColor: viewModel.selectedClub == club ? Colors.white : Colors.black,
               textStyle: TextStyle(
                 fontFamily: 'PretendardMedium',
-                fontSize: 16,
+                fontSize: 18,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

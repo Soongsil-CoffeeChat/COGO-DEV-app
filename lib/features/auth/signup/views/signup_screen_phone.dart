@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/auth/signup/views_model/signup_phone_view_model.dart';
+import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 
 class PhoneNumberVerificationScreen extends StatelessWidget {
   @override
@@ -46,6 +48,10 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                   TextField(
                     controller: viewModel.phoneController,
                     keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      PhoneNumberInputFormatter(),
+                    ],
                     decoration: InputDecoration(
                       labelText: '휴대폰 번호',
                       labelStyle: TextStyle(color: Colors.grey),

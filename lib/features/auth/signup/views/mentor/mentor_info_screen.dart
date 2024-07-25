@@ -56,16 +56,28 @@ class MentorInfoScreen extends StatelessWidget {
                               _buildInfoBox(context, viewModel.selectedInterst ?? 'BE', viewModel),
                             ],
                           ),
-                          if (viewModel.selectedClub != null) ...[
+                          if (viewModel.selectedClub != 'NO CLUB') ...[
                             SizedBox(height: 16),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _buildInfoBox(context, viewModel.selectedClub ?? 'YOURSSU', viewModel),
-                                SizedBox(width: 10),
-                                _buildInfoBox(context, viewModel.selectedJob ?? '직무직무', viewModel),
-                                SizedBox(width: 10),
-                                _buildInfoBox(context, viewModel.selectedExperience ?? '경력', viewModel),
+                                Container(
+                                  width: 130,
+                                  height: 50,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    viewModel.selectedClub ?? 'YOURSSU',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'PretendardMedium',
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -123,7 +135,7 @@ class MentorInfoScreen extends StatelessWidget {
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'PretendardMedium',
-              fontSize: 16,
+              fontSize: 18,
             ),
           ),
         ),

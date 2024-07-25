@@ -31,6 +31,6 @@ class MentorInfoViewModel extends ChangeNotifier {
   }
 
   void nextPage(BuildContext context) {
-    context.go('/agreement/phone/name/choose/mentor_interest/mentor_club/mentor_job/mentor_info/mentor_profile');
+    context.go('/agreement/phone/name/choose/mentor_interest/mentor_club/mentor_info/mentor_completion');
   }
 }

@@ -23,9 +23,6 @@ class MenteeCompletionScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Consumer<MenteeCompletionViewModel>(
             builder: (context, viewModel, child) {
-              if (viewModel.isLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -45,37 +42,34 @@ class MenteeCompletionScreen extends StatelessWidget {
                       color: Colors.grey,
                     ),
                   ),
-                  Spacer(),
+                  SizedBox(height: 20),
                   Center(
                     child: Image.asset(
                       'assets/icons/3d_img/3d_fire.png',
-                      width: 200,
-                      height: 200,
+                      width: 300,
+                      height: 300,
                     ),
                   ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          viewModel.completeApplication(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          foregroundColor: Colors.white,
-                          textStyle: TextStyle(
-                            fontFamily: 'PretendardMedium',
-                            fontSize: 16,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        viewModel.completeApplication(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white,
+                        textStyle: TextStyle(
+                          fontFamily: 'PretendardMedium',
+                          fontSize: 18,
                         ),
-                        child: Text('코고 신청 완료하기'),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
+                      child: Text('코고 가입 완료하기'),
                     ),
                   ),
                 ],
