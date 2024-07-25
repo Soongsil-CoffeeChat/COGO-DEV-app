@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cogo/common/db/locale_manager.dart';
 
 class MenteeCompletionViewModel extends ChangeNotifier {
   String? name;
@@ -11,8 +11,7 @@ class MenteeCompletionViewModel extends ChangeNotifier {
   }
 
   void _loadPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = prefs.getString('name') ?? '멘티';
+    name = LocaleManager.instance.getStringValue('name') ?? '멘티';
     isLoading = false;
     notifyListeners();
   }

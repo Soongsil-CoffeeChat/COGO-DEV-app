@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cogo/common/db/locale_manager.dart';
 
 class ClubSelectionViewModel extends ChangeNotifier {
   String? selectedClub;
@@ -9,8 +9,7 @@ class ClubSelectionViewModel extends ChangeNotifier {
     selectedClub = club;
     notifyListeners();
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedClub', club);
+    await LocaleManager.instance.setStringValue('selectedClub', club);
 
     // 페이지 이동
     context.go('/agreement/phone/name/choose/mentor_interest/mentor_club/mentor_job');
@@ -18,8 +17,7 @@ class ClubSelectionViewModel extends ChangeNotifier {
 
   void skipSelection(BuildContext context) async {
     // SharedPreferences에서 selectedClub 값을 제거합니다.
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('selectedClub');
+    await LocaleManager.instance.remove('selectedClub');
 
     // selectedClub 변수를 null로 설정합니다.
     selectedClub = null;

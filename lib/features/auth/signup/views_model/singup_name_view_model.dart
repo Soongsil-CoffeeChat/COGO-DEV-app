@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cogo/common/db/locale_manager.dart';
 
 class SignupNameViewModel extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
@@ -25,7 +25,6 @@ class SignupNameViewModel extends ChangeNotifier {
     isValidName.value = isValid;
     errorMessage.value = isValid ? null : '성함을 입력해주세요';
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', name);
+    await LocaleManager.instance.setStringValue('name', name);
   }
 }

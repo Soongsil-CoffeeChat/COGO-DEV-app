@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cogo/common/db/locale_manager.dart';
 
 class JobExperienceViewModel extends ChangeNotifier {
   final TextEditingController positionController = TextEditingController();
@@ -10,10 +10,8 @@ class JobExperienceViewModel extends ChangeNotifier {
     String position = positionController.text;
     String experience = experienceController.text;
 
-    // SharedPreferences 저장
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedJob', position);
-    await prefs.setString('selectedExperience', experience);
+    await LocaleManager.instance.setStringValue('selectedJob', position);
+    await LocaleManager.instance.setStringValue('selectedExperience', experience);
 
     // Navigate to the next page
     context.go('/agreement/phone/name/choose/mentor_interest/mentor_club/mentor_job/mentor_info');

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cogo/common/db/locale_manager.dart';
 
 class MentorInfoViewModel extends ChangeNotifier {
   String? name;
@@ -15,14 +15,14 @@ class MentorInfoViewModel extends ChangeNotifier {
   }
 
   void _loadPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = prefs.getString('name');
-    selectedInterst = prefs.getString('selectedInterest');
-    selectedClub = prefs.getString('selectedClub');
-    selectedJob = prefs.getString('selectedJob');
-    selectedExperience = prefs.getString('selectedExperience');
-    selectedChurch = prefs.getString('selectedChurch');
     notifyListeners();
+
+    name = LocaleManager.instance.getStringValue('name');
+    selectedInterst = LocaleManager.instance.getStringValue('mentorSelectedInterest');
+    selectedClub = LocaleManager.instance.getStringValue('selectedClub');
+    selectedJob = LocaleManager.instance.getStringValue('selectedJob');
+    selectedExperience = LocaleManager.instance.getStringValue('selectedExperience');
+    selectedChurch = LocaleManager.instance.getStringValue('selectedChurch');
   }
 
   void selectInfo(String info) {
