@@ -29,31 +29,34 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     '휴대폰 번호를 입력해주세요',
                     style: TextStyle(
                       fontSize: 18,
                       fontFamily: 'PretendardMedium',
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    '개인정보는 정보통신망법에 따라 안전하게 보관됩니다',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'PretendardMedium',
-                      color: Colors.grey,
-                    ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        '개인정보는 정보통신망법에 따라 안전하게 보관됩니다',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'PretendardMedium',
+                          color: Colors.grey,
+                        ),
+                      ),
                   ),
-                  SizedBox(height: 24),
-                  TextField(
+                  Padding(
+                      padding: EdgeInsets.only(top: 24.0),
+                        child:TextField(
                     controller: viewModel.phoneController,
                     keyboardType: TextInputType.phone,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       PhoneNumberInputFormatter(),
                     ],
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: '휴대폰 번호',
                       labelStyle: TextStyle(color: Colors.grey),
                       enabledBorder: UnderlineInputBorder(
@@ -64,6 +67,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  ),
                   ValueListenableBuilder<String?>(
                     valueListenable: viewModel.errorMessage,
                     builder: (context, errorMessage, child) {
@@ -73,7 +77,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           errorMessage,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.red,
                             fontSize: 12,
                             fontFamily: 'PretendardMedium',
@@ -82,8 +86,9 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 32),
-                  ValueListenableBuilder<bool>(
+                  Padding(
+                      padding: const EdgeInsets.only(top: 34.0),
+                  child: ValueListenableBuilder<bool>(
                     valueListenable: viewModel.showVerificationField,
                     builder: (context, show, child) {
                       if (show) {
@@ -92,7 +97,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                             TextField(
                               controller: viewModel.codeController,
                               keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: '인증번호',
                                 labelStyle: TextStyle(color: Colors.grey),
                                 enabledBorder: UnderlineInputBorder(
@@ -109,6 +114,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                       }
                       return SizedBox.shrink();
                     },
+                  ),
                   ),
                   Center(
                     child: ValueListenableBuilder<bool>(
@@ -143,7 +149,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                                           isValidCode))
                                       ? Colors.white
                                       : Colors.black,
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontFamily: 'PretendardMedium',
                                     fontSize: 18,
                                   ),

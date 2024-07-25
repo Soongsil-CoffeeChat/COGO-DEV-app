@@ -27,87 +27,95 @@ class MentorInfoScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     '멘토님의 정보를 확인해주세요',
                     style: TextStyle(
                       fontSize: 18,
                       fontFamily: 'PretendardMedium',
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'PretendardMedium',
-                      color: Colors.grey,
+                  const Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'PretendardMedium',
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 32),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _buildInfoBox(context, viewModel.name ?? '나는 교회', viewModel),
-                              SizedBox(width: 10),
-                              _buildInfoBox(context, viewModel.selectedInterst ?? 'BE', viewModel),
-                            ],
-                          ),
-                          if (viewModel.selectedClub != 'NO CLUB') ...[
-                            SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Column(
+                          children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  width: 130,
-                                  height: 50,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    viewModel.selectedClub ?? 'YOURSSU',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'PretendardMedium',
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
+                                _buildInfoBox(context,
+                                    viewModel.name ?? '나는 교회', viewModel),
+                                SizedBox(width: 10),
+                                _buildInfoBox(
+                                    context,
+                                    viewModel.selectedInterst ?? 'BE',
+                                    viewModel),
                               ],
                             ),
-                          ],
-                          SizedBox(height: 16),
-                          Align(
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                              width: 170,
-                              height: 45,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  viewModel.nextPage(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.grey[300],
-                                  foregroundColor: Colors.black,
-                                  textStyle: TextStyle(
-                                    fontFamily: 'PretendardMedium',
-                                    fontSize: 16,
+                            if (viewModel.selectedClub != 'NO CLUB') ...[
+                              SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 130,
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      viewModel.selectedClub ?? 'YOURSSU',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'PretendardMedium',
+                                        fontSize: 18,
+                                      ),
+                                    ),
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                ],
+                              ),
+                            ],
+                            SizedBox(height: 16),
+                            Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: 170,
+                                height: 45,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    viewModel.nextPage(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.grey[300],
+                                    foregroundColor: Colors.black,
+                                    textStyle: const TextStyle(
+                                      fontFamily: 'PretendardMedium',
+                                      fontSize: 16,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
                                   ),
+                                  child: Text('다음'),
                                 ),
-                                child: Text('다음'),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -120,7 +128,8 @@ class MentorInfoScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoBox(BuildContext context, String info, MentorInfoViewModel viewModel) {
+  Widget _buildInfoBox(
+      BuildContext context, String info, MentorInfoViewModel viewModel) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -133,7 +142,7 @@ class MentorInfoScreen extends StatelessWidget {
           ),
           child: Text(
             info,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'PretendardMedium',
               fontSize: 18,

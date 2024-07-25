@@ -21,7 +21,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // 전체 화면 높이를 사용할 수 있게 설정
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
@@ -40,7 +40,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
     );
   }
@@ -51,7 +51,7 @@ class AgreementBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -93,33 +93,35 @@ class AgreementBottomSheet extends StatelessWidget {
               '서비스 혜택 정보 수신 ',
               '(선택)',
             ),
-            SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: viewModel.isAllRequiredChecked
-                    ? () {
-                  // signup_screen_phone 페이지로 이동
-                  context.go('/agreement/phone');
-                }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: viewModel.isAllRequiredChecked
-                      ? Colors.black
-                      : Color(0xFFEDEDED),
-                  foregroundColor: viewModel.isAllRequiredChecked
-                      ? Colors.white
-                      : Colors.black,
-                  textStyle: TextStyle(
-                    fontFamily: 'PretendardMedium',
-                    fontSize: 18, // 원하는 폰트 크기 지정
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0), // 상단에만 20의 패딩 추가
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: viewModel.isAllRequiredChecked
+                      ? () {
+                    // signup_screen_phone 페이지로 이동
+                    context.go('/agreement/phone');
+                  }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: viewModel.isAllRequiredChecked
+                        ? Colors.black
+                        : Color(0xFFEDEDED),
+                    foregroundColor: viewModel.isAllRequiredChecked
+                        ? Colors.white
+                        : Colors.black,
+                    textStyle: TextStyle(
+                      fontFamily: 'PretendardMedium',
+                      fontSize: 18, // 원하는 폰트 크기 지정
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                  child: Text('동의하고 시작하기'),
                 ),
-                child: Text('동의하고 시작하기'),
               ),
             ),
           ],
@@ -128,7 +130,6 @@ class AgreementBottomSheet extends StatelessWidget {
     );
   }
 
-  //TODO : 디자인 커스텀 수정하기
   Widget _buildCheckBoxRow(
       BuildContext context, int index, String title, String mandatoryText) {
     return Consumer<AgreementViewModel>(
@@ -142,13 +143,14 @@ class AgreementBottomSheet extends StatelessWidget {
             activeColor: Colors.black,
             checkColor: Colors.white,
           ),
-          SizedBox(width: 5),
-          RichText(
+      Padding(
+        padding: const EdgeInsets.only(top: 5.0),
+          child: RichText(
             text: TextSpan(
               children: [
                 TextSpan(
                   text: title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'PretendardRegular',
                     fontSize: 12,
                     color: Colors.black, // 기본 색상
@@ -156,7 +158,7 @@ class AgreementBottomSheet extends StatelessWidget {
                 ),
                 TextSpan(
                   text: mandatoryText,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'PretendardRegular',
                     fontSize: 12,
                     color: Color(0xFF808080),
@@ -165,6 +167,7 @@ class AgreementBottomSheet extends StatelessWidget {
               ],
             ),
           ),
+      ),
         ],
       ),
     );

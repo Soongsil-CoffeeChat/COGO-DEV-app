@@ -27,7 +27,7 @@ class MentesInterestSelectionScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     '나의 관심사 또는 희망하는 \n직종을 하나 선택해주세요',
                     style: TextStyle(
                       fontSize: 18,
@@ -35,7 +35,7 @@ class MentesInterestSelectionScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8),
-                  Text(
+                  const Text(
                     '나중에 관심사가 바뀌어도 수정이 가능해요',
                     style: TextStyle(
                       fontSize: 12,

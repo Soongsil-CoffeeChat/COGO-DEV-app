@@ -29,23 +29,25 @@ class MenteeCompletionScreen extends StatelessWidget {
                 children: [
                   Text(
                     '${viewModel.name} 멘티님! 반갑습니다.',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontFamily: 'PretendardMedium',
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'PretendardMedium',
-                      color: Colors.grey,
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'PretendardMedium',
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.all(30),
+                      margin: const EdgeInsets.all(30),
                       child: Image.asset(
                         'assets/icons/3d_img/3d_fire.png',
                         width: 250,
@@ -63,7 +65,7 @@ class MenteeCompletionScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         foregroundColor: Colors.white,
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontFamily: 'PretendardMedium',
                           fontSize: 18,
                         ),
@@ -71,7 +73,7 @@ class MenteeCompletionScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Text('코고 가입 완료하기'),
+                      child: const Text('코고 가입 완료하기'),
                     ),
                   ),
                 ],

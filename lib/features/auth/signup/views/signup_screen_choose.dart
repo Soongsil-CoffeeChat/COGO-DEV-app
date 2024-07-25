@@ -27,33 +27,37 @@ class SignupScreenChoose extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     '거의 다 되었습니다!',
                     style: TextStyle(
                       fontSize: 18,
                       fontFamily: 'PretendardMedium',
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    '멘토로 가입하실지, 멘티로 가입하실지 알려주세요',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'PretendardMedium',
-                      color: Colors.grey,
+                  const Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      '멘토로 가입하실지, 멘티로 가입하실지 알려주세요',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'PretendardMedium',
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 32),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildRoleButton(context, '멘토', viewModel),
-                          SizedBox(width: 10),
-                          _buildRoleButton(context, '멘티', viewModel),
-                        ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildRoleButton(context, '멘토', viewModel),
+                            SizedBox(width: 10),
+                            _buildRoleButton(context, '멘티', viewModel),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -66,7 +70,8 @@ class SignupScreenChoose extends StatelessWidget {
     );
   }
 
-  Widget _buildRoleButton(BuildContext context, String role, SignupChooseViewModel viewModel) {
+  Widget _buildRoleButton(
+      BuildContext context, String role, SignupChooseViewModel viewModel) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -77,9 +82,12 @@ class SignupScreenChoose extends StatelessWidget {
               viewModel.selectRole(role, context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: viewModel.selectedRole == role ? Colors.black : Colors.grey[300],
-              foregroundColor: viewModel.selectedRole == role ? Colors.white : Colors.black,
-              textStyle: TextStyle(
+              backgroundColor: viewModel.selectedRole == role
+                  ? Colors.black
+                  : Colors.grey[300],
+              foregroundColor:
+                  viewModel.selectedRole == role ? Colors.white : Colors.black,
+              textStyle: const TextStyle(
                 fontFamily: 'PretendardMedium',
                 fontSize: 16,
               ),

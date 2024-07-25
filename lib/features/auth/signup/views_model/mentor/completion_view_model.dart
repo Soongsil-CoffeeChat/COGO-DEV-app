@@ -6,7 +6,7 @@ class MenteeCompletionViewModel extends ChangeNotifier {
   String? name;
   bool isLoading = true;
 
-  MentorCompletionViewModel() {
+  MenteeCompletionViewModel() {
     _loadPreferences();
   }
 

@@ -29,48 +29,54 @@ class MentorCompletionScreen extends StatelessWidget {
                 children: [
                   Text(
                     '${viewModel.name} 멘토님! 반갑습니다.',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontFamily: 'PretendardMedium',
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'PretendardMedium',
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Center(
-                    child: Image.asset(
-                      'assets/icons/3d_img/3d_fire.png',
-                      width: 300,
-                      height: 300,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        viewModel.completeApplication(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,
-                        textStyle: TextStyle(
-                          fontFamily: 'PretendardMedium',
-                          fontSize: 18,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'PretendardMedium',
+                        color: Colors.grey,
                       ),
-                      child: Text('코고 가입 완료하기'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/icons/3d_img/3d_fire.png',
+                        width: 300,
+                        height: 300,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          viewModel.completeApplication(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                          textStyle: const TextStyle(
+                            fontFamily: 'PretendardMedium',
+                            fontSize: 18,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: const Text('코고 가입 완료하기'),
+                      ),
                     ),
                   ),
                 ],
