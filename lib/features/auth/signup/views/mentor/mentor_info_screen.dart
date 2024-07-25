@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cogo/common/widgets/custom_appbar.dart';
 import 'package:cogo/features/auth/signup/views_model/mentor/mentor_info_view_model.dart';
 
 class MentorInfoScreen extends StatelessWidget {
@@ -10,15 +10,10 @@ class MentorInfoScreen extends StatelessWidget {
       create: (_) => MentorInfoViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
+        appBar: CustomAppBar(
+          onBackButtonPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
