@@ -45,8 +45,8 @@ class MentorCompletionScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   Center(
-                    child: SvgPicture.asset(
-                      'assets/icons/3d_img/this.svg',
+                    child: Image.asset(
+                      'assets/icons/3d_img/3d_fire.png',
                       width: 300,
                       height: 300,
                     ),

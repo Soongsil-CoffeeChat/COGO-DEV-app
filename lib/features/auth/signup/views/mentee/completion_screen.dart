@@ -43,15 +43,16 @@ class MenteeCompletionScreen extends StatelessWidget {
                       color: Colors.grey,
                     ),
                   ),
-                  SizedBox(height: 20),
                   Center(
-                    child: SvgPicture.asset(
-                      'assets/icons/3d_img/3d_fire.svg',
-                      width: 300,
-                      height: 300,
+                    child: Container(
+                      margin: EdgeInsets.all(30),
+                      child: Image.asset(
+                        'assets/icons/3d_img/3d_fire.png',
+                        width: 250,
+                        height: 250,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 20),
                   SizedBox(
                     width: double.infinity,
                     height: 50,
