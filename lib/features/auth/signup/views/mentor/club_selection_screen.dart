@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cogo/features/auth/signup/views_model/mentor/club_selection_view_model.dart';
 
 class ClubSelectionScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class ClubSelectionScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
-            icon: Image.asset('assets/icons/button/back_btn.png'),
+            icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: () {
               Navigator.of(context).pop();
             },

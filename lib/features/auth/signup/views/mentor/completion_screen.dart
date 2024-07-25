@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cogo/features/auth/signup/views_model/mentor/completion_view_model.dart';
 
 class MentorCompletionScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class MentorCompletionScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
-            icon: Image.asset('assets/icons/button/back_btn.png'),
+            icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -44,8 +45,8 @@ class MentorCompletionScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   Center(
-                    child: Image.asset(
-                      'assets/icons/3d_img/3d_fire.png',
+                    child: SvgPicture.asset(
+                      'assets/icons/3d_img/this.svg',
                       width: 300,
                       height: 300,
                     ),

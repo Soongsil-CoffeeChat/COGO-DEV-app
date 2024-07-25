@@ -4,13 +4,15 @@ import 'package:cogo/common/db/locale_manager.dart';
 
 class MenteeCompletionViewModel extends ChangeNotifier {
   String? name;
+  bool isLoading = true;
 
-  CompletionViewModel() {
+  MentorCompletionViewModel() {
     _loadPreferences();
   }
 
   void _loadPreferences() async {
     name = LocaleManager.instance.getStringValue('name') ?? '멘토';
+    isLoading = false;
     notifyListeners();
   }
 

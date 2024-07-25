@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cogo/features/auth/signup/views_model/signup_phone_view_model.dart';
 import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 
@@ -13,7 +14,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
-            icon: Image.asset('assets/icons/button/back_btn.png'),
+            icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -120,7 +121,9 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                               width: 170,
                               height: 50,
                               child: ElevatedButton(
-                                onPressed: (isValid && (!viewModel.showVerificationField.value || isValidCode))
+                                onPressed: (isValid &&
+                                    (!viewModel.showVerificationField.value ||
+                                        isValidCode))
                                     ? () {
                                   if (viewModel.isPhoneNumberSubmitted) {
                                     viewModel.onVerificationCodeSubmitted(context);
@@ -130,8 +133,16 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                                 }
                                     : null,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: (isValid && (!viewModel.showVerificationField.value || isValidCode)) ? Colors.black : Colors.grey[300],
-                                  foregroundColor: (isValid && (!viewModel.showVerificationField.value || isValidCode)) ? Colors.white : Colors.black,
+                                  backgroundColor: (isValid &&
+                                      (!viewModel.showVerificationField.value ||
+                                          isValidCode))
+                                      ? Colors.black
+                                      : Colors.grey[300],
+                                  foregroundColor: (isValid &&
+                                      (!viewModel.showVerificationField.value ||
+                                          isValidCode))
+                                      ? Colors.white
+                                      : Colors.black,
                                   textStyle: TextStyle(
                                     fontFamily: 'PretendardMedium',
                                     fontSize: 18,
