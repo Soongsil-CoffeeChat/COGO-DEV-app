@@ -11,7 +11,7 @@ class InterestSelectionViewModel extends ChangeNotifier {
 
     await LocaleManager.instance.setStringValue('mentorSelectedInterest', interest);
 
-    context.go('/agreement/phone/name/choose/mentor_interest/mentor_club');
+    context.push('/agreement/mentor_club');
 
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cogo/features/auth/signup/views_model/singup_name_view_model.dart';
@@ -71,16 +70,16 @@ class SignupScreenNameScreen extends StatelessWidget {
                             return errorMessage == null
                                 ? SizedBox.shrink()
                                 : Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text(
-                                      errorMessage,
-                                      style: const TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                        fontFamily: 'PretendardMedium',
-                                      ),
-                                    ),
-                                  );
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                errorMessage,
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                  fontFamily: 'PretendardMedium',
+                                ),
+                              ),
+                            );
                           },
                         ),
                         Padding(
@@ -95,16 +94,15 @@ class SignupScreenNameScreen extends StatelessWidget {
                                   child: ElevatedButton(
                                     onPressed: isValid
                                         ? () {
-                                            context.go(
-                                                '/agreement/phone/name/choose');
-                                          }
+                                      viewModel.onConfirmButtonPressed(context);
+                                    }
                                         : null,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: isValid
                                           ? Colors.black
                                           : Colors.grey[300],
                                       foregroundColor:
-                                          isValid ? Colors.white : Colors.black,
+                                      isValid ? Colors.white : Colors.black,
                                       textStyle: const TextStyle(
                                         fontFamily: 'PretendardMedium',
                                         fontSize: 18,

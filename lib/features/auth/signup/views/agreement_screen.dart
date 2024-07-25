@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/auth/signup/views_model/agreement_view_model.dart';
 
@@ -20,7 +19,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
   void _showAgreementModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // 전체 화면 높이를 사용할 수 있게 설정
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -50,7 +49,7 @@ class AgreementBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -101,8 +100,7 @@ class AgreementBottomSheet extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: viewModel.isAllRequiredChecked
                       ? () {
-                    // signup_screen_phone 페이지로 이동
-                    context.go('/agreement/phone');
+                    viewModel.onConfirmButtonPressed(context);
                   }
                       : null,
                   style: ElevatedButton.styleFrom(
@@ -112,15 +110,15 @@ class AgreementBottomSheet extends StatelessWidget {
                     foregroundColor: viewModel.isAllRequiredChecked
                         ? Colors.white
                         : Colors.black,
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontFamily: 'PretendardMedium',
-                      fontSize: 18, // 원하는 폰트 크기 지정
+                      fontSize: 18,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text('동의하고 시작하기'),
+                  child: const Text('동의하고 시작하기'),
                 ),
               ),
             ),
@@ -143,31 +141,31 @@ class AgreementBottomSheet extends StatelessWidget {
             activeColor: Colors.black,
             checkColor: Colors.white,
           ),
-      Padding(
-        padding: const EdgeInsets.only(top: 5.0),
-          child: RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: title,
-                  style: const TextStyle(
-                    fontFamily: 'PretendardRegular',
-                    fontSize: 12,
-                    color: Colors.black, // 기본 색상
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: title,
+                    style: const TextStyle(
+                      fontFamily: 'PretendardRegular',
+                      fontSize: 12,
+                      color: Colors.black, // 기본 색상
+                    ),
                   ),
-                ),
-                TextSpan(
-                  text: mandatoryText,
-                  style: const TextStyle(
-                    fontFamily: 'PretendardRegular',
-                    fontSize: 12,
-                    color: Color(0xFF808080),
+                  TextSpan(
+                    text: mandatoryText,
+                    style: const TextStyle(
+                      fontFamily: 'PretendardRegular',
+                      fontSize: 12,
+                      color: Color(0xFF808080),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-      ),
         ],
       ),
     );

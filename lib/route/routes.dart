@@ -31,76 +31,62 @@ final AppRouter = GoRouter(
             key: state.pageKey,
             child: PhoneNumberVerificationScreen(),
           ),
-          routes: [
-            GoRoute(
-              path: 'name',
-              pageBuilder: (context, state) => MaterialPage(
-                key: state.pageKey,
-                child: SignupScreenNameScreen(),
-              ),
-              routes: [
-                GoRoute(
-                  path: 'choose',
-                  pageBuilder: (context, state) => MaterialPage(
-                    key: state.pageKey,
-                    child: SignupScreenChoose(),
-                  ),
-                  routes: [
-                    GoRoute(
-                      path: 'mentor_interest',
-                      pageBuilder: (context, state) => MaterialPage(
-                        key: state.pageKey,
-                        child: InterestSelectionScreen(),
-                      ),
-                      routes: [
-                        GoRoute(
-                          path: 'mentor_club',
-                          pageBuilder: (context, state) => MaterialPage(
-                            key: state.pageKey,
-                            child: ClubSelectionScreen(),
-                          ),
-                          routes: [
-                            GoRoute(
-                              path: 'mentor_info',
-                              pageBuilder: (context, state) => MaterialPage(
-                                key: state.pageKey,
-                                child: MentorInfoScreen(),
-                              ),
-                                  routes: [
-                                    GoRoute(
-                                      path: 'mentor_completion',
-                                      pageBuilder: (context, state) => MaterialPage(
-                                        key: state.pageKey,
-                                        child: MentorCompletionScreen(),
-                                      ),
-                                    ),
-                                  ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    GoRoute(
-                      path: 'mentee_interest',
-                      pageBuilder: (context, state) => MaterialPage(
-                        key: state.pageKey,
-                        child: MentesInterestSelectionScreen(),
-                      ),
-                      routes: [
-                        GoRoute(
-                          path: 'mentee_completion',
-                          pageBuilder: (context, state) => MaterialPage(
-                            key: state.pageKey,
-                            child: MenteeCompletionScreen(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+        ),
+        GoRoute(
+          path: 'name',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: SignupScreenNameScreen(),
+          ),
+        ),
+        GoRoute(
+          path: 'choose',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: SignupScreenChoose(),
+          ),
+        ),
+        GoRoute(
+          path: 'mentor_interest',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: InterestSelectionScreen(),
+          ),
+        ),
+        GoRoute(
+          path: 'mentor_club',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: ClubSelectionScreen(),
+          ),
+        ),
+        GoRoute(
+          path: 'mentor_info',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: MentorInfoScreen(),
+          ),
+        ),
+        GoRoute(
+          path: 'mentor_completion',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: MentorCompletionScreen(),
+          ),
+        ),
+        GoRoute(
+          path: 'mentee_interest',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: MentesInterestSelectionScreen(),
+          ),
+        ),
+        GoRoute(
+          path: 'mentee_completion',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: MenteeCompletionScreen(),
+          ),
         ),
       ],
     ),

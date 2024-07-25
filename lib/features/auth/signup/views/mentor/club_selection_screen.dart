@@ -15,7 +15,7 @@ class ClubSelectionScreen extends StatelessWidget {
             icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: () {
               Navigator.of(context).pop();
-            },
+              },
           ),
           backgroundColor: Colors.white,
           elevation: 0,

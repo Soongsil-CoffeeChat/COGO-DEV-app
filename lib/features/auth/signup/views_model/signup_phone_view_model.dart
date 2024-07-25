@@ -51,7 +51,7 @@ class PhoneNumberVerificationViewModel extends ChangeNotifier {
 
   void onVerificationCodeSubmitted(BuildContext context) {
     if (isValidCode.value) {
-      context.go('/agreement/phone/name');
+      context.push('/agreement/name');
     }
   }
 }

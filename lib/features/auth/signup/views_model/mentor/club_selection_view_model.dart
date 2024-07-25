@@ -12,6 +12,6 @@ class ClubSelectionViewModel extends ChangeNotifier {
     await LocaleManager.instance.setStringValue('selectedClub', club);
 
     // 페이지 이동
-    context.go('/agreement/phone/name/choose/mentor_interest/mentor_club/mentor_info');
+    context.push('/agreement/mentor_info');
   }
 }
