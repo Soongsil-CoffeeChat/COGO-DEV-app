@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/custom_appbar.dart';
+import 'package:cogo/common/widgets/signup_custom_appbar.dart';
 import 'package:cogo/features/auth/signup/views_model/common/signup_phone_view_model.dart';
 import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 
@@ -43,7 +43,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                       ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(top: 24.0),
+                      padding: const EdgeInsets.only(top: 24.0),
                         child:TextField(
                     controller: viewModel.phoneController,
                     keyboardType: TextInputType.phone,
@@ -67,7 +67,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                     valueListenable: viewModel.errorMessage,
                     builder: (context, errorMessage, child) {
                       return errorMessage == null
-                          ? SizedBox.shrink()
+                          ? const SizedBox.shrink()
                           : Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
@@ -103,11 +103,11 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 32),
+                            const SizedBox(height: 32),
                           ],
                         );
                       }
-                      return SizedBox.shrink();
+                      return const SizedBox.shrink();
                     },
                   ),
                   ),

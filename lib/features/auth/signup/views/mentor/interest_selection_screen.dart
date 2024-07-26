@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/custom_appbar.dart';
+import 'package:cogo/common/widgets/signup_custom_appbar.dart';
 import 'package:cogo/features/auth/signup/views_model/mentor/interest_selection_view_model.dart';
+import 'package:cogo/common/widgets/signup_custom_button.dart';
 
 class InterestSelectionScreen extends StatelessWidget {
   @override
@@ -41,27 +42,51 @@ class InterestSelectionScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 32.0),
+                    padding: const EdgeInsets.only(top: 32.0),
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                _buildInterestButton(context, 'FE', viewModel),
-                                SizedBox(width: 10),
-                                _buildInterestButton(context, 'BE', viewModel),
+                                CustomButton(
+                                  text: 'FE',
+                                  isSelected: viewModel.selectedInterest == 'FE',
+                                  onPressed: () {
+                                    viewModel.selectInterest(context, 'FE');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
+                                CustomButton(
+                                  text: 'BE',
+                                  isSelected: viewModel.selectedInterest == 'BE',
+                                  onPressed: () {
+                                    viewModel.selectInterest(context, 'BE');
+                                  },
+                                ),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                _buildInterestButton(context, '기획', viewModel),
-                                SizedBox(width: 10),
-                                _buildInterestButton(context, '디자인', viewModel),
+                                CustomButton(
+                                  text: '기획',
+                                  isSelected: viewModel.selectedInterest == '기획',
+                                  onPressed: () {
+                                    viewModel.selectInterest(context, '기획');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
+                                CustomButton(
+                                  text: '디자인',
+                                  isSelected: viewModel.selectedInterest == '디자인',
+                                  onPressed: () {
+                                    viewModel.selectInterest(context, '디자인');
+                                  },
+                                ),
                               ],
                             ),
                           ],
@@ -72,39 +97,6 @@ class InterestSelectionScreen extends StatelessWidget {
                 ],
               );
             },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInterestButton(BuildContext context, String interest,
-      InterestSelectionViewModel viewModel) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-        child: SizedBox(
-          height: 50,
-          child: ElevatedButton(
-            onPressed: () {
-              viewModel.selectInterest(context, interest);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: viewModel.selectedInterest == interest
-                  ? Colors.black
-                  : Colors.grey[300],
-              foregroundColor: viewModel.selectedInterest == interest
-                  ? Colors.white
-                  : Colors.black,
-              textStyle: const TextStyle(
-                fontFamily: 'PretendardMedium',
-                fontSize: 16,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            child: Text(interest),
           ),
         ),
       ),

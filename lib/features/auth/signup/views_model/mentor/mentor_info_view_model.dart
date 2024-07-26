@@ -9,6 +9,7 @@ class MentorInfoViewModel extends ChangeNotifier {
   String? selectedJob;
   String? selectedExperience;
   String? selectedChurch;
+  bool isButtonClicked = false;
 
   MentorInfoViewModel() {
     _loadPreferences();
@@ -31,6 +32,10 @@ class MentorInfoViewModel extends ChangeNotifier {
   }
 
   void nextPage(BuildContext context) {
-    context.push('/agreement/mentor_completion');
+    isButtonClicked = true;
+    notifyListeners();
+    Future.delayed(Duration(milliseconds: 300), () {
+      context.push('/agreement/mentor_completion');
+    });
   }
 }

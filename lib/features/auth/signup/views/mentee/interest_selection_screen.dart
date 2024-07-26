@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/custom_appbar.dart';
+import 'package:cogo/common/widgets/signup_custom_appbar.dart';
 import 'package:cogo/features/auth/signup/views_model/mentee/interest_selection_view_model.dart';
+import 'package:cogo/common/widgets/signup_custom_button.dart';
 
 class MentesInterestSelectionScreen extends StatelessWidget {
   @override
@@ -29,73 +30,73 @@ class MentesInterestSelectionScreen extends StatelessWidget {
                       fontFamily: 'PretendardMedium',
                     ),
                   ),
-                  SizedBox(height: 8),
-                  const Text(
-                    '나중에 관심사가 바뀌어도 수정이 가능해요',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'PretendardMedium',
-                      color: Colors.grey,
+                  const Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      '나중에 관심사가 바뀌어도 수정이 가능해요',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'PretendardMedium',
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 32),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _buildInterestButton(context, 'FE', viewModel),
-                              SizedBox(width: 10),
-                              _buildInterestButton(context, 'BE', viewModel),
-                            ],
-                          ),
-                          SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _buildInterestButton(context, '기획', viewModel),
-                              SizedBox(width: 10),
-                              _buildInterestButton(context, '디자인', viewModel),
-                            ],
-                          ),
-                        ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 32.0),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomButton(
+                                  text: 'FE',
+                                  isSelected: viewModel.selectedInterest == 'FE',
+                                  onPressed: () {
+                                    viewModel.selectInterest(context, 'FE');
+                                  },
+                                ),
+                                SizedBox(width: 10),
+                                CustomButton(
+                                  text: 'BE',
+                                  isSelected: viewModel.selectedInterest == 'BE',
+                                  onPressed: () {
+                                    viewModel.selectInterest(context, 'BE');
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomButton(
+                                  text: '기획',
+                                  isSelected: viewModel.selectedInterest == '기획',
+                                  onPressed: () {
+                                    viewModel.selectInterest(context, '기획');
+                                  },
+                                ),
+                                SizedBox(width: 10),
+                                CustomButton(
+                                  text: '디자인',
+                                  isSelected: viewModel.selectedInterest == '디자인',
+                                  onPressed: () {
+                                    viewModel.selectInterest(context, '디자인');
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ],
               );
             },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInterestButton(BuildContext context, String interest, MenteeInterestSelectionViewModel viewModel) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-        child: SizedBox(
-          height: 50,
-          child: ElevatedButton(
-            onPressed: () {
-              viewModel.selectInterest(context, interest);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: viewModel.selectedInterest == interest ? Colors.black : Colors.grey[300],
-              foregroundColor: viewModel.selectedInterest == interest ? Colors.white : Colors.black,
-              textStyle: TextStyle(
-                fontFamily: 'PretendardMedium',
-                fontSize: 16,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            child: Text(interest),
           ),
         ),
       ),

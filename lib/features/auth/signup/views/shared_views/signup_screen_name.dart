@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/custom_appbar.dart';
+import 'package:cogo/common/widgets/signup_custom_appbar.dart';
 import 'package:cogo/features/auth/signup/views_model/common/singup_name_view_model.dart';
 
 class SignupScreenNameScreen extends StatelessWidget {
@@ -63,7 +63,7 @@ class SignupScreenNameScreen extends StatelessWidget {
                           valueListenable: viewModel.errorMessage,
                           builder: (context, errorMessage, child) {
                             return errorMessage == null
-                                ? SizedBox.shrink()
+                                ? const SizedBox.shrink()
                                 : Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
@@ -78,7 +78,7 @@ class SignupScreenNameScreen extends StatelessWidget {
                           },
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
+                          padding: const EdgeInsets.only(top: 32.0),
                           child: Center(
                             child: ValueListenableBuilder<bool>(
                               valueListenable: viewModel.isValidName,
@@ -106,7 +106,7 @@ class SignupScreenNameScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                     ),
-                                    child: Text('확인'),
+                                    child: const Text('확인'),
                                   ),
                                 );
                               },

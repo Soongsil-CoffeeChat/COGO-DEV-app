@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/custom_appbar.dart';
+import 'package:cogo/common/widgets/signup_custom_appbar.dart';
+import 'package:cogo/common/widgets/signup_custom_box.dart';
 import 'package:cogo/features/auth/signup/views_model/mentor/mentor_info_view_model.dart';
 
 class MentorInfoScreen extends StatelessWidget {
@@ -30,7 +31,7 @@ class MentorInfoScreen extends StatelessWidget {
                     ),
                   ),
                   const Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: EdgeInsets.only(top: 8.0),
                     child: Text(
                       '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
                       style: TextStyle(
@@ -50,41 +51,25 @@ class MentorInfoScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                _buildInfoBox(context,
-                                    viewModel.name ?? '나는 교회', viewModel),
-                                SizedBox(width: 10),
-                                _buildInfoBox(
-                                    context,
-                                    viewModel.selectedInterst ?? 'BE',
-                                    viewModel),
+                                Expanded(child: InfoBox(info: viewModel.name ?? '나는 교회')),
+                                const SizedBox(width: 10),
+                                Expanded(child: InfoBox(info: viewModel.selectedInterst ?? 'BE')),
                               ],
                             ),
                             if (viewModel.selectedClub != 'NO CLUB') ...[
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: 130,
-                                    height: 50,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      viewModel.selectedClub ?? 'YOURSSU',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'PretendardMedium',
-                                        fontSize: 18,
-                                      ),
+                                  Expanded(
+                                    child: InfoBox(
+                                      info: viewModel.selectedClub ?? 'YOURSSU',
                                     ),
                                   ),
                                 ],
                               ),
                             ],
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Align(
                               alignment: Alignment.center,
                               child: SizedBox(
@@ -117,31 +102,6 @@ class MentorInfoScreen extends StatelessWidget {
                 ],
               );
             },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoBox(
-      BuildContext context, String info, MentorInfoViewModel viewModel) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-        child: Container(
-          height: 50,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            info,
-            style: const TextStyle(
-              color: Colors.white,
-              fontFamily: 'PretendardMedium',
-              fontSize: 18,
-            ),
           ),
         ),
       ),

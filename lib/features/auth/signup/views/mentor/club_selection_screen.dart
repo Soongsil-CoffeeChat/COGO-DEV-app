@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/custom_appbar.dart';
+import 'package:cogo/common/widgets/signup_custom_appbar.dart';
 import 'package:cogo/features/auth/signup/views_model/mentor/club_selection_view_model.dart';
+import 'package:cogo/common/widgets/signup_custom_button.dart';
 
 class ClubSelectionScreen extends StatelessWidget {
   @override
@@ -41,7 +42,7 @@ class ClubSelectionScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: 32.0),
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -50,29 +51,58 @@ class ClubSelectionScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                _buildClubButton(context, 'GDSC', viewModel),
-                                SizedBox(width: 10),
-                                _buildClubButton(context, 'YOURSSU', viewModel),
+                                CustomButton(
+                                  text: 'GDSC',
+                                  isSelected: viewModel.selectedClub == 'GDSC',
+                                  onPressed: () {
+                                    viewModel.selectClub(context, 'GDSC');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
+                                CustomButton(
+                                  text: 'YOURSSU',
+                                  isSelected: viewModel.selectedClub == 'YOURSSU',
+                                  onPressed: () {
+                                    viewModel.selectClub(context, 'YOURSSU');
+                                  },
+                                ),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                _buildClubButton(context, 'UMC', viewModel),
-                                SizedBox(width: 10),
-                                _buildClubButton(
-                                    context, 'LIKELION', viewModel),
+                                CustomButton(
+                                  text: 'UMC',
+                                  isSelected: viewModel.selectedClub == 'UMC',
+                                  onPressed: () {
+                                    viewModel.selectClub(context, 'UMC');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
+                                CustomButton(
+                                  text: 'LIKELION',
+                                  isSelected: viewModel.selectedClub == 'LIKELION',
+                                  onPressed: () {
+                                    viewModel.selectClub(context, 'LIKELION');
+                                  },
+                                ),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Row(
                               children: [
-                                _buildClubButton(context, 'NO CLUB', viewModel),
-                                SizedBox(width: 10),
+                                CustomButton(
+                                  text: 'NO CLUB',
+                                  isSelected: viewModel.selectedClub == 'NO CLUB',
+                                  onPressed: () {
+                                    viewModel.selectClub(context, 'NO CLUB');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                           ],
                         ),
                       ),
@@ -81,38 +111,6 @@ class ClubSelectionScreen extends StatelessWidget {
                 ],
               );
             },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildClubButton(
-      BuildContext context, String club, ClubSelectionViewModel viewModel) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-        child: SizedBox(
-          height: 50,
-          child: ElevatedButton(
-            onPressed: () {
-              viewModel.selectClub(context, club);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: viewModel.selectedClub == club
-                  ? Colors.black
-                  : Colors.grey[300],
-              foregroundColor:
-                  viewModel.selectedClub == club ? Colors.white : Colors.black,
-              textStyle: const TextStyle(
-                fontFamily: 'PretendardMedium',
-                fontSize: 18,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            child: Text(club),
           ),
         ),
       ),
