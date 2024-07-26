@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/custom_appbar.dart';
-import 'package:cogo/features/auth/signup/views_model/signup_phone_view_model.dart';
+import 'package:cogo/features/auth/signup/views_model/common/signup_phone_view_model.dart';
 import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 
 class PhoneNumberVerificationScreen extends StatelessWidget {

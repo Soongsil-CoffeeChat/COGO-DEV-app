@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/custom_appbar.dart';
-import 'package:cogo/features/auth/signup/views_model/singup_name_view_model.dart';
+import 'package:cogo/features/auth/signup/views_model/common/singup_name_view_model.dart';
 
 class SignupScreenNameScreen extends StatelessWidget {
   @override
