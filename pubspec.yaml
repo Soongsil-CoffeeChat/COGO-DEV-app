@@ -23,6 +23,15 @@ dependencies:
   # status manage
   provider: ^6.0.5
 
+  #splash
+  flutter_native_splash: ^2.4.1
+
+  #sharedprefernences
+  shared_preferences: ^2.0.7
+
+  #svg
+  flutter_svg: ^2.0.10+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -35,6 +44,7 @@ flutter:
   assets:
     - assets/icons/navigator/
     - assets/icons/3d_img/
+    - assets/icons/button/
 
   fonts:
     - family: PretendardRegular
