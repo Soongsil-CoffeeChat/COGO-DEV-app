@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/views_model/common/agreement_view_model.dart';
+import 'package:cogo/features/auth/signup/view_models/shared_views/agreement_view_model.dart';
 
 class CheckBoxRow extends StatelessWidget {
   final int index;

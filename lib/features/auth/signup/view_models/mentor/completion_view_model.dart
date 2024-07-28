@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/common/db/locale_manager.dart';
 
-class MenteeCompletionViewModel extends ChangeNotifier {
+class MentorCompletionViewModel extends ChangeNotifier {
   String? name;
   bool isLoading = true;
 
-  MenteeCompletionViewModel() {
+  MentorCompletionViewModel() {
     _loadPreferences();
   }
 

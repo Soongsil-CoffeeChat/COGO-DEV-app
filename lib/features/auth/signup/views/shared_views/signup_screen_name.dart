@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/signup_custom_appbar.dart';
-import 'package:cogo/features/auth/signup/views_model/common/singup_name_view_model.dart';
+import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/features/auth/signup/view_models/shared_views/singup_name_view_model.dart';
 
 class SignupScreenNameScreen extends StatelessWidget {
   @override
@@ -10,33 +10,17 @@ class SignupScreenNameScreen extends StatelessWidget {
       create: (_) => SignupNameViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CustomAppBar(
-          onBackButtonPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '성함을 작성해 주세요',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'PretendardMedium',
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8.0),
-                child: Text(
-                  '입력하신 정보는 홈 화면의  더보기에서 수정이 가능해요',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: 'PretendardMedium',
-                    color: Colors.grey,
-                  ),
-                ),
+              Header(
+                title: '성함을 작성해 주세요',
+                subtitle: '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
+                onBackButtonPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 24.0),

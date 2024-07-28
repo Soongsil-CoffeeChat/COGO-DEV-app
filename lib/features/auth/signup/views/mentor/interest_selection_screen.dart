@@ -1,45 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/signup_custom_appbar.dart';
-import 'package:cogo/features/auth/signup/views_model/mentor/interest_selection_view_model.dart';
-import 'package:cogo/common/widgets/signup_custom_button.dart';
+import 'package:cogo/features/auth/signup/view_models/mentor/interest_selection_view_model.dart';
+import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/common/widgets/custom_button.dart';
 
-class InterestSelectionScreen extends StatelessWidget {
+class MentorInterestSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => InterestSelectionViewModel(),
+      create: (_) => MentorInterestSelectionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CustomAppBar(
-          onBackButtonPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Consumer<InterestSelectionViewModel>(
+          child: Consumer<MentorInterestSelectionViewModel>(
             builder: (context, viewModel, child) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '나의 관심사 또는 희망하는 \n직종을 하나 선택해주세요',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'PretendardMedium',
-                    ),
-                  ),
-                  const Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      '나중에 관심사가 바뀌어도 수정이 가능해요',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'PretendardMedium',
-                        color: Colors.grey,
-                      ),
-                    ),
+                  Header(
+                    title: '나의 관심사 또는 희망하는\n직종을 하나 선택해주세요',
+                    subtitle: '나중에 관심사가 바뀌어도 수정이 가능해요',
+                    onBackButtonPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 32.0),

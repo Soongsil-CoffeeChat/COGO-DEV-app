@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
               foregroundColor: isSelected ? Colors.white : Colors.black,
               textStyle: const TextStyle(
                 fontFamily: 'PretendardMedium',
-                fontSize: 16,
+                fontSize: 18,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

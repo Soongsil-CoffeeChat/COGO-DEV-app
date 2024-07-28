@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/signup_custom_appbar.dart';
-import 'package:cogo/features/auth/signup/views_model/common/signup_phone_view_model.dart';
+import 'package:cogo/features/auth/signup/view_models/shared_views/signup_phone_view_model.dart';
 import 'package:cogo/common/utils/phone_number_input_formatter.dart';
+import 'package:cogo/common/widgets/header.dart';
 
 class PhoneNumberVerificationScreen extends StatelessWidget {
   @override
@@ -12,11 +12,6 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
       create: (_) => PhoneNumberVerificationViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CustomAppBar(
-          onBackButtonPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Consumer<PhoneNumberVerificationViewModel>(
@@ -24,44 +19,33 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '휴대폰 번호를 입력해주세요',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'PretendardMedium',
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        '개인정보는 정보통신망법에 따라 안전하게 보관됩니다',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'PretendardMedium',
-                          color: Colors.grey,
-                        ),
-                      ),
+                  Header(
+                    title: '휴대폰 번호를 입력해주세요',
+                    subtitle: '개인정보는 정보통신망법에 따라 안전하게 보관됩니다',
+                    onBackButtonPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(top: 24.0),
-                        child:TextField(
-                    controller: viewModel.phoneController,
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      PhoneNumberInputFormatter(),
-                    ],
-                    decoration: const InputDecoration(
-                      labelText: '휴대폰 번호',
-                      labelStyle: TextStyle(color: Colors.grey),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
+                    padding: const EdgeInsets.only(top: 24.0),
+                    child: TextField(
+                      controller: viewModel.phoneController,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        PhoneNumberInputFormatter(),
+                      ],
+                      decoration: const InputDecoration(
+                        labelText: '휴대폰 번호',
+                        labelStyle: TextStyle(color: Colors.grey),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                       ),
                     ),
-                  ),
                   ),
                   ValueListenableBuilder<String?>(
                     valueListenable: viewModel.errorMessage,
@@ -82,34 +66,34 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                     },
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(top: 34.0),
-                  child: ValueListenableBuilder<bool>(
-                    valueListenable: viewModel.showVerificationField,
-                    builder: (context, show, child) {
-                      if (show) {
-                        return Column(
-                          children: [
-                            TextField(
-                              controller: viewModel.codeController,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                labelText: '인증번호',
-                                labelStyle: TextStyle(color: Colors.grey),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                    padding: const EdgeInsets.only(top: 34.0),
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: viewModel.showVerificationField,
+                      builder: (context, show, child) {
+                        if (show) {
+                          return Column(
+                            children: [
+                              TextField(
+                                controller: viewModel.codeController,
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  labelText: '인증번호',
+                                  labelStyle: TextStyle(color: Colors.grey),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 32),
-                          ],
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
+                              const SizedBox(height: 32),
+                            ],
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
                   ),
                   Center(
                     child: ValueListenableBuilder<bool>(
@@ -152,7 +136,9 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
-                                child: Text(viewModel.isPhoneNumberSubmitted ? '확인' : '인증 번호 받기'),
+                                child: Text(viewModel.isPhoneNumberSubmitted
+                                    ? '확인'
+                                    : '인증 번호 받기'),
                               ),
                             );
                           },

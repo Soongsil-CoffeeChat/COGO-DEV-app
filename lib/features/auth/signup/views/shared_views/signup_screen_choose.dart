@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/views_model/common/signup_choose_view_model.dart';
-import 'package:cogo/common/widgets/signup_custom_appbar.dart';
+import 'package:cogo/features/auth/signup/view_models/shared_views/signup_choose_view_model.dart';
+import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/common/widgets/custom_button.dart';
 
 class SignupScreenChoose extends StatelessWidget {
   @override
@@ -10,11 +11,6 @@ class SignupScreenChoose extends StatelessWidget {
       create: (_) => SignupChooseViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CustomAppBar(
-          onBackButtonPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Consumer<SignupChooseViewModel>(
@@ -22,23 +18,12 @@ class SignupScreenChoose extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '거의 다 되었습니다!',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'PretendardMedium',
-                    ),
-                  ),
-                  const Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      '멘토로 가입하실지, 멘티로 가입하실지 알려주세요',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'PretendardMedium',
-                        color: Colors.grey,
-                      ),
-                    ),
+                  Header(
+                    title: '거의 다 되었습니다!',
+                    subtitle: '멘토로 가입하실지, 멘티로 가입하실지 알려주세요',
+                    onBackButtonPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 32.0),
@@ -48,9 +33,21 @@ class SignupScreenChoose extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _buildRoleButton(context, '멘토', viewModel),
+                            CustomButton(
+                              text: '멘토',
+                              isSelected: viewModel.selectedRole == '멘토',
+                              onPressed: () {
+                                viewModel.selectRole('멘토', context);
+                              },
+                            ),
                             SizedBox(width: 10),
-                            _buildRoleButton(context, '멘티', viewModel),
+                            CustomButton(
+                              text: '멘티',
+                              isSelected: viewModel.selectedRole == '멘티',
+                              onPressed: () {
+                                viewModel.selectRole('멘티', context);
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -59,38 +56,6 @@ class SignupScreenChoose extends StatelessWidget {
                 ],
               );
             },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRoleButton(
-      BuildContext context, String role, SignupChooseViewModel viewModel) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-        child: SizedBox(
-          height: 50,
-          child: ElevatedButton(
-            onPressed: () {
-              viewModel.selectRole(role, context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: viewModel.selectedRole == role
-                  ? Colors.black
-                  : Colors.grey[300],
-              foregroundColor:
-              viewModel.selectedRole == role ? Colors.white : Colors.black,
-              textStyle: const TextStyle(
-                fontFamily: 'PretendardMedium',
-                fontSize: 16,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            child: Text(role),
           ),
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/common/db/locale_manager.dart';
 
-class InterestSelectionViewModel extends ChangeNotifier {
+class MentorInterestSelectionViewModel extends ChangeNotifier {
   String? selectedInterest;
 
   void selectInterest(BuildContext context, String interest) async {

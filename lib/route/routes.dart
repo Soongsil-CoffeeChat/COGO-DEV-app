@@ -51,7 +51,7 @@ final AppRouter = GoRouter(
           path: Paths.mentorInterest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: InterestSelectionScreen(),
+            child: MentorInterestSelectionScreen(),
           ),
         ),
         GoRoute(
@@ -79,7 +79,7 @@ final AppRouter = GoRouter(
           path: Paths.menteeInterest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MentesInterestSelectionScreen(),
+            child: MenteeInterestSelectionScreen(),
           ),
         ),
         GoRoute(

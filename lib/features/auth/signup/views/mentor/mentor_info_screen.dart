@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/signup_custom_appbar.dart';
-import 'package:cogo/common/widgets/signup_custom_box.dart';
-import 'package:cogo/features/auth/signup/views_model/mentor/mentor_info_view_model.dart';
+import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/common/widgets/custom_box.dart';
+import 'package:cogo/features/auth/signup/view_models/mentor/mentor_info_view_model.dart';
 
 class MentorInfoScreen extends StatelessWidget {
   @override
@@ -11,11 +11,6 @@ class MentorInfoScreen extends StatelessWidget {
       create: (_) => MentorInfoViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CustomAppBar(
-          onBackButtonPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Consumer<MentorInfoViewModel>(
@@ -23,23 +18,12 @@ class MentorInfoScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '멘토님의 정보를 확인해주세요',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'PretendardMedium',
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'PretendardMedium',
-                        color: Colors.grey,
-                      ),
-                    ),
+                  Header(
+                    title: '멘토님의 정보를 확인해주세요',
+                    subtitle: '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
+                    onBackButtonPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 32.0),

@@ -1,44 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/signup_custom_appbar.dart';
-import 'package:cogo/features/auth/signup/views_model/mentor/completion_view_model.dart';
+import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/features/auth/signup/view_models/mentor/completion_view_model.dart';
 
 class MentorCompletionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MenteeCompletionViewModel(),
+      create: (_) => MentorCompletionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CustomAppBar(
-          onBackButtonPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Consumer<MenteeCompletionViewModel>(
+          child: Consumer<MentorCompletionViewModel>(
             builder: (context, viewModel, child) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${viewModel.name} 멘토님! 반갑습니다.',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'PretendardMedium',
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'PretendardMedium',
-                        color: Colors.grey,
-                      ),
-                    ),
+                  Header(
+                    title: '${viewModel.name} 멘토님! 반갑습니다.',
+                    subtitle: 'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
+                    onBackButtonPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
