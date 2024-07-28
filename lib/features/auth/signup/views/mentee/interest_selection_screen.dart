@@ -5,6 +5,8 @@ import 'package:cogo/common/widgets/header.dart';
 import 'package:cogo/common/widgets/custom_button.dart';
 
 class MenteeInterestSelectionScreen extends StatelessWidget {
+  const MenteeInterestSelectionScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

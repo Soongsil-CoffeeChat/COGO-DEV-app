@@ -6,6 +6,8 @@ import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 import 'package:cogo/common/widgets/header.dart';
 
 class PhoneNumberVerificationScreen extends StatelessWidget {
+  const PhoneNumberVerificationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

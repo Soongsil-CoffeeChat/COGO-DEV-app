@@ -4,6 +4,8 @@ import 'package:cogo/features/auth/signup/view_models/shared_views/agreement_vie
 import 'package:cogo/common/widgets/agreement_bottom_sheet.dart';
 
 class AgreementScreen extends StatefulWidget {
+  const AgreementScreen({super.key});
+
   @override
   _AgreementScreenState createState() => _AgreementScreenState();
 }

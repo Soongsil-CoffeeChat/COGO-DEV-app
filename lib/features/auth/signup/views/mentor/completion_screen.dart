@@ -4,6 +4,8 @@ import 'package:cogo/common/widgets/header.dart';
 import 'package:cogo/features/auth/signup/view_models/mentor/completion_view_model.dart';
 
 class MentorCompletionScreen extends StatelessWidget {
+  const MentorCompletionScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

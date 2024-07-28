@@ -4,6 +4,8 @@ import 'package:cogo/common/widgets/header.dart';
 import 'package:cogo/features/auth/signup/view_models/shared_views/singup_name_view_model.dart';
 
 class SignupScreenNameScreen extends StatelessWidget {
+  const SignupScreenNameScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

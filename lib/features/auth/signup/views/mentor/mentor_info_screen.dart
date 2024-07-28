@@ -5,6 +5,8 @@ import 'package:cogo/common/widgets/custom_box.dart';
 import 'package:cogo/features/auth/signup/view_models/mentor/mentor_info_view_model.dart';
 
 class MentorInfoScreen extends StatelessWidget {
+  const MentorInfoScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
