@@ -17,7 +17,7 @@ import 'package:cogo/features/auth/signup/views/mentee/completion_screen.dart';
 import 'package:cogo/constants/paths.dart';
 
 final AppRouter = GoRouter(
-  initialLocation: Paths.agreement,
+  initialLocation: Paths.home,
   routes: [
     GoRoute(
       path: Paths.agreement,
