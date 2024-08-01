@@ -1,22 +1,32 @@
+// lib/views/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/horizontal_button_list.dart';
+import 'package:cogo/common/widgets/profile_card.dart';
+import 'package:cogo/features/home/view_models/home_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _customAppBar(context),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Your other widgets here
-          ],
+    return ChangeNotifierProvider(
+      create: (_) => HomeViewModel(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _customAppBar(context),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding( padding: const EdgeInsets.all(20.0),
+                child: _text(),
+              ),
+              const SizedBox(height: 20),
+              _buildProfileCardList(),
+            ],
+          ),
         ),
       ),
     );
@@ -41,7 +51,7 @@ class HomeScreen extends StatelessWidget {
           child: IconButton(
             icon: SvgPicture.asset('assets/icons/button/search.svg'),
             onPressed: () {
-              // TODO : 검색창 페이지로 넘기기
+              Provider.of<HomeViewModel>(context, listen: false).onSearchPressed();
             },
             padding: EdgeInsets.zero,
             alignment: Alignment.centerRight,
@@ -56,8 +66,7 @@ class HomeScreen extends StatelessWidget {
             HorizontalButtonList(
               buttonTitles: const ['기획', '디자인', 'FE', 'BE'],
               onButtonPressed: (title) {
-                print('Button pressed: $title');
-                // TODO : 버튼 액션 구현
+                Provider.of<HomeViewModel>(context, listen: false).onButtonPressed(title);
               },
             ),
             Divider(
@@ -67,6 +76,57 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _text() {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '어떤 동아리 선배가 있을까요?',
+          style: TextStyle(
+            fontFamily: 'PretendardMedium',
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(height: 4),
+        Text(
+          '동아리별 코고 선배 알아보기',
+          style: TextStyle(
+            fontFamily: 'PretendardMedium',
+            fontSize: 12,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileCardList() {
+    return Consumer<HomeViewModel>(
+      builder: (context, viewModel, child) {
+        return SizedBox(
+          height: 300,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: viewModel.profiles.length,
+            itemBuilder: (context, index) {
+              final profile = viewModel.profiles[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ProfileCard(
+                  imagePath: profile['imagePath'],
+                  name: profile['name'],
+                  clubName: profile['clubName'],
+                  tags: profile['tags'],
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
