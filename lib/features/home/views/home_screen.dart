@@ -1,9 +1,8 @@
-// lib/views/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/horizontal_button_list.dart';
-import 'package:cogo/common/widgets/profile_card.dart';
+import 'package:cogo/common/widgets/horizontal_profile_card.dart';
 import 'package:cogo/features/home/view_models/home_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,22 +12,25 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => HomeViewModel(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _customAppBar(context),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding( padding: const EdgeInsets.all(20.0),
-                child: _text(),
-              ),
-              const SizedBox(height: 20),
-              _buildProfileCardList(),
-            ],
+      builder: (context, child) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: _customAppBar(context),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: _text(),
+                ),
+                const SizedBox(height: 20),
+                _buildProfileCardList(),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

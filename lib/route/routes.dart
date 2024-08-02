@@ -23,70 +23,70 @@ final AppRouter = GoRouter(
       path: Paths.agreement,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: AgreementScreen(),
+        child: const AgreementScreen(),
       ),
       routes: [
         GoRoute(
           path: Paths.phone,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: PhoneNumberVerificationScreen(),
+            child: const PhoneNumberVerificationScreen(),
           ),
         ),
         GoRoute(
           path: Paths.name,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: SignupScreenNameScreen(),
+            child: const SignupScreenNameScreen(),
           ),
         ),
         GoRoute(
           path: Paths.choose,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: SignupScreenChoose(),
+            child: const SignupScreenChoose(),
           ),
         ),
         GoRoute(
           path: Paths.mentorInterest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MentorInterestSelectionScreen(),
+            child: const MentorInterestSelectionScreen(),
           ),
         ),
         GoRoute(
           path: Paths.mentorClub,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: ClubSelectionScreen(),
+            child: const ClubSelectionScreen(),
           ),
         ),
         GoRoute(
           path: Paths.mentorInfo,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MentorInfoScreen(),
+            child: const MentorInfoScreen(),
           ),
         ),
         GoRoute(
           path: Paths.mentorCompletion,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MentorCompletionScreen(),
+            child: const MentorCompletionScreen(),
           ),
         ),
         GoRoute(
           path: Paths.menteeInterest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MenteeInterestSelectionScreen(),
+            child: const MenteeInterestSelectionScreen(),
           ),
         ),
         GoRoute(
           path: Paths.menteeCompletion,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MenteeCompletionScreen(),
+            child: const MenteeCompletionScreen(),
           ),
         ),
       ],
@@ -98,7 +98,7 @@ final AppRouter = GoRouter(
         );
       },
       branches: [
-        _createBranch(Paths.home, HomeScreen()),
+        _createBranch(Paths.home, const HomeScreen()),
         _createBranch(Paths.cogo, CogoScreen()),
         _createBranch(Paths.mypage, MypageScreen()),
       ],
