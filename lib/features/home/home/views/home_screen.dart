@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:cogo/common/widgets/horizontal_button_list.dart';
 import 'package:cogo/common/widgets/horizontal_profile_card.dart';
-import 'package:cogo/features/home/view_models/home_view_model.dart';
+import 'package:cogo/features/home/home//view_models/home_view_model.dart';
+import 'package:cogo/constants/paths.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,7 +27,7 @@ class HomeScreen extends StatelessWidget {
                   child: _text(),
                 ),
                 const SizedBox(height: 20),
-                _buildProfileCardList(),
+                _buildProfileCardList(context),
               ],
             ),
           ),
@@ -106,7 +108,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileCardList() {
+  Widget _buildProfileCardList(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (context, viewModel, child) {
         return SizedBox(
@@ -123,6 +125,12 @@ class HomeScreen extends StatelessWidget {
                   name: profile['name'],
                   clubName: profile['clubName'],
                   tags: profile['tags'],
+                  onTap: () {
+                    context.push(
+                      Paths.profileDetail, // 경로 수정
+                      extra: profile,
+                    );
+                  },
                 ),
               );
             },

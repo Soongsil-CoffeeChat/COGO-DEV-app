@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cogo/features/home/views/home_screen.dart';
+import 'package:cogo/features/home/home/views/home_screen.dart';
+import 'package:cogo/features/home/profile/view/profile_detail_screen.dart';
 import 'package:cogo/features/cogo/views/cogo_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
@@ -102,6 +103,21 @@ final AppRouter = GoRouter(
         _createBranch(Paths.cogo, CogoScreen()),
         _createBranch(Paths.mypage, MypageScreen()),
       ],
+    ),
+    GoRoute(
+      path: Paths.profileDetail,
+      pageBuilder: (context, state) {
+        final profile = state.extra as Map<String, dynamic>;
+        return MaterialPage(
+          key: state.pageKey,
+          child: ProfileDetailScreen(
+            imagePath: profile['imagePath'],
+            name: profile['name'],
+            clubName: profile['clubName'],
+            tags: profile['tags'],
+          ),
+        );
+      },
     ),
   ],
 );
