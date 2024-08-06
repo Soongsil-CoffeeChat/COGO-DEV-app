@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/common/widgets/horizontal_button_list.dart';
 import 'package:cogo/common/widgets/horizontal_profile_card.dart';
-import 'package:cogo/features/home/home//view_models/home_view_model.dart';
+import 'package:cogo/features/home/home/view_model/home_view_model.dart';
 import 'package:cogo/constants/paths.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -38,6 +38,7 @@ class HomeScreen extends StatelessWidget {
 
   PreferredSizeWidget _customAppBar(BuildContext context) {
     return AppBar(
+      scrolledUnderElevation: 0, // appbar 컬러 오류 해결
       backgroundColor: Colors.white,
       elevation: 0,
       title: const Text(
@@ -55,7 +56,7 @@ class HomeScreen extends StatelessWidget {
           child: IconButton(
             icon: SvgPicture.asset('assets/icons/button/search.svg'),
             onPressed: () {
-              Provider.of<HomeViewModel>(context, listen: false).onSearchPressed();
+              Provider.of<HomeViewModel>(context, listen: false).onSearchPressed(context);
             },
             padding: EdgeInsets.zero,
             alignment: Alignment.centerRight,

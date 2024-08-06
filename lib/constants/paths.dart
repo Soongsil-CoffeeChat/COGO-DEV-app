@@ -14,4 +14,5 @@ abstract class Paths {
   static const String cogo = '/cogo';
   static const String mypage = '/mypage';
   static const String profileDetail = '/profile_detail';
+  static const String search = '/search';
 }

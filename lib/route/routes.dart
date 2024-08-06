@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cogo/features/home/home/views/home_screen.dart';
+import 'package:cogo/features/home/home/view/home_screen.dart';
 import 'package:cogo/features/home/profile/view/profile_detail_screen.dart';
+import 'package:cogo/features/home/search/view/search_screen.dart';
 import 'package:cogo/features/cogo/views/cogo_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
@@ -118,6 +119,13 @@ final AppRouter = GoRouter(
           ),
         );
       },
+    ),
+    GoRoute(
+      path: Paths.search,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const SearchScreen(),
+      ),
     ),
   ],
 );

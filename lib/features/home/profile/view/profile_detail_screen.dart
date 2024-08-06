@@ -31,6 +31,7 @@ class ProfileDetailScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
+          scrolledUnderElevation: 0, // appbar 컬러 오류 해결
           leading: IconButton(
             icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'), // SVG 이미지 사용
             onPressed: () => Navigator.of(context).pop(),
@@ -50,65 +51,69 @@ class ProfileDetailScreen extends StatelessWidget {
           centerTitle: true,
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundImage: AssetImage(imagePath),
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: tags.map((tag) => _buildTag(tag)).toList(),
-                ),
-              ),
-              const SizedBox(height: 30),
-              _buildTitleText('아픈건 딱 질색이니까'),
-              const SizedBox(height: 8),
-              _buildProfileDescription(
-                '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
-              ),
-              const SizedBox(height: 30),
-              _buildTitleText('질문질문... 자기소개 유도 질문...'),
-              const SizedBox(height: 8),
-              _buildProfileDescription(
-                '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
-              ),
-              const SizedBox(height: 30),
-              _buildTitleText('질문질문... 자기소개 유도 질문...'),
-              const SizedBox(height: 8),
-              _buildProfileDescription(
-                '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
-              ),
-              const SizedBox(height: 30),
-              Consumer<ProfileDetailViewModel>(
-                builder: (context, viewModel, child) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      viewModel.applyForCogo();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.white,
-                      textStyle: const TextStyle(
-                        fontFamily: 'PretendardMedium',
-                        fontSize: 18,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      minimumSize: const Size(double.infinity, 50), // 버튼 크기 조절
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: AssetImage(imagePath),
                     ),
-                    child: const Text('코고 신청하기'),
-                  );
-                },
+                  ),
+                  const SizedBox(height: 30),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: tags.map((tag) => _buildTag(tag)).toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  _buildTitleText('아픈건 딱 질색이니까'),
+                  const SizedBox(height: 8),
+                  _buildProfileIntro(
+                    '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
+                  ),
+                  const SizedBox(height: 30),
+                  _buildTitleText('질문질문... 자기소개 유도 질문...'),
+                  const SizedBox(height: 8),
+                  _buildProfileDescription(
+                    '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
+                  ),
+                  const SizedBox(height: 30),
+                  _buildTitleText('질문질문... 자기소개 유도 질문...'),
+                  const SizedBox(height: 8),
+                  _buildProfileDescription(
+                    '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
+                  ),
+                  const SizedBox(height: 30),
+                  Consumer<ProfileDetailViewModel>(
+                    builder: (context, viewModel, child) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          viewModel.applyForCogo();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                          textStyle: const TextStyle(
+                            fontFamily: 'PretendardMedium',
+                            fontSize: 18,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          minimumSize: const Size(double.infinity, 50), // 버튼 크기 조절
+                        ),
+                        child: const Text('코고 신청하기'),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -166,6 +171,20 @@ class ProfileDetailScreen extends StatelessWidget {
             fontSize: 12,
             color: Colors.grey,
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileIntro(String description) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        description,
+        style: const TextStyle(
+          fontFamily: 'PretendardMedium',
+          fontSize: 12,
+          color: Colors.grey,
         ),
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:cogo/constants/paths.dart';
 
 class HomeViewModel extends ChangeNotifier {
   List<Map<String, dynamic>> profiles = [
@@ -23,8 +25,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onSearchPressed() {
-    // TODO : 검색창 페이지로 넘기기
-    notifyListeners();
+  void onSearchPressed(BuildContext context) {
+    context.push(Paths.search);
   }
 }
