@@ -18,7 +18,7 @@ class Header extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 15), // 위 아래 패딩 10
+          //padding: const EdgeInsets.symmetric(vertical: 15), // 위 아래 패딩 10
           child: IconButton(
             icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: onBackButtonPressed,

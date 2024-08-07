@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cogo/features/home/views/home_screen.dart';
+import 'package:cogo/features/home/home/view/home_screen.dart';
+import 'package:cogo/features/home/profile/view/profile_detail_screen.dart';
+import 'package:cogo/features/home/search/view/search_screen.dart';
+import 'package:cogo/features/home/apply/views/schedule_screen.dart';
+import 'package:cogo/features/home/apply/views/memo_screen.dart';
+import 'package:cogo/features/home/apply/views/matching_screen.dart';
 import 'package:cogo/features/cogo/views/cogo_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
@@ -17,76 +22,76 @@ import 'package:cogo/features/auth/signup/views/mentee/completion_screen.dart';
 import 'package:cogo/constants/paths.dart';
 
 final AppRouter = GoRouter(
-  initialLocation: Paths.agreement,
+  initialLocation: Paths.home,
   routes: [
     GoRoute(
       path: Paths.agreement,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: AgreementScreen(),
+        child: const AgreementScreen(),
       ),
       routes: [
         GoRoute(
           path: Paths.phone,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: PhoneNumberVerificationScreen(),
+            child: const PhoneNumberVerificationScreen(),
           ),
         ),
         GoRoute(
           path: Paths.name,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: SignupScreenNameScreen(),
+            child: const SignupScreenNameScreen(),
           ),
         ),
         GoRoute(
           path: Paths.choose,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: SignupScreenChoose(),
+            child: const SignupScreenChoose(),
           ),
         ),
         GoRoute(
           path: Paths.mentorInterest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MentorInterestSelectionScreen(),
+            child: const MentorInterestSelectionScreen(),
           ),
         ),
         GoRoute(
           path: Paths.mentorClub,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: ClubSelectionScreen(),
+            child: const ClubSelectionScreen(),
           ),
         ),
         GoRoute(
           path: Paths.mentorInfo,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MentorInfoScreen(),
+            child: const MentorInfoScreen(),
           ),
         ),
         GoRoute(
           path: Paths.mentorCompletion,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MentorCompletionScreen(),
+            child: const MentorCompletionScreen(),
           ),
         ),
         GoRoute(
           path: Paths.menteeInterest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MenteeInterestSelectionScreen(),
+            child: const MenteeInterestSelectionScreen(),
           ),
         ),
         GoRoute(
           path: Paths.menteeCompletion,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: MenteeCompletionScreen(),
+            child: const MenteeCompletionScreen(),
           ),
         ),
       ],
@@ -98,10 +103,53 @@ final AppRouter = GoRouter(
         );
       },
       branches: [
-        _createBranch(Paths.home, HomeScreen()),
+        _createBranch(Paths.home, const HomeScreen()),
         _createBranch(Paths.cogo, CogoScreen()),
         _createBranch(Paths.mypage, MypageScreen()),
       ],
+    ),
+    GoRoute(
+      path: Paths.profileDetail,
+      pageBuilder: (context, state) {
+        final profile = state.extra as Map<String, dynamic>;
+        return MaterialPage(
+          key: state.pageKey,
+          child: ProfileDetailScreen(
+            imagePath: profile['imagePath'],
+            name: profile['name'],
+            clubName: profile['clubName'],
+            tags: profile['tags'],
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: Paths.search,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const SearchScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.schedule,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ScheduleScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.memo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MemoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.matching,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MatchingScreen(),
+      ),
     ),
   ],
 );
