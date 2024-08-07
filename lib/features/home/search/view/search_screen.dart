@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/common/widgets/vertical_profile_card.dart';
 import 'package:cogo/features/home/search/view_model/search_view_model.dart';
 
@@ -16,6 +18,7 @@ class SearchScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
+          scrolledUnderElevation: 0, // appbar 컬러 오류 해결
           leading: IconButton(
             icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: () => Navigator.of(context).pop(),
@@ -77,6 +80,12 @@ class SearchScreen extends StatelessWidget {
                               clubName: profile['clubName'],
                               tags: profile['tags'],
                               description: profile['description'],
+                              onTap: () {
+                                context.push(
+                                  Paths.profileDetail,
+                                  extra: profile,
+                                );
+                              },
                             ),
                           );
                         },

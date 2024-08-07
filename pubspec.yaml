@@ -32,6 +32,9 @@ dependencies:
   #svg
   flutter_svg: ^2.0.10+1
 
+  #날 형식 변환
+  intl: ^0.18.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

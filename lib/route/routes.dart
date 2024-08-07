@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:cogo/features/home/home/view/home_screen.dart';
 import 'package:cogo/features/home/profile/view/profile_detail_screen.dart';
 import 'package:cogo/features/home/search/view/search_screen.dart';
+import 'package:cogo/features/home/apply/views/schedule_screen.dart';
+import 'package:cogo/features/home/apply/views/memo_screen.dart';
+import 'package:cogo/features/home/apply/views/matching_screen.dart';
 import 'package:cogo/features/cogo/views/cogo_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
@@ -125,6 +128,27 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const SearchScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.schedule,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ScheduleScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.memo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MemoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.matching,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MatchingScreen(),
       ),
     ),
   ],

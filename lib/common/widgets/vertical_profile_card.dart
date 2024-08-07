@@ -6,6 +6,7 @@ class ProfileCard extends StatelessWidget {
   final String clubName;
   final List<String> tags;
   final String description;
+  final VoidCallback onTap;
 
   const ProfileCard({
     super.key,
@@ -14,11 +15,14 @@ class ProfileCard extends StatelessWidget {
     required this.clubName,
     required this.tags,
     required this.description,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+        onTap: onTap,
+        child: Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -94,6 +98,7 @@ class ProfileCard extends StatelessWidget {
           ),
         ],
       ),
+        ),
     );
   }
 

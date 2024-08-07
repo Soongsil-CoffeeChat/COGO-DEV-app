@@ -128,7 +128,7 @@ class HomeScreen extends StatelessWidget {
                   tags: profile['tags'],
                   onTap: () {
                     context.push(
-                      Paths.profileDetail, // 경로 수정
+                      Paths.profileDetail,
                       extra: profile,
                     );
                   },

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:cogo/constants/paths.dart';
 
 class ProfileDetailViewModel extends ChangeNotifier {
   final String imagePath;
@@ -13,8 +15,7 @@ class ProfileDetailViewModel extends ChangeNotifier {
     required this.tags,
   });
 
-  void applyForCogo() {
-    // TODO: 코고 신청하기 버튼 동작
-    print("코고 신청하기");
+  void applyForCogo(BuildContext context) {
+    context.push(Paths.schedule);
   }
 }

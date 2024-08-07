@@ -93,7 +93,7 @@ class ProfileDetailScreen extends StatelessWidget {
                     builder: (context, viewModel, child) {
                       return ElevatedButton(
                         onPressed: () {
-                          viewModel.applyForCogo();
+                          viewModel.applyForCogo(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
