@@ -15,9 +15,11 @@ import 'package:cogo/features/auth/signup/views/mentor/completion_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentee/interest_selection_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentee/completion_screen.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/features/cogo/views/mentor/received_cogo_screen.dart';
+import 'package:cogo/features/cogo/views/mentor/received_cogo_detail_screen.dart';
 
 final AppRouter = GoRouter(
-  initialLocation: Paths.agreement,
+  initialLocation: Paths.cogo,
   routes: [
     GoRoute(
       path: Paths.agreement,
@@ -102,6 +104,20 @@ final AppRouter = GoRouter(
         _createBranch(Paths.cogo, CogoScreen()),
         _createBranch(Paths.mypage, MypageScreen()),
       ],
+    ),
+    GoRoute(
+      path: Paths.receivedCogo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ReceivedCogoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.receivedCogoDetail,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ReceivedCogoDetailScreen(),
+      ),
     ),
   ],
 );
