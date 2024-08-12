@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/features/cogo/view_models/mentor/received_cogo_view_model.dart';
+import 'package:cogo/features/cogo/view_models/mentor/successed_cogo_view_model.dart';
 
-class ReceivedCogoScreen extends StatelessWidget {
-  const ReceivedCogoScreen({super.key});
+class SuccessedCogoScreen extends StatelessWidget {
+  const SuccessedCogoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ReceivedCogoViewModel(),
+      create: (_) => SuccessedCogoViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -21,14 +21,14 @@ class ReceivedCogoScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Header(
-                    title: '받은 코고',
+                    title: '성사된 코고',
                     subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
                     onBackButtonPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
                 const SizedBox(height: 20),
                 Expanded(
-                  child: Consumer<ReceivedCogoViewModel>(
+                  child: Consumer<SuccessedCogoViewModel>(
                     builder: (context, viewModel, child) {
                       return ListView.builder(
                         padding: const EdgeInsets.all(16.0),
@@ -50,14 +50,14 @@ class ReceivedCogoScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    item.title,
+                                    item['title']!,
                                     style: const TextStyle(
                                       fontFamily: 'PretendardMedium',
                                       fontSize: 16,
                                     ),
                                   ),
                                   Text(
-                                    item.date,
+                                    item['date']!,
                                     style: const TextStyle(
                                       fontFamily: 'PretendardMedium',
                                       fontSize: 12,
