@@ -6,8 +6,6 @@ import 'package:cogo/features/home/search/view/search_screen.dart';
 import 'package:cogo/features/home/apply/views/schedule_screen.dart';
 import 'package:cogo/features/home/apply/views/memo_screen.dart';
 import 'package:cogo/features/home/apply/views/matching_screen.dart';
-import 'package:cogo/features/cogo/views/cogo_screen.dart';
-import 'package:cogo/features/home/views/home_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/cogo_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
