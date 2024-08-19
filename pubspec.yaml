@@ -32,6 +32,9 @@ dependencies:
   #svg
   flutter_svg: ^2.0.10+1
 
+  #날 형식 변환
+  intl: ^0.18.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -42,6 +45,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/
     - assets/icons/navigator/
     - assets/icons/3d_img/
     - assets/icons/button/
@@ -58,3 +62,11 @@ flutter:
     - family: PretendardMedium
       fonts:
         - asset: assets/fonts/Pretendard-Medium.ttf
+
+    - family: PretendardBold
+      fonts:
+        - asset: assets/fonts/Pretendard-Bold.ttf
+
+    - family: PretendardLight
+      fonts:
+        - asset: assets/fonts/Pretendard-Light.ttf

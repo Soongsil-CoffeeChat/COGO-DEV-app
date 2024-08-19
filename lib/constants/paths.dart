@@ -13,4 +13,10 @@ abstract class Paths {
   static const String home = '/home';
   static const String cogo = '/cogo';
   static const String mypage = '/mypage';
+  static const String profileDetail = '/profile_detail';
+  static const String search = '/search';
+  static const String schedule = '/schedule';
+  static const String memo = '/memo';
+  static const String matching = '/matching';
+
 }
