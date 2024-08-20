@@ -33,7 +33,9 @@ class _AgreementScreenState extends State<AgreementScreen> {
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
-            child: agreementBottomSheet(context),
+            child: SafeArea(
+              child: agreementBottomSheet(context),
+            ),
           ),
         );
       },

@@ -10,9 +10,9 @@ import 'package:cogo/features/cogo/views/mentor/cogo_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
 import 'package:cogo/features/auth/signup/views/shared_views/agreement_screen.dart';
-import 'package:cogo/features/auth/signup/views/shared_views/signup_screen_phone.dart';
-import 'package:cogo/features/auth/signup/views/shared_views/signup_screen_name.dart';
-import 'package:cogo/features/auth/signup/views/shared_views/signup_screen_choose.dart';
+import 'package:cogo/features/auth/signup/views/shared_views/phone_number_screen.dart';
+import 'package:cogo/features/auth/signup/views/shared_views/name_input_screen.dart';
+import 'package:cogo/features/auth/signup/views/shared_views/choose_role_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/interest_selection_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/club_selection_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/mentor_info_screen.dart';
@@ -47,14 +47,14 @@ final AppRouter = GoRouter(
           path: Paths.name,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const SignupScreenNameScreen(),
+            child: const NameInputScreen(),
           ),
         ),
         GoRoute(
           path: Paths.choose,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const SignupScreenChoose(),
+            child: const ChooseRoleScreen(),
           ),
         ),
         GoRoute(
