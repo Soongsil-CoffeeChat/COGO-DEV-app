@@ -54,19 +54,15 @@ flutter:
     - family: PretendardRegular
       fonts:
         - asset: assets/fonts/Pretendard-Regular.ttf
-
     - family: PretendardSemiBold
       fonts:
         - asset: assets/fonts/Pretendard-SemiBold.ttf
-
     - family: PretendardMedium
       fonts:
         - asset: assets/fonts/Pretendard-Medium.ttf
-
     - family: PretendardBold
       fonts:
         - asset: assets/fonts/Pretendard-Bold.ttf
-
     - family: PretendardLight
       fonts:
         - asset: assets/fonts/Pretendard-Light.ttf
