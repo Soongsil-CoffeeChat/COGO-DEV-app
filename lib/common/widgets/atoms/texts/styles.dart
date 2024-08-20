@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cogo/constants/colors.dart';
+import 'package:cogo/constants/constants.dart';
 
 final class CogoTextStyle{
   static const TextStyle header1 = TextStyle(
@@ -45,13 +45,13 @@ final class CogoTextStyle{
     color: CogoColor.secondaryText,
   );
 
-  static const TextStyle text1 = TextStyle(
+  static const TextStyle body1 = TextStyle(
     fontFamily: "PretendardMedium",
     fontSize: 12,
     color: CogoColor.text,
   );
 
-  static const TextStyle subText1 = TextStyle(
+  static const TextStyle bodyCaption1 = TextStyle(
     fontFamily: "PretendardMedium",
     fontSize: 12,
     color: CogoColor.secondaryText,
@@ -143,9 +143,10 @@ final class CogoTextStyle{
       color: CogoColor.cardCaption
   );
 
-  static const TextStyle boxText = TextStyle(
+  static const TextStyle tagText = TextStyle(
+    /// use : mypage
     fontFamily: "PretendardMedium",
     fontSize: 10,
     color: CogoColor.sub1
-  )
+  );
 }
