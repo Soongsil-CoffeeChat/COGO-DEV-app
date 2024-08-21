@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
               final profile = viewModel.profiles[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: ProfileCard(
+                child: HorizontalProfileCard(
                   imagePath: profile['imagePath'],
                   name: profile['name'],
                   clubName: profile['clubName'],

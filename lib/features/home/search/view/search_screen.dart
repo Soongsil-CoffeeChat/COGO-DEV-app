@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/constants/paths.dart';
-import 'package:cogo/common/widgets/vertical_profile_card.dart';
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/features/home/search/view_model/search_view_model.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -74,7 +74,7 @@ class SearchScreen extends StatelessWidget {
                           final profile = viewModel.searchResults[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ProfileCard(
+                            child: VerticalProfileCard(
                               imagePath: profile['imagePath'],
                               name: profile['name'],
                               clubName: profile['clubName'],

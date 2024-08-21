@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ProfileCard extends StatelessWidget {
+class VerticalProfileCard extends StatelessWidget {
   final String imagePath;
   final String name;
   final String clubName;
@@ -8,7 +8,7 @@ class ProfileCard extends StatelessWidget {
   final String description;
   final VoidCallback onTap;
 
-  const ProfileCard({
+  const VerticalProfileCard({
     super.key,
     required this.imagePath,
     required this.name,
