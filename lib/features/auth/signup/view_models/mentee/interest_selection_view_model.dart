@@ -11,6 +11,6 @@ class MenteeInterestSelectionViewModel extends ChangeNotifier {
 
     await LocaleManager.instance.setStringValue('menteeSelectedInterest', interest);
 
-    context.push('/agreement/mentee_completion');
+    context.push('/agreement/completion');
   }
 }

@@ -16,9 +16,8 @@ import 'package:cogo/features/auth/signup/views/shared_views/choose_role_screen.
 import 'package:cogo/features/auth/signup/views/mentor/interest_selection_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/club_selection_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/mentor_info_screen.dart';
-import 'package:cogo/features/auth/signup/views/mentor/completion_screen.dart';
+import 'package:cogo/features/auth/signup/views/shared_views//completion_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentee/interest_selection_screen.dart';
-import 'package:cogo/features/auth/signup/views/mentee/completion_screen.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/cogo/views/mentor/received_cogo_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/received_cogo_detail_screen.dart';
@@ -79,13 +78,6 @@ final AppRouter = GoRouter(
           ),
         ),
         GoRoute(
-          path: Paths.mentorCompletion,
-          pageBuilder: (context, state) => MaterialPage(
-            key: state.pageKey,
-            child: const MentorCompletionScreen(),
-          ),
-        ),
-        GoRoute(
           path: Paths.menteeInterest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
@@ -93,10 +85,10 @@ final AppRouter = GoRouter(
           ),
         ),
         GoRoute(
-          path: Paths.menteeCompletion,
+          path: Paths.completion,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const MenteeCompletionScreen(),
+            child: const CompletionScreen(),
           ),
         ),
       ],
@@ -115,18 +107,10 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.profileDetail,
-      pageBuilder: (context, state) {
-        final profile = state.extra as Map<String, dynamic>;
-        return MaterialPage(
-          key: state.pageKey,
-          child: ProfileDetailScreen(
-            imagePath: profile['imagePath'],
-            name: profile['name'],
-            clubName: profile['clubName'],
-            tags: profile['tags'],
-          ),
-        );
-      },
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ProfileDetailScreen(),
+      ),
     ),
     GoRoute(
       path: Paths.search,
