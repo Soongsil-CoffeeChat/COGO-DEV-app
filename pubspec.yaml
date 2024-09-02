@@ -9,6 +9,9 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+
+  device_preview: ^1.2.0
+
   flutter:
     sdk: flutter
 
@@ -33,7 +36,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
 
   #날 형식 변환
-  intl: ^0.18.0
+  intl: ^0.19.0
 
   #구글 로그인
   google_sign_in: ^6.2.1
