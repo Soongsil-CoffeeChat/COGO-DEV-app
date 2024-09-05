@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
 import 'package:cogo/common/enums/login_platform.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,23 +23,18 @@ class _LoginScreenState extends State<LoginScreen> {
       print('name = ${googleUser.displayName}');
       print('email = ${googleUser.email}');
       print('id = ${googleUser.id}');
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleUser!
+          .authentication;
+      print("hashCode 토큰: ${googleUser.serverAuthCode.hashCode}");
+      print("토큰: ${googleSignInAuthentication.accessToken}");
 
-      setState(() {
-        _loginPlatform = LoginPlatform.google;
-      });
     }
   }
 
   void signOut() async {
     switch (_loginPlatform) {
-      case LoginPlatform.facebook:
-        break;
       case LoginPlatform.google:
         await GoogleSignIn().signOut();
-        break;
-      case LoginPlatform.kakao:
-        break;
-      case LoginPlatform.naver:
         break;
       case LoginPlatform.apple:
         break;
