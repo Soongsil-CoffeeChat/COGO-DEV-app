@@ -1,3 +1,4 @@
+import 'package:cogo/features/auth/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/features/home/home/view/home_screen.dart';
@@ -27,13 +28,14 @@ import 'package:cogo/features/cogo/views/mentor/successed_cogo_detail_screen.dar
 
 
 final AppRouter = GoRouter(
-  initialLocation: Paths.agreement,
+  // initialLocation: '/',
+  initialLocation: Paths.login,
   routes: [
     GoRoute(
-      path: Paths.agreement,
+      path: Paths.login,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const AgreementScreen(),
+        child: const LoginScreen(),
       ),
       routes: [
         GoRoute(

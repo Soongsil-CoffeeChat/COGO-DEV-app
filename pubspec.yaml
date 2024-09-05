@@ -35,6 +35,8 @@ dependencies:
   #날 형식 변환
   intl: ^0.18.0
 
+  google_sign_in: ^6.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -49,6 +51,7 @@ flutter:
     - assets/icons/navigator/
     - assets/icons/3d_img/
     - assets/icons/button/
+    - assets/image/
 
   fonts:
     - family: PretendardRegular
