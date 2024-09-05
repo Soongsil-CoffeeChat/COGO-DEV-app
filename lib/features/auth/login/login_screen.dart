@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cogo/common/enums/login_platform.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -23,11 +22,16 @@ class _LoginScreenState extends State<LoginScreen> {
       print('name = ${googleUser.displayName}');
       print('email = ${googleUser.email}');
       print('id = ${googleUser.id}');
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleUser!
-          .authentication;
+
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleUser.authentication;
       print("hashCode 토큰: ${googleUser.serverAuthCode.hashCode}");
       print("토큰: ${googleSignInAuthentication.accessToken}");
 
+      // 로그인 성공 시 상태 업데이트
+      setState(() {
+        _loginPlatform = LoginPlatform.google;
+      });
     }
   }
 
@@ -51,38 +55,39 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: _loginPlatform != LoginPlatform.none
-              ? _logoutButton()
-              : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _loginButton(
-                'google_logo',
-                signInWithGoogle,
-              )
-            ],
-          )),
-    );
-  }
+        child: _loginPlatform != LoginPlatform.none
+            ? _logoutButton()
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
 
-  Widget _loginButton(String path, VoidCallback onTap) {
-    return Card(
-      elevation: 5.0,
-      shape: const CircleBorder(),
-      clipBehavior: Clip.antiAlias,
-      child: Ink.image(
-        image: const AssetImage("assets/image/google_login_button.png"),
-        width: 60,
-        height: 60,
-        child: InkWell(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(35.0),
-          ),
-          onTap: onTap,
-        ),
+                  SizedBox(width: 16),  // 두 항목 사이에 여백을 줄 수 있습니다
+                  Expanded(
+                    child: _loginButton(
+                      'google_logo',
+                      signInWithGoogle,
+                    ),
+                  ),
+
+                ],
+              ),
       ),
     );
   }
+
+  Widget _loginButton(String path, VoidCallback onTap) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: GestureDetector(
+          onTap: onTap,
+          child: SizedBox(
+            width: double.infinity, // 부모의 너비를 꽉 채움
+            child: Image.asset(
+              "assets/image/button_google_login.png",
+              fit: BoxFit.fitWidth, // 이미지가 너비에 맞춰 비율 유지하며 크기 조절
+            ),
+          ),
+        ),
+      );
 
   Widget _logoutButton() {
     return ElevatedButton(
