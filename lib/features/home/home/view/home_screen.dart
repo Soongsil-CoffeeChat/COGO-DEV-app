@@ -1,3 +1,4 @@
+import 'package:cogo/common/db/locale_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    // 화면이 로드되면 다이얼로그를 띄움
+    // 화면이 로드될 때 멘토이면 다이얼로그를 띄움
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showMentorProfileDialog();
+      final viewModel = Provider.of<HomeViewModel>(context, listen: false);
+      print(viewModel.selectedRole);
+      if (viewModel.selectedRole == 'mentor' && !viewModel.isIntroductionComplete) {
+        _showMentorProfileDialog();
+      }
     });
   }
 
@@ -31,7 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         // 화면의 전체 너비를 가져옴
-        final double screenWidth = MediaQuery.of(context).size.width;
+        final double screenWidth = MediaQuery
+            .of(context)
+            .size
+            .width;
 
         return Dialog(
           backgroundColor: Colors.white,
@@ -68,14 +76,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 130),
 
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),  // 버튼 좌우 마진
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    // 버튼 좌우 마진
                     child: ElevatedButton(
                       onPressed: () {
                         context.push(Paths.mentorIntroduction);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: CogoColor.buttonBackground,
-                        minimumSize: const Size(double.infinity, 50),  // 버튼 가로 너비를 채움
+                        minimumSize: const Size(
+                            double.infinity, 50), // 버튼 가로 너비를 채움
                       ),
                       child: const Text(
                         '멘토 프로필 작성하기',
@@ -91,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-
 
 
   @override
@@ -127,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 0,
       title: const Text(
         'COGO',
-        style: CogoTextStyle.header1,  // CogoTextStyle.header1 사용
+        style: CogoTextStyle.header1, // CogoTextStyle.header1 사용
       ),
       centerTitle: false,
       actions: [
@@ -172,12 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Text(
           '어떤 동아리 선배가 있을까요?',
-          style: CogoTextStyle.header2,  // CogoTextStyle.header2 사용
+          style: CogoTextStyle.header2, // CogoTextStyle.header2 사용
         ),
         SizedBox(height: 4),
         Text(
           '동아리별 코고 선배 알아보기',
-          style: CogoTextStyle.caption2,  // CogoTextStyle.caption2 사용
+          style: CogoTextStyle.caption2, // CogoTextStyle.caption2 사용
         ),
       ],
     );
@@ -193,6 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: viewModel.profiles.length,
             itemBuilder: (context, index) {
               final profile = viewModel.profiles[index];
+
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: HorizontalProfileCard(
@@ -201,10 +211,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   clubName: profile['clubName'],
                   tags: profile['tags'],
                   onTap: () {
-                    context.push(
-                      Paths.profileDetail,
-                      extra: profile,
-                    );
+                    // role이 mentor이고, 자기소개가 완료되지 않았다면 다이얼로그 띄우기
+                    if (viewModel.selectedRole == 'mentor' &&
+                        !viewModel.isIntroductionComplete) {
+                      _showMentorProfileDialog();
+                    } else {
+                      // 자기소개가 완료되었으면 해당 프로필 상세 페이지로 이동
+                      context.push(
+                        Paths.profileDetail,
+                        extra: profile,
+                      );
+                    }
                   },
                 ),
               );
