@@ -24,6 +24,7 @@ import 'package:cogo/features/cogo/views/mentor/received_cogo_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/received_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/successed_cogo_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/successed_cogo_detail_screen.dart';
+import 'package:cogo/features/mypage/profile_management/views/mentor_introduction_screen.dart';
 
 
 final AppRouter = GoRouter(
@@ -109,7 +110,7 @@ final AppRouter = GoRouter(
       },
       branches: [
         _createBranch(Paths.home, const HomeScreen()),
-        _createBranch(Paths.cogo, CogoScreen()),
+        _createBranch(Paths.cogo, const CogoScreen()),
         _createBranch(Paths.mypage, MypageScreen()),
       ],
     ),
@@ -182,6 +183,13 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const SuccessedCogoDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.mentorIntroduction,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorIntroductionScreen(),
       ),
     ),
   ],

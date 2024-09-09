@@ -24,4 +24,6 @@ abstract class Paths {
   static const String successedCogo = '/successedCogo';
   static const String successedCogoDetail = '/successedCogoDetail';
 
+  static const String mentorIntroduction = '/mentorIntroduction';
+
 }

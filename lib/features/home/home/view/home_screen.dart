@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final double screenWidth = MediaQuery.of(context).size.width;
 
         return Dialog(
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
@@ -44,20 +45,20 @@ class _HomeScreenState extends State<HomeScreen> {
               width: screenWidth - 20, // 좌우 마진을 제외한 너비
               height: 300,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,  // 텍스트 왼쪽 정렬
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),  // 다이얼로그 상단과 첫 번째 텍스트 사이의 마진
+                  const SizedBox(height: 20),
                   const Padding(
-                    padding: EdgeInsets.only(left: 10),  // 첫 번째 텍스트 왼쪽 마진
+                    padding: EdgeInsets.only(left: 10),
                     child: Text(
                       '멘토 활동을 시작하려면\n프로필 작성을 완료해주세요',
                       textAlign: TextAlign.left,
                       style: CogoTextStyle.header2,
                     ),
                   ),
-                  const SizedBox(height: 5),  // 두 번째 텍스트와 첫 번째 텍스트 사이의 마진
+                  const SizedBox(height: 5),
                   const Padding(
-                    padding: EdgeInsets.only(left: 10),  // 두 번째 텍스트 왼쪽 마진
+                    padding: EdgeInsets.only(left: 10),
                     child: Text(
                       '입력하신 정보는 하단의 MY에서 수정이 가능해요',
                       textAlign: TextAlign.left,
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),  // 버튼 좌우 마진
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop(); // 다이얼로그 닫기
+                        context.push(Paths.mentorIntroduction);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: CogoColor.buttonBackground,
