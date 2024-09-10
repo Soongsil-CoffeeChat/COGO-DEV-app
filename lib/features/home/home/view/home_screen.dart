@@ -21,87 +21,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    // 화면이 로드될 때 멘토이면 다이얼로그를 띄움
+    // 화면이 로드된 후에 Provider에 접근
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-      print(viewModel.selectedRole);
+
+      // ViewModel의 role과 isIntroductionComplete 값으로 다이얼로그 표시 여부 결정
       if (viewModel.selectedRole == 'mentor' && !viewModel.isIntroductionComplete) {
-        _showMentorProfileDialog();
+        _showMentorProfileDialog(context);
       }
     });
   }
-
-  void _showMentorProfileDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // 화면의 전체 너비를 가져옴
-        final double screenWidth = MediaQuery
-            .of(context)
-            .size
-            .width;
-
-        return Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Padding(
-            // 좌우 마진을 10으로 설정
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: SizedBox(
-              width: screenWidth - 20, // 좌우 마진을 제외한 너비
-              height: 300,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      '멘토 활동을 시작하려면\n프로필 작성을 완료해주세요',
-                      textAlign: TextAlign.left,
-                      style: CogoTextStyle.header2,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      '입력하신 정보는 하단의 MY에서 수정이 가능해요',
-                      textAlign: TextAlign.left,
-                      style: CogoTextStyle.caption2,
-                    ),
-                  ),
-                  const SizedBox(height: 130),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    // 버튼 좌우 마진
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.push(Paths.mentorIntroduction);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: CogoColor.buttonBackground,
-                        minimumSize: const Size(
-                            double.infinity, 50), // 버튼 가로 너비를 채움
-                      ),
-                      child: const Text(
-                        '멘토 프로필 작성하기',
-                        style: CogoTextStyle.buttonText,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 0,
       title: const Text(
         'COGO',
-        style: CogoTextStyle.header1, // CogoTextStyle.header1 사용
+        style: CogoTextStyle.header1,
       ),
       centerTitle: false,
       actions: [
@@ -162,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               buttonTitles: const ['기획', '디자인', 'FE', 'BE'],
               onButtonPressed: (title) {
                 Provider.of<HomeViewModel>(context, listen: false)
-                    .onButtonPressed(title);
+                    .onButtonPressed(context, title);
               },
             ),
             Divider(
@@ -181,12 +110,12 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Text(
           '어떤 동아리 선배가 있을까요?',
-          style: CogoTextStyle.header2, // CogoTextStyle.header2 사용
+          style: CogoTextStyle.header2,
         ),
         SizedBox(height: 4),
         Text(
           '동아리별 코고 선배 알아보기',
-          style: CogoTextStyle.caption2, // CogoTextStyle.caption2 사용
+          style: CogoTextStyle.caption2,
         ),
       ],
     );
@@ -214,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // role이 mentor이고, 자기소개가 완료되지 않았다면 다이얼로그 띄우기
                     if (viewModel.selectedRole == 'mentor' &&
                         !viewModel.isIntroductionComplete) {
-                      _showMentorProfileDialog();
+                      _showMentorProfileDialog(context);
                     } else {
                       // 자기소개가 완료되었으면 해당 프로필 상세 페이지로 이동
                       context.push(
@@ -226,6 +155,73 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
+          ),
+        );
+      },
+    );
+  }
+
+// 다이얼로그 띄우는 함수
+  void _showMentorProfileDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final double screenWidth = MediaQuery
+            .of(context)
+            .size
+            .width;
+
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: SizedBox(
+              width: screenWidth - 20,
+              height: 300,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      '멘토 활동을 시작하려면\n프로필 작성을 완료해주세요',
+                      textAlign: TextAlign.left,
+                      style: CogoTextStyle.header2,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      '입력하신 정보는 하단의 MY에서 수정이 가능해요',
+                      textAlign: TextAlign.left,
+                      style: CogoTextStyle.caption2,
+                    ),
+                  ),
+                  const SizedBox(height: 130),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.push(Paths.mentorIntroduction);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: CogoColor.buttonBackground,
+                        minimumSize: const Size(double.infinity, 50),
+                      ),
+                      child: const Text(
+                        '멘토 프로필 작성하기',
+                        style: CogoTextStyle.buttonText,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       },

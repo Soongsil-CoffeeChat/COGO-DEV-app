@@ -8,16 +8,21 @@ class HomeViewModel extends ChangeNotifier {
   String? selectedRole = "mentor";
   bool isIntroductionComplete = false; // 자기소개 완료 여부를 저장
 
-  // 역할 변경 메서드
-  void setRole(String role) {
-    selectedRole = role;
+  HomeViewModel() {
+    _initialize();
+  }
+
+  // 비동기로 역할과 자기소개 완료 여부를 초기화
+  Future<void> _initialize() async {
+    selectedRole = await LocaleManager.instance.getStringValue('selectedRole');
+    // 자기소개 완료 여부에 대한 값도 초기화
+    isIntroductionComplete = await fetchIntroductionCompleteStatus();
     notifyListeners();
   }
 
-  // 자기소개 완료 상태 설정
-  void completeIntroduction() {
-    isIntroductionComplete = true;
-    notifyListeners();
+  Future<bool> fetchIntroductionCompleteStatus() async {
+    // 실제 자기소개 완료 여부를 불러오는 로직 추가
+    return false; // 예시로 false 리턴
   }
 
   List<Map<String, dynamic>> profiles = [
@@ -36,7 +41,7 @@ class HomeViewModel extends ChangeNotifier {
     // 프로필 추가
   ];
 
-  void onButtonPressed(String title) {
+  void onButtonPressed(BuildContext context, String title) {
     print('Button pressed: $title');
     // TODO : 버튼 액션 구현
     notifyListeners();
