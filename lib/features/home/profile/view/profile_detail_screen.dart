@@ -45,10 +45,18 @@ class ProfileDetailScreen extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundImage: AssetImage(profile.imagePath),
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        child: Image.asset(
+                          profile.imagePath,
+                          width: double.infinity,
+                          height: 150, // 이미지 높이
+                          fit: BoxFit.cover, // 이미지 꽉 채우기
                         ),
                       ),
                       const SizedBox(height: 30),

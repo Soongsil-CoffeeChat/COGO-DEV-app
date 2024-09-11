@@ -9,7 +9,7 @@ class ProfileDetailViewModel extends ChangeNotifier {
   ProfileDetailViewModel() {
     // 프로필 데이터를 초기화
     profile = ProfileDetailModel(
-      imagePath: 'assets/raccoon.png',
+      imagePath: 'assets/raccoonimg.png',
       name: '김지은',
       clubName: 'GDSC',
       tags: ['BE', '직무직무', '경력'],

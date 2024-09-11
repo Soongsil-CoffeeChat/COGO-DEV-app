@@ -26,7 +26,7 @@ import 'package:cogo/features/cogo/views/mentor/successed_cogo_detail_screen.dar
 
 
 final AppRouter = GoRouter(
-  initialLocation: Paths.agreement,
+  initialLocation: Paths.home,
   routes: [
     GoRoute(
       path: Paths.agreement,

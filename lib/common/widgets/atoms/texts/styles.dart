@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:cogo/constants/constants.dart';
 
 final class CogoTextStyle{
+  static const TextStyle tittle = TextStyle(
+    /// home name
+    fontFamily: "PretendardBold",
+    fontSize: 20,
+    color: CogoColor.text,
+  );
+
   static const TextStyle header1 = TextStyle(
     /// mypage name
     fontFamily: "PretendardMedium",
@@ -143,7 +150,14 @@ final class CogoTextStyle{
       color: CogoColor.cardCaption
   );
 
-  static const TextStyle tagText = TextStyle(
+  static const TextStyle tagText1 = TextStyle(
+    /// use : mypage
+      fontFamily: "PretendardMedium",
+      fontSize: 12,
+      color: CogoColor.sub1
+  );
+
+  static const TextStyle tagText2 = TextStyle(
     /// use : mypage
     fontFamily: "PretendardMedium",
     fontSize: 10,
