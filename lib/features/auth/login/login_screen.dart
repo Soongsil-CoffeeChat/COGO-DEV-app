@@ -1,9 +1,8 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cogo/common/enums/login_platform.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -28,11 +27,22 @@ class _LoginScreenState extends State<LoginScreen> {
       print("hashCode 토큰: ${googleUser.serverAuthCode.hashCode}");
       print("토큰: ${googleSignInAuthentication.accessToken}");
 
+      // 로컬 저장소에 사용자 정보 저장
+      await _saveUserInfo(googleUser.displayName, googleUser.email);
+
       // 로그인 성공 시 상태 업데이트
       setState(() {
         _loginPlatform = LoginPlatform.google;
       });
+
+      context.push('/agreement');
     }
+  }
+
+  Future<void> _saveUserInfo(String? name, String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_name', name ?? '');
+    await prefs.setString('user_email', email);
   }
 
   void signOut() async {
@@ -55,10 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _loginPlatform != LoginPlatform.none
-            ? _logoutButton()
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
                   SizedBox(width: 16),  // 두 항목 사이에 여백을 줄 수 있습니다
@@ -88,16 +96,4 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       );
-
-  Widget _logoutButton() {
-    return ElevatedButton(
-      onPressed: signOut,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
-          const Color(0xff0165E1),
-        ),
-      ),
-      child: const Text('로그아웃'),
-    );
-  }
 }
