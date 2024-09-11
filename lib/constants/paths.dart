@@ -10,7 +10,7 @@ abstract class Paths {
   static const String mentorInfo = 'mentor_info';
   static const String mentorCompletion = 'mentor_completion';
   static const String menteeInterest = 'mentee_interest';
-  static const String menteeCompletion = 'mentee_completion';
+  static const String completion = 'completion';
   static const String home = '/home';
   static const String cogo = '/cogo';
   static const String mypage = '/mypage';

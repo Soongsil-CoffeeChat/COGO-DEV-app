@@ -87,13 +87,6 @@ final AppRouter = GoRouter(
           ),
         ),
         GoRoute(
-          path: Paths.mentorCompletion,
-          pageBuilder: (context, state) => MaterialPage(
-            key: state.pageKey,
-            child: const MentorCompletionScreen(),
-          ),
-        ),
-        GoRoute(
           path: Paths.menteeInterest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
@@ -101,10 +94,10 @@ final AppRouter = GoRouter(
           ),
         ),
         GoRoute(
-          path: Paths.menteeCompletion,
+          path: Paths.completion,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const MenteeCompletionScreen(),
+            child: const CompletionScreen(),
           ),
         ),
       ],
@@ -123,18 +116,10 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.profileDetail,
-      pageBuilder: (context, state) {
-        final profile = state.extra as Map<String, dynamic>;
-        return MaterialPage(
-          key: state.pageKey,
-          child: ProfileDetailScreen(
-            imagePath: profile['imagePath'],
-            name: profile['name'],
-            clubName: profile['clubName'],
-            tags: profile['tags'],
-          ),
-        );
-      },
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ProfileDetailScreen(),
+      ),
     ),
     GoRoute(
       path: Paths.search,

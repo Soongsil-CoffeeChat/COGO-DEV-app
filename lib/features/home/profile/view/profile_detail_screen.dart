@@ -4,42 +4,26 @@ import 'package:provider/provider.dart';
 import 'package:cogo/features/home/profile/view_model/profile_detail_view_model.dart';
 
 class ProfileDetailScreen extends StatelessWidget {
-  final String imagePath;
-  final String name;
-  final String clubName;
-  final List<String> tags;
-
-  const ProfileDetailScreen({
-    super.key,
-    required this.imagePath,
-    required this.name,
-    required this.clubName,
-    required this.tags,
-  });
+  const ProfileDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ProfileDetailViewModel(
-        imagePath: imagePath,
-        name: name,
-        clubName: clubName,
-        tags: tags,
-      ),
+      create: (context) => ProfileDetailViewModel(), // ViewModel 생성
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          scrolledUnderElevation: 0, // appbar 컬러 오류 해결
+          scrolledUnderElevation: 0,
           leading: IconButton(
-            icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'), // SVG 이미지 사용
+            icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: Consumer<ProfileDetailViewModel>(
             builder: (context, viewModel, child) {
               return Text(
-                '${viewModel.name} 멘토님',
+                '${viewModel.profile.name} 멘토님',
                 style: const TextStyle(
                   fontFamily: 'PretendardSemiBold',
                   fontSize: 20,
@@ -54,44 +38,48 @@ class ProfileDetailScreen extends StatelessWidget {
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundImage: AssetImage(imagePath),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: tags.map((tag) => _buildTag(tag)).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  _buildTitleText('아픈건 딱 질색이니까'),
-                  const SizedBox(height: 8),
-                  _buildProfileIntro(
-                    '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
-                  ),
-                  const SizedBox(height: 30),
-                  _buildTitleText('질문질문... 자기소개 유도 질문...'),
-                  const SizedBox(height: 8),
-                  _buildProfileDescription(
-                    '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
-                  ),
-                  const SizedBox(height: 30),
-                  _buildTitleText('질문질문... 자기소개 유도 질문...'),
-                  const SizedBox(height: 8),
-                  _buildProfileDescription(
-                    '오늘도 아침엔 일에 밥을 먹고 똑같이 하루를 시작하고 운동일 한 손엔 아이스 아메리카노. 피곤해 죽겠네',
-                  ),
-                  const SizedBox(height: 30),
-                  Consumer<ProfileDetailViewModel>(
-                    builder: (context, viewModel, child) {
-                      return ElevatedButton(
+              child: Consumer<ProfileDetailViewModel>(
+                builder: (context, viewModel, child) {
+                  final profile = viewModel.profile;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        child: Image.asset(
+                          profile.imagePath,
+                          width: double.infinity,
+                          height: 150, // 이미지 높이
+                          fit: BoxFit.cover, // 이미지 꽉 채우기
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: profile.tags.map((tag) => _buildTag(tag)).toList(),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      _buildTitleText('아픈건 딱 질색이니까'),
+                      const SizedBox(height: 8),
+                      _buildProfileIntro(profile.intro),
+                      const SizedBox(height: 30),
+                      _buildTitleText('질문질문... 자기소개 유도 질문...'),
+                      const SizedBox(height: 8),
+                      _buildProfileDescription(profile.description1),
+                      const SizedBox(height: 30),
+                      _buildTitleText('질문질문... 자기소개 유도 질문...'),
+                      const SizedBox(height: 8),
+                      _buildProfileDescription(profile.description2),
+                      const SizedBox(height: 30),
+                      ElevatedButton(
                         onPressed: () {
                           viewModel.applyForCogo(context);
                         },
@@ -105,13 +93,13 @@ class ProfileDetailScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          minimumSize: const Size(double.infinity, 50), // 버튼 크기 조절
+                          minimumSize: const Size(double.infinity, 50),
                         ),
                         child: const Text('코고 신청하기'),
-                      );
-                    },
-                  ),
-                ],
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -167,9 +155,9 @@ class ProfileDetailScreen extends StatelessWidget {
         child: Text(
           description,
           style: const TextStyle(
-            fontFamily: 'PretendardMedium',
+            fontFamily: 'PretendardLight',
             fontSize: 12,
-            color: Colors.grey,
+            color: Colors.black,
           ),
         ),
       ),
@@ -182,9 +170,9 @@ class ProfileDetailScreen extends StatelessWidget {
       child: Text(
         description,
         style: const TextStyle(
-          fontFamily: 'PretendardMedium',
+          fontFamily: 'PretendardLight',
           fontSize: 12,
-          color: Colors.grey,
+          color: Colors.black,
         ),
       ),
     );

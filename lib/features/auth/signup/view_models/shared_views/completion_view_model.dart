@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/common/db/locale_manager.dart';
 
-class MenteeCompletionViewModel extends ChangeNotifier {
+class CompletionViewModel extends ChangeNotifier {
   String? name;
   bool isLoading = true;
 
-  MenteeCompletionViewModel() {
+  CompletionViewModel() {
     _loadPreferences();
   }
 
   void _loadPreferences() async {
-    name = LocaleManager.instance.getStringValue('name') ?? '멘티';
+    name = LocaleManager.instance.getStringValue('name') ?? '멘토';
     isLoading = false;
     notifyListeners();
   }
