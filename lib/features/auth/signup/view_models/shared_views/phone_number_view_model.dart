@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../data/repository/UserRepostory.dart';
+import '../../../../../data/repository/user_repository.dart';
 
 class PhoneNumberVerificationViewModel extends ChangeNotifier {
   final UserRepository userRepository;
