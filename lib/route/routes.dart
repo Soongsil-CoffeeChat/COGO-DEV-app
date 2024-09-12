@@ -1,10 +1,8 @@
 import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/auth/login/login_screen.dart';
-import 'package:cogo/features/auth/signup/views/mentee/completion_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentee/interest_selection_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/club_selection_screen.dart';
-import 'package:cogo/features/auth/signup/views/mentor/completion_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/interest_selection_screen.dart';
 import 'package:cogo/features/auth/signup/views/mentor/mentor_info_screen.dart';
 import 'package:cogo/features/auth/signup/views/shared_views/agreement_screen.dart';
@@ -26,6 +24,7 @@ import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/auth/signup/views/shared_views/completion_screen.dart';
 
 final AppRouter = GoRouter(
   // initialLocation: '/',
