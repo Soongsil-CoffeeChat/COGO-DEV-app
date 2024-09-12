@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/constants/paths.dart';
-import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/common/widgets/widgets.dart'; // Assuming this has `VerticalProfileCard`
 import 'package:cogo/features/home/search/view_model/search_view_model.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -37,9 +37,7 @@ class SearchScreen extends StatelessWidget {
                         builder: (context, viewModel, child) {
                           return TextField(
                             controller: viewModel.searchController,
-                            onChanged: (text) {
-                              // This is optional if you want to perform live search as the user types
-                            },
+                            readOnly: true, // 검색창은 사용자가 직접 입력하지 않음
                             decoration: InputDecoration(
                               hintText: '동아리, 분야, 학과로 검색하기',
                               border: const OutlineInputBorder(
@@ -58,6 +56,49 @@ class SearchScreen extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+              // Button Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Consumer<SearchViewModel>(
+                  builder: (context, viewModel, child) {
+                    return Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: [
+                        CustomButton(
+                          text: '기획',
+                          isSelected: viewModel.selectedTags.contains('기획'),
+                          onPressed: () {
+                            viewModel.addTagToSearch('기획');
+                          },
+                        ),
+                        CustomButton(
+                          text: '디자인',
+                          isSelected: viewModel.selectedTags.contains('디자인'),
+                          onPressed: () {
+                            viewModel.addTagToSearch('디자인');
+                          },
+                        ),
+                        CustomButton(
+                          text: 'FE',
+                          isSelected: viewModel.selectedTags.contains('FE'),
+                          onPressed: () {
+                            viewModel.addTagToSearch('FE');
+                          },
+                        ),
+                        CustomButton(
+                          text: 'BE',
+                          isSelected: viewModel.selectedTags.contains('BE'),
+                          onPressed: () {
+                            viewModel.addTagToSearch('BE');
+                          },
+                        ),
+                        // Add more buttons as needed
+                      ],
+                    );
+                  },
                 ),
               ),
               Expanded(
