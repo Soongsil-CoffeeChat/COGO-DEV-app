@@ -39,13 +39,33 @@ class ApiClient {
       },
       onResponse: (response, handler) {
         // 응답 처리
-        print('Received response: ${response.statusCode}');
+        print('응답은요 : ${response.statusCode}');
         return handler.next(response);
       },
       onError: (DioException e, handler) {
         // 에러 처리
         print('Error: ${e.message}');
         return handler.next(e);
+      },
+    ));
+
+    // LogInterceptor 추가
+    _dio.interceptors.add(LogInterceptor(
+      request: true,
+      // 요청 정보를 로그로 출력
+      requestHeader: true,
+      // 요청 헤더 정보를 로그로 출력
+      requestBody: true,
+      // 요청 본문 정보를 로그로 출력
+      responseHeader: true,
+      // 응답 헤더 정보를 로그로 출력
+      responseBody: true,
+      // 응답 본문 정보를 로그로 출력
+      error: true,
+      // 에러 정보를 로그로 출력
+      logPrint: (obj) {
+        // 원하는 로그 출력 방식 정의 (기본은 print)
+        print("서버통신 $obj");
       },
     ));
   }
