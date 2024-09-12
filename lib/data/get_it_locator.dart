@@ -1,5 +1,5 @@
-import 'package:cogo/data/repository/UserRepositoryImpl.dart';
-import 'package:cogo/data/repository/UserRepostory.dart';
+import 'package:cogo/data/repository/user_repository.dart';
+import 'package:cogo/data/repository/user_repository_impl.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/auth/signup/view_models/shared_views/phone_number_view_model.dart';
 import 'package:dio/dio.dart';
