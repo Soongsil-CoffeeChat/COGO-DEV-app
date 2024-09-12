@@ -6,12 +6,17 @@ import 'package:provider/provider.dart';
 
 import 'common/db/locale_manager.dart';
 import 'common/navigator/view_model/bottom_navigation_bar_view_model.dart';
+import 'data/get_it_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables(); // env
   await LocaleManager.preferencesInit();  // SharedPreferences 초기화
   await initializeDateFormatting('ko_KR', null);
+
+  //get it
+  setupServiceLocator();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider.value(
