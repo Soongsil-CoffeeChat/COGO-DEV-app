@@ -1,5 +1,5 @@
 import '../service/user_service.dart';
-import 'UserRepostory.dart';
+import 'user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserService _userService;
