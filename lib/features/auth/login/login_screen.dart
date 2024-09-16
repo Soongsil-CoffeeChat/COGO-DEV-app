@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -5,7 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -18,14 +20,14 @@ class _LoginScreenState extends State<LoginScreen> {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     if (googleUser != null) {
-      print('name = ${googleUser.displayName}');
-      print('email = ${googleUser.email}');
-      print('id = ${googleUser.id}');
+      log('name = ${googleUser.displayName}');
+      log('email = ${googleUser.email}');
+      log('id = ${googleUser.id}');
 
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleUser.authentication;
-      print("hashCode 토큰: ${googleUser.serverAuthCode.hashCode}");
-      print("토큰: ${googleSignInAuthentication.accessToken}");
+      log("hashCode 토큰: ${googleUser.serverAuthCode.hashCode}");
+      log("토큰: ${googleSignInAuthentication.accessToken}");
 
       // 로컬 저장소에 사용자 정보 저장
       await _saveUserInfo(googleUser.displayName, googleUser.email);
@@ -68,9 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
-                  SizedBox(width: 16),  // 두 항목 사이에 여백을 줄 수 있습니다
-                  Expanded(
+            const SizedBox(width: 16),
+            Expanded(
                     child: _loginButton(
                       'google_logo',
                       signInWithGoogle,
