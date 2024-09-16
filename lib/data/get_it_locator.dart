@@ -10,9 +10,6 @@ final GetIt getIt = GetIt.instance;
 void setupServiceLocator() {
   getIt.registerLazySingleton<Dio>(() => Dio());
 
-  // 서비스 등록
-  // getIt.registerLazySingleton<UserService>(() => UserService(getIt<ApiClient>()));
-
   // 레포지토리 등록
   getIt.registerLazySingleton<UserRepository>(
       () => UserRepositoryImpl(getIt<UserService>()));
