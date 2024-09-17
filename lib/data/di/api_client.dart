@@ -17,8 +17,8 @@ class ApiClient {
   ApiClient._internal() {
     _dio = Dio(BaseOptions(
       baseUrl: FlutterConfig.get("base_url"),
-      connectTimeout: Duration(seconds: 5),
-      receiveTimeout: Duration(seconds: 3),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 15),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -29,9 +29,11 @@ class ApiClient {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         // final token = await _storage.read(key: 'auth_token');
+        /**
+         * 현재 token 발급 api가 없으므로 FlutterConfig에 저장한 임시 토큰을 끼웁니다.
+         * 추후 FlutterSecureStorage로 이관합니다.
+         */
 
-        // 현재 token 발급 api가 없으므로 FlutterConfig에 저장한 임시 토큰을 끼웁니다.
-        // 추후 FlutterSecureStorage로 이관합니다.
         var token = FlutterConfig.get("mento_token");
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';

@@ -9,13 +9,21 @@ import 'package:get_it/get_it.dart';
 final GetIt getIt = GetIt.instance;
 
 void setupServiceLocator() {
+  /**
+   * dio 등록
+   */
   getIt.registerLazySingleton<Dio>(() => Dio());
 
-  // 레포지토리 등록
+  /**
+   * 레포지토리 등록
+   */
+
   getIt.registerLazySingleton<UserRepository>(
       () => UserRepositoryImpl(getIt<UserService>()));
 
-  // 뷰모델 등록
+  /**
+   * 뷰모델 등록
+   */
   getIt.registerFactory<LoginViewModel>(() => LoginViewModel());
 
   getIt.registerFactory<PhoneNumberVerificationViewModel>(() =>
