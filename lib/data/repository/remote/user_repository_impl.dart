@@ -11,17 +11,13 @@ class UserRepositoryImpl implements UserRepository {
   Future<SmsVerificationResult> requestSmsVerification(
       String phoneNumber) async {
     try {
-      final response = await _userService.sendVerificationCode(phoneNumber);
+      final SmsVerificationResult response =
+          await _userService.sendVerificationCode(phoneNumber);
 
-      // 성공적인 응답을 처리하고 Freezed 모델로 반환
-      return SmsVerificationResult.success(
-        verificationCode: response['verificationCode'],
-        message: response['message'],
-      );
+      return response;
     } catch (e) {
-      // 오류 발생 시 Failure 상태 반환
       return SmsVerificationResult.failure(
-        errorMessage: 'Error requesting SMS verification: $e',
+        errorMessage: 'Error requesting SMS verification: ${e.toString()}',
       );
     }
   }
