@@ -1,6 +1,6 @@
 import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/data/repository/user_repository_impl.dart';
+import 'package:cogo/data/repository/remote/user_repository_impl.dart';
 import 'package:cogo/features/auth/signup/view_models/shared_views/phone_number_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

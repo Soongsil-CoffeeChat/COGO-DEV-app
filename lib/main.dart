@@ -5,8 +5,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 import 'common/db/locale_manager.dart';
-import 'common/navigator/view_model/bottom_navigation_bar_view_model.dart';
-import 'data/get_it_locator.dart';
+import 'data/di/get_it_locator.dart';
+import 'features/auth/login/login_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,15 +14,20 @@ void main() async {
   await LocaleManager.preferencesInit();  // SharedPreferences 초기화
   await initializeDateFormatting('ko_KR', null);
 
-  //get it
-  setupServiceLocator();
+  setupServiceLocator(); //get it
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider.value(
-          value: BottomNavigationViewModel(AppRouter)),
+      ChangeNotifierProvider(create: (_) => LoginViewModel()),
     ],
-    child: const MyApp(),
+    child: MyApp(),
+
+    //   MultiProvider(
+    // providers: [
+    //   ChangeNotifierProvider.value(
+    //       value: BottomNavigationViewModel(AppRouter)),
+    // ],
+    // child: const MyApp(),
   ));
 }
 

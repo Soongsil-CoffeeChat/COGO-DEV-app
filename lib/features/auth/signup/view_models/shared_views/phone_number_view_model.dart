@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../data/repository/user_repository.dart';
+import '../../../../../data/repository/remote/user_repository.dart';
 
 class PhoneNumberVerificationViewModel extends ChangeNotifier {
   final UserRepository userRepository;
@@ -68,9 +68,9 @@ class PhoneNumberVerificationViewModel extends ChangeNotifier {
       final cleanedPhoneNumber = phoneController.text.replaceAll('-', '');
 
       final result =
-          await userRepository.requestSmsVerification(cleanedPhoneNumber!);
+          await userRepository.requestSmsVerification(cleanedPhoneNumber);
 
-      _verificationCode = result['verificationCode'];
+      // _verificationCode = result['verificationCode'];
       notifyListeners();
     }
   }

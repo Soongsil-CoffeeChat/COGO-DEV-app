@@ -36,7 +36,7 @@ class ApiClient {
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
-        print('요청 보내는 중: ${options.method} ${options.path}');
+        log('요청 보내는 중: ${options.method} ${options.path}');
         return handler.next(options);
       },
       onResponse: (response, handler) {
