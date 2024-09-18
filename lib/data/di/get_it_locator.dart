@@ -26,7 +26,6 @@ void setupServiceLocator() {
    */
   getIt.registerFactory<LoginViewModel>(() => LoginViewModel());
 
-  getIt.registerFactory<PhoneNumberVerificationViewModel>(() =>
-      PhoneNumberVerificationViewModel(
-          userRepository: getIt<UserRepository>()));
+  getIt.registerFactory<PhoneNumberViewModel>(
+      () => PhoneNumberViewModel(userRepository: getIt<UserRepository>()));
 }

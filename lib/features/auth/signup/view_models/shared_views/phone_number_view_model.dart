@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../constants/paths.dart';
 import '../../../../../data/repository/remote/user_repository.dart';
 
-class PhoneNumberVerificationViewModel extends ChangeNotifier {
+class PhoneNumberViewModel extends ChangeNotifier {
   final UserRepository userRepository;
 
   String? _phoneNumber;
-  String? _verificationCode;
+  String? _verificationCode; //서버한테 받을 코드
   String? _message;
-  bool _isLoading = false;
-
-  String? get phoneNumber => _phoneNumber;
 
   String? get verificationCode => _verificationCode;
 
   String? get message => _message;
-
-  bool get isLoading => _isLoading;
 
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
@@ -28,7 +24,7 @@ class PhoneNumberVerificationViewModel extends ChangeNotifier {
 
   bool isPhoneNumberSubmitted = false;
 
-  PhoneNumberVerificationViewModel({required this.userRepository}) {
+  PhoneNumberViewModel({required this.userRepository}) {
     // 전화번호와 인증번호 입력 필드에 리스너 추가
     phoneController.addListener(_validatePhoneNumber);
     codeController.addListener(_validateCode);
@@ -48,6 +44,7 @@ class PhoneNumberVerificationViewModel extends ChangeNotifier {
   }
 
   void _validatePhoneNumber() {
+    // 전화번호가 규격에 맞는지
     final phoneNumber = phoneController.text.replaceAll('-', '');
     final regex = RegExp(r'^\d{3}\d{4}\d{4}$'); // 전화번호 형식 확인
     final isValid = regex.hasMatch(phoneNumber);
@@ -56,7 +53,9 @@ class PhoneNumberVerificationViewModel extends ChangeNotifier {
   }
 
   void _validateCode() {
-    isValidCode.value = codeController.text.isNotEmpty;
+    // 인증코드가 입력되었는지
+    isValidCode.value =
+        codeController.text.isNotEmpty; //인증코드가 비었는지를 왜 코드가 매치인거지?
   }
 
   Future<void> onPhoneNumberSubmitted() async {
@@ -69,15 +68,28 @@ class PhoneNumberVerificationViewModel extends ChangeNotifier {
 
       final result =
           await userRepository.requestSmsVerification(cleanedPhoneNumber);
-
-      // _verificationCode = result['verificationCode'];
-      notifyListeners();
+      result.when(
+        success: (verificationCode, message) {
+          _verificationCode = verificationCode;
+          _message = message;
+          notifyListeners();
+        },
+        failure: (errorMessage) {
+          _message = errorMessage;
+          notifyListeners();
+        },
+      );
     }
   }
 
   void onVerificationCodeSubmitted(BuildContext context) {
     if (isValidCode.value) {
-      context.push('/agreement/name');
+      // 사용자가 입력한 인증번호와 서버에서 받은 인증번호를 비교
+      if (_verificationCode == codeController.text) {
+        context.push("${Paths.agreement}/${Paths.name}");
+      } else {
+        errorMessage.value = '인증번호가 일치하지 않습니다.';
+      }
     }
   }
 }
