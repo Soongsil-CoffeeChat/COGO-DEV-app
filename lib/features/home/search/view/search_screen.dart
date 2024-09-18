@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/common/widgets/atoms/texts/texts.dart';
 import 'package:cogo/features/home/search/view_model/search_view_model.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -42,7 +41,7 @@ class SearchScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(30.0),
                                 border: Border.all(color: Colors.black),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -50,7 +49,7 @@ class SearchScreen extends StatelessWidget {
                                       spacing: 5.0,
                                       runSpacing: 5.0,
                                       children: viewModel.selectedTags
-                                          .map((tag) => _buildTagChip(context, viewModel, tag)) // Chip을 별도 함수로 분리
+                                          .map((tag) => _buildTagChip(context, viewModel, tag)) //tag 함수
                                           .toList(),
                                     ),
                                   ),
@@ -81,7 +80,7 @@ class SearchScreen extends StatelessWidget {
                           // 파트 선택 버튼
                           const Text(
                             '파트',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                            style: CogoTextStyle.caption2,
                           ),
                           const SizedBox(height: 15),
                           Row(
@@ -142,7 +141,7 @@ class SearchScreen extends StatelessWidget {
                           const SizedBox(height: 15),
                           const Text(
                             '동아리',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                            style: CogoTextStyle.caption2,
                           ),
                           const SizedBox(height: 15),
                           Row(
@@ -208,7 +207,7 @@ class SearchScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.black,
       deleteIconColor: Colors.white,
-      deleteIcon: const Icon(Icons.close),
+      deleteIcon: SvgPicture.asset('assets/icons/button/glyph.svg'),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
