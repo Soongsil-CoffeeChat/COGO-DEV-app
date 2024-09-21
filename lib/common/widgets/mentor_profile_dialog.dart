@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
+import 'package:cogo/features/mypage/profile_management/views/mentor_introduction_screen.dart';
 
 class MentorProfileDialog extends StatelessWidget {
   const MentorProfileDialog({Key? key}) : super(key: key);
@@ -46,7 +46,8 @@ class MentorProfileDialog extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    context.push(Paths.mentorIntroduction);
+                    // 페이지 전환 애니메이션을 아래에서 위로 변경
+                    Navigator.of(context).push(_createRoute());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: CogoColor.buttonBackground,
@@ -62,6 +63,25 @@ class MentorProfileDialog extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  // 아래에서 위로 슬라이딩하는 페이지 전환 애니메이션
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => MentorIntroductionScreen(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0); // 아래에서 시작
+        const end = Offset.zero; // 끝에서 멈춤 (화면에 완전히 표시됨)
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
     );
   }
 }
