@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'common/navigator/view_model/bottom_navigation_bar_view_model.dart';
 import 'package:cogo/route/routes.dart';
 import 'common/db/locale_manager.dart';
+import 'package:cogo/features/home/home/view_model/home_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,8 @@ void main() async {
     providers: [
       ChangeNotifierProvider.value(
           value: BottomNavigationViewModel(AppRouter)),
+      // Home에서 initState()에 provider를 상위로 두기 위함
+      ChangeNotifierProvider(create: (_) => HomeViewModel()),
     ],
     child: const MyApp(),
   ));

@@ -38,7 +38,7 @@ class ChooseRoleScreen extends StatelessWidget {
                             children: [
                               CustomButton(
                                 text: '멘토',
-                                isSelected: viewModel.selectedRole == '멘토',
+                                isSelected: viewModel.selectedRole == 'mentor',
                                 onPressed: () {
                                   viewModel.selectRole('멘토', context);
                                 },
@@ -46,7 +46,7 @@ class ChooseRoleScreen extends StatelessWidget {
                               SizedBox(width: 10),
                               CustomButton(
                                 text: '멘티',
-                                isSelected: viewModel.selectedRole == '멘티',
+                                isSelected: viewModel.selectedRole == 'mentee',
                                 onPressed: () {
                                   viewModel.selectRole('멘티', context);
                                 },
