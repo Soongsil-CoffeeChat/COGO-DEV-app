@@ -23,7 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
 
       // ViewModel의 role과 isIntroductionComplete 값으로 다이얼로그 표시 여부 결정
-      if (viewModel.selectedRole == 'mentor' && !viewModel.isIntroductionComplete) {
+      if (viewModel.selectedRole == 'mentor' &&
+          !viewModel.isIntroductionComplete) {
         _showMentorProfileDialog(context);
       }
     });
@@ -41,11 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: _text(),
-                ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 _buildProfileCardList(context),
               ],
             ),
@@ -60,9 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
       scrolledUnderElevation: 0,
       backgroundColor: Colors.white,
       elevation: 0,
-      title: const Text(
-        'COGO',
-        style: CogoTextStyle.header1,
+      title: SvgPicture.asset(
+        'assets/cogo_logo.svg',
+        height: 18,
       ),
       centerTitle: false,
       actions: [
@@ -81,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(width: 16),
       ],
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0),
+        preferredSize: const Size.fromHeight(60.0),
         child: Column(
           children: [
             HorizontalButtonList(
@@ -91,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     .onButtonPressed(context, title);
               },
             ),
+            const SizedBox(height: 10),
             Divider(
               height: 1,
               color: Colors.grey[300],
@@ -101,58 +99,45 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _text() {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '어떤 동아리 선배가 있을까요?',
-          style: CogoTextStyle.header2,
-        ),
-        SizedBox(height: 4),
-        Text(
-          '동아리별 코고 선배 알아보기',
-          style: CogoTextStyle.caption2,
-        ),
-      ],
-    );
-  }
-
   Widget _buildProfileCardList(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (context, viewModel, child) {
-        return SizedBox(
-          height: 300,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: viewModel.profiles.length,
-            itemBuilder: (context, index) {
-              final profile = viewModel.profiles[index];
-
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: HorizontalProfileCard(
-                  imagePath: profile['imagePath'],
-                  name: profile['name'],
-                  clubName: profile['clubName'],
-                  tags: profile['tags'],
-                  onTap: () {
-                    // role이 mentor이고, 자기소개가 완료되지 않았다면 다이얼로그 띄우기
-                    if (viewModel.selectedRole == 'mentor' &&
-                        !viewModel.isIntroductionComplete) {
-                      _showMentorProfileDialog(context);
-                    } else {
-                      // 자기소개가 완료되었으면 해당 프로필 상세 페이지로 이동
-                      context.push(
-                        Paths.profileDetail,
-                        extra: profile,
-                      );
-                    }
-                  },
-                ),
-              );
-            },
-          ),
+        return ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          // Nested scroll 방지
+          shrinkWrap: true,
+          // 리스트 크기 고정
+          scrollDirection: Axis.vertical,
+          // 세로로 스크롤
+          itemCount: viewModel.profiles.length,
+          itemBuilder: (context, index) {
+            final profile = viewModel.profiles[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 8.0, horizontal: 16.0), // 세로와 양쪽 마진 추가
+              child: ProfileCard(
+                imagePath: profile['imagePath'],
+                name: profile['name'],
+                tittle: profile['tittle'],
+                description: profile['description'],
+                clubName: profile['clubName'],
+                tags: profile['tags'],
+                onTap: () {
+                  // role이 mentor이고, 자기소개가 완료되지 않았다면 다이얼로그 띄우기
+                  if (viewModel.selectedRole == 'mentor' &&
+                      !viewModel.isIntroductionComplete) {
+                    _showMentorProfileDialog(context);
+                  } else {
+                    // 자기소개가 완료되었으면 해당 프로필 상세 페이지로 이동
+                    context.push(
+                      Paths.profileDetail,
+                      extra: profile,
+                    );
+                  }
+                },
+              ),
+            );
+          },
         );
       },
     );

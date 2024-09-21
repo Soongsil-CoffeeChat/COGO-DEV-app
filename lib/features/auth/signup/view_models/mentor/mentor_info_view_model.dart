@@ -35,7 +35,7 @@ class MentorInfoViewModel extends ChangeNotifier {
     isButtonClicked = true;
     notifyListeners();
     Future.delayed(Duration(milliseconds: 300), () {
-      context.push('/agreement/mentor_completion');
+      context.push('/agreement/completion');
     });
   }
 }

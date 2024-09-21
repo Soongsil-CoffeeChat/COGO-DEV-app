@@ -19,7 +19,7 @@ final class TagText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       data,
-      style: CogoTextStyle.tagText.copyWith(
+      style: CogoTextStyle.tagText2.copyWith(
         color: color,
       ),
       textAlign: align,
