@@ -1,8 +1,8 @@
+import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cogo/constants/paths.dart';
+import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/features/home/search/view_model/search_view_model.dart';
 
@@ -18,7 +18,7 @@ class SearchScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          scrolledUnderElevation: 0, // appbar 컬러 오류 해결
+          scrolledUnderElevation: 0,
           leading: IconButton(
             icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: () => Navigator.of(context).pop(),
@@ -26,78 +26,234 @@ class SearchScreen extends StatelessWidget {
           centerTitle: true,
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
+          minimum: const EdgeInsets.only(bottom: 10.0), // SafeArea 하단 10
+          child: Consumer<SearchViewModel>(
+            builder: (context, viewModel, child) {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Consumer<SearchViewModel>(
-                        builder: (context, viewModel, child) {
-                          return TextField(
-                            controller: viewModel.searchController,
-                            onChanged: (text) {
-                              // This is optional if you want to perform live search as the user types
-                            },
-                            decoration: InputDecoration(
-                              hintText: '동아리, 분야, 학과로 검색하기',
-                              border: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    // 검색어 입력 및 태그 표시
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.0),
+                                border: Border.all(color: Colors.black),
                               ),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
-                              suffixIcon: IconButton(
-                                icon: SvgPicture.asset('assets/icons/button/search.svg'),
-                                onPressed: () {
-                                  viewModel.search(viewModel.searchController.text);
-                                },
+                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Wrap(
+                                      spacing: 5.0,
+                                      runSpacing: 5.0,
+                                      children: viewModel.selectedTags
+                                          .map((tag) => _buildTagChip(context, viewModel, tag)) // tag 함수
+                                          .toList(),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: SvgPicture.asset('assets/icons/button/search.svg'),
+                                    onPressed: () {
+                                      // 검색 버튼 클릭 시 검색 실행
+                                      if (viewModel.selectedTags.isEmpty) {
+                                        viewModel.clearSearch(); // 태그가 없으면 검색 초기화
+                                      } else {
+                                        viewModel.search(viewModel.selectedTags.join(' '));
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
                     ),
+                    // 선택된 태그가 없으면 버튼들 표시
+                    if (!viewModel.hasSearched) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 5),
+                            const Text(
+                              '파트',
+                              style: CogoTextStyle.caption2,
+                            ),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomButton(
+                                  text: 'FE',
+                                  isSelected: viewModel.isTagSelected('FE'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('FE');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
+                                CustomButton(
+                                  text: 'BE',
+                                  isSelected: viewModel.isTagSelected('BE'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('BE');
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomButton(
+                                  text: 'Mobile',
+                                  isSelected: viewModel.isTagSelected('Mobile'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('Mobile');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
+                                CustomButton(
+                                  text: '기획',
+                                  isSelected: viewModel.isTagSelected('기획'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('기획');
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomButton(
+                                  text: '디자인',
+                                  isSelected: viewModel.isTagSelected('디자인'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('디자인');
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            const Text(
+                              '동아리',
+                              style: CogoTextStyle.caption2,
+                            ),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomButton(
+                                  text: 'GDSC',
+                                  isSelected: viewModel.isTagSelected('GDSC'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('GDSC');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
+                                CustomButton(
+                                  text: 'YOURSSU',
+                                  isSelected: viewModel.isTagSelected('YOURSSU'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('YOURSSU');
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomButton(
+                                  text: 'UMC',
+                                  isSelected: viewModel.isTagSelected('UMC'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('UMC');
+                                  },
+                                ),
+                                const SizedBox(width: 10),
+                                CustomButton(
+                                  text: 'LIKELION',
+                                  isSelected: viewModel.isTagSelected('LIKELION'),
+                                  onPressed: () {
+                                    viewModel.toggleTagSelection('LIKELION');
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                    // 검색 결과가 있으면 프로필 카드를 표시하고, 버튼들을 없앰
+                    if (viewModel.hasSearched && viewModel.selectedTags.isNotEmpty)
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.7, // 화면의 70% 차지
+                        child: viewModel.searchResults.isNotEmpty
+                            ? ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          itemCount: viewModel.searchResults.length,
+                          itemBuilder: (context, index) {
+                            final profile = viewModel.searchResults[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: _buildProfileCard(context, profile),
+                            );
+                          },
+                        )
+                            : const Center(child: Text('검색 결과가 없습니다.')),
+                      ),
                   ],
                 ),
-              ),
-              Expanded(
-                child: Consumer<SearchViewModel>(
-                  builder: (context, viewModel, child) {
-                    if (viewModel.searchResults.isEmpty) {
-                      return const Center(
-                        child: Text('검색 결과가 없습니다.'),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: viewModel.searchResults.length,
-                        itemBuilder: (context, index) {
-                          final profile = viewModel.searchResults[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: VerticalProfileCard(
-                              imagePath: profile['imagePath'],
-                              name: profile['name'],
-                              clubName: profile['clubName'],
-                              tags: profile['tags'],
-                              description: profile['description'],
-                              onTap: () {
-                                context.push(
-                                  Paths.profileDetail,
-                                  extra: profile,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
+    );
+  }
+
+  // 검색창 태그 위젯
+  Widget _buildTagChip(BuildContext context, SearchViewModel viewModel, String tag) {
+    return Chip(
+      label: Text(
+        tag,
+        style: CogoTextStyle.smallButtonText,
+      ),
+      backgroundColor: Colors.black,
+      deleteIconColor: Colors.white,
+      deleteIcon: SvgPicture.asset('assets/icons/button/glyph.svg'),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      onDeleted: () {
+        viewModel.toggleTagSelection(tag);
+      },
+    );
+  }
+
+  // 프로필 카드 위젯을 별도 함수로 분리
+  Widget _buildProfileCard(BuildContext context, dynamic profile) {
+    return ProfileCard(
+      imagePath: profile.imagePath,
+      name: profile.name,
+      tittle: profile.tittle,
+      description: profile.description,
+      clubName: profile.clubName,
+      tags: profile.tags,
+      onTap: () {
+        context.push(
+          Paths.profileDetail,
+          extra: profile,
+        );
+      },
     );
   }
 }
