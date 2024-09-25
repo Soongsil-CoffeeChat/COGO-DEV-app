@@ -14,6 +14,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
       create: (_) => PhoneNumberVerificationViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: true,  // 키도브 오버 플로우 해결
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
