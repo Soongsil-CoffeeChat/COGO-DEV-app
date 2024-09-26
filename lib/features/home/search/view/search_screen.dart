@@ -1,3 +1,5 @@
+import 'package:cogo/constants/colors.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -82,9 +84,9 @@ class SearchScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 5),
-                            const Text(
+                            Text(
                               '파트',
-                              style: CogoTextStyle.caption2,
+                              style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
                             ),
                             const SizedBox(height: 15),
                             Row(
@@ -142,9 +144,9 @@ class SearchScreen extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 15),
-                            const Text(
+                            Text(
                               '동아리',
-                              style: CogoTextStyle.caption2,
+                              style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
                             ),
                             const SizedBox(height: 15),
                             Row(
@@ -225,7 +227,7 @@ class SearchScreen extends StatelessWidget {
     return Chip(
       label: Text(
         tag,
-        style: CogoTextStyle.smallButtonText,
+        style: CogoTextStyle.body12.copyWith(color: CogoColor.white50),
       ),
       backgroundColor: Colors.black,
       deleteIconColor: Colors.white,

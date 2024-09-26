@@ -33,7 +33,7 @@ class MentorProfileDialog extends StatelessWidget {
                     child: Text(
                       '멘토 활동을 시작하려면\n프로필 작성을 완료해주세요',
                       textAlign: TextAlign.left,
-                      style: CogoTextStyle.header2,
+                      style: CogoTextStyle.body16,
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -42,7 +42,7 @@ class MentorProfileDialog extends StatelessWidget {
                     child: Text(
                       '입력하신 정보는 하단의 MY에서 수정이 가능해요',
                       textAlign: TextAlign.left,
-                      style: CogoTextStyle.caption2,
+                      style: CogoTextStyle.body12,
                     ),
                   ),
 
@@ -58,12 +58,12 @@ class MentorProfileDialog extends StatelessWidget {
                         Navigator.of(context).push(_createRoute());
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: CogoColor.buttonBackground,
+                        backgroundColor: CogoColor.systemGray05,
                         minimumSize: const Size(double.infinity, 50),
                       ),
-                      child: const Text(
+                      child: Text(
                         '멘토 프로필 작성하기',
-                        style: CogoTextStyle.buttonText,
+                        style: CogoTextStyle.button1.copyWith(color: CogoColor.white50),
                       ),
                     ),
                   ),
