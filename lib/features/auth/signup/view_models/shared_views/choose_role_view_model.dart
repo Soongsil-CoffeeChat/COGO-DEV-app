@@ -13,9 +13,9 @@ class SignupChooseViewModel extends ChangeNotifier {
     await LocaleManager.instance.setStringValue('selectedRole', role);
 
     // 역할에 따라 라우팅
-    if (role == '멘토') {
+    if (role == 'metor') {
       context.push('/agreement/mentor_interest');
-    } else if (role == '멘티') {
+    } else if (role == 'mentee') {
       context.push('/agreement/mentee_interest');
     }
   }

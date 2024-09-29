@@ -8,6 +8,7 @@ import 'common/db/locale_manager.dart';
 import 'data/di/get_it_locator.dart';
 import 'features/auth/login/login_view_model.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables(); // env

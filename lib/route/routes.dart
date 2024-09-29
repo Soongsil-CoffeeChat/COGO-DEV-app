@@ -23,6 +23,7 @@ import 'package:cogo/features/home/search/view/search_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cogo/features/mypage/profile_management/views/mentor_introduction_screen.dart';
 
 import '../features/auth/signup/views/shared_views/completion_screen.dart';
 
@@ -109,7 +110,7 @@ final AppRouter = GoRouter(
       },
       branches: [
         _createBranch(Paths.home, const HomeScreen()),
-        _createBranch(Paths.cogo, CogoScreen()),
+        _createBranch(Paths.cogo, const CogoScreen()),
         _createBranch(Paths.mypage, MypageScreen()),
       ],
     ),
@@ -174,6 +175,13 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const SuccessedCogoDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.mentorIntroduction,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorIntroductionScreen(),
       ),
     ),
   ],
