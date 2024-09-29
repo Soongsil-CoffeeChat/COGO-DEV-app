@@ -1,7 +1,7 @@
+import 'package:cogo/data/model/sms_verification_result.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:dio/dio.dart';
 
-import '../../model/sms_verification_result.dart';
-import '../../service/user_service.dart';
 import 'user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
@@ -15,14 +15,7 @@ class UserRepositoryImpl implements UserRepository {
     try {
       return await _userService.sendVerificationCode(phoneNumber);
     } on DioException catch (error) {
-      // if (error.response?.statusCode == 400) {
-      //   return SmsVerificationResult(
-      //     message: error.response?.data['message'] ??
-      //         'Failed to send verification code',
-      //   );
-      // } else {
       throw Exception('Network error: ${error.message}');
-      // }
     }
   }
 }

@@ -1,21 +1,18 @@
 import 'dart:developer';
 
+import 'package:cogo/constants/paths.dart';
+import 'package:cogo/data/repository/remote/user_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../constants/paths.dart';
-import '../../../../../data/repository/remote/user_repository.dart';
-
 class PhoneNumberViewModel extends ChangeNotifier {
   final UserRepository userRepository;
 
-  String? _phoneNumber;
   String? _verificationCode; //서버한테 받을 코드
   String? _message;
 
   String? get verificationCode => _verificationCode;
-
   String? get message => _message;
 
   final TextEditingController phoneController = TextEditingController();
@@ -67,7 +64,6 @@ class PhoneNumberViewModel extends ChangeNotifier {
     if (isValidPhoneNumber.value) {
       isPhoneNumberSubmitted = true;
       showVerificationField.value = true; // 인증번호 필드 표시
-      _phoneNumber = phoneController.text; // phoneController의 텍스트 사용
       final cleanedPhoneNumber = phoneController.text.replaceAll('-', '');
 
       try {

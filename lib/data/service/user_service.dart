@@ -1,11 +1,10 @@
 import 'dart:developer';
 
+import 'package:cogo/constants/apis.dart';
+import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/model/base_response.dart';
+import 'package:cogo/data/model/sms_verification_result.dart';
 import 'package:dio/dio.dart';
-
-import '../../constants/apis.dart';
-import '../di/api_client.dart';
-import '../model/sms_verification_result.dart';
 
 class UserService {
   final ApiClient _apiClient = ApiClient();
