@@ -20,17 +20,24 @@ import 'package:cogo/features/home/apply/views/schedule_screen.dart';
 import 'package:cogo/features/home/home/view/home_screen.dart';
 import 'package:cogo/features/home/profile/view/profile_detail_screen.dart';
 import 'package:cogo/features/home/search/view/search_screen.dart';
+import 'package:cogo/features/mypage/profile_management/views/mentor_introduction_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
+import 'package:cogo/features/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cogo/features/mypage/profile_management/views/mentor_introduction_screen.dart';
 
 import '../features/auth/signup/views/shared_views/completion_screen.dart';
 
 final AppRouter = GoRouter(
   // initialLocation: '/',
-  initialLocation: Paths.login,
+  initialLocation: Paths.splash,
   routes: [
+    GoRoute(
+        path: Paths.splash,
+        pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: const SplashScreen(),
+            )),
     GoRoute(
       path: Paths.login,
       pageBuilder: (context, state) => MaterialPage(
