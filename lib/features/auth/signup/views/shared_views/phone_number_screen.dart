@@ -1,9 +1,12 @@
+import 'package:cogo/common/utils/phone_number_input_formatter.dart';
+import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/data/repository/remote/user_repository_impl.dart';
+import 'package:cogo/features/auth/signup/view_models/shared_views/phone_number_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/view_models/shared_views/phone_number_view_model.dart';
-import 'package:cogo/common/utils/phone_number_input_formatter.dart';
-import 'package:cogo/common/widgets/header.dart';
+
+import '../../../../../data/service/user_service.dart';
 
 class PhoneNumberVerificationScreen extends StatelessWidget {
   const PhoneNumberVerificationScreen({super.key});
@@ -11,7 +14,12 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => PhoneNumberVerificationViewModel(),
+      // PhoneNumberVerificationViewModel에 UserRepositoryImpl 주입
+      create: (_) => PhoneNumberVerificationViewModel(
+        userRepository: UserRepositoryImpl(
+          UserService(), // UserService 인스턴스 생성 후 UserRepositoryImpl에 주입
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(

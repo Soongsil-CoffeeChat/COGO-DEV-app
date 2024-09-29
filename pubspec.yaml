@@ -35,11 +35,28 @@ dependencies:
   #날 형식 변환
   intl: ^0.18.0
 
+  #구글 로그인
+  google_sign_in: ^6.2.1
+
+  #토큰 저장소
+  flutter_secure_storage: ^8.0.0
+  flutter_config: ^2.0.2
+
+  #DI
+  get_it: ^7.7.0
+
+  #모델 만들기
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^3.0.0
+  build_runner: ^2.4.12
+  freezed: ^2.5.7
+  json_serializable: ^6.8.0
 
 flutter:
   uses-material-design: true
@@ -49,6 +66,7 @@ flutter:
     - assets/icons/navigator/
     - assets/icons/3d_img/
     - assets/icons/button/
+    - assets/image/
 
   fonts:
     - family: PretendardRegular

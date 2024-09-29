@@ -1,5 +1,6 @@
 abstract class Paths {
   Paths._();
+  static const String login = '/login';
   static const String agreement = '/agreement';
   static const String phone = 'phone';
   static const String name = 'name';
