@@ -227,7 +227,7 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-android/app/google-services.json
+android/app/google-service.json
 
 .env*
 
