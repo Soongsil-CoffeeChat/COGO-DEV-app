@@ -1,14 +1,14 @@
 import 'dart:developer';
 
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 class ApiClient {
-  //싱글톤으로 인스턴스 생성
-  static final ApiClient _instance = ApiClient._internal();
+  static final ApiClient _instance = ApiClient._internal(); //싱글톤으로 인스턴스 생성
   late Dio _dio;
-
-  // final FlutterSecureStorage _storage = FlutterSecureStorage();
+  final SecureStorageRepository _secureStorage = SecureStorageRepository();
+  static const apiVersion = "api/v2/";
 
   factory ApiClient() {
     return _instance;
@@ -16,7 +16,7 @@ class ApiClient {
 
   ApiClient._internal() {
     _dio = Dio(BaseOptions(
-      baseUrl: FlutterConfig.get("base_url"),
+      baseUrl: FlutterConfig.get("base_url") + apiVersion,
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 15),
       headers: {
@@ -28,13 +28,8 @@ class ApiClient {
     // 인터셉터 추가
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        // final token = await _storage.read(key: 'auth_token');
-        /**
-         * 현재 token 발급 api가 없으므로 FlutterConfig에 저장한 임시 토큰을 끼웁니다.
-         * 추후 FlutterSecureStorage로 이관합니다.
-         */
+        final token = await _secureStorage.readData('auth_token');
 
-        var token = FlutterConfig.get("mento_token");
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
