@@ -1,7 +1,7 @@
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
-import 'package:cogo/data/model/base_response.dart';
-import 'package:cogo/data/model/sms_verification_result.dart';
+import 'package:cogo/data/dto/base_response.dart';
+import 'package:cogo/data/dto/sms_verification_result_response.dart';
 import 'package:dio/dio.dart';
 
 class UserService {

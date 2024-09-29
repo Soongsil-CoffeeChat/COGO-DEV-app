@@ -1,4 +1,4 @@
-import 'package:cogo/data/model/sms_verification_result.dart';
+import 'package:cogo/data/dto/sms_verification_result_response.dart';
 import 'package:cogo/data/service/user_service.dart';
 
 import 'user_repository.dart';
