@@ -69,15 +69,12 @@ class PhoneNumberViewModel extends ChangeNotifier {
       try {
         final result =
             await userRepository.requestSmsVerification(cleanedPhoneNumber);
-        log("Result from server: $result"); // Log the entire result
-
         if (result != null && result.verificationCode != null) {
           _verificationCode = result.verificationCode;
           log("Received verificationCode: $_verificationCode"); // Log the verification code
         } else {
           log("Received result is null or doesn't contain verificationCode");
         }
-
         notifyListeners();
       } catch (e) {
         log("Exception occurred: $e");
@@ -87,12 +84,6 @@ class PhoneNumberViewModel extends ChangeNotifier {
         _message = 'An error occurred while sending verification code.';
         notifyListeners();
       }
-      // } on DioError catch (e) {
-      //   // 예외 처리 추가
-      //   log("Exception occurred: $e");
-      //   _message = 'An error occurred while sending verification code.';
-      //   notifyListeners();
-      // }
     }
   }
 
@@ -102,7 +93,7 @@ class PhoneNumberViewModel extends ChangeNotifier {
       log("verificationCode: $_verificationCode, codeController.text ${codeController.text}");
 
       if (_verificationCode == codeController.text) {
-        context.push("${Paths.agreement}/${Paths.name}");
+        context.push("${Paths.agreement}/${Paths.name}"); //Todo 이거 괜춘?
       } else {
         errorMessage.value = '인증번호가 일치하지 않습니다.';
       }
