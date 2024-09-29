@@ -1,19 +1,16 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+class SmsVerificationResult {
+  final String verificationCode;
+  final String message;
 
-part 'sms_verification_result.freezed.dart';
-part 'sms_verification_result.g.dart';
+  SmsVerificationResult({
+    required this.verificationCode,
+    required this.message,
+  });
 
-@freezed
-class SmsVerificationResult with _$SmsVerificationResult {
-  const factory SmsVerificationResult.success({
-    required String verificationCode,
-    required String message,
-  }) = Success;
-
-  const factory SmsVerificationResult.failure({
-    required String errorMessage,
-  }) = Failure;
-
-  factory SmsVerificationResult.fromJson(Map<String, dynamic> json) =>
-      _$SmsVerificationResultFromJson(json);
+  factory SmsVerificationResult.fromJson(Map<String, dynamic> json) {
+    return SmsVerificationResult(
+      verificationCode: json['verificationCode'].toString(),
+      message: json['message'] as String,
+    );
+  }
 }

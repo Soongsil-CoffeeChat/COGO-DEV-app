@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -59,6 +62,7 @@ class PhoneNumberViewModel extends ChangeNotifier {
   }
 
   Future<void> onPhoneNumberSubmitted() async {
+    //휴대폰 번호 제출 = 인증 코드 발송
     // 번호 제출
     if (isValidPhoneNumber.value) {
       isPhoneNumberSubmitted = true;
@@ -66,25 +70,41 @@ class PhoneNumberViewModel extends ChangeNotifier {
       _phoneNumber = phoneController.text; // phoneController의 텍스트 사용
       final cleanedPhoneNumber = phoneController.text.replaceAll('-', '');
 
-      final result =
-          await userRepository.requestSmsVerification(cleanedPhoneNumber);
-      result.when(
-        success: (verificationCode, message) {
-          _verificationCode = verificationCode;
-          _message = message;
-          notifyListeners();
-        },
-        failure: (errorMessage) {
-          _message = errorMessage;
-          notifyListeners();
-        },
-      );
+      try {
+        final result =
+            await userRepository.requestSmsVerification(cleanedPhoneNumber);
+        log("Result from server: $result"); // Log the entire result
+
+        if (result != null && result.verificationCode != null) {
+          _verificationCode = result.verificationCode;
+          log("Received verificationCode: $_verificationCode"); // Log the verification code
+        } else {
+          log("Received result is null or doesn't contain verificationCode");
+        }
+
+        notifyListeners();
+      } catch (e) {
+        log("Exception occurred: $e");
+        if (e is DioException) {
+          log("DioError details: ${e.response?.data}");
+        }
+        _message = 'An error occurred while sending verification code.';
+        notifyListeners();
+      }
+      // } on DioError catch (e) {
+      //   // 예외 처리 추가
+      //   log("Exception occurred: $e");
+      //   _message = 'An error occurred while sending verification code.';
+      //   notifyListeners();
+      // }
     }
   }
 
   void onVerificationCodeSubmitted(BuildContext context) {
     if (isValidCode.value) {
       // 사용자가 입력한 인증번호와 서버에서 받은 인증번호를 비교
+      log("verificationCode: $_verificationCode, codeController.text ${codeController.text}");
+
       if (_verificationCode == codeController.text) {
         context.push("${Paths.agreement}/${Paths.name}");
       } else {

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../model/sms_verification_result.dart';
 import '../../service/user_service.dart';
 import 'user_repository.dart';
@@ -11,14 +13,16 @@ class UserRepositoryImpl implements UserRepository {
   Future<SmsVerificationResult> requestSmsVerification(
       String phoneNumber) async {
     try {
-      final SmsVerificationResult response =
-          await _userService.sendVerificationCode(phoneNumber);
-
-      return response;
-    } catch (e) {
-      return SmsVerificationResult.failure(
-        errorMessage: 'Error requesting SMS verification: ${e.toString()}',
-      );
+      return await _userService.sendVerificationCode(phoneNumber);
+    } on DioException catch (error) {
+      // if (error.response?.statusCode == 400) {
+      //   return SmsVerificationResult(
+      //     message: error.response?.data['message'] ??
+      //         'Failed to send verification code',
+      //   );
+      // } else {
+      throw Exception('Network error: ${error.message}');
+      // }
     }
   }
 }

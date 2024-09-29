@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cogo/data/model/base_response.dart';
 import 'package:dio/dio.dart';
 
 import '../../constants/apis.dart';
@@ -18,11 +21,23 @@ class UserService {
       );
 
       if (response.statusCode == 200) {
-        return response.data;
+        log("Server response: ${response.data}"); //이거 됨
+        // response.data를 SmsVerificationResult 객체로 변환
+
+        // Wrapping the response into BaseResponse
+        final baseResponse = BaseResponse<SmsVerificationResult>.fromJson(
+          response.data,
+          (contentJson) => SmsVerificationResult.fromJson(contentJson),
+        );
+
+        log("content: ${baseResponse.content}"); //이거 안나옴
+        // Return the unwrapped content to the ViewModel
+        return baseResponse.content;
       } else {
         throw Exception('Failed to send verification code');
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
+      log("DioError: ${e.response?.data ?? e.message}");
       throw Exception('Error: ${e.response?.data ?? e.message}');
     }
   }
