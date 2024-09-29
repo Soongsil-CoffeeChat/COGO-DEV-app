@@ -14,7 +14,7 @@ class RefreshService {
       final response = await _apiClient.dio.get(
         Apis.getAccessToken,
         queryParameters: {
-          'authCode': authCode,
+          'accessToken ': authCode,
         },
       );
       if (response.statusCode == 200) {
