@@ -1,14 +1,15 @@
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
-import 'package:cogo/data/dto/base_response.dart';
-import 'package:cogo/data/dto/sms_verification_result_response.dart';
+import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/sms_verification_response.dart';
 import 'package:dio/dio.dart';
 
 class UserService {
   final ApiClient _apiClient = ApiClient();
 
   // GET /api/v2/users/sms - SMS 인증 요청
-  Future<SmsVerificationResult> sendVerificationCode(String phoneNumber) async {
+  Future<SmsVerificationResponse> sendVerificationCode(
+      String phoneNumber) async {
     try {
       final response = await _apiClient.dio.get(
         Apis.sendSms,
@@ -18,9 +19,9 @@ class UserService {
       );
       if (response.statusCode == 200) {
         //base response로 받는건 여기서 뿐임.
-        final baseResponse = BaseResponse<SmsVerificationResult>.fromJson(
+        final baseResponse = BaseResponse<SmsVerificationResponse>.fromJson(
           response.data,
-          (contentJson) => SmsVerificationResult.fromJson(contentJson),
+          (contentJson) => SmsVerificationResponse.fromJson(contentJson),
         );
         return baseResponse.content;
       } else {

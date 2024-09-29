@@ -1,5 +1,5 @@
-import '../../dto/token.dart';
+import 'package:cogo/data/dto/response/token_response.dart';
 
 abstract class RefreshRepository {
-  Future<Token?> getAccessToken(String authCode);
+  Future<TokenResponse?> getAccessToken(String authCode);
 }
