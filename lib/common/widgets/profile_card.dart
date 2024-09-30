@@ -1,3 +1,4 @@
+import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
 
@@ -80,17 +81,17 @@ class ProfileCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     '$name 멘토님',
-                    style: CogoTextStyle.tittle,
+                    style: CogoTextStyle.body20,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     tittle,
-                    style: CogoTextStyle.body1,
+                    style: CogoTextStyle.body14,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     description,
-                    style: CogoTextStyle.unselectedText2,
+                    style: CogoTextStyle.body12,
                   ),
                 ],
               ),
@@ -112,7 +113,7 @@ class ProfileCard extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: CogoTextStyle.tagText1,
+          style: CogoTextStyle.body12.copyWith(color: CogoColor.white50),
         ),
       ),
     );

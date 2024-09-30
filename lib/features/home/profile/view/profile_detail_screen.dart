@@ -12,6 +12,7 @@ class ProfileDetailScreen extends StatelessWidget {
       create: (context) => ProfileDetailViewModel(), // ViewModel 생성
       child: Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: true,  // 키도브 오버 플로우 해결
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,

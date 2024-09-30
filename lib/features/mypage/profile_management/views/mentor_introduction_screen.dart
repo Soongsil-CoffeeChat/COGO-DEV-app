@@ -1,3 +1,4 @@
+import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/widgets.dart';
@@ -12,6 +13,7 @@ class MentorIntroductionScreen extends StatelessWidget {
       create: (_) => MentorIntroductionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: true,  // 키보드 오버 플로우 해결
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -39,7 +41,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                           // 첫 번째 질문
                           const Text(
                             '어느 분야에서 멘토링 가능하신가요?',
-                            style: CogoTextStyle.header3,
+                            style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),
                           _buildTextFieldWithCounter(viewModel, '답변을 입력해주세요', viewModel.question2Controller, viewModel.question2CharCount, 200),
@@ -47,7 +49,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                           // 두 번째 질문
                           const Text(
                             '질문질문.... 자기소개 유도 질문...',
-                            style: CogoTextStyle.header3,
+                            style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),
                           _buildTextFieldWithCounter(viewModel, '답변을 입력해주세요', viewModel.question3Controller, viewModel.question3CharCount, 200),
@@ -112,7 +114,7 @@ class MentorIntroductionScreen extends StatelessWidget {
         maxLines: 1, // 한 줄로만 표현
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: CogoTextStyle.unselectedText2,
+          hintStyle: CogoTextStyle.body12,
           border: InputBorder.none,
           counterText: '', // 기본 카운터 숨기기
         ),
@@ -145,7 +147,7 @@ class MentorIntroductionScreen extends StatelessWidget {
             maxLines: 5,  // 여러 줄 입력 가능
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: CogoTextStyle.unselectedText2,
+              hintStyle: CogoTextStyle.body12,
               border: InputBorder.none,
               counterText: '', // 기본 카운터 숨기기
             ),
@@ -157,7 +159,7 @@ class MentorIntroductionScreen extends StatelessWidget {
         const SizedBox(height: 5),
         Text(
           '$currentCount/$maxCount', // 실시간으로 글자 수를 표시
-          style: CogoTextStyle.unselectedText2,
+          style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
         ),
       ],
     );
