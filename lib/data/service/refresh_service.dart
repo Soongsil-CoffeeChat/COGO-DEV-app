@@ -9,7 +9,10 @@ class RefreshService {
 // POST /auth/reissue/mobile -리소스 서버에서 받은 accessToken으로 서비스 accessToken 발급
   Future<String> getAccessToken(String authCode) async {
     try {
-      final response = await _apiClient.dio.get(
+      final response = await _apiClient.dio.post(
+        options: Options(
+          extra: {'skipAuthToken': true}, //토큰 해제
+        ),
         Apis.getAccessToken,
         queryParameters: {
           'accessToken': authCode,
@@ -18,7 +21,7 @@ class RefreshService {
       if (response.statusCode == 200) {
         //base response로 받는건 여기서 뿐임.
         final baseResponse = BaseResponse<String>.fromJson(
-          response.data,
+          response.data as Map<String, dynamic>,
           (contentJson) => contentJson.toString(),
         );
         return baseResponse.content;
@@ -26,7 +29,8 @@ class RefreshService {
         throw Exception('Failed to send verification code');
       }
     } on DioException catch (e) {
-      throw Exception('Error: ${e.response?.data ?? e.message}');
+      //애로 감 다
+      throw Exception('Error: ${e.response?.data.toString() ?? e.message}');
     }
   }
 }

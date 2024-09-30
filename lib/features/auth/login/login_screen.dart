@@ -1,4 +1,3 @@
-import 'package:cogo/data/repository/remote/refresh_repository_impl.dart';
 import 'package:cogo/data/service/refresh_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,9 +14,8 @@ class LoginScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       // PhoneNumberVerificationViewModel에 UserRepositoryImpl 주입
       create: (_) => LoginViewModel(
-        refreshRepository: RefreshRepositoryImpl(
-          RefreshService(), // UserService 인스턴스 생성 후 UserRepositoryImpl에 주입
-        ),
+        refreshService:
+            RefreshService(), // UserService 인스턴스 생성 후 UserRepositoryImpl에 주입
       ),
       child: Scaffold(
         body: SafeArea(

@@ -25,13 +25,15 @@ class ApiClient {
       },
     ));
 
-    // 인터셉터 추가
+    // Token Interceptor 추가
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final token = await _secureStorage.readData('auth_token');
-
-        if (token != null) {
-          options.headers['Authorization'] = 'Bearer $token';
+        // 특정 API에서만 토큰을 제외
+        if (options.extra['skipAuthToken'] != true) {
+          final token = await _secureStorage.readData('auth_token');
+          if (token != null) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
         }
         log('요청 보내는 중: ${options.method} ${options.path}');
         return handler.next(options);
@@ -48,7 +50,7 @@ class ApiClient {
       },
     ));
 
-    // LogInterceptor 추가
+    // Log Interceptor 추가
     _dio.interceptors.add(LogInterceptor(
       request: true,
       requestHeader: true,

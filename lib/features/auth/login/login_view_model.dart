@@ -2,19 +2,19 @@ import 'dart:developer';
 
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
-import 'package:cogo/data/repository/remote/refresh_repository.dart';
+import 'package:cogo/data/service/refresh_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final RefreshRepository refreshRepository;
+  final RefreshService refreshService;
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
   LoginPlatform get loginPlatform => _loginPlatform;
 
-  LoginViewModel({required this.refreshRepository});
+  LoginViewModel({required this.refreshService});
 
   Future<void> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -31,9 +31,9 @@ class LoginViewModel extends ChangeNotifier {
       var authCode = googleSignInAuthentication.accessToken;
 
       try {
-        final result = await refreshRepository.getAccessToken(authCode!);
+        final result = await refreshService.getAccessToken(authCode!);
 
-        await _saveUserInfo(googleUser.displayName, googleUser.email, result!);
+        await _saveUserInfo(googleUser.displayName, googleUser.email, result);
 
         notifyListeners();
       } catch (e) {
