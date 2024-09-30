@@ -8,7 +8,6 @@ class ApiClient {
   static final ApiClient _instance = ApiClient._internal(); //싱글톤으로 인스턴스 생성
   late Dio _dio;
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  static const apiVersion = "api/v2/";
 
   factory ApiClient() {
     return _instance;

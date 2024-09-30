@@ -6,13 +6,14 @@ import 'package:dio/dio.dart';
 
 class UserService {
   final ApiClient _apiClient = ApiClient();
+  static const apiVersion = "api/v2/";
 
   // GET /api/v2/users/sms - SMS 인증 요청
   Future<SmsVerificationResponse> sendVerificationCode(
       String phoneNumber) async {
     try {
       final response = await _apiClient.dio.get(
-        Apis.sendSms,
+        apiVersion + Apis.sendSms,
         queryParameters: {
           'phoneNum': phoneNumber,
         },
