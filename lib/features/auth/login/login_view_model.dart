@@ -33,8 +33,7 @@ class LoginViewModel extends ChangeNotifier {
       try {
         final result = await refreshRepository.getAccessToken(authCode!);
 
-        await _saveUserInfo(
-            googleUser.displayName, googleUser.email, result!.accessToken);
+        await _saveUserInfo(googleUser.displayName, googleUser.email, result!);
 
         notifyListeners();
       } catch (e) {

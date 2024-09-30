@@ -16,7 +16,7 @@ class ApiClient {
 
   ApiClient._internal() {
     _dio = Dio(BaseOptions(
-      baseUrl: FlutterConfig.get("base_url") + apiVersion,
+      baseUrl: FlutterConfig.get("base_url"),
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 15),
       headers: {
