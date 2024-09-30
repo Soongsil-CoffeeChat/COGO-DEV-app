@@ -9,12 +9,12 @@ class BaseResponse<T> {
     required this.content,
   });
 
-  factory BaseResponse.fromJson(
-      Map<String, dynamic> json, T Function(Map<String, dynamic>) fromJsonT) {
+  factory BaseResponse.fromJson(Map<String, dynamic> json,
+      T Function(dynamic) fromJsonT) {
     return BaseResponse(
       statusCode: json['statusCode'] as String,
       message: json['message'] as String,
-      content: fromJsonT(json['content'] as Map<String, dynamic>),
+      content: fromJsonT(json['content']),
     );
   }
 }
