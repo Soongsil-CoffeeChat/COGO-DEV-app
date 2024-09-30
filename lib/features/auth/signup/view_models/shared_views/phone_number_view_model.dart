@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:cogo/constants/paths.dart';
-import 'package:cogo/data/repository/remote/user_repository.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PhoneNumberViewModel extends ChangeNotifier {
-  final UserRepository userRepository;
+  final UserService userService;
 
   String? _verificationCode; //서버한테 받을 코드
   String? _message;
@@ -24,7 +24,7 @@ class PhoneNumberViewModel extends ChangeNotifier {
 
   bool isPhoneNumberSubmitted = false;
 
-  PhoneNumberViewModel({required this.userRepository}) {
+  PhoneNumberViewModel({required this.userService}) {
     // 전화번호와 인증번호 입력 필드에 리스너 추가
     phoneController.addListener(_validatePhoneNumber);
     codeController.addListener(_validateCode);
@@ -68,13 +68,9 @@ class PhoneNumberViewModel extends ChangeNotifier {
 
       try {
         final result =
-            await userRepository.requestSmsVerification(cleanedPhoneNumber);
-        if (result != null && result.verificationCode != null) {
-          _verificationCode = result.verificationCode;
-          log("Received verificationCode: $_verificationCode"); // Log the verification code
-        } else {
-          log("Received result is null or doesn't contain verificationCode");
-        }
+            await userService.sendVerificationCode(cleanedPhoneNumber);
+        _verificationCode = result.verificationCode;
+        log("Received verificationCode: $_verificationCode"); // Log the verification code
         notifyListeners();
       } catch (e) {
         log("Exception occurred: $e");
