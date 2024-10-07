@@ -48,6 +48,8 @@ dependencies:
   #모델 만들기
   json_annotation: ^4.9.0
 
+  lottie: ^2.2.0  # Add the Lottie package (Check for latest version)
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,6 +66,7 @@ flutter:
     - assets/icons/3d_img/
     - assets/icons/button/
     - assets/image/
+    - assets/lottie/
 
   fonts:
     - family: PretendardRegular
