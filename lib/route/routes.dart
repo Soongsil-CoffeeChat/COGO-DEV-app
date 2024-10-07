@@ -40,7 +40,7 @@ final AppRouter = GoRouter(
         path: Paths.splash,
         pageBuilder: (context, state) => MaterialPage(
               key: state.pageKey,
-              child: const SplashScreen(),
+              child: SplashScreen(),
             )),
     GoRoute(
       path: Paths.login,
