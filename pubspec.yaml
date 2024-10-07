@@ -51,6 +51,9 @@ dependencies:
   #달력
   table_calendar: ^3.0.9
 
+  # 애니메이션 로티
+  lottie: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
