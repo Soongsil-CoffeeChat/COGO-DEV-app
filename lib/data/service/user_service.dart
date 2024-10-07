@@ -33,6 +33,9 @@ class UserService {
       }
     } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      // 기타 모든 예외 처리
+      throw Exception('An unexpected error occurred: $e');
     }
   }
 }
