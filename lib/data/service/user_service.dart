@@ -1,7 +1,8 @@
+import 'package:cogo/constants/apis.dart';
+import 'package:cogo/data/di/api_client.dart';
+import 'package:cogo/data/dto/base_response.dart';
+import 'package:cogo/data/dto/sms_verification_result_response.dart';
 import 'package:dio/dio.dart';
-
-import '../di/api_client.dart';
-import '../model/sms_verification_result.dart';
 
 class UserService {
   final ApiClient _apiClient = ApiClient();
@@ -10,18 +11,22 @@ class UserService {
   Future<SmsVerificationResult> sendVerificationCode(String phoneNumber) async {
     try {
       final response = await _apiClient.dio.get(
-        '/api/v2/users/sms', //Todo 이것도 한번에 관리?
+        Apis.sendSms,
         queryParameters: {
           'phoneNum': phoneNumber,
         },
       );
-
       if (response.statusCode == 200) {
-        return response.data;
+        //base response로 받는건 여기서 뿐임.
+        final baseResponse = BaseResponse<SmsVerificationResult>.fromJson(
+          response.data,
+          (contentJson) => SmsVerificationResult.fromJson(contentJson),
+        );
+        return baseResponse.content;
       } else {
         throw Exception('Failed to send verification code');
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');
     }
   }

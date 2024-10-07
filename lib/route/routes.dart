@@ -48,7 +48,7 @@ final AppRouter = GoRouter(
           path: Paths.phone,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const PhoneNumberVerificationScreen(),
+            child: const PhoneNumberScreen(),
           ),
         ),
         GoRoute(

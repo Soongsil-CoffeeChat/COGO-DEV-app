@@ -1,24 +1,21 @@
 import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/data/repository/remote/user_repository_impl.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/auth/signup/view_models/shared_views/phone_number_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../data/service/user_service.dart';
-
-class PhoneNumberVerificationScreen extends StatelessWidget {
-  const PhoneNumberVerificationScreen({super.key});
+class PhoneNumberScreen extends StatelessWidget {
+  const PhoneNumberScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       // PhoneNumberVerificationViewModel에 UserRepositoryImpl 주입
-      create: (_) => PhoneNumberVerificationViewModel(
-        userRepository: UserRepositoryImpl(
-          UserService(), // UserService 인스턴스 생성 후 UserRepositoryImpl에 주입
-        ),
+      create: (_) => PhoneNumberViewModel(
+        userService:
+            UserService(), // UserService 인스턴스 생성 후 UserRepositoryImpl에 주입
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -26,7 +23,7 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Consumer<PhoneNumberVerificationViewModel>(
+            child: Consumer<PhoneNumberViewModel>(
               builder: (context, viewModel, child) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,16 +62,16 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                         return errorMessage == null
                             ? const SizedBox.shrink()
                             : Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            errorMessage,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                              fontFamily: 'PretendardMedium',
-                            ),
-                          ),
-                        );
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Text(
+                                  errorMessage,
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    fontFamily: 'PretendardMedium',
+                                  ),
+                                ),
+                              );
                       },
                     ),
                     Padding(
@@ -92,10 +89,12 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                                     labelText: '인증번호',
                                     labelStyle: TextStyle(color: Colors.grey),
                                     enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.black),
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
                                     ),
                                     focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.black),
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
                                     ),
                                   ),
                                 ),
