@@ -1,26 +1,31 @@
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
-import 'package:cogo/data/dto/base_response.dart';
-import 'package:cogo/data/dto/sms_verification_result_response.dart';
+import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/sms_verification_response.dart';
 import 'package:dio/dio.dart';
 
 class UserService {
   final ApiClient _apiClient = ApiClient();
+  static const apiVersion = "api/v2/";
 
   // GET /api/v2/users/sms - SMS 인증 요청
-  Future<SmsVerificationResult> sendVerificationCode(String phoneNumber) async {
+  Future<SmsVerificationResponse> sendVerificationCode(
+      String phoneNumber) async {
     try {
       final response = await _apiClient.dio.get(
-        Apis.sendSms,
+        options: Options(
+          extra: {'skipAuthToken': false}, //토큰 해제
+        ),
+        apiVersion + Apis.sendSms,
         queryParameters: {
           'phoneNum': phoneNumber,
         },
       );
       if (response.statusCode == 200) {
         //base response로 받는건 여기서 뿐임.
-        final baseResponse = BaseResponse<SmsVerificationResult>.fromJson(
+        final baseResponse = BaseResponse<SmsVerificationResponse>.fromJson(
           response.data,
-          (contentJson) => SmsVerificationResult.fromJson(contentJson),
+          (contentJson) => SmsVerificationResponse.fromJson(contentJson),
         );
         return baseResponse.content;
       } else {
@@ -28,6 +33,9 @@ class UserService {
       }
     } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      // 기타 모든 예외 처리
+      throw Exception('An unexpected error occurred: $e');
     }
   }
 }

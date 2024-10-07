@@ -1,14 +1,14 @@
-class SmsVerificationResult {
+class SmsVerificationResponse {
   final String verificationCode;
   final String message;
 
-  SmsVerificationResult({
+  SmsVerificationResponse({
     required this.verificationCode,
     required this.message,
   });
 
-  factory SmsVerificationResult.fromJson(Map<String, dynamic> json) {
-    return SmsVerificationResult(
+  factory SmsVerificationResponse.fromJson(Map<String, dynamic> json) {
+    return SmsVerificationResponse(
       verificationCode: json['verificationCode'].toString(),
       message: json['message'] as String,
     );
