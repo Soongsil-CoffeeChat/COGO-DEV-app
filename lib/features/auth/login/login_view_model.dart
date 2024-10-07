@@ -28,7 +28,7 @@ class LoginViewModel extends ChangeNotifier {
           await googleUser.authentication;
       log("토큰: ${googleSignInAuthentication.accessToken}");
 
-      var authCode = googleSignInAuthentication.accessToken;
+      final authCode = googleSignInAuthentication.accessToken;
 
       try {
         final result = await refreshService.getAccessToken(authCode!);

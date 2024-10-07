@@ -13,6 +13,9 @@ class UserService {
       String phoneNumber) async {
     try {
       final response = await _apiClient.dio.get(
+        options: Options(
+          extra: {'skipAuthToken': false}, //토큰 해제
+        ),
         apiVersion + Apis.sendSms,
         queryParameters: {
           'phoneNum': phoneNumber,
