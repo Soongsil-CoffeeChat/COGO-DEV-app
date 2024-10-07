@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart'; // If using GoRouter for navigation
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -17,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(vsync: this);
 
     // Delay for a few seconds while the Lottie animation plays
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       // Navigate to the next screen (e.g., Login Screen or Home Screen)
       context.go('/login'); // Use your navigation method here
     });
