@@ -1,9 +1,9 @@
+import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/data/service/refresh_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/enums/login_platform.dart';
 import 'login_view_model.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -12,10 +12,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      // PhoneNumberVerificationViewModel에 UserRepositoryImpl 주입
       create: (_) => LoginViewModel(
-        refreshService:
-            RefreshService(), // UserService 인스턴스 생성 후 UserRepositoryImpl에 주입
+        refreshService: RefreshService(),
       ),
       child: Scaffold(
         body: SafeArea(
@@ -23,14 +21,31 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child:
                 Consumer<LoginViewModel>(builder: (context, viewModel, child) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (viewModel.errorMessage != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(viewModel.errorMessage!),
+                      action: SnackBarAction(
+                        label: 'Retry',
+                        onPressed: () {
+                          viewModel.clearError();
+                          viewModel.signInWithGoogle();
+                        },
+                      ),
+                    ),
+                  );
+                }
+              });
+
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(width: 16),
                   Expanded(
                     child: _loginButton(
-                      'google_logo',
-                      () async {
+                      platform: LoginPlatform.google,
+                      onTap: () async {
                         await viewModel.signInWithGoogle();
                         if (viewModel.loginPlatform == LoginPlatform.google) {
                           context.push('/agreement');
@@ -47,18 +62,33 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _loginButton(String path, VoidCallback onTap) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: GestureDetector(
-          onTap: onTap,
-          child: SizedBox(
-            width: double.infinity, // 부모의 너비를 꽉 채
-            // 움
-            child: Image.asset(
-              "assets/image/button_google_login.png",
-              fit: BoxFit.fitWidth, // 이미지가 너비에 맞춰 비율 유지하며 크기 조절
-            ),
+  Widget _loginButton({
+    required LoginPlatform platform,
+    required VoidCallback onTap,
+  }) {
+    String getPlatformAsset(LoginPlatform platform) {
+      switch (platform) {
+        case LoginPlatform.google:
+          return 'assets/image/button_google_login.png';
+        case LoginPlatform.apple:
+          return 'assets/image/button_google_login.png'; //todo 일단 구글로
+        default:
+          return 'assets/image/button_google_login.png';
+      }
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: GestureDetector(
+        onTap: onTap,
+        child: SizedBox(
+          width: double.infinity,
+          child: Image.asset(
+            getPlatformAsset(platform),
+            fit: BoxFit.fitWidth,
           ),
         ),
-      );
+      ),
+    );
+  }
 }

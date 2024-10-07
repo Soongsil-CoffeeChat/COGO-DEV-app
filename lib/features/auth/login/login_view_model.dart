@@ -14,6 +14,10 @@ class LoginViewModel extends ChangeNotifier {
 
   LoginPlatform get loginPlatform => _loginPlatform;
 
+  String? _errorMessage;
+
+  String? get errorMessage => _errorMessage;
+
   LoginViewModel({required this.refreshService});
 
   Future<void> signInWithGoogle() async {
@@ -34,17 +38,19 @@ class LoginViewModel extends ChangeNotifier {
         final result = await refreshService.getAccessToken(authCode!);
 
         await _saveUserInfo(googleUser.displayName, googleUser.email, result);
+        _loginPlatform = LoginPlatform.google;
 
         notifyListeners();
       } catch (e) {
         log("Exception occurred: $e");
+        _errorMessage = 'Google 로그인에 실패했습니다. 다시 시도해주세요.';
+
         if (e is DioException) {
           log("DioError details: ${e.response?.data}");
         }
         notifyListeners();
       }
 
-      _loginPlatform = LoginPlatform.google;
       notifyListeners();
     }
   }
@@ -70,6 +76,12 @@ class LoginViewModel extends ChangeNotifier {
     }
 
     _loginPlatform = LoginPlatform.none;
+    notifyListeners();
+  }
+
+  // 에러 메시지 초기화
+  void clearError() {
+    _errorMessage = null;
     notifyListeners();
   }
 }
