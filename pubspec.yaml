@@ -1,5 +1,5 @@
 name: cogo
-description: "cogo_dev_app"
+description: "COGO"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -75,6 +75,7 @@ flutter:
     - assets/icons/3d_img/
     - assets/icons/button/
     - assets/image/
+    - assets/lottie/
 
   fonts:
     - family: PretendardRegular
