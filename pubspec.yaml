@@ -93,3 +93,9 @@ flutter:
     - family: PretendardLight
       fonts:
         - asset: assets/fonts/Pretendard-Light.ttf
+
+flutter_native_splash:
+  color: "#ffffff" # Background color of the splash screen
+  image: assets/image/logo.svg # Optional: static image
+  android:fullscreen: true # Optional: make it fullscreen
+  ios:fullscreen: true # Optional: make it fullscreen
