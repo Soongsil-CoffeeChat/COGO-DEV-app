@@ -54,6 +54,9 @@ dependencies:
   freezed_annotation: ^2.0.3
 
 
+  # 애니메이션 로티
+  lottie: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
