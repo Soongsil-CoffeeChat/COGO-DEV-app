@@ -28,5 +28,5 @@ abstract class Apis {
   static const String s3 = "s3";
 
   // 멘토 관련 api
-  static const String mentor = "mentors";
+  static const String mentors = "mentors";
 }
