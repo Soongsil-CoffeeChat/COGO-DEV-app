@@ -47,8 +47,4 @@ class BottomNavigationViewModel extends ChangeNotifier {
       },
     );
   }
-
-  double navBarHeight(BuildContext context) {
-    return MediaQuery.of(context).size.height * 0.1;
-  }
 }

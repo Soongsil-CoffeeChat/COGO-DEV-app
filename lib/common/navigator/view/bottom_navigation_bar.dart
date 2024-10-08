@@ -36,7 +36,6 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
           Scaffold(
             body: navigationShell,
             bottomNavigationBar: Container(
-              height: controller.navBarHeight(context),
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(13.0),
