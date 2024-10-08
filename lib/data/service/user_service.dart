@@ -45,9 +45,9 @@ class UserService {
   //POST /api/v2/users 기본정보 기입
   Future<UserInfoResponse> setUserInfo(String phoneNumber, String name) async {
     try {
-      final response = await _apiClient.dio.get(
+      final response = await _apiClient.dio.post(
         options: Options(
-          extra: {'skipAuthToken': false}, //토큰 해제
+          extra: {'skipAuthToken': false},
         ),
         apiVersion + Apis.userInfo,
         data: {
