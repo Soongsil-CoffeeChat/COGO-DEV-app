@@ -1,22 +1,19 @@
-import 'package:cogo/common/widgets/components/basic_button.dart';
-import 'package:cogo/common/widgets/components/header.dart';
-import 'package:cogo/features/auth/signup/view_models/mentee/interest_selection_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MenteeInterestSelectionScreen extends StatelessWidget {
-  const MenteeInterestSelectionScreen({super.key});
+class InterestSelectionScreen extends StatelessWidget {
+  const InterestSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MenteeInterestSelectionViewModel(),
+      create: (_) => InterestSelectionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(  // SafeArea로 전체 화면을 감쌌습니다.
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Consumer<MenteeInterestSelectionViewModel>(
+            child: Consumer<InterestSelectionViewModel>(
               builder: (context, viewModel, child) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

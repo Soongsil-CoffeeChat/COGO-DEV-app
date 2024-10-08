@@ -5,11 +5,10 @@ abstract class Paths {
   static const String phone = 'phone';
   static const String name = 'name';
   static const String choose = 'choose';
-  static const String mentorInterest = 'mentor_interest';
+  static const String interest = 'interest';
   static const String mentorClub = 'mentor_club';
   static const String mentorInfo = 'mentor_info';
   static const String mentorCompletion = 'mentor_completion';
-  static const String menteeInterest = 'mentee_interest';
   static const String completion = 'completion';
 
   static const String home = '/home';
