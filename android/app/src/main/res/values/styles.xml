@@ -6,6 +6,9 @@
              the Flutter engine draws its first frame -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:forceDarkAllowed">false</item>
+        <!-- 앱 재시작 할 때 콜드스타트로 화면 하얗게 보이는 현상 방지 -->
+
+        <item name="android:windowDisablePreview">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
