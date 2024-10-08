@@ -1,5 +1,5 @@
 name: cogo
-description: "cogo_dev_app"
+description: "COGO"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -48,6 +48,9 @@ dependencies:
   #모델 만들기
   json_annotation: ^4.9.0
 
+  #애니메이션
+  lottie: ^2.2.0  # Add the Lottie package (Check for latest version)
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,6 +67,7 @@ flutter:
     - assets/icons/3d_img/
     - assets/icons/button/
     - assets/image/
+    - assets/lottie/
 
   fonts:
     - family: PretendardRegular
@@ -81,3 +85,9 @@ flutter:
     - family: PretendardLight
       fonts:
         - asset: assets/fonts/Pretendard-Light.ttf
+
+flutter_native_splash:
+  color: "#ffffff" # Background color of the splash screen
+  image: assets/image/logo.svg # Optional: static image
+  android:fullscreen: true # Optional: make it fullscreen
+  ios:fullscreen: true # Optional: make it fullscreen
