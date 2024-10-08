@@ -35,6 +35,7 @@ final AppRouter = GoRouter(
         key: state.pageKey,
         child: const LoginScreen(),
             )),
+    //회원가입
     GoRoute(
       path: Paths.agreement,
       pageBuilder: (context, state) => MaterialPage(
@@ -51,10 +52,15 @@ final AppRouter = GoRouter(
         ),
         GoRoute(
           path: Paths.name,
-          pageBuilder: (context, state) => MaterialPage(
-            key: state.pageKey,
-            child: const NameInputScreen(),
-          ),
+          pageBuilder: (context, state) {
+            // 전달된 'extra' 데이터를 받아서 사용
+            final String? phoneNumber = state.extra as String?;
+
+            return MaterialPage(
+              key: state.pageKey,
+              child: NameInputScreen(phoneNumber: phoneNumber),
+            );
+          },
         ),
         GoRoute(
           path: Paths.choose,
@@ -93,6 +99,7 @@ final AppRouter = GoRouter(
         ),
       ],
     ),
+    //app bar
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(
@@ -105,6 +112,7 @@ final AppRouter = GoRouter(
         _createBranch(Paths.mypage, MypageScreen()),
       ],
     ),
+
     GoRoute(
       path: Paths.profileDetail,
       pageBuilder: (context, state) => MaterialPage(
