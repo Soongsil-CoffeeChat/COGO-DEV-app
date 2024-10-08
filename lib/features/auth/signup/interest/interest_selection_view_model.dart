@@ -23,10 +23,10 @@ class InterestSelectionViewModel extends ChangeNotifier {
 
     await LocaleManager.instance.setStringValue('SelectedInterest', interest);
 
-    if (role == Role.mentor.toString()) {
+    if (role == Role.MENTOR.toString()) {
       //todo
       context.push('${Paths.agreement}/${Paths.mentorClub}');
-    } else if (role == Role.mentee.toString()) {
+    } else if (role == Role.MENTEE.toString()) {
       context.push('${Paths.agreement}/${Paths.completion}');
     }
   }
