@@ -17,9 +17,9 @@ class CompletionScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Consumer<CompletionViewModel>(
               builder: (context, viewModel, child) {
-                // name이 "멘토"인지 "멘티"인지에 따라 다른 텍스트를 출력
-                String greetingText = viewModel.name == "멘토"
-                    ? "멘토님! 반갑습니다."
+                // role이 "멘토"인지 "멘티"인지에 따라 다른 텍스트를 출력
+                String greetingText =
+                    viewModel.role == "mentor" ? "멘토님! 반갑습니다."
                     : "멘티님! 반갑습니다.";
 
                 return Column(

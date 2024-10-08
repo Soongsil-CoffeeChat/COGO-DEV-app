@@ -14,8 +14,7 @@ class PhoneNumberScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       // PhoneNumberVerificationViewModel에 UserRepositoryImpl 주입
       create: (_) => PhoneNumberViewModel(
-        userService:
-            UserService(), // UserService 인스턴스 생성 후 UserRepositoryImpl에 주입
+        userService: UserService(),
       ),
       child: Scaffold(
         backgroundColor: Colors.white,

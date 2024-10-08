@@ -1,15 +1,20 @@
-import 'package:cogo/common/widgets/components/header.dart';
-import 'package:cogo/features/auth/signup/view_models/shared_views/name_input_view_model.dart';
+import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/data/service/user_service.dart';
+import 'package:cogo/features/auth/signup/name_input/name_input_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NameInputScreen extends StatelessWidget {
-  const NameInputScreen({super.key});
+  final String? phoneNumber;
+
+  const NameInputScreen({super.key, this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SignupNameViewModel(),
+      create: (_) => NameInputViewModel(
+        userService: UserService(),
+      ),
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true,  // 키도브 오버 플로우 해결
@@ -28,7 +33,7 @@ class NameInputScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 24.0),
-                  child: Consumer<SignupNameViewModel>(
+                  child: Consumer<NameInputViewModel>(
                     builder: (context, viewModel, child) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +83,9 @@ class NameInputScreen extends StatelessWidget {
                                       onPressed: isValid
                                           ? () {
                                         viewModel.onConfirmButtonPressed(context);
-                                      }
+                                              viewModel
+                                                  .setPhoneNumber(phoneNumber!);
+                                            }
                                           : null,
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: isValid

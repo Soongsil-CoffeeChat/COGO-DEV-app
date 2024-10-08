@@ -1,13 +1,24 @@
+import 'dart:developer';
+
 import 'package:cogo/common/db/locale_manager.dart';
+import 'package:cogo/constants/paths.dart';
+import 'package:cogo/data/service/user_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class SignupNameViewModel extends ChangeNotifier {
+class NameInputViewModel extends ChangeNotifier {
+  final UserService userService;
+
+  String? _phoneNumber;
+
+  String? get phoneNumber => _phoneNumber;
+
   final TextEditingController nameController = TextEditingController();
   final ValueNotifier<bool> isValidName = ValueNotifier<bool>(false);
   final ValueNotifier<String?> errorMessage = ValueNotifier<String?>(null);
 
-  SignupNameViewModel() {
+  NameInputViewModel({required this.userService}) {
     nameController.addListener(_validateName);
   }
 
@@ -20,6 +31,11 @@ class SignupNameViewModel extends ChangeNotifier {
     super.dispose();
   }
 
+  void setPhoneNumber(String phoneNumber) {
+    _phoneNumber = phoneNumber;
+    notifyListeners(); // UI를 업데이트하기 위해 알림
+  }
+
   Future<void> _validateName() async {
     final name = nameController.text;
     final isValid = name.isNotEmpty;
@@ -29,9 +45,22 @@ class SignupNameViewModel extends ChangeNotifier {
     await LocaleManager.instance.setStringValue('name', name);
   }
 
-  void onConfirmButtonPressed(BuildContext context) {
+  Future<void> onConfirmButtonPressed(BuildContext context) async {
     if (isValidName.value) {
-      context.push('/agreement/choose');
+      try {
+        //잘 전송이 되어야 넘어감
+        final result =
+            await userService.setUserInfo(phoneNumber!, nameController.text);
+        context.push('${Paths.agreement}/${Paths.choose}');
+
+        notifyListeners();
+      } catch (e) {
+        log("Exception occurred: $e");
+        if (e is DioException) {
+          log("DioError details: ${e.response?.data}");
+        }
+        notifyListeners();
+      }
     }
   }
 }
