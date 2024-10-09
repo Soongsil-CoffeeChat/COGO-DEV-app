@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
-import 'package:cogo/features/mypage/profile_management/views/mentor_introduction_screen.dart';
+import 'package:cogo/features/home/mentor_detail/views/mentor_introduction_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MentorProfileDialog extends StatelessWidget {
