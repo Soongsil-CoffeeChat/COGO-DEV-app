@@ -62,7 +62,7 @@ class MentorIntroductionScreen extends StatelessWidget {
 
                   Center(
                     child: SizedBox(
-                      width: double.infinity,
+                      width: 170,
                       child: Consumer<MentorIntroductionViewModel>(
                         builder: (context, viewModel, child) {
                           return CustomButton(

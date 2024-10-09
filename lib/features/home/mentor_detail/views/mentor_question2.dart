@@ -57,7 +57,7 @@ class MentorQuestion2Screen extends StatelessWidget {
 
                   Center(
                     child: SizedBox(
-                      width: double.infinity,
+                      width: 170,
                       height: 50,
                       child: Consumer<MentorIntroductionViewModel>(
                         builder: (context, viewModel, child) {
