@@ -27,6 +27,6 @@ abstract class Paths {
 
   static const String mentorIntroduction = '/mentorIntroduction';
 
+  static const String mentorQuestion1 = '/mentorQuestion1';
   static const String mentorQuestion2 = '/mentorQuestion2';
-  static const String mentorQuestion3 = '/mentorQuestion3';
 }

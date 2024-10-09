@@ -33,11 +33,11 @@ class MentorIntroductionScreen extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // 제목 필드
+                          // 제목
                           CustomTextFieldWithCounter(
-                            controller: viewModel.introController,
+                            controller: viewModel.titleController,
                             hintText: '제목',
-                            currentCount: viewModel.introCharCount,
+                            currentCount: viewModel.tittleCharCount,
                             maxCount: 50,
                             height: 50,
                             maxLines: 1,
@@ -45,15 +45,14 @@ class MentorIntroductionScreen extends StatelessWidget {
                           const SizedBox(height: 10),
                           //자기소개 입력
                           CustomTextFieldWithCounter(
-                            controller: viewModel.question1Controller,
+                            controller: viewModel.descriptionController,
                             hintText: '자기소개를 입력해주세요',
-                            currentCount: viewModel.question1CharCount,
+                            currentCount: viewModel.descriptionCharCount,
                             maxCount: 200,
                             height: 200,
                             maxLines: 5,
                           ),
                           const SizedBox(height: 10),
-                          // 첫 번째 질문
                         ],
                       );
                     },

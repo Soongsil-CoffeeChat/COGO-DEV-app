@@ -4,42 +4,40 @@ import 'package:cogo/common/utils/routing_extension.dart';
 
 class MentorIntroductionViewModel extends ChangeNotifier {
   // TextEditingController로 각 필드 관리
-  final TextEditingController introController = TextEditingController();
-  final TextEditingController question1Controller = TextEditingController();
-  final TextEditingController question2Controller = TextEditingController();
-  final TextEditingController question3Controller = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController answer1Controller = TextEditingController();
+  final TextEditingController answer2Controller = TextEditingController();
 
   bool isFormValid = false;
 
   // 각 텍스트 필드의 글자 수를 계산
-  int get introCharCount => introController.text.length;
-  int get question1CharCount => question1Controller.text.length;
-  int get question2CharCount => question2Controller.text.length;
-  int get question3CharCount => question3Controller.text.length;
+  int get tittleCharCount => titleController.text.length;
+  int get descriptionCharCount => descriptionController.text.length;
+  int get answer1CharCount => answer1Controller.text.length;
+  int get answer2CharCount => answer2Controller.text.length;
 
   MentorIntroductionViewModel() {
     // 각 컨트롤러에 리스너를 추가하여 값이 변경될 때마다 상태를 확인
-    introController.addListener(_validateFormIntro);
-    question1Controller.addListener(_validateFormIntro);
-    question2Controller.addListener(_validateFormQuestion2);
-    question3Controller.addListener(_validateFormQuestion3);
+    titleController.addListener(_validateFormIntro);
+    descriptionController.addListener(_validateFormIntro);
+    answer1Controller.addListener(_validateFormQuestion2);
+    answer2Controller.addListener(_validateFormQuestion3);
   }
 
+  // 텍스트 유효성 확인
   void _validateFormIntro() {
-    // introController와 question1Controller의 텍스트가 비어있지 않은지 확인합니다.
-    isFormValid = introController.text.isNotEmpty && question1Controller.text.isNotEmpty;
+    isFormValid = titleController.text.isNotEmpty && descriptionController.text.isNotEmpty;
     notifyListeners();
   }
 
   void _validateFormQuestion2() {
-    // question2Controller의 텍스트가 비어있지 않은지 확인합니다.
-    isFormValid = question2Controller.text.isNotEmpty;
+    isFormValid = answer1Controller.text.isNotEmpty;
     notifyListeners();
   }
 
   void _validateFormQuestion3() {
-    // question3Controller의 텍스트가 비어있지 않은지 확인합니다.
-    isFormValid = question3Controller.text.isNotEmpty;
+    isFormValid = answer2Controller.text.isNotEmpty;
     notifyListeners();
   }
 
@@ -55,13 +53,12 @@ class MentorIntroductionViewModel extends ChangeNotifier {
 
   }
 
-  // ViewModel이 제거될 때 Controller도 함께 해제
   @override
   void dispose() {
-    introController.dispose();
-    question1Controller.dispose();
-    question2Controller.dispose();
-    question3Controller.dispose();
+    titleController.dispose();
+    descriptionController.dispose();
+    answer1Controller.dispose();
+    answer2Controller.dispose();
     super.dispose();
   }
 }

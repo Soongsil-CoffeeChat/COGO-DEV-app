@@ -1,6 +1,4 @@
-import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/features/home/mentor_detail/view_models/mentor_introduction_view_model.dart';
@@ -34,21 +32,19 @@ class MentorQuestion2Screen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            '어느 분야에서 멘토링 가능하신가요?',
+                            '프로젝트나 근무 경험이 있으신가요?',
                             style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),
-
                           CustomTextFieldWithCounter(
-                            controller: viewModel.question2Controller,
-                            hintText: '멘토링 가능한 분야를 적어주세요',
-                            currentCount: viewModel.question2CharCount,
+                            controller: viewModel.answer2Controller,
+                            hintText: '프로젝트나 근무 경험에 대해 적어주세요',
+                            currentCount: viewModel.answer2CharCount,
                             maxCount: 200,
                             height: 200,
                             maxLines: 5,
                           ),
                           const SizedBox(height: 10),
-                          // 첫 번째 질문
                         ],
                       );
                     },
@@ -62,9 +58,9 @@ class MentorQuestion2Screen extends StatelessWidget {
                       child: Consumer<MentorIntroductionViewModel>(
                         builder: (context, viewModel, child) {
                           return CustomButton(
-                            text: '다음',
+                            text: '저장하기',
                             isSelected: viewModel.isFormValid,
-                            onPressed: viewModel.isFormValid ? () => context.push(Paths.mentorQuestion3) : null,
+                            onPressed: viewModel.isFormValid ? () => viewModel.saveIntroduction(context) : null,
                           );
                         },
                       ),

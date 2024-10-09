@@ -24,8 +24,8 @@ import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/features/mypage/profile_management/views/mentor_introduction_screen.dart';
-import 'package:cogo/features/home/mentor_detail/views/mentor_question2.dart';
-import 'package:cogo/features/home/mentor_detail/views/mentor_question3.dart';
+import 'package:cogo/features/home/mentor_detail/views/mentor_question1_screen.dart';
+import 'package:cogo/features/home/mentor_detail/views/mentor_question2_screen.dart';
 
 
 import '../features/auth/signup/views/shared_views/completion_screen.dart';
@@ -188,17 +188,17 @@ final AppRouter = GoRouter(
       ),
     ),
     GoRoute(
+      path: Paths.mentorQuestion1,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorQuestion1Screen(),
+      ),
+    ),
+    GoRoute(
       path: Paths.mentorQuestion2,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const MentorQuestion2Screen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.mentorQuestion3,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const MentorQuestion3Screen(),
       ),
     ),
   ],
