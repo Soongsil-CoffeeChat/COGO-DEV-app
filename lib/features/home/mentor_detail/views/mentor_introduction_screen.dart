@@ -67,7 +67,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                           return CustomButton(
                             text: '다음',
                             isSelected: viewModel.isFormValid,
-                            onPressed: viewModel.isFormValid ? () => context.push(Paths.mentorQuestion2) : null,
+                            onPressed: viewModel.isFormValid ? () => context.push(Paths.mentorQuestion1) : null,
                           );
                         },
                       ),
