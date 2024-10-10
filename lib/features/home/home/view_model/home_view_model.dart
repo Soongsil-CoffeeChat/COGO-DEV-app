@@ -5,7 +5,7 @@ import 'package:cogo/constants/paths.dart';
 class HomeViewModel extends ChangeNotifier {
   //String? selectedRole = LocaleManager.instance.getStringValue('selectedRole');
   String? selectedRole = "mentor";
-  bool isIntroductionComplete = true; // 자기소개 완료 여부를 저장
+  bool isIntroductionComplete = false; // 자기소개 완료 여부를 저장
 
 
   List<Map<String, dynamic>> profiles = [
