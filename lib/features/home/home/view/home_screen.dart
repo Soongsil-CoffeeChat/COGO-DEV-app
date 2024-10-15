@@ -62,21 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 18,
       ),
       centerTitle: false,
-      actions: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: IconButton(
-            icon: SvgPicture.asset('assets/icons/button/search.svg'),
-            onPressed: () {
-              Provider.of<HomeViewModel>(context, listen: false)
-                  .onSearchPressed(context);
-            },
-            padding: EdgeInsets.zero,
-            alignment: Alignment.centerRight,
-          ),
-        ),
-        const SizedBox(width: 16),
-      ],
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: Column(
