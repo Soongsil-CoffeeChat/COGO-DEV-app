@@ -128,11 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       !viewModel.isIntroductionComplete) {
                     _showMentorProfileDialog(context);
                   } else {
-                    // 자기소개가 완료되었으면 해당 프로필 상세 페이지로 이동
-                    context.push(
-                      Paths.profileDetail,
-                      extra: profile,
-                    );
+                    viewModel.onProfileCardTapped(context);
                   }
                 },
               ),

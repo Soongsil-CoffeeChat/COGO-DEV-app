@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:cogo/features/home/profile/view_model/profile_detail_view_model.dart';
 
 class ProfileDetailScreen extends StatelessWidget {
-  const ProfileDetailScreen({super.key});
+  const ProfileDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class ProfileDetailScreen extends StatelessWidget {
       create: (context) => ProfileDetailViewModel(), // ViewModel 생성
       child: Scaffold(
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: true,  // 키도브 오버 플로우 해결
+        resizeToAvoidBottomInset: true, // 키보드 오버 플로우 해결
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -23,8 +23,15 @@ class ProfileDetailScreen extends StatelessWidget {
           ),
           title: Consumer<ProfileDetailViewModel>(
             builder: (context, viewModel, child) {
+              if (viewModel.isLoading) {
+                //api 호출 중일때(로딩중)
+                return const Text(
+                  '',
+                );
+              }
+              final profile = viewModel.profile;
               return Text(
-                '${viewModel.profile.name} 멘토님',
+                profile != null ? '${profile.mentorName} 멘토님' : '멘토 정보 없음',
                 style: const TextStyle(
                   fontFamily: 'PretendardSemiBold',
                   fontSize: 20,
@@ -41,20 +48,27 @@ class ProfileDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Consumer<ProfileDetailViewModel>(
                 builder: (context, viewModel, child) {
+                  if (viewModel.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(), // 로딩 스피너 표시
+                    );
+                  }
+
                   final profile = viewModel.profile;
+
+                  if (profile == null) {
+                    return const Center(
+                      child: Text('프로필 정보를 불러올 수 없습니다.'),
+                    );
+                  }
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
                         child: Image.asset(
-                          profile.imagePath,
+                          profile.imageUrl,
                           width: double.infinity,
                           height: 150, // 이미지 높이
                           fit: BoxFit.cover, // 이미지 꽉 채우기
@@ -64,21 +78,24 @@ class ProfileDetailScreen extends StatelessWidget {
                       Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: profile.tags.map((tag) => _buildTag(tag)).toList(),
+                          children: [
+                            _buildTag(profile.part),
+                            _buildTag(profile.club),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 30),
-                      _buildTitleText(profile.tittle),
+                      _buildTitleText(profile.introductionTitle),
                       const SizedBox(height: 8),
-                      _buildProfileIntro(profile.description),
+                      _buildProfileIntro(profile.introductionDescription),
                       const SizedBox(height: 30),
                       _buildTitleText('질문질문... 자기소개 유도 질문...'),
                       const SizedBox(height: 8),
-                      _buildProfileDescription(profile.answer1),
+                      _buildProfileDescription(profile.introductionAnswer1),
                       const SizedBox(height: 30),
                       _buildTitleText('질문질문... 자기소개 유도 질문...'),
                       const SizedBox(height: 8),
-                      _buildProfileDescription(profile.answer2),
+                      _buildProfileDescription(profile.introductionAnswer2),
                       const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () {
