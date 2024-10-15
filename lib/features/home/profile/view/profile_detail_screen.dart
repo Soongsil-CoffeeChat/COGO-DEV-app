@@ -1,3 +1,5 @@
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +13,10 @@ class ProfileDetailScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProfileDetailViewModel(), // ViewModel 생성
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: CogoColor.white50,
         resizeToAvoidBottomInset: true, // 키보드 오버 플로우 해결
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: CogoColor.white50,
           elevation: 0,
           scrolledUnderElevation: 0,
           leading: IconButton(
@@ -32,11 +34,7 @@ class ProfileDetailScreen extends StatelessWidget {
               final profile = viewModel.profile;
               return Text(
                 profile != null ? '${profile.mentorName} 멘토님' : '멘토 정보 없음',
-                style: const TextStyle(
-                  fontFamily: 'PretendardSemiBold',
-                  fontSize: 20,
-                  color: Colors.black,
-                ),
+                style: CogoTextStyle.body20,
               );
             },
           ),
@@ -102,8 +100,8 @@ class ProfileDetailScreen extends StatelessWidget {
                           viewModel.applyForCogo(context);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          foregroundColor: Colors.white,
+                          backgroundColor: CogoColor.main,
+                          foregroundColor: CogoColor.white50,
                           textStyle: const TextStyle(
                             fontFamily: 'PretendardMedium',
                             fontSize: 18,
@@ -132,16 +130,12 @@ class ProfileDetailScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: CogoColor.main,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
           title,
-          style: const TextStyle(
-            fontFamily: 'PretendardMedium',
-            fontSize: 12,
-            color: Colors.white,
-          ),
+          style: CogoTextStyle.tag,
         ),
       ),
     );
@@ -152,11 +146,7 @@ class ProfileDetailScreen extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(
         title,
-        style: const TextStyle(
-          fontFamily: 'PretendardMedium',
-          fontSize: 16,
-          color: Colors.black,
-        ),
+        style: CogoTextStyle.body16,
       ),
     );
   }
@@ -165,18 +155,14 @@ class ProfileDetailScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: CogoColor.systemGray01,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
           description,
-          style: const TextStyle(
-            fontFamily: 'PretendardLight',
-            fontSize: 12,
-            color: Colors.black,
-          ),
+          style: CogoTextStyle.body12,
         ),
       ),
     );
@@ -187,11 +173,7 @@ class ProfileDetailScreen extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(
         description,
-        style: const TextStyle(
-          fontFamily: 'PretendardLight',
-          fontSize: 12,
-          color: Colors.black,
-        ),
+        style: CogoTextStyle.intro,
       ),
     );
   }
