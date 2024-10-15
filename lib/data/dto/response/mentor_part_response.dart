@@ -21,16 +21,17 @@ class MentorPartResponse {
 
   factory MentorPartResponse.fromJson(Map<String, dynamic> json) {
     return MentorPartResponse(
-      picture: json['picture'] as String,
-      mentorName: json['mentorName'] as String,
-      part: json['part'] as String,
-      club: json['club'] as String,
-      username: json['username'] as String,
+      picture: json['picture'] != null ? json['picture'] as String : '',
+      mentorName: json['mentorName'] != null ? json['mentorName'] as String : '',
+      part: json['part'] != null ? json['part'] as String : '',
+      club: json['club'] != null ? json['club'] as String : '',
+      username: json['username'] != null ? json['username'] as String : '',
       mentorId: json['mentorId'].toString(),
-      title: json['title'] as String,
-      description: json['description'] as String,
+      title: json['title'] != null ? json['title'] as String : '',
+      description: json['description'] != null ? json['description'] as String : '',
     );
   }
+
 
   Map<String, dynamic> toJson() {
     return {

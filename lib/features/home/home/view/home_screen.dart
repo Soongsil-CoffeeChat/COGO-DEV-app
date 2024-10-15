@@ -87,11 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildProfileCardList(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (context, viewModel, child) {
-
         final profiles = viewModel.profiles;
-        print("API 호출$profiles");
 
-        if (profiles == null || profiles.isEmpty) {
+        if (profiles == null || profiles.isEmpty || profiles.any((profile) => profile == null)) {
           return const Center(child: CircularProgressIndicator());
         }
 
