@@ -41,4 +41,40 @@ class MentorService {
       throw Exception('An unexpected error occurred: $e');
     }
   }
+
+  //파트별 멘토리스트 호출 
+  Future<MentorDetailResponse> getMentorPart(String part) async {
+    try {
+      final response = await _apiClient.dio.get(
+        options: Options(
+          extra: {'skipAuthToken': false},
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+
+        apiVersion + Apis.mentorPart,
+        queryParameters: {
+          'part': part,
+        }
+      );
+      if (response.statusCode == 200) {
+        print(response.data); // 서버 응답을 출력하여 확인
+        final baseResponse = BaseResponse<MentorDetailResponse>.fromJson(
+          response.data,
+              (contentJson) {
+            return MentorDetailResponse.fromJson(contentJson);
+          },
+        );
+        return baseResponse.content;
+      } else {
+        throw Exception('Failed to send verification code ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
 }
