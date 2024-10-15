@@ -87,26 +87,33 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildProfileCardList(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (context, viewModel, child) {
+
+        final profiles = viewModel.profiles;
+        print("API 호출$profiles");
+
+        if (profiles == null || profiles.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
         return ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          // Nested scroll 방지
           shrinkWrap: true,
-          // 리스트 크기 고정
-          scrollDirection: Axis.vertical,
-          // 세로로 스크롤
-          itemCount: viewModel.profiles.length,
+          scrollDirection: Axis.vertical, // 리스트 크기 고정
+          itemCount: profiles.length,
           itemBuilder: (context, index) {
-            final profile = viewModel.profiles[index];
+            final profileCard = profiles[index];
             return Padding(
               padding: const EdgeInsets.symmetric(
                   vertical: 8.0, horizontal: 16.0), // 세로와 양쪽 마진 추가
               child: ProfileCard(
-                imagePath: profile['imagePath'],
-                name: profile['name'],
-                tittle: profile['tittle'],
-                description: profile['description'],
-                clubName: profile['clubName'],
-                tags: profile['tags'],
+                picture: profileCard.picture ?? '',
+                mentorName: profileCard.mentorName ?? '',
+                club: profileCard.club ?? '',
+                part: profileCard.part ?? '',
+                username: profileCard.username ?? '',
+                mentorId: profileCard.mentorId ?? '',
+                title: profileCard.title ?? '',
+                description: profileCard.description ?? '',
                 onTap: () {
                   // role이 mentor이고, 자기소개가 완료되지 않았다면 다이얼로그 띄우기
                   if (viewModel.selectedRole == 'mentor' &&

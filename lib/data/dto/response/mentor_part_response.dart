@@ -44,4 +44,9 @@ class MentorPartResponse {
       "description": description
     };
   }
+
+  @override
+  String toString() {
+    return 'MentorDetailResponse{picture: $picture, mentorName: $mentorName, part: $part, club: $club, username: $username, mentorId: $mentorId, title: $title, description: $description';
+  }
 }
