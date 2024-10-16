@@ -61,7 +61,7 @@ class ProfileCard extends StatelessWidget {
                     topRight: Radius.circular(20),
                   ),
                   child: Image.asset(
-                    picture,
+                    picture.isNotEmpty ? picture : 'assets/default_img.png',
                     width: double.infinity,
                     height: 150, // 이미지 높이
                     fit: BoxFit.cover, // 이미지 꽉 채우기
@@ -74,7 +74,7 @@ class ProfileCard extends StatelessWidget {
                   child: Row(
                     children: [
                       _buildTag(club),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 4),
                       _buildTag(part),
                     ],
                   ),
