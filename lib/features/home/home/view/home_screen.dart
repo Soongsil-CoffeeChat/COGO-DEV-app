@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       !viewModel.isIntroductionComplete) {
                     _showMentorProfileDialog(context);
                   } else {
-                    viewModel.onProfileCardTapped(context);
+                    viewModel.onProfileCardTapped(context, profileCard.mentorId);
                   }
                 },
               ),

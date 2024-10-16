@@ -9,23 +9,20 @@ class ProfileDetailViewModel extends ChangeNotifier {
   bool isLoading = true; // 로딩 상태를 나타내는 변수
   final MentorService _mentorService = MentorService(); // MentorService 객체 생성
 
-  ProfileDetailViewModel() {
-    fetchMentorDetail(); // 프로필 정보를 불러오기 위해 API 호출
+  ProfileDetailViewModel(String mentorId) {
+    fetchMentorDetail(mentorId); // 프로필 정보를 불러오기 위해 API 호출
   }
 
   // Mentor 상세 정보 불러오는 함수
-  Future<void> fetchMentorDetail() async {
-    final mentorId = '6'; // API 호출에 사용할 mentorId
+  Future<void> fetchMentorDetail(String mentorId) async {
     try {
-      print('API 호출 시작');
       profile = await _mentorService.getMentorDetail(mentorId);
-      print('API 호출 완료, mentorDetail: $profile');
     } catch (error) {
       // 에러 처리 로직
       print('Error fetching mentor details: $error');
     } finally {
-      isLoading = false; // 로딩 완료 상태로 설정
-      notifyListeners(); // 상태 갱신
+      isLoading = false;
+      notifyListeners();
     }
   }
 

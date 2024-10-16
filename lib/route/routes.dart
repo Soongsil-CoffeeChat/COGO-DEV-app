@@ -116,11 +116,12 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.profileDetail,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ProfileDetailScreen(),
-      ),
+      builder: (context, state) {
+        final mentorId = state.uri.queryParameters['mentorId']; // Query parameter 사용
+        return ProfileDetailScreen(mentorId: mentorId!);
+      },
     ),
+
     GoRoute(
       path: Paths.search,
       pageBuilder: (context, state) => MaterialPage(

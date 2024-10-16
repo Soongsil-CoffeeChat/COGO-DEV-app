@@ -28,8 +28,8 @@ class HomeViewModel extends ChangeNotifier {
   }
 
 
-  void onProfileCardTapped(BuildContext context) {
-    context.push(Paths.profileDetail);
+  void onProfileCardTapped(BuildContext context, String mentorId) {
+    context.push('${Paths.profileDetail}?mentorId=$mentorId');
   }
 
   void onSearchPressed(BuildContext context) {
