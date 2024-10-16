@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 import 'package:cogo/features/home/home/view_model/home_view_model.dart';
-import 'package:cogo/constants/constants.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -104,14 +102,14 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(
                   vertical: 8.0, horizontal: 16.0), // 세로와 양쪽 마진 추가
               child: ProfileCard(
-                picture: profileCard.picture ?? '',
-                mentorName: profileCard.mentorName ?? '',
-                club: profileCard.club ?? '',
-                part: profileCard.part ?? '',
-                username: profileCard.username ?? '',
-                mentorId: profileCard.mentorId ?? '',
-                title: profileCard.title ?? '',
-                description: profileCard.description ?? '',
+                picture: profileCard.picture,
+                mentorName: profileCard.mentorName,
+                club: profileCard.club,
+                part: profileCard.part,
+                username: profileCard.username,
+                mentorId: profileCard.mentorId,
+                title: profileCard.title,
+                description: profileCard.description,
                 onTap: () {
                   // role이 mentor이고, 자기소개가 완료되지 않았다면 다이얼로그 띄우기
                   if (viewModel.selectedRole == 'mentor' &&
