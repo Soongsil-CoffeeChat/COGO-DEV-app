@@ -68,10 +68,10 @@ class ProfileDetailScreen extends StatelessWidget {
                       ClipRRect(
                         borderRadius: const BorderRadius.all(Radius.circular(20)),
                         child: Image.asset(
-                          profile.imageUrl,
+                          profile.imageUrl.isNotEmpty ? profile.imageUrl : 'assets/default_img.png',
                           width: double.infinity,
-                          height: 150, // 이미지 높이
-                          fit: BoxFit.cover, // 이미지 꽉 채우기
+                          height: 150,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       const SizedBox(height: 30),
