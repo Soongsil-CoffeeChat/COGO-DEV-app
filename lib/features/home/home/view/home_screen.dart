@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final profiles = viewModel.profiles;
 
         if (profiles == null || profiles.isEmpty || profiles.any((profile) => profile == null)) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: Text('멘토 정보가 없습니다'));
         }
 
         return ListView.builder(

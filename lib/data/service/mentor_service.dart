@@ -74,10 +74,10 @@ class MentorService {
         print('baseResponse:${baseResponse.content}');
         return baseResponse.content;
       } else {
-        throw Exception('Failed to fetch mentor list: ${response.data}');
+        return <MentorPartResponse>[];
       }
     } on DioException catch (e) {
-      throw Exception('Error: ${e.response?.data ?? e.message}');
+      return <MentorPartResponse>[];
     } catch (e) {
       throw Exception('An unexpected error occurred: $e');
     }
