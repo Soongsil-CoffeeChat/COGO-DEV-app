@@ -1,6 +1,6 @@
+import 'package:cogo/features/auth/signup/agreement/agreement_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/view_models/shared_views/agreement_view_model.dart';
 
 class AgreementScreen extends StatefulWidget {
   const AgreementScreen({super.key});

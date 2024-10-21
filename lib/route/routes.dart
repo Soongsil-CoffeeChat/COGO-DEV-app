@@ -1,14 +1,14 @@
 import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/auth/login/login_screen.dart';
-import 'package:cogo/features/auth/signup/views/mentee/interest_selection_screen.dart';
-import 'package:cogo/features/auth/signup/views/mentor/club_selection_screen.dart';
-import 'package:cogo/features/auth/signup/views/mentor/interest_selection_screen.dart';
-import 'package:cogo/features/auth/signup/views/mentor/mentor_info_screen.dart';
-import 'package:cogo/features/auth/signup/views/shared_views/agreement_screen.dart';
-import 'package:cogo/features/auth/signup/views/shared_views/choose_role_screen.dart';
-import 'package:cogo/features/auth/signup/views/shared_views/name_input_screen.dart';
-import 'package:cogo/features/auth/signup/views/shared_views/phone_number_screen.dart';
+import 'package:cogo/features/auth/signup/agreement/agreement_screen.dart';
+import 'package:cogo/features/auth/signup/choose_role/choose_role_screen.dart';
+import 'package:cogo/features/auth/signup/club/club_selection_screen.dart';
+import 'package:cogo/features/auth/signup/completion/completion_screen.dart';
+import 'package:cogo/features/auth/signup/interest/interest_selection_screen.dart';
+import 'package:cogo/features/auth/signup/mento_info/mentor_info_screen.dart';
+import 'package:cogo/features/auth/signup/name_input/name_input_screen.dart';
+import 'package:cogo/features/auth/signup/phone_number/phone_number_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/cogo_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/received_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/received_cogo_screen.dart';
@@ -20,6 +20,7 @@ import 'package:cogo/features/home/apply/views/schedule_screen.dart';
 import 'package:cogo/features/home/home/view/home_screen.dart';
 import 'package:cogo/features/home/profile/view/profile_detail_screen.dart';
 import 'package:cogo/features/home/search/view/search_screen.dart';
+import 'package:cogo/features/mypage/profile_management/views/mentor_introduction_screen.dart';
 import 'package:cogo/features/mypage/views/mypage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -28,7 +29,6 @@ import 'package:cogo/features/home/mentor_detail/views/mentor_question1_screen.d
 import 'package:cogo/features/home/mentor_detail/views/mentor_question2_screen.dart';
 
 
-import '../features/auth/signup/views/shared_views/completion_screen.dart';
 
 final AppRouter = GoRouter(
   // initialLocation: '/',
@@ -40,6 +40,7 @@ final AppRouter = GoRouter(
         key: state.pageKey,
         child: const LoginScreen(),
             )),
+    //회원가입
     GoRoute(
       path: Paths.agreement,
       pageBuilder: (context, state) => MaterialPage(
@@ -56,10 +57,15 @@ final AppRouter = GoRouter(
         ),
         GoRoute(
           path: Paths.name,
-          pageBuilder: (context, state) => MaterialPage(
-            key: state.pageKey,
-            child: const NameInputScreen(),
-          ),
+          pageBuilder: (context, state) {
+            // 전달된 'extra' 데이터를 받아서 사용
+            final String? phoneNumber = state.extra as String?;
+
+            return MaterialPage(
+              key: state.pageKey,
+              child: NameInputScreen(phoneNumber: phoneNumber),
+            );
+          },
         ),
         GoRoute(
           path: Paths.choose,
@@ -69,10 +75,10 @@ final AppRouter = GoRouter(
           ),
         ),
         GoRoute(
-          path: Paths.mentorInterest,
+          path: Paths.interest,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
-            child: const MentorInterestSelectionScreen(),
+            child: const InterestSelectionScreen(),
           ),
         ),
         GoRoute(
@@ -90,13 +96,6 @@ final AppRouter = GoRouter(
           ),
         ),
         GoRoute(
-          path: Paths.menteeInterest,
-          pageBuilder: (context, state) => MaterialPage(
-            key: state.pageKey,
-            child: const MenteeInterestSelectionScreen(),
-          ),
-        ),
-        GoRoute(
           path: Paths.completion,
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
@@ -105,6 +104,7 @@ final AppRouter = GoRouter(
         ),
       ],
     ),
+    //app bar
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(
@@ -117,6 +117,7 @@ final AppRouter = GoRouter(
         _createBranch(Paths.mypage, MypageScreen()),
       ],
     ),
+
     GoRoute(
       path: Paths.profileDetail,
       pageBuilder: (context, state) => MaterialPage(

@@ -1,8 +1,9 @@
+import 'package:cogo/common/enums/role.dart';
+import 'package:cogo/common/widgets/custom_button.dart';
+import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/features/auth/signup/choose_role/choose_role_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/view_models/shared_views/choose_role_view_model.dart';
-import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/common/widgets/custom_button.dart';
 
 class ChooseRoleScreen extends StatelessWidget {
   const ChooseRoleScreen({super.key});
@@ -38,17 +39,19 @@ class ChooseRoleScreen extends StatelessWidget {
                             children: [
                               CustomButton(
                                 text: '멘토',
-                                isSelected: viewModel.selectedRole == 'mentor',
+                                isSelected:
+                                    viewModel.selectedRole == Role.MENTOR,
                                 onPressed: () {
-                                  viewModel.selectRole('멘토', context);
+                                  viewModel.selectRole(Role.MENTOR, context);
                                 },
                               ),
                               SizedBox(width: 10),
                               CustomButton(
                                 text: '멘티',
-                                isSelected: viewModel.selectedRole == 'mentee',
+                                isSelected:
+                                    viewModel.selectedRole == Role.MENTEE,
                                 onPressed: () {
-                                  viewModel.selectRole('멘티', context);
+                                  viewModel.selectRole(Role.MENTEE, context);
                                 },
                               ),
                             ],
