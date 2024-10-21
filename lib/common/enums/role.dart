@@ -3,7 +3,7 @@ enum Role {
   MENTEE,
   USER;
 
-  String get displayName {
+  String get getDisplayString {
     switch (this) {
       case Role.MENTOR:
         return '멘토';
