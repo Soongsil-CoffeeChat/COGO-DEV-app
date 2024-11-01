@@ -5,12 +5,12 @@ import 'package:cogo/data/dto/response/mentor_detail_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-
 class MentorService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
 
-  String token = FlutterConfig.get('mentor_token'); // .env 파일에서 가져오기
+  //TODO 실제 토큰으로 코드 변환 필요
+  String token = FlutterConfig.get('mentor_token');
 
   Future<MentorDetailResponse> getMentorDetail(String mentorId) async {
     try {
@@ -27,7 +27,7 @@ class MentorService {
         print(response.data); // 서버 응답을 출력하여 확인
         final baseResponse = BaseResponse<MentorDetailResponse>.fromJson(
           response.data,
-              (contentJson) {
+          (contentJson) {
             return MentorDetailResponse.fromJson(contentJson);
           },
         );

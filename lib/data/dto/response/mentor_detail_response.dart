@@ -49,9 +49,16 @@ class MentorDetailResponse {
     };
   }
 
-  //문자열 변환을 위한 toString
   @override
   String toString() {
-    return 'MentorDetailResponse{mentorId: $mentorId, mentorName: $mentorName, part: $part, club: $club, introductionTitle: $introductionTitle, introductionDescription: $introductionDescription, introductionAnswer1: $introductionAnswer1, introductionAnswer2: $introductionAnswer2, imageUrl: $imageUrl}';
+    return 'MentorDetailResponse{mentorId: $mentorId, '
+        'mentorName: $mentorName, '
+        'part: $part, '
+        'club: $club, '
+        'introductionTitle: $introductionTitle, '
+        'introductionDescription: $introductionDescription, '
+        'introductionAnswer1: $introductionAnswer1, '
+        'introductionAnswer2: $introductionAnswer2, '
+        'imageUrl: $imageUrl}';
   }
 }
