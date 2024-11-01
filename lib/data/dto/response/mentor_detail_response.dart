@@ -24,13 +24,22 @@ class MentorDetailResponse {
   factory MentorDetailResponse.fromJson(Map<String, dynamic> json) {
     return MentorDetailResponse(
       mentorId: json['mentorId'].toString(),
-      mentorName: json['mentorName'] != null ? json['mentorName'] as String : '',
+      mentorName:
+          json['mentorName'] != null ? json['mentorName'] as String : '',
       part: json['part'] != null ? json['part'] as String : '',
       club: json['club'] != null ? json['club'] as String : '',
-      introductionTitle: json['introductionTitle'] != null ? json['introductionTitle'] as String : '',
-      introductionDescription: json['introductionDescription'] != null ? json['introductionDescription'] as String : '',
-      introductionAnswer1: json['introductionAnswer1'] != null ? json['introductionAnswer1'] as String : '',
-      introductionAnswer2: json['introductionAnswer2'] != null ? json['introductionAnswer2'] as String : '',
+      introductionTitle: json['introductionTitle'] != null
+          ? json['introductionTitle'] as String
+          : '',
+      introductionDescription: json['introductionDescription'] != null
+          ? json['introductionDescription'] as String
+          : '',
+      introductionAnswer1: json['introductionAnswer1'] != null
+          ? json['introductionAnswer1'] as String
+          : '',
+      introductionAnswer2: json['introductionAnswer2'] != null
+          ? json['introductionAnswer2'] as String
+          : '',
       imageUrl: json['imageUrl'] != null ? json['imageUrl'] as String : '',
     );
   }
@@ -49,9 +58,16 @@ class MentorDetailResponse {
     };
   }
 
-  //문자열 변환을 위한 toString
   @override
   String toString() {
-    return 'MentorDetailResponse{mentorId: $mentorId, mentorName: $mentorName, part: $part, club: $club, introductionTitle: $introductionTitle, introductionDescription: $introductionDescription, introductionAnswer1: $introductionAnswer1, introductionAnswer2: $introductionAnswer2, imageUrl: $imageUrl}';
+    return 'MentorDetailResponse{mentorId: $mentorId, '
+        'mentorName: $mentorName, '
+        'part: $part,'
+        'club: $club, '
+        'introductionTitle: $introductionTitle, '
+        'introductionDescription: $introductionDescription, '
+        'introductionAnswer1: $introductionAnswer1, '
+        'introductionAnswer2: $introductionAnswer2, '
+        'imageUrl: $imageUrl}';
   }
 }
