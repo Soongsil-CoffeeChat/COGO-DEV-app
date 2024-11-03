@@ -11,8 +11,11 @@ class MentorIntroductionViewModel extends ChangeNotifier {
 
   // 각 텍스트 필드의 글자 수를 계산
   int get introCharCount => introController.text.length;
+
   int get question1CharCount => question1Controller.text.length;
+
   int get question2CharCount => question2Controller.text.length;
+
   int get question3CharCount => question3Controller.text.length;
 
   MentorIntroductionViewModel() {

@@ -1,8 +1,8 @@
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/features/mypage/profile_management/mentor_introduction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/features/mypage/profile_management/view_models/mentor_introduction_view_model.dart';
 
 class MentorIntroductionScreen extends StatelessWidget {
   const MentorIntroductionScreen({super.key});
