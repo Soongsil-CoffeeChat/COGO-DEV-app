@@ -1,6 +1,6 @@
-import 'package:cogo/constants/colors.dart';
-import 'package:flutter/material.dart';
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
+import 'package:cogo/common/widgets/tag_list.dart';
+import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
   final String picture;
@@ -69,15 +69,9 @@ class ProfileCard extends StatelessWidget {
                 ),
                 // 클럽과 파트 값을 이미지 위에 배치
                 Positioned(
-                  top: 15,
-                  left: 15,
-                  child: Row(
-                    children: [
-                      _buildTag(club),
-                      const SizedBox(width: 4),
-                      _buildTag(part),
-                    ],
-                  ),
+                  top: 15, // 이미지 위에서 10px 아래에 배치
+                  left: 15, // 이미지 왼쪽에서 10px 오른쪽에 배치
+                  child: TagList(tags: tags), // 태그 리스트를 새로운 위젯으로 교체
                 ),
               ],
             ),
@@ -105,23 +99,6 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTag(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          title,
-          style: CogoTextStyle.body12.copyWith(color: CogoColor.white50),
         ),
       ),
     );

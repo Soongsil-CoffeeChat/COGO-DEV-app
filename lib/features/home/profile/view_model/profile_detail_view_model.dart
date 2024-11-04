@@ -24,7 +24,7 @@ class ProfileDetailViewModel extends ChangeNotifier {
       log('Error fetching mentor details: $error');
     } finally {
       isLoading = false;
-      notifyListeners();
+      notifyListeners();  
     }
   }
 

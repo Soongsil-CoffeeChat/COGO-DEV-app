@@ -6,6 +6,7 @@ import 'package:cogo/data/dto/response/mentor_part_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 
+
 class MentorService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
@@ -28,7 +29,7 @@ class MentorService {
         print(response.data); // 서버 응답을 출력하여 확인
         final baseResponse = BaseResponse<MentorDetailResponse>.fromJson(
           response.data,
-          (contentJson) {
+              (contentJson) {
             return MentorDetailResponse.fromJson(contentJson);
           },
         );
@@ -42,7 +43,6 @@ class MentorService {
       throw Exception('An unexpected error occurred: $e');
     }
   }
-
   // 파트별 멘토리스트 호출
   Future<List<MentorPartResponse>> getMentorPart(String part) async {
     try {
