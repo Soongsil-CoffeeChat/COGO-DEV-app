@@ -29,7 +29,7 @@ class ApiClient {
       onRequest: (options, handler) async {
         // 특정 API에서만 토큰을 제외
         if (options.extra['skipAuthToken'] != true) {
-          final token = await _secureStorage.readData('auth_token');
+          final token = await _secureStorage.readData('mentor_token'); // 일단 멘토 토큰으로
           log(token.toString());
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';

@@ -206,7 +206,7 @@ class SearchScreen extends StatelessWidget {
                             final profile = viewModel.searchResults[index];
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: _buildProfileCard(context, profile),
+
                             );
                           },
                         )
@@ -237,24 +237,6 @@ class SearchScreen extends StatelessWidget {
       ),
       onDeleted: () {
         viewModel.toggleTagSelection(tag);
-      },
-    );
-  }
-
-  // 프로필 카드 위젯을 별도 함수로 분리
-  Widget _buildProfileCard(BuildContext context, dynamic profile) {
-    return ProfileCard(
-      imagePath: profile.imagePath,
-      name: profile.name,
-      tittle: profile.tittle,
-      description: profile.description,
-      clubName: profile.clubName,
-      tags: profile.tags,
-      onTap: () {
-        context.push(
-          Paths.profileDetail,
-          extra: profile,
-        );
       },
     );
   }

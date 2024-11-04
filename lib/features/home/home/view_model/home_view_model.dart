@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/data/service/mentor_service.dart';
 
 class HomeViewModel extends ChangeNotifier {
   //String? selectedRole = LocaleManager.instance.getStringValue('selectedRole');
   String? selectedRole = "mentor";
   bool isIntroductionComplete = false; // 자기소개 완료 여부를 저장
+
+  final MentorService _mentorService = MentorService(); // MentorService 객체 생성
 
 
   List<Map<String, dynamic>> profiles = [
@@ -28,10 +31,13 @@ class HomeViewModel extends ChangeNotifier {
     // 프로필 추가
   ];
 
-  void onButtonPressed(BuildContext context, String title) {
-    print('Button pressed: $title');
-    // TODO : 버튼 액션 구현
-    notifyListeners();
+  Future<void> onButtonPressed(BuildContext context, String title) async {
+    // TODO : 파트별 버튼 누를때 api 호출
+  }
+
+
+  void onProfileCardTapped(BuildContext context) {
+    context.push(Paths.profileDetail);
   }
 
   void onSearchPressed(BuildContext context) {

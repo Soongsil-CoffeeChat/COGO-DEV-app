@@ -61,4 +61,16 @@ final class CogoTextStyle {
     fontSize: 20,
     color: CogoColor.systemGray05,
   );
+
+  static const TextStyle tag = TextStyle(
+    fontFamily: "PretendardMedium",
+    fontSize: 12,
+    color: CogoColor.sub1,
+  );
+
+  static const TextStyle intro = TextStyle(
+    fontFamily: "PretendardLight",
+    fontSize: 12,
+    color: CogoColor.main,
+  );
 }
