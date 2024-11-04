@@ -9,7 +9,7 @@ class RefreshService {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
 // POST /auth/reissue/mobile -리소스 서버에서 받은 accessToken으로 서비스 accessToken 발급
-  Future<String> getAccessToken(String authCode) async {
+  Future<String> getAccessToken(String authCode, String name) async {
     try {
       final response = await _apiClient.dio.post(
         options: Options(
@@ -18,6 +18,7 @@ class RefreshService {
         Apis.getAccessToken,
         queryParameters: {
           'accessToken': authCode,
+          'name': name,
         },
       );
       if (response.statusCode == 200) {

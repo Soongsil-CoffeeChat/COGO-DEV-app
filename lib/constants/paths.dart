@@ -27,7 +27,6 @@ abstract class Paths {
   static const String successedCogoDetail = '/successed_cogo_detail';
 
   static const String mentorIntroduction = '/mentor_introduction';
-  static const String mentorIntroduction = '/mentorIntroduction';
 
   static const String mentorQuestion1 = '/mentorQuestion1';
   static const String mentorQuestion2 = '/mentorQuestion2';

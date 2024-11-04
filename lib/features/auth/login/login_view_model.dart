@@ -28,6 +28,8 @@ class LoginViewModel extends ChangeNotifier {
       log('email = ${googleUser.email}');
       log('id = ${googleUser.id}');
 
+      final name = googleUser.displayName;
+
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleUser.authentication;
       log("토큰: ${googleSignInAuthentication.accessToken}");
@@ -35,7 +37,7 @@ class LoginViewModel extends ChangeNotifier {
       final authCode = googleSignInAuthentication.accessToken;
 
       try {
-        final result = await refreshService.getAccessToken(authCode!);
+        final result = await refreshService.getAccessToken(authCode!, name!);
 
         await _saveUserInfo(googleUser.displayName, googleUser.email, result);
         _loginPlatform = LoginPlatform.google;
