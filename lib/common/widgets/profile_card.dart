@@ -1,7 +1,6 @@
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
+import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:flutter/material.dart';
-
-import 'tag.dart';
 
 class ProfileCard extends StatelessWidget {
   final String imagePath;
@@ -68,7 +67,7 @@ class ProfileCard extends StatelessWidget {
                 Positioned(
                   top: 15, // 이미지 위에서 10px 아래에 배치
                   left: 15, // 이미지 왼쪽에서 10px 오른쪽에 배치
-                  child: Tag(tags: tags), // 태그 리스트를 새로운 위젯으로 교체
+                  child: TagList(tags: tags), // 태그 리스트를 새로운 위젯으로 교체
                 ),
               ],
             ),

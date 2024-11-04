@@ -1,13 +1,14 @@
-import 'package:cogo/common/widgets/tag.dart';
+import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class MypageScreen extends StatelessWidget {
+  var a = true;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -24,7 +25,7 @@ class MypageScreen extends StatelessWidget {
                   children: [
                     const Text(
                       '유진 멘토님',
-                      style: CogoTextStyle.body16,
+                      style: CogoTextStyle.body18,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 10),
@@ -37,7 +38,12 @@ class MypageScreen extends StatelessWidget {
                             'assets/image/img_image.svg', // SVG 파일 경로
                           ),
 
-                          Tag(tags: ["야호", "야호"]), //todo 이거 가운데로
+                          const Center(
+                            child: TagList(tags: [
+                              "야호",
+                              "야호야"
+                            ]), // Centering the Tag widget
+                          ),
                           const SizedBox(height: 20),
                           ListTile(
                             title: const Text(
@@ -46,7 +52,8 @@ class MypageScreen extends StatelessWidget {
                             ),
                             trailing: const Icon(Icons.chevron_right),
                             onTap: () {
-                              // viewModel.navigateToReceivedCogo(context);
+                              viewModel
+                                  .navigateToMyInformationManagement(context);
                             },
                           ),
                           // const SizedBox(height: 5),
@@ -54,8 +61,11 @@ class MypageScreen extends StatelessWidget {
                               height: 0.2, color: CogoColor.systemGray02),
                           // const SizedBox(height: 5),
 
-                          // True == True
-                          FlutterConfig.get("role") == "mentor"
+                          /**
+                           * 멘토에게만 필요한 기능이므로 조건문을 걸어줍니다.
+                           */
+                          a == true
+                              // FlutterConfig.get("role") == "mentor"
                               ? Column(
                                   children: [
                                     ListTile(
@@ -65,7 +75,9 @@ class MypageScreen extends StatelessWidget {
                                       ),
                                       trailing: const Icon(Icons.chevron_right),
                                       onTap: () {
-                                        // viewModel.navigateToSuccessedCogo(context);
+                                        viewModel
+                                            .navigateToMentorIntroduceManagement(
+                                                context);
                                       },
                                     ),
                                     const Divider(
@@ -79,7 +91,8 @@ class MypageScreen extends StatelessWidget {
                                       ),
                                       trailing: const Icon(Icons.chevron_right),
                                       onTap: () {
-                                        // viewModel.navigateToSuccessedCogo(context);
+                                        viewModel.navigateToMentorTimeSetting(
+                                            context);
                                       },
                                     ),
                                   ],

@@ -11,9 +11,11 @@ abstract class Paths {
   static const String mentorCompletion = 'mentor_completion';
   static const String menteeInterest = 'mentee_interest';
   static const String completion = 'completion';
+
   static const String home = '/home';
   static const String cogo = '/cogo';
   static const String mypage = '/mypage';
+
   static const String profileDetail = '/profile_detail';
   static const String search = '/search';
   static const String schedule = '/schedule';
@@ -29,4 +31,8 @@ abstract class Paths {
 
   static const String mentorQuestion1 = '/mentorQuestion1';
   static const String mentorQuestion2 = '/mentorQuestion2';
+
+  static const String myInfo = '/myInfo';
+  static const String introduce = '/introduce';
+  static const String timeSetting = '/time_setting';
 }
