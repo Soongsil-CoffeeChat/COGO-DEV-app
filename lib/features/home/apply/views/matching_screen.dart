@@ -1,3 +1,4 @@
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/header.dart';
@@ -43,14 +44,12 @@ class MatchingScreen extends StatelessWidget {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () => viewModel.completeApplication(context),
+                          onPressed: () =>
+                              viewModel.completeApplication(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
                             foregroundColor: Colors.white,
-                            textStyle: const TextStyle(
-                              fontFamily: 'PretendardMedium',
-                              fontSize: 18,
-                            ),
+                            textStyle: CogoTextStyle.body18,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
