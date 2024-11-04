@@ -61,16 +61,13 @@ class ScheduleScreen extends StatelessWidget {
                   child: Consumer<ScheduleViewModel>(
                     builder: (context, viewModel, child) {
                       return SizedBox(
-                        width: double.infinity, // 버튼 너비를 화면 전체로 설정
-                        height: 50, // 버튼 높이 유지
+                        width: double.infinity,
                         child: CustomButton(
                           text: '다음',
-                          isSelected:
-                              viewModel.selectedTimeSlot != -1, // 선택된 경우 true
+                          isSelected: viewModel.selectedTimeSlot != -1,
                           onPressed: viewModel.selectedTimeSlot != -1
-                              ? () =>
-                                  viewModel.saveSelection(context) // 선택된 경우 동작
-                              : null, // 선택되지 않으면 비활성화
+                              ? () => viewModel.saveSelection(context)
+                              : null,
                         ),
                       );
                     },

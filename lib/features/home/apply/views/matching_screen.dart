@@ -1,8 +1,8 @@
-import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/header.dart';
 import 'package:cogo/features/home/apply/view_models/matching_view_model.dart';
+import 'package:cogo/common/widgets/custom_button.dart';
 
 class MatchingScreen extends StatelessWidget {
   const MatchingScreen({super.key});
@@ -40,22 +40,11 @@ class MatchingScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Consumer<MatchingViewModel>(
                     builder: (context, viewModel, child) {
-                      return SizedBox(
+                      return CustomButton(
+                        text: '코고 신청 완료하기',
+                        isSelected: true,
+                        onPressed: () => viewModel.completeApplication(context),
                         width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () =>
-                              viewModel.completeApplication(context),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            foregroundColor: Colors.white,
-                            textStyle: CogoTextStyle.body18,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: const Text('코고 신청 완료하기'),
-                        ),
                       );
                     },
                   ),
