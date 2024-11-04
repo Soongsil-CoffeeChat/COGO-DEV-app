@@ -8,7 +8,7 @@ class MypageViewModel extends ChangeNotifier {
   }
 
   void navigateToMentorIntroduceManagement(BuildContext context) {
-    context.push(Paths.mentorInfo);
+    context.push(Paths.introduce);
   }
 
   void navigateToMentorTimeSetting(BuildContext context) {

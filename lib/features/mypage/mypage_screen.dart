@@ -37,11 +37,11 @@ class MypageScreen extends StatelessWidget {
                           SvgPicture.asset(
                             'assets/image/img_image.svg', // SVG 파일 경로
                           ),
-
+                          const SizedBox(height: 20),
                           const Center(
                             child: TagList(tags: [
-                              "야호",
-                              "야호야"
+                              "UMC",
+                              "GDSC"
                             ]), // Centering the Tag widget
                           ),
                           const SizedBox(height: 20),
