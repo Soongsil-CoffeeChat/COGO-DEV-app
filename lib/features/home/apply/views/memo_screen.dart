@@ -12,11 +12,12 @@ class MemoScreen extends StatelessWidget {
       create: (_) => MemoViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: true,  // 키도브 오버 플로우 해결
+        resizeToAvoidBottomInset: true,
         body: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.only(top: 5.0),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -62,38 +63,36 @@ class MemoScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: Consumer<MemoViewModel>(
-                        builder: (context, viewModel, child) {
-                          return ElevatedButton(
-                            onPressed: viewModel.charCount > 0
-                                ? () => viewModel.saveMemo(context)
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: viewModel.charCount > 0
-                                  ? Colors.black
-                                  : Colors.grey[300],
-                              foregroundColor: viewModel.charCount > 0
-                                  ? Colors.white
-                                  : Colors.black,
-                              textStyle: const TextStyle(
-                                fontFamily: 'PretendardMedium',
-                                fontSize: 18,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: Consumer<MemoViewModel>(
+                      builder: (context, viewModel, child) {
+                        return ElevatedButton(
+                          onPressed: viewModel.charCount > 0
+                              ? () => viewModel.saveMemo(context)
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: viewModel.charCount > 0
+                                ? Colors.black
+                                : Colors.grey[300],
+                            foregroundColor: viewModel.charCount > 0
+                                ? Colors.white
+                                : Colors.black,
+                            textStyle: const TextStyle(
+                              fontFamily: 'PretendardMedium',
+                              fontSize: 18,
                             ),
-                            child: const Text('다음'),
-                          );
-                        },
-                      ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: const Text('다음'),
+                        );
+                      },
                     ),
                   ),
                 ),
