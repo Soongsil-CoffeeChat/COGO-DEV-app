@@ -13,8 +13,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
         child: SizedBox(
           height: 50,
@@ -34,7 +33,7 @@ class CustomButton extends StatelessWidget {
             child: Text(text),
           ),
         ),
-      ),
+
     );
   }
 }

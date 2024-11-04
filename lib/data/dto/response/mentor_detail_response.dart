@@ -48,7 +48,6 @@ class MentorDetailResponse {
       'imageUrl': imageUrl,
     };
   }
-
   @override
   String toString() {
     return 'MentorDetailResponse{mentorId: $mentorId, '

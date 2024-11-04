@@ -28,6 +28,7 @@ class MentorService {
         final baseResponse = BaseResponse<MentorDetailResponse>.fromJson(
           response.data,
           (contentJson) {
+
             return MentorDetailResponse.fromJson(contentJson);
           },
         );
