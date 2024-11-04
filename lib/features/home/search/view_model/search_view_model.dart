@@ -27,7 +27,8 @@ class SearchViewModel extends ChangeNotifier {
     hasSearched = true; // 검색이 실행되었음을 표시
     searchResults = allProfiles.where((profile) {
       // 선택된 태그 중 하나라도 포함된 프로필을 검색 결과에 추가
-      return selectedTags.any((tag) => profile.part.contains(tag) || profile.club.contains(tag));
+      return selectedTags.any(
+          (tag) => profile.part!.contains(tag) || profile.club!.contains(tag));
     }).toList();
     notifyListeners();
   }

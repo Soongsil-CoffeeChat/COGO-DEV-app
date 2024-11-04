@@ -2,6 +2,7 @@ import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
 import 'package:cogo/data/dto/response/mentor_detail_response.dart';
+import 'package:cogo/data/dto/response/mentor_part_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -10,7 +11,8 @@ class MentorService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
 
-  String token = FlutterConfig.get('mentor_token'); // .env 파일에서 가져오기
+  //TODO 실제 토큰으로 코드 변환 필요
+  String token = FlutterConfig.get('mentor_token');
 
   Future<MentorDetailResponse> getMentorDetail(String mentorId) async {
     try {
@@ -37,6 +39,45 @@ class MentorService {
       }
     } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+  // 파트별 멘토리스트 호출
+  Future<List<MentorPartResponse>> getMentorPart(String part) async {
+    try {
+      final response = await _apiClient.dio.get(
+        apiVersion + Apis.mentorPart,
+        options: Options(
+          extra: {'skipAuthToken': false},
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        queryParameters: {
+          'part': part,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        //print(response.data);
+
+        final baseResponse = BaseResponse<List<MentorPartResponse>>.fromJson(
+          response.data,
+          (contentJson) {
+            return (contentJson as List)
+                .map((item) => MentorPartResponse.fromJson(item))
+                .toList();
+          },
+        );
+
+        print('baseResponse:${baseResponse.content}');
+        return baseResponse.content;
+      } else {
+        return <MentorPartResponse>[];
+      }
+    } on DioException catch (e) {
+      return <MentorPartResponse>[];
     } catch (e) {
       throw Exception('An unexpected error occurred: $e');
     }

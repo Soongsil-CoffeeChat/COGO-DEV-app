@@ -6,12 +6,15 @@ import 'package:provider/provider.dart';
 import 'package:cogo/features/home/profile/view_model/profile_detail_view_model.dart';
 
 class ProfileDetailScreen extends StatelessWidget {
-  const ProfileDetailScreen({Key? key}) : super(key: key);
+  final String mentorId;
+
+  const ProfileDetailScreen({Key? key, required this.mentorId}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ProfileDetailViewModel(), // ViewModel 생성
+      create: (context) => ProfileDetailViewModel(mentorId), // Pass mentorId to ViewModel
       child: Scaffold(
         backgroundColor: CogoColor.white50,
         resizeToAvoidBottomInset: true, // 키보드 오버 플로우 해결
@@ -66,10 +69,10 @@ class ProfileDetailScreen extends StatelessWidget {
                       ClipRRect(
                         borderRadius: const BorderRadius.all(Radius.circular(20)),
                         child: Image.asset(
-                          profile.imageUrl,
+                          profile.imageUrl.isNotEmpty ? profile.imageUrl : 'assets/default_img.png',
                           width: double.infinity,
-                          height: 150, // 이미지 높이
-                          fit: BoxFit.cover, // 이미지 꽉 채우기
+                          height: 150,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       const SizedBox(height: 30),

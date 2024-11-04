@@ -3,24 +3,28 @@ import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
-  final String imagePath;
-  final String name;
-  final String tittle;
+  final String picture;
+  final String mentorName;
+  final String part;
+  final String club;
+  final String username;
+  final String mentorId;
+  final String title;
   final String description;
-  final String clubName;
-  final List<String> tags;
   final double width;
   final double height;
   final VoidCallback onTap;
 
   const ProfileCard({
     super.key,
-    required this.imagePath,
-    required this.name,
-    required this.tittle,
+    required this.picture,
+    required this.mentorName,
+    required this.part,
+    required this.club,
+    required this.username,
+    required this.mentorId,
+    required this.title,
     required this.description,
-    required this.clubName,
-    required this.tags,
     this.width = 150,
     this.height = 280,
     required this.onTap,
@@ -57,13 +61,13 @@ class ProfileCard extends StatelessWidget {
                     topRight: Radius.circular(20),
                   ),
                   child: Image.asset(
-                    imagePath,
+                    picture.isNotEmpty ? picture : 'assets/default_img.png',
                     width: double.infinity,
                     height: 150, // 이미지 높이
                     fit: BoxFit.cover, // 이미지 꽉 채우기
                   ),
                 ),
-                // 태그 리스트를 이미지 위에 배치
+                // 클럽과 파트 값을 이미지 위에 배치
                 Positioned(
                   top: 15, // 이미지 위에서 10px 아래에 배치
                   left: 15, // 이미지 왼쪽에서 10px 오른쪽에 배치
@@ -78,12 +82,12 @@ class ProfileCard extends StatelessWidget {
                 children: [
                   const SizedBox(height: 8),
                   Text(
-                    '$name 멘토님',
+                    '$mentorName 멘토님',
                     style: CogoTextStyle.body20,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    tittle,
+                    title,
                     style: CogoTextStyle.body14,
                   ),
                   const SizedBox(height: 8),

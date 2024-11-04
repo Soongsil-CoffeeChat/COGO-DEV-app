@@ -218,15 +218,93 @@ final AppRouter = GoRouter(
           key: state.pageKey,
           child: const MentorIntroductionScreen(),
         ),
+      ],
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return ScaffoldWithNestedNavigation(
+          navigationShell: navigationShell,
+        );
+      },
+      branches: [
+        _createBranch(Paths.home, const HomeScreen()),
+        _createBranch(Paths.cogo, const CogoScreen()),
+        _createBranch(Paths.mypage, MypageScreen()),
+      ],
+    ),
+    GoRoute(
+      path: Paths.profileDetail,
+      builder: (context, state) {
+        final mentorId = state.uri.queryParameters['mentorId']; // Query parameter 사용
+        return ProfileDetailScreen(mentorId: mentorId!);
+      },
+    ),
+
+    GoRoute(
+      path: Paths.search,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const SearchScreen(),
       ),
-      GoRoute(
-        path: Paths.timeSetting,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const MentorTimeSettingScreen(),
-        ),
+    ),
+    GoRoute(
+      path: Paths.schedule,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ScheduleScreen(),
       ),
-    ]);
+    ),
+    GoRoute(
+      path: Paths.memo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MemoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.matching,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MatchingScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.receivedCogo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ReceivedCogoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.receivedCogoDetail,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ReceivedCogoDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.successedCogo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const SuccessedCogoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.successedCogoDetail,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const SuccessedCogoDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.mentorIntroduction,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorIntroductionScreen(),
+      ),
+    ),
+  ],
+);
 
 StatefulShellBranch _createBranch(String path, Widget child) {
   return StatefulShellBranch(
