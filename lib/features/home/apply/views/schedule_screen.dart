@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/home/apply/view_models/schedule_view_model.dart';
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
@@ -38,12 +39,14 @@ class ScheduleScreen extends StatelessWidget {
                               selectedDate: viewModel.selectedDate,
                               onDateSelected: viewModel.onDateSelected,
                             ),
-                            const Divider(color: Color(0xFFE2E2E2), thickness: 1),
+                            const Divider(
+                                color: CogoColor.systemGray01, thickness: 1),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: TimePicker(
                                 selectedTimeSlot: viewModel.selectedTimeSlot,
-                                onTimeSlotSelected: viewModel.onTimeSlotSelected,
+                                onTimeSlotSelected:
+                                    viewModel.onTimeSlotSelected,
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -62,10 +65,12 @@ class ScheduleScreen extends StatelessWidget {
                         height: 50, // 버튼 높이 유지
                         child: CustomButton(
                           text: '다음',
-                          isSelected: viewModel.selectedTimeSlot != -1,  // 선택된 경우 true
+                          isSelected:
+                              viewModel.selectedTimeSlot != -1, // 선택된 경우 true
                           onPressed: viewModel.selectedTimeSlot != -1
-                              ? () => viewModel.saveSelection(context)  // 선택된 경우 동작
-                              : null,  // 선택되지 않으면 비활성화
+                              ? () =>
+                                  viewModel.saveSelection(context) // 선택된 경우 동작
+                              : null, // 선택되지 않으면 비활성화
                         ),
                       );
                     },
