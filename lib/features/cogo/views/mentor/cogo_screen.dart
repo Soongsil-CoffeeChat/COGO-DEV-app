@@ -1,6 +1,8 @@
+import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/cogo/view_models/mentor/cogo_view_model.dart';
+import 'package:cogo/common/widgets/widgets.dart';
 
 class CogoScreen extends StatelessWidget {
   const CogoScreen({super.key});
@@ -21,21 +23,15 @@ class CogoScreen extends StatelessWidget {
                   padding: EdgeInsets.only(left: 15.0),
                   child: Text(
                     '내 코고함',
-                    style: TextStyle(
-                      fontFamily: 'PretendardMedium',
-                      fontSize: 22,
-                    ),
+                    style: CogoTextStyle.body18,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     'COGO를 하면서 많은 성장을 기원해요!',
-                    style: TextStyle(
-                      fontFamily: 'PretendardMedium',
-                      fontSize: 12,
-                      color: Color(0xFFAEAEB2),
-                    ),
+                    style: CogoTextStyle.body12
+                        .copyWith(color: CogoColor.systemGray03),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -46,10 +42,7 @@ class CogoScreen extends StatelessWidget {
                         ListTile(
                           title: const Text(
                             '받은 코고',
-                            style: TextStyle(
-                              fontFamily: 'PretendardMedium',
-                              fontSize: 18,
-                            ),
+                            style: CogoTextStyle.body16,
                           ),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
@@ -62,10 +55,7 @@ class CogoScreen extends StatelessWidget {
                         ListTile(
                           title: const Text(
                             '성사된 코고',
-                            style: TextStyle(
-                              fontFamily: 'PretendardMedium',
-                              fontSize: 18,
-                            ),
+                            style: CogoTextStyle.body16,
                           ),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
