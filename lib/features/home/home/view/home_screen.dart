@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             HorizontalButtonList(
-              buttonTitles: const ['기획', '디자인', 'FE', 'BE'],
+              buttonTitles: const ['PM', 'DESIGN', 'FE', 'BE'],
               onButtonPressed: (title) {
                 Provider.of<HomeViewModel>(context, listen: false)
                     .onButtonPressed(context, title);
@@ -87,7 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, viewModel, child) {
         final profiles = viewModel.profiles;
 
-        if (profiles == null || profiles.isEmpty || profiles.any((profile) => profile == null)) {
+        if (profiles == null ||
+            profiles.isEmpty ||
+            profiles.any((profile) => profile == null)) {
           return const Center(child: Text('멘토 정보가 없습니다'));
         }
 
@@ -116,7 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       !viewModel.isIntroductionComplete) {
                     _showMentorProfileDialog(context);
                   } else {
-                    viewModel.onProfileCardTapped(context, profileCard.mentorId);
+                    viewModel.onProfileCardTapped(
+                        context, profileCard.mentorId);
                   }
                 },
               ),

@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:cogo/data/dto/response/mentor_part_response.dart';
+import 'package:cogo/domain/entity/mentor_part_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cogo/constants/paths.dart';
@@ -10,17 +10,20 @@ class HomeViewModel extends ChangeNotifier {
   String? selectedRole = "mentor";
   bool isIntroductionComplete = true; // 자기소개 완료 여부를 저장
 
-  List<MentorPartResponse>? profiles;
+  List<MentorPartEntity>? profiles;
 
   final MentorService _mentorService = MentorService(); // MentorService 객체 생성
 
   Future<void> onButtonPressed(BuildContext context, String title) async {
     final part = title; // API 호출에 사용할 mentorId
     try {
-      profiles = await _mentorService.getMentorPart(part);
+      final responseProfiles = await _mentorService.getMentorPart(part);
+      profiles = responseProfiles
+          .map((response) => MentorPartEntity.fromResponse(response))
+          .toList();
+
       notifyListeners();
     } catch (error) {
-      // 에러 처리 로직
       log('Error fetching mentor details: $error');
     }
   }

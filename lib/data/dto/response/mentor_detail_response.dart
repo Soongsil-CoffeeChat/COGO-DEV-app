@@ -1,13 +1,13 @@
 class MentorDetailResponse {
-  final String mentorId;
-  final String mentorName;
-  final String part;
-  final String club;
-  final String introductionTitle;
-  final String introductionDescription;
-  final String introductionAnswer1;
-  final String introductionAnswer2;
-  final String imageUrl;
+  final int mentorId;
+  final String? mentorName;
+  final String? part;
+  final String? club;
+  final String? introductionTitle;
+  final String? introductionDescription;
+  final String? introductionAnswer1;
+  final String? introductionAnswer2;
+  final String? imageUrl;
 
   MentorDetailResponse({
     required this.mentorId,
@@ -23,24 +23,15 @@ class MentorDetailResponse {
 
   factory MentorDetailResponse.fromJson(Map<String, dynamic> json) {
     return MentorDetailResponse(
-      mentorId: json['mentorId'].toString(),
-      mentorName:
-          json['mentorName'] != null ? json['mentorName'] as String : '',
-      part: json['part'] != null ? json['part'] as String : '',
-      club: json['club'] != null ? json['club'] as String : '',
-      introductionTitle: json['introductionTitle'] != null
-          ? json['introductionTitle'] as String
-          : '',
-      introductionDescription: json['introductionDescription'] != null
-          ? json['introductionDescription'] as String
-          : '',
-      introductionAnswer1: json['introductionAnswer1'] != null
-          ? json['introductionAnswer1'] as String
-          : '',
-      introductionAnswer2: json['introductionAnswer2'] != null
-          ? json['introductionAnswer2'] as String
-          : '',
-      imageUrl: json['imageUrl'] != null ? json['imageUrl'] as String : '',
+      mentorId: json['mentorId'],
+      mentorName: json['mentorName'],
+      part: json['part'],
+      club: json['club'],
+      introductionTitle: json['introductionTitle'],
+      introductionDescription: json['introductionDescription'],
+      introductionAnswer1: json['introductionAnswer1'],
+      introductionAnswer2: json['introductionAnswer2'],
+      imageUrl: json['imageUrl'],
     );
   }
 
@@ -56,18 +47,5 @@ class MentorDetailResponse {
       'introductionAnswer2': introductionAnswer2,
       'imageUrl': imageUrl,
     };
-  }
-
-  @override
-  String toString() {
-    return 'MentorDetailResponse{mentorId: $mentorId, '
-        'mentorName: $mentorName, '
-        'part: $part,'
-        'club: $club, '
-        'introductionTitle: $introductionTitle, '
-        'introductionDescription: $introductionDescription, '
-        'introductionAnswer1: $introductionAnswer1, '
-        'introductionAnswer2: $introductionAnswer2, '
-        'imageUrl: $imageUrl}';
   }
 }

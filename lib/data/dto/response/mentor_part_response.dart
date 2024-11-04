@@ -1,12 +1,12 @@
 class MentorPartResponse {
-  final String picture;
-  final String mentorName;
-  final String part;
-  final String club;
-  final String username;
-  final String mentorId;
-  final String title;
-  final String description;
+  final String? picture;
+  final String? mentorName;
+  final String? part;
+  final String? club;
+  final String? username;
+  final int mentorId;
+  final String? title;
+  final String? description;
 
   MentorPartResponse({
     required this.picture,
@@ -21,17 +21,16 @@ class MentorPartResponse {
 
   factory MentorPartResponse.fromJson(Map<String, dynamic> json) {
     return MentorPartResponse(
-      picture: json['picture'] != null ? json['picture'] as String : '',
-      mentorName: json['mentorName'] != null ? json['mentorName'] as String : '',
-      part: json['part'] != null ? json['part'] as String : '',
-      club: json['club'] != null ? json['club'] as String : '',
-      username: json['username'] != null ? json['username'] as String : '',
-      mentorId: json['mentorId'].toString(),
-      title: json['title'] != null ? json['title'] as String : '',
-      description: json['description'] != null ? json['description'] as String : '',
+      picture: json['picture'],
+      mentorName: json['mentorName'],
+      part: json['part'],
+      club: json['club'],
+      username: json['username'],
+      mentorId: json['mentorId'],
+      title: json['title'],
+      description: json['description'],
     );
   }
-
 
   Map<String, dynamic> toJson() {
     return {
@@ -44,10 +43,5 @@ class MentorPartResponse {
       "title": title,
       "description": description
     };
-  }
-
-  @override
-  String toString() {
-    return 'MentorDetailResponse{picture: $picture, mentorName: $mentorName, part: $part, club: $club, username: $username, mentorId: $mentorId, title: $title, description: $description';
   }
 }
