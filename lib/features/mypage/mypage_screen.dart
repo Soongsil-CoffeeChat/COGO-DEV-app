@@ -1,3 +1,4 @@
+import 'package:cogo/common/db/locale_manager.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class MypageScreen extends StatelessWidget {
-  var a = true;
+  var role = LocaleManager.instance.getStringValue('selectedRole');
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class MypageScreen extends StatelessWidget {
                   children: [
                     const Text(
                       '유진 멘토님',
-                      style: CogoTextStyle.body18,
+                      style: CogoTextStyle.body20,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 10),
@@ -64,8 +65,8 @@ class MypageScreen extends StatelessWidget {
                           /**
                            * 멘토에게만 필요한 기능이므로 조건문을 걸어줍니다.
                            */
-                          a == true
-                              // FlutterConfig.get("role") == "mentor"
+
+                          role == "mentor"
                               ? Column(
                                   children: [
                                     ListTile(
