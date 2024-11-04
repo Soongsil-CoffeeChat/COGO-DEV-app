@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 class ProfileCard extends StatelessWidget {
   final String picture;
   final String mentorName;
-  final String part;
-  final String club;
   final String username;
   final String mentorId;
+  final List<String> tags;
   final String title;
   final String description;
   final double width;
@@ -19,8 +18,7 @@ class ProfileCard extends StatelessWidget {
     super.key,
     required this.picture,
     required this.mentorName,
-    required this.part,
-    required this.club,
+    required this.tags,
     required this.username,
     required this.mentorId,
     required this.title,

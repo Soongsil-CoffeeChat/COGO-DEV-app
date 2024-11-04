@@ -32,191 +32,77 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/signup/views/shared_views/completion_screen.dart';
 
 final AppRouter = GoRouter(
-    // initialLocation: '/',
-    initialLocation: Paths.home,
-    routes: [
-      GoRoute(
-          path: Paths.login,
+  // initialLocation: '/',
+  initialLocation: Paths.home,
+  routes: [
+    GoRoute(
+        path: Paths.login,
+        pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: const LoginScreen(),
+            )),
+    GoRoute(
+      path: Paths.agreement,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const AgreementScreen(),
+      ),
+      routes: [
+        GoRoute(
+          path: Paths.phone,
           pageBuilder: (context, state) => MaterialPage(
-                key: state.pageKey,
-                child: const LoginScreen(),
-              )),
-      GoRoute(
-        path: Paths.agreement,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const AgreementScreen(),
-        ),
-        routes: [
-          GoRoute(
-            path: Paths.phone,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const PhoneNumberScreen(),
-            ),
+            key: state.pageKey,
+            child: const PhoneNumberScreen(),
           ),
-          GoRoute(
-            path: Paths.name,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const NameInputScreen(),
-            ),
+        ),
+        GoRoute(
+          path: Paths.name,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const NameInputScreen(),
           ),
-          GoRoute(
-            path: Paths.choose,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const ChooseRoleScreen(),
-            ),
+        ),
+        GoRoute(
+          path: Paths.choose,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const ChooseRoleScreen(),
           ),
-          GoRoute(
-            path: Paths.mentorInterest,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const MentorInterestSelectionScreen(),
-            ),
+        ),
+        GoRoute(
+          path: Paths.mentorInterest,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const MentorInterestSelectionScreen(),
           ),
-          GoRoute(
-            path: Paths.mentorClub,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const ClubSelectionScreen(),
-            ),
+        ),
+        GoRoute(
+          path: Paths.mentorClub,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const ClubSelectionScreen(),
           ),
-          GoRoute(
-            path: Paths.mentorInfo,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const MentorInfoScreen(),
-            ),
+        ),
+        GoRoute(
+          path: Paths.mentorInfo,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const MentorInfoScreen(),
           ),
-          GoRoute(
-            path: Paths.menteeInterest,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const MenteeInterestSelectionScreen(),
-            ),
+        ),
+        GoRoute(
+          path: Paths.menteeInterest,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const MenteeInterestSelectionScreen(),
           ),
-          GoRoute(
-            path: Paths.completion,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const CompletionScreen(),
-            ),
+        ),
+        GoRoute(
+          path: Paths.completion,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const CompletionScreen(),
           ),
-        ],
-      ),
-      StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
-          return ScaffoldWithNestedNavigation(
-            navigationShell: navigationShell,
-          );
-        },
-        branches: [
-          _createBranch(Paths.home, const HomeScreen()),
-          _createBranch(Paths.cogo, const CogoScreen()),
-          _createBranch(Paths.mypage, MypageScreen()),
-        ],
-      ),
-      GoRoute(
-        path: Paths.profileDetail,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const ProfileDetailScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.search,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const SearchScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.schedule,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const ScheduleScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.memo,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const MemoScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.matching,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const MatchingScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.receivedCogo,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const ReceivedCogoScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.receivedCogoDetail,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const ReceivedCogoDetailScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.successedCogo,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const SuccessedCogoScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.successedCogoDetail,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const SuccessedCogoDetailScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.mentorIntroduction,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const MentorIntroductionScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.mentorQuestion1,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const MentorQuestion1Screen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.mentorQuestion2,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const MentorQuestion2Screen(),
-        ),
-      ),
-      /**
-       * my page
-       */
-      GoRoute(
-        path: Paths.myInfo,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const MyInfoScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Paths.introduce,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const MentorIntroductionScreen(),
         ),
       ],
     ),
@@ -234,12 +120,11 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.profileDetail,
-      builder: (context, state) {
-        final mentorId = state.uri.queryParameters['mentorId']; // Query parameter 사용
-        return ProfileDetailScreen(mentorId: mentorId!);
-      },
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ProfileDetailScreen(mentorId: '1'),
+      ),
     ),
-
     GoRoute(
       path: Paths.search,
       pageBuilder: (context, state) => MaterialPage(
@@ -302,6 +187,127 @@ final AppRouter = GoRouter(
         key: state.pageKey,
         child: const MentorIntroductionScreen(),
       ),
+    ),
+    GoRoute(
+      path: Paths.mentorQuestion1,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorQuestion1Screen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.mentorQuestion2,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorQuestion2Screen(),
+      ),
+    ),
+    /**
+       * my page
+       */
+    GoRoute(
+      path: Paths.myInfo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MyInfoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.introduce,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorIntroductionScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.profileDetail,
+      builder: (context, state) {
+        final mentorId =
+            state.uri.queryParameters['mentorId']; // Query parameter 사용
+        return ProfileDetailScreen(mentorId: mentorId!);
+      },
+    ),
+    GoRoute(
+      path: Paths.timeSetting,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorTimeSettingScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.search,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const SearchScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.schedule,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ScheduleScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.memo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MemoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.matching,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MatchingScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.receivedCogo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ReceivedCogoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.receivedCogoDetail,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ReceivedCogoDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.successedCogo,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const SuccessedCogoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.successedCogoDetail,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const SuccessedCogoDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.mentorIntroduction,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorIntroductionScreen(),
+      ),
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return ScaffoldWithNestedNavigation(
+          navigationShell: navigationShell,
+        );
+      },
+      branches: [
+        _createBranch(Paths.home, const HomeScreen()),
+        _createBranch(Paths.cogo, const CogoScreen()),
+        _createBranch(Paths.mypage, MypageScreen()),
+      ],
     ),
   ],
 );

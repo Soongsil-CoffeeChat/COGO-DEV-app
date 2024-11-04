@@ -14,8 +14,6 @@ class HomeViewModel extends ChangeNotifier {
 
   List<MentorPartEntity>? profiles;
 
-  final MentorService _mentorService = MentorService(); // MentorService 객체 생성
-
   Future<void> onButtonPressed(BuildContext context, String title) async {
     final part = title; // API 호출에 사용할 mentorId
     try {
@@ -32,7 +30,6 @@ class HomeViewModel extends ChangeNotifier {
 
   void onProfileCardTapped(BuildContext context, String mentorId) {
     context.push('${Paths.profileDetail}?mentorId=$mentorId');
-    
   }
 
   void onSearchPressed(BuildContext context) {

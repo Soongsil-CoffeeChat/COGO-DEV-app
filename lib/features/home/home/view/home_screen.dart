@@ -106,8 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ProfileCard(
                 picture: profileCard.picture,
                 mentorName: profileCard.mentorName,
-                club: profileCard.club,
-                part: profileCard.part,
+                tags: profileCard.tags,
                 username: profileCard.username,
                 mentorId: profileCard.mentorId,
                 title: profileCard.title,
