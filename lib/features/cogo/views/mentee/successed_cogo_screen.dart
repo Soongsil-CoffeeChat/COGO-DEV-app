@@ -1,3 +1,5 @@
+import 'package:cogo/common/widgets/atoms/texts/texts.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +40,7 @@ class SuccessedCogoScreen extends StatelessWidget {
                           final item = viewModel.items[index];
                           return GestureDetector(
                             onTap: () {
-                              // 클릭 시 수행할 작업 추가
+                              //TODO 클릭 시 수행할 작업 추가
                               context.push('/successedCogoDetail');
                             },
                             child: Container(
@@ -49,23 +51,14 @@ class SuccessedCogoScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    item['title']!,
-                                    style: const TextStyle(
-                                      fontFamily: 'PretendardMedium',
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  Text(
-                                    item['date']!,
-                                    style: const TextStyle(
-                                      fontFamily: 'PretendardMedium',
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
+                                  Text(item['title']!,
+                                      style: CogoTextStyle.body16),
+                                  Text(item['date']!,
+                                      style: CogoTextStyle.body12.copyWith(
+                                          color: CogoColor.systemGray03)),
                                 ],
                               ),
                             ),
