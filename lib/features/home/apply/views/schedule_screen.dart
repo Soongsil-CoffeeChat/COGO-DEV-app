@@ -47,6 +47,8 @@ class ScheduleScreen extends StatelessWidget {
                                 selectedTimeSlot: viewModel.selectedTimeSlot,
                                 onTimeSlotSelected:
                                     viewModel.onTimeSlotSelected,
+                                timeSlots:
+                                    viewModel.timeSlots, // 뷰모델에서 timeSlots 전달
                               ),
                             ),
                             const SizedBox(height: 20),
