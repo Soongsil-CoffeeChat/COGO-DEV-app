@@ -3,14 +3,14 @@ import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class TimePicker extends StatelessWidget {
-  final int selectedTimeSlot;
-  final ValueChanged<int> onTimeSlotSelected;
+  final int? selectedTimeSlot;
+  final ValueChanged<int>? onTimeSlotSelected;
   final List<String> timeSlots;
 
   const TimePicker({
     Key? key,
-    required this.selectedTimeSlot,
-    required this.onTimeSlotSelected,
+    this.selectedTimeSlot, // Make selectedTimeSlot optional
+    this.onTimeSlotSelected, // Make onTimeSlotSelected optional
     required this.timeSlots,
   }) : super(key: key);
 
@@ -21,10 +21,13 @@ class TimePicker extends StatelessWidget {
         spacing: 10.0,
         runSpacing: 15.0,
         children: List.generate(timeSlots.length, (index) {
-          final isSelected = index == selectedTimeSlot;
+          final isSelected =
+              selectedTimeSlot != null && index == selectedTimeSlot;
 
           return GestureDetector(
-            onTap: () => onTimeSlotSelected(index),
+            onTap: onTimeSlotSelected != null
+                ? () => onTimeSlotSelected!(index)
+                : null,
             child: Container(
               width: 105,
               height: 25,
@@ -40,9 +43,9 @@ class TimePicker extends StatelessWidget {
               child: Text(
                 timeSlots[index],
                 style: CogoTextStyle.body12.copyWith(
-                    color: isSelected
-                        ? CogoColor.white50
-                        : CogoColor.systemGray03),
+                  color:
+                      isSelected ? CogoColor.white50 : CogoColor.systemGray03,
+                ),
               ),
             ),
           );
