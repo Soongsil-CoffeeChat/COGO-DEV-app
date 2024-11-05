@@ -1,6 +1,7 @@
+import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/header.dart';
 import 'package:cogo/features/cogo/view_models/mentor/received_cogo_view_model.dart';
 
 class ReceivedCogoScreen extends StatelessWidget {
@@ -47,23 +48,13 @@ class ReceivedCogoScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    item.title,
-                                    style: const TextStyle(
-                                      fontFamily: 'PretendardMedium',
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  Text(
-                                    item.date,
-                                    style: const TextStyle(
-                                      fontFamily: 'PretendardMedium',
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
+                                  Text(item.title, style: CogoTextStyle.body16),
+                                  Text(item.date,
+                                      style: CogoTextStyle.body12.copyWith(
+                                          color: CogoColor.systemGray03)),
                                 ],
                               ),
                             ),
