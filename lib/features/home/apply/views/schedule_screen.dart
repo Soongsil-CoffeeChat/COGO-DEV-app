@@ -35,7 +35,8 @@ class ScheduleScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            DatePicker(
+                            HorizontalDatePicker(
+                              itemCount: 7,
                               selectedDate: viewModel.selectedDate,
                               onDateSelected: viewModel.onDateSelected,
                             ),
@@ -47,8 +48,7 @@ class ScheduleScreen extends StatelessWidget {
                                 selectedTimeSlot: viewModel.selectedTimeSlot,
                                 onTimeSlotSelected:
                                     viewModel.onTimeSlotSelected,
-                                timeSlots:
-                                    viewModel.timeSlots, // 뷰모델에서 timeSlots 전달
+                                timeSlots: viewModel.timeSlots,
                               ),
                             ),
                             const SizedBox(height: 20),
