@@ -59,7 +59,7 @@ class HorizontalDatePicker extends StatelessWidget {
         width: 55,
         margin: const EdgeInsets.symmetric(horizontal: 5.0),
         decoration: BoxDecoration(
-          color: isSelected ? CogoColor.main : CogoColor.systemGray02,
+          color: isSelected ? CogoColor.systemGray05 : CogoColor.systemGray02,
           shape: BoxShape.circle,
         ),
         child: Column(
@@ -74,7 +74,7 @@ class HorizontalDatePicker extends StatelessWidget {
             Text(
               index == 0 ? '오늘' : dayFormat.format(date),
               style: CogoTextStyle.body9.copyWith(
-                color: isSelected ? CogoColor.white50 : CogoColor.main,
+                color: isSelected ? CogoColor.white50 : CogoColor.systemGray05,
               ),
             ),
           ],

@@ -1,3 +1,5 @@
+import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,23 +33,11 @@ class Header extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'PretendardMedium',
-                  color: Colors.black,
-                ),
-              ),
+              Text(title, style: CogoTextStyle.body18),
               const SizedBox(height: 4),
-              Text(
-                subtitle,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontFamily: 'PretendardMedium',
-                  color: Colors.grey,
-                ),
-              ),
+              Text(subtitle,
+                  style: CogoTextStyle.body12
+                      .copyWith(color: CogoColor.systemGray03)),
             ],
           ),
         ),

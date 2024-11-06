@@ -1,3 +1,5 @@
+import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -22,16 +24,13 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isSelected ? onPressed : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.black : Colors.grey[300],
-          foregroundColor: isSelected ? Colors.white : Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          textStyle: const TextStyle(
-            fontFamily: 'PretendardMedium',
-            fontSize: 18,
-          ),
-        ),
+            backgroundColor:
+                isSelected ? CogoColor.main : CogoColor.systemGray02,
+            foregroundColor: isSelected ? CogoColor.white50 : CogoColor.main,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            textStyle: CogoTextStyle.body18),
         child: Text(text),
       ),
     );

@@ -9,8 +9,8 @@ class TimePicker extends StatelessWidget {
 
   const TimePicker({
     Key? key,
-    this.selectedTimeSlot, // Make selectedTimeSlot optional
-    this.onTimeSlotSelected, // Make onTimeSlotSelected optional
+    this.selectedTimeSlot,
+    this.onTimeSlotSelected,
     required this.timeSlots,
   }) : super(key: key);
 
@@ -33,7 +33,7 @@ class TimePicker extends StatelessWidget {
               height: 25,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isSelected ? Colors.black : Colors.white,
+                color: isSelected ? CogoColor.systemGray05 : CogoColor.white50,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: CogoColor.systemGray03,

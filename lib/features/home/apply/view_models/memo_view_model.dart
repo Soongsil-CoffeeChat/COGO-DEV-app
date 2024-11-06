@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cogo/constants/paths.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MemoViewModel extends ChangeNotifier {

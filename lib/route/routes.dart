@@ -222,8 +222,7 @@ final AppRouter = GoRouter(
     GoRoute(
       path: Paths.profileDetail,
       builder: (context, state) {
-        final mentorId =
-            state.uri.queryParameters['mentorId']; // Query parameter 사용
+        final mentorId = state.uri.queryParameters['mentorId'];
         return ProfileDetailScreen(mentorId: mentorId!);
       },
     ),

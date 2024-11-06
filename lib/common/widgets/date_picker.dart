@@ -22,7 +22,7 @@ class DatePicker extends StatelessWidget {
       width: 55,
       margin: const EdgeInsets.symmetric(horizontal: 5.0),
       decoration: const BoxDecoration(
-        color: CogoColor.main,
+        color: CogoColor.systemGray05,
         shape: BoxShape.circle,
       ),
       child: Column(

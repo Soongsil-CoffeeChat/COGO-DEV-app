@@ -10,12 +10,12 @@ class MentorProfileDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double dialogWidth = screenWidth - 40;  // 전체 화면 너비에서 20을 뺀 값
-    final double dialogHeight = dialogWidth;  // 너비와 높이를 동일하게 설정
+    final double dialogWidth = screenWidth - 40; // 전체 화면 너비에서 20을 뺀 값
+    final double dialogHeight = dialogWidth;
 
     return Dialog(
       backgroundColor: Colors.white,
-      insetPadding: const EdgeInsets.all(10), // 모든 방향에서 10의 패딩 적용
+      insetPadding: const EdgeInsets.all(10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -23,7 +23,7 @@ class MentorProfileDialog extends StatelessWidget {
         width: dialogWidth,
         height: dialogHeight,
         child: Stack(
-          clipBehavior: Clip.none, // Stack 바깥으로 나가는 것을 허용
+          clipBehavior: Clip.none,
           children: [
             Padding(
               padding: const EdgeInsets.all(20),
@@ -53,11 +53,12 @@ class MentorProfileDialog extends StatelessWidget {
                     onPressed: () => Navigator.of(context).push(_createRoute()),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: CogoColor.systemGray05,
-                      minimumSize: Size(dialogWidth, 50),  // 버튼의 너비를 다이얼로그 너비에 맞춤
+                      minimumSize: Size(dialogWidth, 50),
                     ),
                     child: Text(
                       '멘토 프로필 작성하기',
-                      style: CogoTextStyle.button1.copyWith(color: CogoColor.white50),
+                      style: CogoTextStyle.button1
+                          .copyWith(color: CogoColor.white50),
                     ),
                   ),
                 ],
@@ -65,7 +66,7 @@ class MentorProfileDialog extends StatelessWidget {
             ),
             // 닫기 버튼
             Positioned(
-              top: -50,  // 다이얼로그 외부에 위치
+              top: -50,
               right: 0,
               child: GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
@@ -84,9 +85,11 @@ class MentorProfileDialog extends StatelessWidget {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const MentorIntroductionScreen(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const MentorIntroductionScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero).chain(CurveTween(curve: Curves.ease));
+        var tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero)
+            .chain(CurveTween(curve: Curves.ease));
         return SlideTransition(
           position: animation.drive(tween),
           child: child,
