@@ -66,7 +66,8 @@ class MypageScreen extends StatelessWidget {
                            * 멘토에게만 필요한 기능이므로 조건문을 걸어줍니다.
                            */
 
-                          role == "mentor"
+                          true
+                              // role == "mentor"
                               ? Column(
                                   children: [
                                     ListTile(

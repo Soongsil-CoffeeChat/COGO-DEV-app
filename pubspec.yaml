@@ -48,6 +48,7 @@ dependencies:
   #모델 만들기
   json_annotation: ^4.9.0
 
+  #달력
   table_calendar: ^3.0.9
 
 dev_dependencies:
