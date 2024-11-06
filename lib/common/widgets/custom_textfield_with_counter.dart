@@ -36,13 +36,15 @@ class CustomTextFieldWithCounter extends StatelessWidget {
             controller: controller,
             maxLength: maxCount,
             maxLines: maxLines,
+            style: CogoTextStyle.body12,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: CogoTextStyle.body12,
+              hintStyle:
+                  CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
               border: InputBorder.none,
               counterText: '',
             ),
-            onChanged: (text) => {},  // ViewModel로부터 분리됨
+            onChanged: (text) => {}, // ViewModel로부터 분리됨
           ),
         ),
         const SizedBox(height: 5),
