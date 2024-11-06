@@ -1,6 +1,7 @@
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:flutter/material.dart';
+import 'package:cogo/constants/constants.dart';
 
 class ProfileCard extends StatelessWidget {
   final String picture;
@@ -36,7 +37,7 @@ class ProfileCard extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: CogoColor.white50,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -50,7 +51,6 @@ class ProfileCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 이미지와 태그를 겹쳐서 배치하기 위한 Stack 사용
             Stack(
               children: [
                 ClipRRect(
@@ -61,14 +61,13 @@ class ProfileCard extends StatelessWidget {
                   child: Image.asset(
                     picture.isNotEmpty ? picture : 'assets/default_img.png',
                     width: double.infinity,
-                    height: 150, // 이미지 높이
-                    fit: BoxFit.cover, // 이미지 꽉 채우기
+                    height: 150,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                // 클럽과 파트 값을 이미지 위에 배치
                 Positioned(
-                  top: 15, // 이미지 위에서 10px 아래에 배치
-                  left: 15, // 이미지 왼쪽에서 10px 오른쪽에 배치
+                  top: 15,
+                  left: 15,
                   child: TagList(tags: tags), // 태그 리스트를 새로운 위젯으로 교체
                 ),
               ],

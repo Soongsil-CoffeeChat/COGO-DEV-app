@@ -1,3 +1,5 @@
+import 'package:cogo/common/widgets/atoms/texts/texts.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class InfoBox extends StatelessWidget {
@@ -9,7 +11,7 @@ class InfoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width, // width 파라미터 사용
+      width: width,
       height: 50,
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -18,11 +20,7 @@ class InfoBox extends StatelessWidget {
       ),
       child: Text(
         info,
-        style: const TextStyle(
-          color: Colors.white,
-          fontFamily: 'PretendardMedium',
-          fontSize: 18,
-        ),
+        style: CogoTextStyle.body18.copyWith(color: CogoColor.white50),
       ),
     );
   }

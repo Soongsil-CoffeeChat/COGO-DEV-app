@@ -1,64 +1,46 @@
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DatePicker extends StatelessWidget {
-  final DateTime selectedDate;
-  final ValueChanged<DateTime> onDateSelected;
+  final DateTime date;
+  final DateTime day;
 
   const DatePicker({
     Key? key,
-    required this.selectedDate,
-    required this.onDateSelected,
+    required this.date,
+    required this.day,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
     final dateFormat = DateFormat('dd');
     final dayFormat = DateFormat('E', 'ko');
 
-    return SizedBox(
-      height: 100,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 7,
-        itemBuilder: (context, index) {
-          final date = now.add(Duration(days: index));
-          final isSelected = date.day == selectedDate.day;
-
-          return GestureDetector(
-            onTap: () => onDateSelected(date),
-            child: Container(
-              width: 60,
-              margin: const EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.black : const Color(0xFFEDEDED),
-                shape: BoxShape.circle,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    dateFormat.format(date),
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'PretendardMedium',
-                      color: isSelected ? Colors.white : const Color(0xFF6E6E6E),
-                    ),
-                  ),
-                  Text(
-                    dayFormat.format(date),
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'PretendardMedium',
-                      color: isSelected ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ],
-              ),
+    return Container(
+      width: 55,
+      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+      decoration: const BoxDecoration(
+        color: CogoColor.systemGray05,
+        shape: BoxShape.circle,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            dateFormat.format(date),
+            style: CogoTextStyle.body18.copyWith(
+              color: CogoColor.white50,
             ),
-          );
-        },
+          ),
+          Text(
+            dayFormat.format(date),
+            style: CogoTextStyle.body9.copyWith(
+              color: CogoColor.white50,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -87,22 +87,20 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, viewModel, child) {
         final profiles = viewModel.profiles;
 
-        if (profiles == null ||
-            profiles.isEmpty ||
-            profiles.any((profile) => profile == null)) {
+        if (profiles == null || profiles.isEmpty) {
           return const Center(child: Text('멘토 정보가 없습니다'));
         }
 
         return ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          scrollDirection: Axis.vertical, // 리스트 크기 고정
+          scrollDirection: Axis.vertical,
           itemCount: profiles.length,
           itemBuilder: (context, index) {
             final profileCard = profiles[index];
             return Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 8.0, horizontal: 16.0), // 세로와 양쪽 마진 추가
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: ProfileCard(
                 picture: profileCard.picture,
                 mentorName: profileCard.mentorName,

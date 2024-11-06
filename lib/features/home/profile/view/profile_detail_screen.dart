@@ -8,16 +8,17 @@ import 'package:cogo/features/home/profile/view_model/profile_detail_view_model.
 class ProfileDetailScreen extends StatelessWidget {
   final String mentorId;
 
-  const ProfileDetailScreen({Key? key, required this.mentorId}) : super(key: key);
-
+  const ProfileDetailScreen({Key? key, required this.mentorId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ProfileDetailViewModel(mentorId), // Pass mentorId to ViewModel
+      create: (context) =>
+          ProfileDetailViewModel(mentorId), // Pass mentorId to ViewModel
       child: Scaffold(
         backgroundColor: CogoColor.white50,
-        resizeToAvoidBottomInset: true, // 키보드 오버 플로우 해결
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: CogoColor.white50,
           elevation: 0,
@@ -67,9 +68,12 @@ class ProfileDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
                         child: Image.asset(
-                          profile.imageUrl.isNotEmpty ? profile.imageUrl : 'assets/default_img.png',
+                          profile.imageUrl.isNotEmpty
+                              ? profile.imageUrl
+                              : 'assets/default_img.png',
                           width: double.infinity,
                           height: 150,
                           fit: BoxFit.cover,
@@ -105,10 +109,7 @@ class ProfileDetailScreen extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: CogoColor.main,
                           foregroundColor: CogoColor.white50,
-                          textStyle: const TextStyle(
-                            fontFamily: 'PretendardMedium',
-                            fontSize: 18,
-                          ),
+                          textStyle: CogoTextStyle.body18,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
