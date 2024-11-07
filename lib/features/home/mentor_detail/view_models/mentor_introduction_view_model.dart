@@ -53,12 +53,14 @@ class MentorIntroductionViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // SharedPreferences에 저장
   Future<void> _saveToPreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('mentor_title', titleController.text);
-    await prefs.setString('mentor_description', descriptionController.text);
-    await prefs.setString('mentor_answer1', answer1Controller.text);
-    await prefs.setString('mentor_answer2', answer2Controller.text);
+    await prefs.setString('mentor_title', titleController.text.toString());
+    await prefs.setString(
+        'mentor_description', descriptionController.text.toString());
+    await prefs.setString('mentor_answer1', answer1Controller.text.toString());
+    await prefs.setString('mentor_answer2', answer2Controller.text.toString());
   }
 
   // SharedPreferences에서 저장된 값 불러오기
@@ -72,13 +74,12 @@ class MentorIntroductionViewModel extends ChangeNotifier {
 
   // 멘토 자기소개 입력 api 호출
   Future<void> saveIntroduction(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final title = prefs.getString('mentor_title') ?? '';
+    final description = prefs.getString('mentor_description') ?? '';
+    final answer1 = prefs.getString('mentor_answer1') ?? '';
+    final answer2 = prefs.getString('mentor_answer2') ?? '';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final title = prefs.getString('mentor_title') ?? '';
-      final description = prefs.getString('mentor_description') ?? '';
-      final answer1 = prefs.getString('mentor_answer1') ?? '';
-      final answer2 = prefs.getString('mentor_answer2') ?? '';
-
       await _mentorService.patchMentorIntroduction(
           title, description, answer1, answer2);
 

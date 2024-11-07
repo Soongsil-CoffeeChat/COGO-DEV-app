@@ -86,7 +86,7 @@ class MentorService {
     }
   }
 
-  // 멘토 자기소개 입력
+  //멘토 자기소개 입력
   Future<MentorIntroductionResponse> patchMentorIntroduction(
       String introductionTitle,
       String introductionDescription,
@@ -109,14 +109,18 @@ class MentorService {
       );
 
       if (response.statusCode == 200) {
-        log(response.data);
-        final baseResponse = BaseResponse<MentorIntroductionResponse>.fromJson(
-          response.data,
-          (contentJson) {
-            return MentorIntroductionResponse.fromJson(contentJson);
-          },
-        );
-        return baseResponse.content;
+        log(response.data.toString());
+
+        final responseData = response.data;
+
+        // 데이터가 Map 형식인지 확인하여 서버 응답 처리추가
+        if (responseData is Map<String, dynamic> &&
+            responseData['content'] != null) {
+          final contentJson = responseData['content'] as Map<String, dynamic>;
+          return MentorIntroductionResponse.fromJson(contentJson);
+        } else {
+          throw Exception('Unexpected response format: $responseData');
+        }
       } else {
         throw Exception(
             'Failed to patch mentor introduction: ${response.data}');

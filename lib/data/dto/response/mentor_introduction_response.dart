@@ -1,8 +1,8 @@
 class MentorIntroductionResponse {
-  final String? introductionTitle;
-  final String? introductionDescription;
-  final String? introductionAnswer1;
-  final String? introductionAnswer2;
+  final String introductionTitle;
+  final String introductionDescription;
+  final String introductionAnswer1;
+  final String introductionAnswer2;
 
   MentorIntroductionResponse({
     required this.introductionTitle,
@@ -13,19 +13,19 @@ class MentorIntroductionResponse {
 
   factory MentorIntroductionResponse.fromJson(Map<String, dynamic> json) {
     return MentorIntroductionResponse(
-      introductionTitle: json['introductionTitle'],
-      introductionDescription: json['introductionDescription'],
-      introductionAnswer1: json['introductionAnswer1'],
-      introductionAnswer2: json['introductionAnswer2'],
+      introductionTitle: json['introduction_title'],
+      introductionDescription: json['introduction_description'],
+      introductionAnswer1: json['introduction_answer1'],
+      introductionAnswer2: json['introduction_answer2'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'introductionTitle': introductionTitle,
-      'introductionDescription': introductionDescription,
-      'introductionAnswer1': introductionAnswer1,
-      'introductionAnswer2': introductionAnswer2,
+      'introduction_title': introductionTitle,
+      'introduction_description': introductionDescription,
+      'introduction_answer1': introductionAnswer1,
+      'introduction_answer2': introductionAnswer2,
     };
   }
 }
