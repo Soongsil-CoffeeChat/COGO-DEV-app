@@ -30,4 +30,5 @@ abstract class Apis {
   // 멘토 관련 api
   static const String mentor = "mentors";
   static const String mentorPart = "mentors/part";
+  static const String mentorIntroduction = "mentors/introductions";
 }
