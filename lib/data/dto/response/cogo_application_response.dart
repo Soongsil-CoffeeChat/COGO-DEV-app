@@ -1,16 +1,16 @@
-class ApplyCogoResponse {
+class CogoApplicationResponse {
   final int mentorId;
   final int possibleDateId;
   final String? memo;
 
-  ApplyCogoResponse({
+  CogoApplicationResponse({
     required this.mentorId,
     required this.possibleDateId,
     required this.memo,
   });
 
-  factory ApplyCogoResponse.fromJson(Map<String, dynamic> json) {
-    return ApplyCogoResponse(
+  factory CogoApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return CogoApplicationResponse(
       mentorId: json['mentorId'],
       possibleDateId: json['possibleDateId'],
       memo: json['memo'],
