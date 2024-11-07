@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:cogo/features/home/profile/view_model/profile_detail_view_model.dart';
 
 class ProfileDetailScreen extends StatelessWidget {
-  final String mentorId;
+  final int mentorId;
 
   const ProfileDetailScreen({Key? key, required this.mentorId})
       : super(key: key);

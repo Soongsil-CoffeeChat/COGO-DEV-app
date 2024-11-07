@@ -119,13 +119,6 @@ final AppRouter = GoRouter(
       ],
     ),
     GoRoute(
-      path: Paths.profileDetail,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ProfileDetailScreen(mentorId: '1'),
-      ),
-    ),
-    GoRoute(
       path: Paths.search,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
@@ -222,8 +215,12 @@ final AppRouter = GoRouter(
     GoRoute(
       path: Paths.profileDetail,
       builder: (context, state) {
-        final mentorId = state.uri.queryParameters['mentorId'];
-        return ProfileDetailScreen(mentorId: mentorId!);
+        final mentorId = int.tryParse(state.uri.queryParameters['mentorId']!);
+        if (mentorId == null) {
+          throw Exception(
+              'Invalid mentorId: ${state.uri.queryParameters['mentorId']}');
+        }
+        return ProfileDetailScreen(mentorId: mentorId);
       },
     ),
     GoRoute(
