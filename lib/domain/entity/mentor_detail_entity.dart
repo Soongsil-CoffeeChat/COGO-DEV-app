@@ -1,7 +1,7 @@
 import 'package:cogo/data/dto/response/mentor_detail_response.dart';
 
 class MentorDetailEntity {
-  final String mentorId;
+  final int mentorId;
   final String mentorName;
   final String part;
   final String club;
@@ -25,7 +25,7 @@ class MentorDetailEntity {
 
   factory MentorDetailEntity.fromResponse(MentorDetailResponse response) {
     return MentorDetailEntity(
-      mentorId: response.mentorId.toString(),
+      mentorId: response.mentorId,
       mentorName: response.mentorName ?? '',
       part: response.part ?? '',
       club: response.club ?? '',

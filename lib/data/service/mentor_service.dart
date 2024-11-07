@@ -16,28 +16,31 @@ class MentorService {
   //TODO 실제 토큰으로 코드 변환 필요
   String token = FlutterConfig.get('mentor_token');
 
-  Future<MentorDetailResponse> getMentorDetail(String mentorId) async {
+  Future<MentorDetailResponse> getMentorDetail(int mentorId) async {
     try {
       final response = await _apiClient.dio.get(
-        '$apiVersion${Apis.mentor}/$mentorId', // mentorId를 경로의 일부로 포함
+        '$apiVersion${Apis.mentor}/$mentorId',
         options: Options(
           extra: {'skipAuthToken': false},
           headers: {
-            'Authorization': 'Bearer $token', // 가져온 토큰을 Authorization 헤더로 설정
+            'Authorization': 'Bearer $token',
           },
         ),
       );
       if (response.statusCode == 200) {
-        print(response.data); // 서버 응답을 출력하여 확인
-        final baseResponse = BaseResponse<MentorDetailResponse>.fromJson(
-          response.data,
-          (contentJson) {
-            return MentorDetailResponse.fromJson(contentJson);
-          },
-        );
-        return baseResponse.content;
+        final responseData = response.data;
+
+        // JSON 데이터의 content가 null인 경우
+        if (responseData is Map<String, dynamic> &&
+            responseData['content'] != null) {
+          final contentJson = responseData['content'] as Map<String, dynamic>;
+          return MentorDetailResponse.fromJson(contentJson);
+        } else {
+          throw Exception(
+              'Unexpected response format or null content: $responseData');
+        }
       } else {
-        throw Exception('Failed to send verification code ${response.data}');
+        throw Exception('Failed to fetch mentor details: ${response.data}');
       }
     } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');

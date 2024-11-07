@@ -11,11 +11,11 @@ class ProfileDetailViewModel extends ChangeNotifier {
   bool isLoading = true; // 로딩 상태를 나타내는 변수
   final MentorService _mentorService = MentorService();
 
-  ProfileDetailViewModel(String mentorId) {
+  ProfileDetailViewModel(int mentorId) {
     fetchMentorDetail(mentorId);
   }
 
-  Future<void> fetchMentorDetail(String mentorId) async {
+  Future<void> fetchMentorDetail(int mentorId) async {
     try {
       final response = await _mentorService.getMentorDetail(mentorId);
 
@@ -24,7 +24,7 @@ class ProfileDetailViewModel extends ChangeNotifier {
       log('Error fetching mentor details: $error');
     } finally {
       isLoading = false;
-      notifyListeners();  
+      notifyListeners();
     }
   }
 
