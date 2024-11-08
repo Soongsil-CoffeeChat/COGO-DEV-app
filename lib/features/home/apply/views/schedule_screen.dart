@@ -1,16 +1,18 @@
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/home/apply/view_models/schedule_view_model.dart';
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/constants/constants.dart';
 
 class ScheduleScreen extends StatelessWidget {
-  const ScheduleScreen({super.key});
+  final int mentorId;
+
+  const ScheduleScreen({super.key, required this.mentorId});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ScheduleViewModel(),
+      create: (_) => ScheduleViewModel()..fetchMentorPossibleDates(mentorId),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -48,7 +50,7 @@ class ScheduleScreen extends StatelessWidget {
                                 selectedTimeSlot: viewModel.selectedTimeSlot,
                                 onTimeSlotSelected:
                                     viewModel.onTimeSlotSelected,
-                                timeSlots: viewModel.timeSlots,
+                                timeSlots: viewModel.filteredTimeSlots,
                               ),
                             ),
                             const SizedBox(height: 20),

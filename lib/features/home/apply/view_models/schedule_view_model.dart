@@ -1,28 +1,54 @@
+import 'package:cogo/constants/constants.dart';
+import 'package:cogo/domain/entity/mentor_possible_date_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cogo/constants/paths.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ScheduleViewModel extends ChangeNotifier {
+  final PossibledateService _possibledateService = PossibledateService();
+
   DateTime selectedDate = DateTime.now();
   int selectedTimeSlot = -1;
 
-  final List<String> timeSlots = [
-    '09:00 ~ 10:00',
-    '10:00 ~ 11:00',
-    '11:00 ~ 12:00',
-    '13:00 ~ 14:00',
-    '14:00 ~ 15:00',
-    '15:00 ~ 16:00',
-    '16:00 ~ 17:00',
-    '17:00 ~ 18:00',
-    '18:00 ~ 19:00',
-    '19:00 ~ 20:00',
-    '20:00 ~ 21:00',
-  ];
+  List<MentorPossibleDateEntity> mentorPossibleDates = []; // mentor 가능한 날짜 목록
+  List<DateTime> availableDates = []; // DatePicker에 사용할 날짜 목록
+  List<String> filteredTimeSlots = []; // 선택된 날짜에 맞는 시간대 목록
+
+  // 멘토 가능한 시간 api 호출
+  Future<void> fetchMentorPossibleDates(int mentorId) async {
+    print("사용자가 멘토가이디: $mentorId");
+    try {
+      final response =
+          await _possibledateService.getMentorPossibleDates(mentorId);
+
+      // 응답 데이터를 MentorPossibleDate 엔티티로 변환
+      mentorPossibleDates = response
+          .map((json) => MentorPossibleDateEntity.fromJson(json))
+          .toList();
+
+      availableDates =
+          mentorPossibleDates.map((dateInfo) => dateInfo.date).toSet().toList();
+
+      onDateSelected(selectedDate);
+
+      notifyListeners();
+    } catch (e) {
+      notifyListeners();
+      throw Exception('Failed to fetch possible dates: $e');
+    }
+  }
 
   void onDateSelected(DateTime date) {
     selectedDate = date;
+
+    filteredTimeSlots = mentorPossibleDates
+        .where((dateInfo) =>
+            dateInfo.date.year == selectedDate.year &&
+            dateInfo.date.month == selectedDate.month &&
+            dateInfo.date.day == selectedDate.day)
+        .map((dateInfo) => dateInfo.formattedTimeSlot)
+        .toList();
+
     notifyListeners();
   }
 
@@ -31,11 +57,12 @@ class ScheduleViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveSelection(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedDate', selectedDate.toIso8601String());
-    await prefs.setInt('selectedTimeSlot', selectedTimeSlot);
+  void saveSelection(BuildContext context) {
+    final selectedData = {
+      'selectedDate': selectedDate.toIso8601String(),
+      'selectedTimeSlot': selectedTimeSlot,
+    };
 
-    context.push(Paths.memo);
+    context.push(Paths.memo, extra: selectedData);
   }
 }
