@@ -1,4 +1,5 @@
 import 'package:cogo/constants/constants.dart';
+import 'package:cogo/data/dto/response/mentor_possible_date_response.dart';
 import 'package:cogo/domain/entity/mentor_possible_date_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:cogo/data/service/possibledate_service.dart';
@@ -16,14 +17,14 @@ class ScheduleViewModel extends ChangeNotifier {
 
   // 멘토 가능한 시간 api 호출
   Future<void> fetchMentorPossibleDates(int mentorId) async {
-    print("사용자가 멘토가이디: $mentorId");
     try {
+      // API 호출
       final response =
           await _possibledateService.getMentorPossibleDates(mentorId);
 
-      // 응답 데이터를 MentorPossibleDate 엔티티로 변환
       mentorPossibleDates = response
-          .map((json) => MentorPossibleDateEntity.fromJson(json))
+          .map((json) => MentorPossibleDateEntity.fromResponse(
+              MentorPossibleDateResponse.fromJson(json)))
           .toList();
 
       availableDates =
