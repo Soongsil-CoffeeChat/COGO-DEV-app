@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/di/api_client.dart';
-import 'package:cogo/data/dto/response/mentor_possible_date_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -11,7 +12,8 @@ class PossibledateService {
   //TODO : 추후 실제 유저 토큰으로 바꿔야 함
   String token = FlutterConfig.get('mentor_token');
 
-  Future<MentorPossibleDateResponse> getMentorPossibleDates(
+  // 커피쳇 가능 시간 불러오기 api
+  Future<List<Map<String, dynamic>>> getMentorPossibleDates(
       int mentorId) async {
     try {
       final response = await _apiClient.dio.get(
@@ -26,22 +28,18 @@ class PossibledateService {
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        // JSON 데이터의 content가 null인 경우
-        if (responseData is Map<String, dynamic> &&
-            responseData['content'] != null) {
-          final contentJson = responseData['content'] as Map<String, dynamic>;
-          return MentorPossibleDateResponse.fromJson(contentJson);
+        if (responseData['content'] is List) {
+          return List<Map<String, dynamic>>.from(responseData['content']);
         } else {
-          throw Exception(
-              'Unexpected response format or null content: $responseData');
+          throw Exception('Unexpected response format');
         }
       } else {
-        throw Exception('Failed to fetch mentor details: ${response.data}');
+        throw Exception(
+            'Failed to fetch mentor possible dates: ${response.statusCode}');
       }
-    } on DioException catch (e) {
-      throw Exception('Error: ${e.response?.data ?? e.message}');
-    } catch (e) {
-      throw Exception('An unexpected error occurred: $e');
+    } on DioError catch (e) {
+      log('Dio Error: ${e.response?.data ?? e.message}');
+      throw Exception('Dio Error: ${e.response?.data ?? e.message}');
     }
   }
 }
