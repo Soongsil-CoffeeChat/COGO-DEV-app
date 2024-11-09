@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 
 class ProfileDetailViewModel extends ChangeNotifier {
   MentorDetailEntity? profile;
-  bool isLoading = true; // 로딩 상태를 나타내는 변수
+  bool isLoading = true;
   final MentorService _mentorService = MentorService();
 
   ProfileDetailViewModel(int mentorId) {
@@ -28,7 +28,10 @@ class ProfileDetailViewModel extends ChangeNotifier {
     }
   }
 
-  void applyForCogo(BuildContext context) {
-    context.push(Paths.schedule);
+  void applyForCogo(BuildContext context, int mentorId) {
+    context.push(
+      Paths.schedule,
+      extra: {'mentorId': mentorId},
+    );
   }
 }

@@ -16,7 +16,8 @@ class TimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Align(
+      alignment: Alignment.topLeft,
       child: Wrap(
         spacing: 10.0,
         runSpacing: 15.0,
