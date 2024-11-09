@@ -1,6 +1,7 @@
 import 'package:cogo/common/widgets/multi_selection_time_picker.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,12 +19,13 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
   DateTime _focusedDay = DateTime.now(); // 현재 날짜로 설정
   DateTime? _selectedDay;
   final Set<DateTime> _markedDays = {}; // 저장한 날 Set
-  final List<int> _selectedTimeSlotIndexs = []; // 선택된 시간대 리스트 추가
+  final Map<DateTime, Set<int>> _selectedTimeSlotIndexs = {}; // 날짜별 시간대 인덱스 리스트
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MentorTimeSettingViewModel(),
+      create: (_) => MentorTimeSettingViewModel(
+          possibledateService: PossibledateService()),
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true, // 키보드 오버 플로우 해결
@@ -50,27 +52,21 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                         children: [
                           TableCalendar(
                             firstDay: DateTime.now(),
-                            // 달력 시작 날짜는 오늘 이후
                             lastDay: DateTime(2100),
-                            // 달력 끝 날짜
                             focusedDay: _focusedDay,
-                            // 포커스된 날짜
                             selectedDayPredicate: (day) =>
                                 isSameDay(_selectedDay, day),
                             onDaySelected: (selectedDay, focusedDay) {
-                              //todo 선택되었을시 시간 컴포넌트 뜸
                               setState(() {
                                 _selectedDay = selectedDay;
-                                _focusedDay = focusedDay; // 포커스된 날짜 업데이트
-                                _showBottomSheet(
-                                    selectedDay, viewModel); // 날짜 선택 시 바텀시트 표시
+                                _focusedDay = focusedDay;
+                                _showBottomSheet(selectedDay, viewModel);
                               });
                             },
                             calendarFormat: CalendarFormat.month,
                             calendarStyle: CalendarStyle(
                                 selectedDecoration: const BoxDecoration(
                                   color: CogoColor.main,
-                                  // 선택된 날짜의 배경색을 검정색으로 설정
                                   shape: BoxShape.circle,
                                 ),
                                 todayDecoration: BoxDecoration(
@@ -81,17 +77,9 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                                 todayTextStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey)),
-                            // 달력 형식 설정 (month, twoWeeks, week)
-                            onFormatChanged: (format) {
-                              setState(() {
-                                // 사용자 상호작용에 따라 달력 형식 변경
-                              });
-                            },
                             onPageChanged: (focusedDay) {
-                              _focusedDay =
-                                  focusedDay; // 페이지가 변경될 때 포커스된 날짜 업데이트
+                              _focusedDay = focusedDay;
                             },
-                            // 마커 표시를 위해 CalendarBuilders 사용
                             calendarBuilders: CalendarBuilders(
                               markerBuilder: (context, day, focusedDay) {
                                 if (_markedDays.contains(day)) {
@@ -101,7 +89,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                                       width: 6,
                                       height: 6,
                                       decoration: const BoxDecoration(
-                                        color: CogoColor.main, // 빨간 점
+                                        color: CogoColor.main,
                                         shape: BoxShape.circle,
                                       ),
                                     ),
@@ -122,14 +110,22 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: _selectedTimeSlotIndexs.length,
                             itemBuilder: (context, index) {
+                              DateTime date = _selectedTimeSlotIndexs.keys
+                                  .toList()[index]; // 날짜 가져오기
+                              Set<int> timeSlots =
+                                  _selectedTimeSlotIndexs[date]!; // 해당 날짜의 시간대
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Text(
-                                    _selectedTimeSlotIndexs[index].toString()),
+                                    '${date.year}-${date.month}-${date.day}: ${timeSlots.join(", ")}'),
                               );
                             },
                           ),
+                          ElevatedButton(
+                            onPressed: viewModel.postPossibleDates,
+                            child: Text("완료하기"),
+                          )
                         ]),
                   ),
                 );
@@ -156,27 +152,33 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                 "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-
               MultiSelectionTimePicker(
-                // onTimeSlotSelected: ,
-                selectedTimeSlots: {},
+                selectedDay: selectedDay,
+                selectedTimeSlots: viewModel.selectedTimeSlots,
                 onTimeSlotSelected: (selectedTimeSlot) {
                   setState(() {
-                    _selectedTimeSlotIndexs
-                        .add(selectedTimeSlot); // 선택한 시간대를 리스트에 추가
+                    if (_selectedTimeSlotIndexs[selectedDay] == null) {
+                      _selectedTimeSlotIndexs[selectedDay] = {};
+                    }
+                    _selectedTimeSlotIndexs[selectedDay]!
+                        .add(selectedTimeSlot); // 선택한 시간대 인덱스 추가
                     viewModel.addTimeSlot(selectedDay, selectedTimeSlot);
+                  });
+                },
+                onTimeSlotDeselected: (selectedTimeSlot) {
+                  setState(() {
+                    _selectedTimeSlotIndexs[selectedDay]!
+                        .remove(selectedTimeSlot); // 선택한 시간대 인덱스 제거
+                    viewModel.deleteTimeSlot(selectedDay, selectedTimeSlot);
                   });
                 },
                 timeSlots: viewModel.timeSlots,
               ),
-
               const SizedBox(height: 20),
-              // 추가 버튼이나 기능을 여기에 넣을 수 있음
               ElevatedButton(
                 onPressed: () {
-                  // 원하는 기능 수행
                   setState(() {
-                    _markedDays.add(selectedDay); // 선택한 날짜를 빨간색으로 표시할 리스트에 추가
+                    _markedDays.add(selectedDay); // 선택한 날짜를 마커로 표시
                   });
                   Navigator.pop(context); // 바텀시트 닫기
                 },

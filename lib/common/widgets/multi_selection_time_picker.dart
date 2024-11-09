@@ -3,13 +3,15 @@ import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class MultiSelectionTimePicker extends StatelessWidget {
-  final Set<int> selectedTimeSlots;
+  final DateTime selectedDay;
+  final List<int> selectedTimeSlots;
   final ValueChanged<int>? onTimeSlotSelected;
   final ValueChanged<int>? onTimeSlotDeselected;
   final List<String> timeSlots;
 
   const MultiSelectionTimePicker({
     Key? key,
+    required this.selectedDay,
     required this.selectedTimeSlots,
     this.onTimeSlotSelected,
     this.onTimeSlotDeselected,

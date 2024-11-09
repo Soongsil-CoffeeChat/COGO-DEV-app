@@ -36,4 +36,32 @@ class TimeSlotDto {
   static List<Map<String, dynamic>> toJsonList(List<TimeSlotDto> timeSlots) {
     return timeSlots.map((timeSlot) => timeSlot.toJson()).toList();
   }
+
+  final List<String> timeSlots = [
+    '09:00 ~ 10:00',
+    '10:00 ~ 11:00',
+    '11:00 ~ 12:00',
+    '13:00 ~ 14:00',
+    '14:00 ~ 15:00',
+    '15:00 ~ 16:00',
+    '16:00 ~ 17:00',
+    '17:00 ~ 18:00',
+    '18:00 ~ 19:00',
+    '19:00 ~ 20:00',
+    '20:00 ~ 21:00',
+  ];
+
+  /// 인덱스를 기반으로 startTime과 endTime을 반환
+  Map<String, String> getStartEndTime(int index) {
+    if (index < 0 || index >= timeSlots.length) {
+      throw ArgumentError('Invalid time slot index: $index');
+    }
+
+    // '09:00 ~ 10:00' 형식에서 분리
+    final timeRange = timeSlots[index].split(' ~ ');
+    return {
+      'startTime': '${timeRange[0]}:00',
+      'endTime': '${timeRange[1]}:00',
+    };
+  }
 }
