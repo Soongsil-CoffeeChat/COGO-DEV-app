@@ -9,13 +9,14 @@ class ScheduleViewModel extends ChangeNotifier {
   final PossibledateService _possibledateService = PossibledateService();
 
   DateTime selectedDate = DateTime.now();
-  int selectedTimeSlot = -1;
+  int selectedTimeSlot = -1; // 선택된 시간대의 인덱스
+  int? selectedPossibleDateId; // 선택된 시간대의 possibleDateId
 
-  List<MentorPossibleDateEntity> mentorPossibleDates = []; // mentor 가능한 날짜 목록
+  List<MentorPossibleDateEntity> mentorPossibleDates = []; // 멘토 가능한 날짜 및 시간대 목록
   List<DateTime> availableDates = []; // DatePicker에 사용할 날짜 목록
   List<String> filteredTimeSlots = []; // 선택된 날짜에 맞는 시간대 목록
 
-  // 멘토 가능한 시간 api 호출
+  // 멘토 가능한 시간 API 호출
   Future<void> fetchMentorPossibleDates(int mentorId) async {
     try {
       // API 호출
@@ -39,31 +40,61 @@ class ScheduleViewModel extends ChangeNotifier {
     }
   }
 
+  // 특정 날짜 선택 시 호출
   void onDateSelected(DateTime date) {
     selectedDate = date;
 
-    filteredTimeSlots = mentorPossibleDates
+    // 선택된 날짜에 맞는 시간대와 possibleDateId 필터링
+    final slots = mentorPossibleDates
         .where((dateInfo) =>
             dateInfo.date.year == selectedDate.year &&
             dateInfo.date.month == selectedDate.month &&
             dateInfo.date.day == selectedDate.day)
-        .map((dateInfo) => dateInfo.formattedTimeSlot)
         .toList();
+
+    filteredTimeSlots =
+        slots.map((dateInfo) => dateInfo.formattedTimeSlot).toList();
+
+    if (slots.isNotEmpty) {
+      selectedTimeSlot = 0;
+      selectedPossibleDateId = slots[0].possibleDateId;
+    } else {
+      selectedTimeSlot = -1;
+      selectedPossibleDateId = null;
+    }
 
     notifyListeners();
   }
 
   void onTimeSlotSelected(int index) {
     selectedTimeSlot = index;
+
+    // 선택된 시간대에 맞는 possibleDateId 설정
+    final matchingSlot = mentorPossibleDates
+        .where((dateInfo) =>
+            dateInfo.date.year == selectedDate.year &&
+            dateInfo.date.month == selectedDate.month &&
+            dateInfo.date.day == selectedDate.day)
+        .toList();
+
+    if (index >= 0 && index < matchingSlot.length) {
+      selectedPossibleDateId = matchingSlot[index].possibleDateId;
+    } else {
+      selectedPossibleDateId = null;
+    }
+
     notifyListeners();
   }
 
   void saveSelection(BuildContext context) {
-    final selectedData = {
-      'selectedDate': selectedDate.toIso8601String(),
-      'selectedTimeSlot': selectedTimeSlot,
+    if (selectedPossibleDateId == null) {
+      throw Exception('No time slot selected or available');
+    }
+
+    final possibleDateId = {
+      'possibleDateId': selectedPossibleDateId,
     };
 
-    context.push(Paths.memo, extra: selectedData);
+    context.push(Paths.memo, extra: possibleDateId);
   }
 }
