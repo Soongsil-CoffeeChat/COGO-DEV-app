@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/header.dart';
 import 'package:cogo/features/home/apply/view_models/matching_view_model.dart';
@@ -9,6 +10,19 @@ class MatchingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
+
+    if (extra == null ||
+        !extra.containsKey('mentorId') ||
+        !extra.containsKey('possibleDateId') ||
+        !extra.containsKey('memoContent')) {
+      throw Exception('필요한 데이터가 전달되지 않았습니다: $extra');
+    }
+
+    final mentorId = extra['mentorId'] as int;
+    final possibleDateId = extra['possibleDateId'] as int;
+    final memo = extra['memoContent'] as String;
+
     return ChangeNotifierProvider(
       create: (_) => MatchingViewModel(),
       child: Scaffold(
@@ -43,7 +57,8 @@ class MatchingScreen extends StatelessWidget {
                       return CustomButton(
                         text: '코고 신청 완료하기',
                         isSelected: true,
-                        onPressed: () => viewModel.completeApplication(context),
+                        onPressed: () => viewModel.completeApplication(
+                            context, mentorId, possibleDateId, memo),
                         width: double.infinity,
                       );
                     },
