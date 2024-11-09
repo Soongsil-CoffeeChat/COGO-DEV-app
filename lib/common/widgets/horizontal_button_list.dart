@@ -2,6 +2,7 @@ import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
+// todo tablayout으로 추후 바꾸고 삭제
 class HorizontalButtonList extends StatefulWidget {
   final List<String> buttonTitles;
   final ValueChanged<String> onButtonPressed;

@@ -1,7 +1,7 @@
+import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/features/auth/signup/view_models/shared_views/completion_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/features/auth/signup/view_models/shared_views/completion_view_model.dart';
 
 class CompletionScreen extends StatelessWidget {
   const CompletionScreen({super.key});

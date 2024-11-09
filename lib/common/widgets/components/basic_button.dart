@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final bool isSelected;
   final VoidCallback? onPressed;
-  final double? width;
+  final double? width; //todo small, large
 
   const CustomButton({
     Key? key,

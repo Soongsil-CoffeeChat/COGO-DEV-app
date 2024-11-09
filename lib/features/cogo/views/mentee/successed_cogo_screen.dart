@@ -1,10 +1,10 @@
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
+import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
-import 'package:cogo/common/widgets/header.dart';
 import 'package:cogo/features/cogo/view_models/mentee/successed_cogo_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class SuccessedCogoScreen extends StatelessWidget {
   const SuccessedCogoScreen({super.key});

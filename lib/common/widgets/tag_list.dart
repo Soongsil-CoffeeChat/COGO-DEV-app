@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'tag.dart';
+import 'components/tag.dart';
 
 class TagList extends StatelessWidget {
   final List<String> tags;

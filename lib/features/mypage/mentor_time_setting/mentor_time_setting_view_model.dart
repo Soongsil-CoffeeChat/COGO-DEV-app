@@ -42,12 +42,30 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
     // 시간대 문자열에서 시작 시간과 끝 시간을 추출
     final timeSlot = timeSlots[timeSlotIndex];
     final times = timeSlot.split(' ~ ');
-    final startTime = '${times[0]}:00';
-    final endTime = '${times[1]}:00';
+
+    // 시작 시간과 끝 시간을 DateTime으로 변환
+    final startDateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      int.parse(times[0].split(':')[0]),
+      int.parse(times[0].split(':')[1]),
+    );
+    final endDateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      int.parse(times[1].split(':')[0]),
+      int.parse(times[1].split(':')[1]),
+    );
+
+    // ISO 8601 형식의 시간 문자열로 변환
+    final startTime = startDateTime.toIso8601String().split('T')[1];
+    final endTime = endDateTime.toIso8601String().split('T')[1];
 
     // DTO 생성
     final timeSlotDto = TimeSlotDto(
-      date: date.toString(),
+      date: date.toIso8601String().split('T')[0],
       startTime: startTime,
       endTime: endTime,
     );
@@ -59,31 +77,35 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
   void deleteTimeSlot(DateTime date, int timeSlotIndex) {
     _selectedTimeSlots[date]?.remove(timeSlotIndex);
 
-    // 시간대 문자열에서 시작 시간과 끝 시간을 추출
     final timeSlot = timeSlots[timeSlotIndex];
     final times = timeSlot.split(' ~ ');
-    final startTime = '${times[0]}:00';
-    final endTime = '${times[1]}:00';
 
-    // DTO 생성
+    final startDateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      int.parse(times[0].split(':')[0]),
+      int.parse(times[0].split(':')[1]),
+    );
+    final endDateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      int.parse(times[1].split(':')[0]),
+      int.parse(times[1].split(':')[1]),
+    );
+
+    final startTime = startDateTime.toIso8601String().split('T')[1];
+    final endTime = endDateTime.toIso8601String().split('T')[1];
+
     final timeSlotDto = TimeSlotDto(
-      date: date.toString(),
+      date: date.toIso8601String().split('T')[0],
       startTime: startTime,
       endTime: endTime,
     );
 
     _timeSlotDto.remove(timeSlotDto);
     notifyListeners();
-  }
-
-// 선택된 시간대 리스트를 JSON 리스트로 반환
-  List<Map<String, dynamic>> toJsonList() {
-    final jsonList = _timeSlotDto.map((dto) => dto.toJson()).toList();
-
-    // JSON 리스트를 로그로 출력
-    log("toJsonList: ${jsonList.toString()}");
-
-    return jsonList;
   }
 
   Future<void> postPossibleDates() async {

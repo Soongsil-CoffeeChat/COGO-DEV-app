@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/request/time_select_request.dart';
+import 'package:cogo/data/dto/response/add_possible_date_response.dart';
+import 'package:cogo/data/dto/response/base_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -17,7 +19,7 @@ class PossibledateService {
 
   ///  POST
   ///  멘토가 직접 커피챗 가능시간 갱신하기
-  Future<void> updateMentorPossibleDates(
+  Future<AddPossibleDateResponse> updateMentorPossibleDates(
       List<TimeSlotDto> availableTimes) async {
     try {
       final response = await _apiClient.dio.post(
@@ -31,10 +33,21 @@ class PossibledateService {
         ),
       );
 
-      if (response.statusCode == 200) {
+      //base response로 받는건 여기서 뿐임.
+      final baseResponse = BaseResponse<AddPossibleDateResponse>.fromJson(
+        response.data,
+        (contentJson) => AddPossibleDateResponse.fromJson(contentJson),
+      );
+
+      if (response.statusCode == 201) {
+        ///추가라서 201임
         // 성공적으로 갱신됨
         log('Mentor possible dates updated successfully');
+        log(baseResponse.content.toString());
+
+        return baseResponse.content;
       } else {
+        log(baseResponse.statusCode + baseResponse.message);
         throw Exception(
             'Failed to update mentor possible dates: ${response.statusCode}');
       }

@@ -1,8 +1,8 @@
+import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/features/auth/signup/view_models/mentee/interest_selection_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/view_models/mentee/interest_selection_view_model.dart';
-import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/common/widgets/custom_button.dart';
 
 class MenteeInterestSelectionScreen extends StatelessWidget {
   const MenteeInterestSelectionScreen({super.key});

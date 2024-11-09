@@ -1,7 +1,7 @@
+import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/features/auth/signup/view_models/shared_views/name_input_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/features/auth/signup/view_models/shared_views/name_input_view_model.dart';
 
 class NameInputScreen extends StatelessWidget {
   const NameInputScreen({super.key});
