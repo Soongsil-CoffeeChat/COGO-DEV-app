@@ -79,7 +79,7 @@ class ScheduleScreen extends StatelessWidget {
                           text: '다음',
                           isClickable: viewModel.selectedTimeSlot != -1,
                           onPressed: viewModel.selectedTimeSlot != -1
-                              ? () => viewModel.saveSelection(context)
+                              ? () => viewModel.saveSelection(context, mentorId)
                               : null,
                         ),
                       );
