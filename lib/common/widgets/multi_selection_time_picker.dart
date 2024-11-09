@@ -2,9 +2,9 @@ import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class MultiSelectionTimePicker extends StatelessWidget {
+class MultiSelectionTimePicker extends StatefulWidget {
   final DateTime selectedDay;
-  final List<int> selectedTimeSlots;
+  final List<int> initialSelectedTimeSlots;
   final ValueChanged<int>? onTimeSlotSelected;
   final ValueChanged<int>? onTimeSlotDeselected;
   final List<String> timeSlots;
@@ -12,11 +12,26 @@ class MultiSelectionTimePicker extends StatelessWidget {
   const MultiSelectionTimePicker({
     Key? key,
     required this.selectedDay,
-    required this.selectedTimeSlots,
+    required this.initialSelectedTimeSlots,
     this.onTimeSlotSelected,
     this.onTimeSlotDeselected,
     required this.timeSlots,
   }) : super(key: key);
+
+  @override
+  _MultiSelectionTimePickerState createState() =>
+      _MultiSelectionTimePickerState();
+}
+
+class _MultiSelectionTimePickerState extends State<MultiSelectionTimePicker> {
+  late List<int> selectedTimeSlots;
+
+  @override
+  void initState() {
+    super.initState();
+    // 초기 선택된 시간대 리스트 설정
+    selectedTimeSlots = List.from(widget.initialSelectedTimeSlots);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +39,20 @@ class MultiSelectionTimePicker extends StatelessWidget {
       child: Wrap(
         spacing: 10.0,
         runSpacing: 15.0,
-        children: List.generate(timeSlots.length, (index) {
+        children: List.generate(widget.timeSlots.length, (index) {
           final isSelected = selectedTimeSlots.contains(index);
 
           return GestureDetector(
             onTap: () {
-              if (isSelected) {
-                onTimeSlotDeselected?.call(index);
-              } else {
-                onTimeSlotSelected?.call(index);
-              }
+              setState(() {
+                if (isSelected) {
+                  selectedTimeSlots.remove(index);
+                  widget.onTimeSlotDeselected?.call(index);
+                } else {
+                  selectedTimeSlots.add(index);
+                  widget.onTimeSlotSelected?.call(index);
+                }
+              });
             },
             child: Container(
               width: 105,
@@ -48,7 +67,7 @@ class MultiSelectionTimePicker extends StatelessWidget {
                 ),
               ),
               child: Text(
-                timeSlots[index],
+                widget.timeSlots[index],
                 style: CogoTextStyle.body12.copyWith(
                   color:
                       isSelected ? CogoColor.white50 : CogoColor.systemGray03,

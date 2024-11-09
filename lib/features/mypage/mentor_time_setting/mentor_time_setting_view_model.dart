@@ -4,13 +4,11 @@ import 'package:cogo/data/dto/request/time_select_request.dart';
 import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 class MentorTimeSettingViewModel extends ChangeNotifier {
   final PossibledateService possibledateService;
 
   MentorTimeSettingViewModel({required this.possibledateService});
 
-  // 시간대 리스트
   final List<String> timeSlots = [
     '09:00 ~ 10:00',
     '10:00 ~ 11:00',
@@ -25,25 +23,21 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
     '20:00 ~ 21:00',
   ];
 
-  // late final DateTime selectedDay ;
+  // 날짜별 시간대 인덱스 리스트
+  final Map<DateTime, List<int>> _selectedTimeSlots = {};
 
-  // 인덱스
-  final List<int> _selectedTimeSlots = [];
+  Map<DateTime, List<int>> get selectedTimeSlots => _selectedTimeSlots;
 
-  List<int> get selectedTimeSlots => _selectedTimeSlots;
-
-  // 선택된 시간대 리스트 가져오기
+  // 선택된 시간대 DTO 리스트
   final List<TimeSlotDto> _timeSlotDto = [];
-
   List<TimeSlotDto> get timeSlotDto => _timeSlotDto;
 
-  // 시간대 추가 메서드
   void addTimeSlot(DateTime date, int timeSlotIndex) {
-    selectedTimeSlots.add(timeSlotIndex);
-
-    if (timeSlotIndex < 0 || timeSlotIndex >= timeSlots.length) {
-      return; // 잘못된 인덱스는 무시
+    if (_selectedTimeSlots[date] == null) {
+      _selectedTimeSlots[date] = [];
     }
+
+    _selectedTimeSlots[date]!.add(timeSlotIndex);
 
     // 시간대 문자열에서 시작 시간과 끝 시간을 추출
     final timeSlot = timeSlots[timeSlotIndex];
@@ -58,15 +52,12 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
       endTime: endTime,
     );
 
-    // 리스트에 추가하고 UI 업데이트
     _timeSlotDto.add(timeSlotDto);
     notifyListeners();
-
-    log(timeSlotDto.toJson().toString());
   }
 
   void deleteTimeSlot(DateTime date, int timeSlotIndex) {
-    selectedTimeSlots.remove(timeSlotIndex);
+    _selectedTimeSlots[date]?.remove(timeSlotIndex);
 
     // 시간대 문자열에서 시작 시간과 끝 시간을 추출
     final timeSlot = timeSlots[timeSlotIndex];
@@ -82,23 +73,26 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
     );
 
     _timeSlotDto.remove(timeSlotDto);
+    notifyListeners();
   }
 
-  // 선택된 시간대 리스트를 JSON 리스트로 반환
+// 선택된 시간대 리스트를 JSON 리스트로 반환
   List<Map<String, dynamic>> toJsonList() {
-    return _timeSlotDto.map((dto) => dto.toJson()).toList();
+    final jsonList = _timeSlotDto.map((dto) => dto.toJson()).toList();
+
+    // JSON 리스트를 로그로 출력
+    log("toJsonList: ${jsonList.toString()}");
+
+    return jsonList;
   }
 
   Future<void> postPossibleDates() async {
     try {
       final result =
           await possibledateService.updateMentorPossibleDates(_timeSlotDto);
-
       notifyListeners();
     } catch (e) {
       log("Exception occurred: $e");
-      // _errorMessage = 'Google 로그인에 실패했습니다. 다시 시도해주세요.';
-
       if (e is DioException) {
         log("DioError details: ${e.response?.data}");
       }
