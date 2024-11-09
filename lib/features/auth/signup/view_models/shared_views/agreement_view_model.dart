@@ -17,7 +17,7 @@ class AgreementViewModel extends ChangeNotifier {
 
   void onConfirmButtonPressed(BuildContext context) {
     if (isAllRequiredChecked) {
-      context.push('/agreement/name');
+      context.push('/agreement/phone');
     }
   }
 }
