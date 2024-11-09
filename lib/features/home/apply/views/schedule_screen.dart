@@ -46,12 +46,21 @@ class ScheduleScreen extends StatelessWidget {
                                 color: CogoColor.systemGray01, thickness: 1),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: TimePicker(
-                                selectedTimeSlot: viewModel.selectedTimeSlot,
-                                onTimeSlotSelected:
-                                    viewModel.onTimeSlotSelected,
-                                timeSlots: viewModel.filteredTimeSlots,
-                              ),
+                              child: viewModel.filteredTimeSlots.isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        '해당 날짜에는 가능한 시간대가 없어요',
+                                        style: CogoTextStyle.body14.copyWith(
+                                            color: CogoColor.systemGray03),
+                                      ),
+                                    )
+                                  : TimePicker(
+                                      selectedTimeSlot:
+                                          viewModel.selectedTimeSlot,
+                                      onTimeSlotSelected:
+                                          viewModel.onTimeSlotSelected,
+                                      timeSlots: viewModel.filteredTimeSlots,
+                                    ),
                             ),
                             const SizedBox(height: 20),
                           ],
