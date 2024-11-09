@@ -1,6 +1,6 @@
 class CogoApplicationResponse {
-  final int mentorId;
-  final int possibleDateId;
+  final int? mentorId;
+  final int? possibleDateId;
   final String? memo;
 
   CogoApplicationResponse({
