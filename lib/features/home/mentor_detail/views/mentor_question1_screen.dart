@@ -1,9 +1,9 @@
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/features/home/mentor_detail/view_models/mentor_introduction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/features/home/mentor_detail/view_models/mentor_introduction_view_model.dart';
 
 class MentorQuestion1Screen extends StatelessWidget {
   const MentorQuestion1Screen({super.key});
@@ -60,9 +60,9 @@ class MentorQuestion1Screen extends StatelessWidget {
                       height: 50,
                       child: Consumer<MentorIntroductionViewModel>(
                         builder: (context, viewModel, child) {
-                          return CustomButton(
+                          return BasicButton(
                             text: '다음',
-                            isSelected: viewModel.isFormValid,
+                            isClickable: viewModel.isFormValid,
                             onPressed: viewModel.isFormValid ? () => context.push(Paths.mentorQuestion2) : null,
                           );
                         },

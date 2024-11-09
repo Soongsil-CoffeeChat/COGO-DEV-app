@@ -1,9 +1,9 @@
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/constants/constants.dart';
+import 'package:cogo/features/cogo/view_models/mentee/sended_cogo_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/cogo/view_models/mentee/sended_cogo_view_model.dart';
-import 'package:cogo/common/widgets/header.dart';
 
 class SendedCogoScreen extends StatelessWidget {
   const SendedCogoScreen({super.key});

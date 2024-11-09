@@ -1,8 +1,8 @@
+import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/features/home/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart'; // Provider를 사용하여 HomeViewModel 접근
-import 'package:cogo/features/home/home/view_model/home_view_model.dart';
-import 'package:cogo/common/widgets/widgets.dart';
 
 class BottomNavigationViewModel extends ChangeNotifier {
   final GoRouter goRouter;
@@ -43,7 +43,7 @@ class BottomNavigationViewModel extends ChangeNotifier {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const MentorProfileDialog();
+        return const MentorProfileReminderDialog();
       },
     );
   }

@@ -1,8 +1,8 @@
+import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/features/auth/signup/view_models/mentor/club_selection_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/view_models/mentor/club_selection_view_model.dart';
-import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/common/widgets/custom_button.dart';
 
 class ClubSelectionScreen extends StatelessWidget {
   const ClubSelectionScreen({super.key});
@@ -38,17 +38,19 @@ class ClubSelectionScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'GDSC',
-                                    isSelected: viewModel.selectedClub == 'GDSC',
+                                    isClickable:
+                                        viewModel.selectedClub == 'GDSC',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'GDSC');
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'YOURSSU',
-                                    isSelected: viewModel.selectedClub == 'YOURSSU',
+                                    isClickable:
+                                        viewModel.selectedClub == 'YOURSSU',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'YOURSSU');
                                     },
@@ -59,17 +61,19 @@ class ClubSelectionScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'UMC',
-                                    isSelected: viewModel.selectedClub == 'UMC',
+                                    isClickable:
+                                        viewModel.selectedClub == 'UMC',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'UMC');
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'LIKELION',
-                                    isSelected: viewModel.selectedClub == 'LIKELION',
+                                    isClickable:
+                                        viewModel.selectedClub == 'LIKELION',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'LIKELION');
                                     },
@@ -79,9 +83,10 @@ class ClubSelectionScreen extends StatelessWidget {
                               const SizedBox(height: 16),
                               Row(
                                 children: [
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'NO CLUB',
-                                    isSelected: viewModel.selectedClub == 'NO CLUB',
+                                    isClickable:
+                                        viewModel.selectedClub == 'NO CLUB',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'NO CLUB');
                                     },

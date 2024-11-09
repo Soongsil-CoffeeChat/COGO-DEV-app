@@ -1,8 +1,8 @@
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
+import 'package:cogo/features/home/apply/view_models/schedule_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/home/apply/view_models/schedule_view_model.dart';
-import 'package:cogo/common/widgets/widgets.dart';
 
 class ScheduleScreen extends StatelessWidget {
   final int mentorId;
@@ -54,7 +54,7 @@ class ScheduleScreen extends StatelessWidget {
                                             color: CogoColor.systemGray03),
                                       ),
                                     )
-                                  : TimePicker(
+                                  : SingleSelectionTimePicker(
                                       selectedTimeSlot:
                                           viewModel.selectedTimeSlot,
                                       onTimeSlotSelected:
@@ -75,9 +75,9 @@ class ScheduleScreen extends StatelessWidget {
                     builder: (context, viewModel, child) {
                       return SizedBox(
                         width: double.infinity,
-                        child: CustomButton(
+                        child: BasicButton(
                           text: '다음',
-                          isSelected: viewModel.selectedTimeSlot != -1,
+                          isClickable: viewModel.selectedTimeSlot != -1,
                           onPressed: viewModel.selectedTimeSlot != -1
                               ? () => viewModel.saveSelection(context, mentorId)
                               : null,

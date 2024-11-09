@@ -83,7 +83,7 @@ class SendedCogoDetailScreen extends StatelessWidget {
               children: [
                 DatePicker(date: DateTime.now(), day: DateTime.now()),
                 const SizedBox(width: 5),
-                TimePicker(
+                SingleSelectionTimePicker(
                   timeSlots: ['09:00 ~ 10:00'],
                 ),
               ],

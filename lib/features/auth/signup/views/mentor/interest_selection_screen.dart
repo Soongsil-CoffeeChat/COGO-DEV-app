@@ -1,8 +1,8 @@
+import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/features/auth/signup/view_models/mentor/interest_selection_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/auth/signup/view_models/mentor/interest_selection_view_model.dart';
-import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/common/widgets/custom_button.dart';
 
 class MentorInterestSelectionScreen extends StatelessWidget {
   const MentorInterestSelectionScreen({super.key});
@@ -38,17 +38,19 @@ class MentorInterestSelectionScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'FE',
-                                    isSelected: viewModel.selectedInterest == 'FE',
+                                    isClickable:
+                                        viewModel.selectedInterest == 'FE',
                                     onPressed: () {
                                       viewModel.selectInterest(context, 'FE');
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'BE',
-                                    isSelected: viewModel.selectedInterest == 'BE',
+                                    isClickable:
+                                        viewModel.selectedInterest == 'BE',
                                     onPressed: () {
                                       viewModel.selectInterest(context, 'BE');
                                     },
@@ -59,17 +61,19 @@ class MentorInterestSelectionScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomButton(
+                                  BasicButton(
                                     text: '기획',
-                                    isSelected: viewModel.selectedInterest == '기획',
+                                    isClickable:
+                                        viewModel.selectedInterest == '기획',
                                     onPressed: () {
                                       viewModel.selectInterest(context, '기획');
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  CustomButton(
+                                  BasicButton(
                                     text: '디자인',
-                                    isSelected: viewModel.selectedInterest == '디자인',
+                                    isClickable:
+                                        viewModel.selectedInterest == '디자인',
                                     onPressed: () {
                                       viewModel.selectInterest(context, '디자인');
                                     },

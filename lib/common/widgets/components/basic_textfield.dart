@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:cogo/constants/colors.dart';
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/colors.dart';
+import 'package:flutter/material.dart';
 
 class CustomTextFieldWithCounter extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final int currentCount;
   final int maxCount;
-  final double height;
+  final double height; //todo small large
   final int maxLines;
 
   const CustomTextFieldWithCounter({

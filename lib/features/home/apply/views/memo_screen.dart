@@ -1,11 +1,11 @@
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/constants/constants.dart';
+import 'package:cogo/features/home/apply/view_models/memo_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/header.dart';
-import 'package:cogo/features/home/apply/view_models/memo_view_model.dart';
-import 'package:cogo/common/widgets/custom_button.dart';
 
 class MemoScreen extends StatelessWidget {
   const MemoScreen({super.key});
@@ -78,9 +78,9 @@ class MemoScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Consumer<MemoViewModel>(
                   builder: (context, viewModel, child) {
-                    return CustomButton(
+                    return BasicButton(
                       text: '다음',
-                      isSelected: viewModel.charCount > 0,
+                      isClickable: viewModel.charCount > 0,
                       onPressed: viewModel.charCount > 0
                           ? () => viewModel.saveMemo(context)
                           : null,

@@ -1,7 +1,7 @@
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'atoms/texts/styles.dart';
+import '../atoms/texts/styles.dart';
 
 class Tag extends StatelessWidget {
   final String title;

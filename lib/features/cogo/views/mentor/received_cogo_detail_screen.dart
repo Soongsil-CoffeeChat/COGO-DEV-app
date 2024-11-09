@@ -1,9 +1,8 @@
-import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
+import 'package:cogo/features/cogo/view_models/mentor/received_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/cogo/view_models/mentor/received_cogo_detail_view_model.dart';
 
 class ReceivedCogoDetailScreen extends StatelessWidget {
   const ReceivedCogoDetailScreen({super.key});
@@ -74,7 +73,7 @@ class ReceivedCogoDetailScreen extends StatelessWidget {
                                       day: DateTime.now(),
                                     ),
                                     const SizedBox(width: 5),
-                                    TimePicker(
+                                    SingleSelectionTimePicker(
                                       selectedTimeSlot:
                                           viewModel.selectedTimeSlotIndex,
                                       onTimeSlotSelected:
@@ -101,9 +100,9 @@ class ReceivedCogoDetailScreen extends StatelessWidget {
                     return Row(
                       children: [
                         Expanded(
-                          child: CustomButton(
+                          child: BasicButton(
                             text: '거절',
-                            isSelected: false,
+                            isClickable: false,
                             onPressed: () {
                               viewModel.reject(context);
                             },
@@ -111,9 +110,9 @@ class ReceivedCogoDetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: CustomButton(
+                          child: BasicButton(
                             text: '수락',
-                            isSelected: viewModel.isAcceptSelected,
+                            isClickable: viewModel.isAcceptSelected,
                             onPressed: viewModel.isAcceptSelected
                                 ? () {
                                     viewModel.accept(context);

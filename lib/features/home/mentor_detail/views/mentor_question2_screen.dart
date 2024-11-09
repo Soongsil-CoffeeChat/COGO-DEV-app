@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/features/home/mentor_detail/view_models/mentor_introduction_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MentorQuestion2Screen extends StatelessWidget {
   const MentorQuestion2Screen({super.key});
@@ -57,9 +57,9 @@ class MentorQuestion2Screen extends StatelessWidget {
                       height: 50,
                       child: Consumer<MentorIntroductionViewModel>(
                         builder: (context, viewModel, child) {
-                          return CustomButton(
+                          return BasicButton(
                             text: '저장하기',
-                            isSelected: viewModel.isFormValid,
+                            isClickable: viewModel.isFormValid,
                             onPressed: viewModel.isFormValid ? () => viewModel.saveIntroduction(context) : null,
                           );
                         },

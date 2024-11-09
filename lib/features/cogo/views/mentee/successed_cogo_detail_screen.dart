@@ -1,7 +1,7 @@
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/features/cogo/view_models/mentor/successed_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/cogo/view_models/mentor/successed_cogo_detail_view_model.dart';
 
 class SuccessedCogoDetailScreen extends StatelessWidget {
   const SuccessedCogoDetailScreen({super.key});
@@ -83,7 +83,7 @@ class SuccessedCogoDetailScreen extends StatelessWidget {
               children: [
                 DatePicker(date: DateTime.now(), day: DateTime.now()),
                 const SizedBox(width: 5),
-                TimePicker(
+                SingleSelectionTimePicker(
                   timeSlots: ['09:00 ~ 10:00'],
                 ),
               ],

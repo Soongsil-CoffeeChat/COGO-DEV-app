@@ -2,12 +2,12 @@ import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class TimePicker extends StatelessWidget {
-  final int? selectedTimeSlot;
-  final ValueChanged<int>? onTimeSlotSelected;
+class SingleSelectionTimePicker extends StatelessWidget {
+  final int? selectedTimeSlot; //index
+  final ValueChanged<int>? onTimeSlotSelected; //
   final List<String> timeSlots;
 
-  const TimePicker({
+  const SingleSelectionTimePicker({
     Key? key,
     this.selectedTimeSlot,
     this.onTimeSlotSelected,
