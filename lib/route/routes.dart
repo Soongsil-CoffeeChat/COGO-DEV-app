@@ -127,10 +127,12 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.schedule,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ScheduleScreen(),
-      ),
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        final mentorId = extra['mentorId'] as int;
+
+        return ScheduleScreen(mentorId: mentorId);
+      },
     ),
     GoRoute(
       path: Paths.memo,
@@ -228,69 +230,6 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const MentorTimeSettingScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.search,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const SearchScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.schedule,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ScheduleScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.memo,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const MemoScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.matching,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const MatchingScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.receivedCogo,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ReceivedCogoScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.receivedCogoDetail,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ReceivedCogoDetailScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.successedCogo,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const SuccessedCogoScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.successedCogoDetail,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const SuccessedCogoDetailScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.mentorIntroduction,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const MentorIntroductionScreen(),
       ),
     ),
     StatefulShellRoute.indexedStack(

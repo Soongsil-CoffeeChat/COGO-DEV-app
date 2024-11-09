@@ -104,7 +104,7 @@ class ProfileDetailScreen extends StatelessWidget {
                       const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () {
-                          viewModel.applyForCogo(context);
+                          viewModel.applyForCogo(context, mentorId);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: CogoColor.main,
