@@ -40,9 +40,9 @@ class MatchingScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Consumer<MatchingViewModel>(
                     builder: (context, viewModel, child) {
-                      return CustomButton(
+                      return BasicButton(
                         text: '코고 신청 완료하기',
-                        isSelected: true,
+                        isClickable: true,
                         onPressed: () => viewModel.completeApplication(context),
                         width: double.infinity,
                       );

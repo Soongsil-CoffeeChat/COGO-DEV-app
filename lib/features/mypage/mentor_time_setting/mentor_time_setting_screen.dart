@@ -159,7 +159,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                 timeSlots: viewModel.timeSlots,
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
+              BasicButton(
                 onPressed: () {
                   setState(() {
                     // 선택한 날짜를 마커로 표시
@@ -168,7 +168,8 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                   });
                   Navigator.pop(context); // 바텀시트 닫기
                 },
-                child: Text("추가하기"),
+                text: '완료',
+                isClickable: false,
               ),
             ],
           ),

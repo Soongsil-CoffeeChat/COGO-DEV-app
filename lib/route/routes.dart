@@ -8,7 +8,6 @@ import 'package:cogo/features/auth/signup/views/mentor/mentor_info_screen.dart';
 import 'package:cogo/features/auth/signup/views/shared_views/agreement_screen.dart';
 import 'package:cogo/features/auth/signup/views/shared_views/choose_role_screen.dart';
 import 'package:cogo/features/auth/signup/views/shared_views/name_input_screen.dart';
-import 'package:cogo/features/auth/signup/views/shared_views/phone_number_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/cogo_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/received_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/views/mentor/received_cogo_screen.dart';
@@ -33,7 +32,7 @@ import '../features/auth/signup/views/shared_views/completion_screen.dart';
 
 final AppRouter = GoRouter(
   // initialLocation: '/',
-  initialLocation: Paths.home,
+  initialLocation: Paths.agreement,
   routes: [
     GoRoute(
         path: Paths.login,
@@ -48,13 +47,13 @@ final AppRouter = GoRouter(
         child: const AgreementScreen(),
       ),
       routes: [
-        GoRoute(
-          path: Paths.phone,
-          pageBuilder: (context, state) => MaterialPage(
-            key: state.pageKey,
-            child: const PhoneNumberScreen(),
-          ),
-        ),
+        // GoRoute(
+        //   path: Paths.phone,
+        //   pageBuilder: (context, state) => MaterialPage(
+        //     key: state.pageKey,
+        //     child: const PhoneNumberScreen(),
+        //   ),
+        // ),
         GoRoute(
           path: Paths.name,
           pageBuilder: (context, state) => MaterialPage(

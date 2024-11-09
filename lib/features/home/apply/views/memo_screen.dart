@@ -63,9 +63,9 @@ class MemoScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Consumer<MemoViewModel>(
                   builder: (context, viewModel, child) {
-                    return CustomButton(
+                    return BasicButton(
                       text: '다음',
-                      isSelected: viewModel.charCount > 0,
+                      isClickable: viewModel.charCount > 0,
                       onPressed: viewModel.charCount > 0
                           ? () => viewModel.saveMemo(context)
                           : null,

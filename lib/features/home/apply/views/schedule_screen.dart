@@ -75,9 +75,9 @@ class ScheduleScreen extends StatelessWidget {
                     builder: (context, viewModel, child) {
                       return SizedBox(
                         width: double.infinity,
-                        child: CustomButton(
+                        child: BasicButton(
                           text: '다음',
-                          isSelected: viewModel.selectedTimeSlot != -1,
+                          isClickable: viewModel.selectedTimeSlot != -1,
                           onPressed: viewModel.selectedTimeSlot != -1
                               ? () => viewModel.saveSelection(context)
                               : null,

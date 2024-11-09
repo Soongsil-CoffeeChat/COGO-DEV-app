@@ -100,9 +100,9 @@ class ReceivedCogoDetailScreen extends StatelessWidget {
                     return Row(
                       children: [
                         Expanded(
-                          child: CustomButton(
+                          child: BasicButton(
                             text: '거절',
-                            isSelected: false,
+                            isClickable: false,
                             onPressed: () {
                               viewModel.reject(context);
                             },
@@ -110,9 +110,9 @@ class ReceivedCogoDetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: CustomButton(
+                          child: BasicButton(
                             text: '수락',
-                            isSelected: viewModel.isAcceptSelected,
+                            isClickable: viewModel.isAcceptSelected,
                             onPressed: viewModel.isAcceptSelected
                                 ? () {
                                     viewModel.accept(context);

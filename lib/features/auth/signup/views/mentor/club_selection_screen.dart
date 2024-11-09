@@ -38,17 +38,19 @@ class ClubSelectionScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'GDSC',
-                                    isSelected: viewModel.selectedClub == 'GDSC',
+                                    isClickable:
+                                        viewModel.selectedClub == 'GDSC',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'GDSC');
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'YOURSSU',
-                                    isSelected: viewModel.selectedClub == 'YOURSSU',
+                                    isClickable:
+                                        viewModel.selectedClub == 'YOURSSU',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'YOURSSU');
                                     },
@@ -59,17 +61,19 @@ class ClubSelectionScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'UMC',
-                                    isSelected: viewModel.selectedClub == 'UMC',
+                                    isClickable:
+                                        viewModel.selectedClub == 'UMC',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'UMC');
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'LIKELION',
-                                    isSelected: viewModel.selectedClub == 'LIKELION',
+                                    isClickable:
+                                        viewModel.selectedClub == 'LIKELION',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'LIKELION');
                                     },
@@ -79,9 +83,10 @@ class ClubSelectionScreen extends StatelessWidget {
                               const SizedBox(height: 16),
                               Row(
                                 children: [
-                                  CustomButton(
+                                  BasicButton(
                                     text: 'NO CLUB',
-                                    isSelected: viewModel.selectedClub == 'NO CLUB',
+                                    isClickable:
+                                        viewModel.selectedClub == 'NO CLUB',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'NO CLUB');
                                     },

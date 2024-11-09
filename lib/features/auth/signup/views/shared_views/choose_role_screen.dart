@@ -1,4 +1,4 @@
-import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/common/widgets/components/basic_button2.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/features/auth/signup/view_models/shared_views/choose_role_view_model.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ class ChooseRoleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // bool isMentor = false;
     return ChangeNotifierProvider(
       create: (_) => SignupChooseViewModel(),
       child: Scaffold(
@@ -36,20 +37,23 @@ class ChooseRoleScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CustomButton(
+                              BasicButton2(
                                 text: '멘토',
                                 isSelected: viewModel.selectedRole == 'mentor',
+                                isClickable: true,
                                 onPressed: () {
-                                  viewModel.selectRole('멘토', context);
+                                  viewModel.selectRole('mentor', context);
                                 },
+                                width: 150,
                               ),
-                              SizedBox(width: 10),
-                              CustomButton(
+                              BasicButton2(
                                 text: '멘티',
                                 isSelected: viewModel.selectedRole == 'mentee',
+                                isClickable: true,
                                 onPressed: () {
-                                  viewModel.selectRole('멘티', context);
+                                  viewModel.selectRole('mentee', context);
                                 },
+                                width: 150,
                               ),
                             ],
                           ),

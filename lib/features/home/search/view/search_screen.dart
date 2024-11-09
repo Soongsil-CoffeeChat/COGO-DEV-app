@@ -1,12 +1,10 @@
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/constants/paths.dart';
+import 'package:cogo/features/home/search/view_model/search_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/features/home/search/view_model/search_view_model.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -92,17 +90,17 @@ class SearchScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomButton(
+                                BasicButton(
                                   text: 'FE',
-                                  isSelected: viewModel.isTagSelected('FE'),
+                                  isClickable: viewModel.isTagSelected('FE'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('FE');
                                   },
                                 ),
                                 const SizedBox(width: 10),
-                                CustomButton(
+                                BasicButton(
                                   text: 'BE',
-                                  isSelected: viewModel.isTagSelected('BE'),
+                                  isClickable: viewModel.isTagSelected('BE'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('BE');
                                   },
@@ -113,17 +111,18 @@ class SearchScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomButton(
+                                BasicButton(
                                   text: 'Mobile',
-                                  isSelected: viewModel.isTagSelected('Mobile'),
+                                  isClickable:
+                                      viewModel.isTagSelected('Mobile'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('Mobile');
                                   },
                                 ),
                                 const SizedBox(width: 10),
-                                CustomButton(
+                                BasicButton(
                                   text: '기획',
-                                  isSelected: viewModel.isTagSelected('기획'),
+                                  isClickable: viewModel.isTagSelected('기획'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('기획');
                                   },
@@ -134,9 +133,9 @@ class SearchScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomButton(
+                                BasicButton(
                                   text: '디자인',
-                                  isSelected: viewModel.isTagSelected('디자인'),
+                                  isClickable: viewModel.isTagSelected('디자인'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('디자인');
                                   },
@@ -152,17 +151,18 @@ class SearchScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomButton(
+                                BasicButton(
                                   text: 'GDSC',
-                                  isSelected: viewModel.isTagSelected('GDSC'),
+                                  isClickable: viewModel.isTagSelected('GDSC'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('GDSC');
                                   },
                                 ),
                                 const SizedBox(width: 10),
-                                CustomButton(
+                                BasicButton(
                                   text: 'YOURSSU',
-                                  isSelected: viewModel.isTagSelected('YOURSSU'),
+                                  isClickable:
+                                      viewModel.isTagSelected('YOURSSU'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('YOURSSU');
                                   },
@@ -173,17 +173,18 @@ class SearchScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomButton(
+                                BasicButton(
                                   text: 'UMC',
-                                  isSelected: viewModel.isTagSelected('UMC'),
+                                  isClickable: viewModel.isTagSelected('UMC'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('UMC');
                                   },
                                 ),
                                 const SizedBox(width: 10),
-                                CustomButton(
+                                BasicButton(
                                   text: 'LIKELION',
-                                  isSelected: viewModel.isTagSelected('LIKELION'),
+                                  isClickable:
+                                      viewModel.isTagSelected('LIKELION'),
                                   onPressed: () {
                                     viewModel.toggleTagSelection('LIKELION');
                                   },

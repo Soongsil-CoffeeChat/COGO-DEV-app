@@ -1,4 +1,4 @@
-import 'package:cogo/common/widgets/components/custom_box.dart';
+import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/features/auth/signup/view_models/mentor/mentor_info_view_model.dart';
 import 'package:flutter/material.dart';
@@ -39,14 +39,18 @@ class MentorInfoScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: InfoBox(
-                                      info: viewModel.name ?? '나는 교회',
+                                    child: BasicButton(
+                                      text: viewModel.name ?? '나는 교회',
+                                      isClickable: true,
+                                      onPressed: () {},
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
-                                    child: InfoBox(
-                                      info: viewModel.selectedInterst ?? 'BE',
+                                    child: BasicButton(
+                                      text: viewModel.selectedInterst ?? 'BE',
+                                      isClickable: true,
+                                      onPressed: () {},
                                     ),
                                   ),
                                 ],
@@ -57,8 +61,11 @@ class MentorInfoScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Expanded(
-                                      child: InfoBox(
-                                        info: viewModel.selectedClub ?? 'YOURSSU',
+                                      child: BasicButton(
+                                        text:
+                                            viewModel.selectedClub ?? 'YOURSSU',
+                                        isClickable: true,
+                                        onPressed: () {},
                                       ),
                                     ),
                                   ],
