@@ -1,6 +1,7 @@
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/header.dart';
 import 'package:cogo/features/home/apply/view_models/memo_view_model.dart';
@@ -11,8 +12,22 @@ class MemoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
+
+    if (extra == null ||
+        !extra.containsKey('mentorId') ||
+        !extra.containsKey('possibleDateId')) {
+      throw Exception('필요한 데이터가 전달되지 않았습니다: $extra');
+    }
+
+    final mentorId = extra['mentorId'] as int;
+    final possibleDateId = extra['possibleDateId'] as int;
+
     return ChangeNotifierProvider(
-      create: (_) => MemoViewModel(),
+      create: (_) => MemoViewModel(
+        mentorId: mentorId,
+        possibleDateId: possibleDateId,
+      ),
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,

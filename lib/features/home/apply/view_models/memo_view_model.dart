@@ -5,9 +5,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MemoViewModel extends ChangeNotifier {
   final TextEditingController controller = TextEditingController();
+  final int mentorId;
+  final int possibleDateId;
   int charCount = 0;
 
-  MemoViewModel() {
+  MemoViewModel({
+    required this.mentorId,
+    required this.possibleDateId,
+  }) {
     controller.addListener(_onTextChanged);
   }
 
@@ -26,6 +31,13 @@ class MemoViewModel extends ChangeNotifier {
   Future<void> saveMemo(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('memoContent', controller.text);
-    context.push(Paths.matching);
+
+    final extraData = {
+      'memoContent': controller.text,
+      'mentorId': mentorId,
+      'possibleDateId': possibleDateId,
+    };
+
+    context.push(Paths.matching, extra: extraData);
   }
 }
