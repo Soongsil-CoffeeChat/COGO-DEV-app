@@ -37,7 +37,5 @@ class MentorPossibleDateEntity {
     return time.split(':').sublist(0, 2).join(':');
   }
 
-  String get formattedDate => '${date.year}-${date.month}-${date.day}';
-
   String get formattedTimeSlot => '$startTime ~ $endTime';
 }

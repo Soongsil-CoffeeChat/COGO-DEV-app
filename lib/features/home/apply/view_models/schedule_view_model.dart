@@ -19,7 +19,6 @@ class ScheduleViewModel extends ChangeNotifier {
   // 멘토 가능한 시간 API 호출
   Future<void> fetchMentorPossibleDates(int mentorId) async {
     try {
-      // API 호출
       final response =
           await _possibledateService.getMentorPossibleDates(mentorId);
 
