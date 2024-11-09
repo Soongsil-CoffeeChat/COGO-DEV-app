@@ -2,33 +2,37 @@ import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class TimePicker extends StatelessWidget {
-  final int? selectedTimeSlot;
+class MultiSelectionTimePicker extends StatelessWidget {
+  final Set<int> selectedTimeSlots;
   final ValueChanged<int>? onTimeSlotSelected;
+  final ValueChanged<int>? onTimeSlotDeselected;
   final List<String> timeSlots;
 
-  const TimePicker({
+  const MultiSelectionTimePicker({
     Key? key,
-    this.selectedTimeSlot,
+    required this.selectedTimeSlots,
     this.onTimeSlotSelected,
+    this.onTimeSlotDeselected,
     required this.timeSlots,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
+    return Center(
       child: Wrap(
         spacing: 10.0,
         runSpacing: 15.0,
         children: List.generate(timeSlots.length, (index) {
-          final isSelected =
-              selectedTimeSlot != null && index == selectedTimeSlot;
+          final isSelected = selectedTimeSlots.contains(index);
 
           return GestureDetector(
-            onTap: onTimeSlotSelected != null
-                ? () => onTimeSlotSelected!(index)
-                : null,
+            onTap: () {
+              if (isSelected) {
+                onTimeSlotDeselected?.call(index);
+              } else {
+                onTimeSlotSelected?.call(index);
+              }
+            },
             child: Container(
               width: 105,
               height: 25,
