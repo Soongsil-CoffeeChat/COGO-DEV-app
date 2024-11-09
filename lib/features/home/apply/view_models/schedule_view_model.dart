@@ -85,15 +85,16 @@ class ScheduleViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveSelection(BuildContext context) {
+  void saveSelection(BuildContext context, int mentorId) {
     if (selectedPossibleDateId == null) {
       throw Exception('No time slot selected or available');
     }
 
-    final possibleDateId = {
+    final extraData = {
       'possibleDateId': selectedPossibleDateId,
+      'mentorId': mentorId,
     };
 
-    context.push(Paths.memo, extra: possibleDateId);
+    context.push(Paths.memo, extra: extraData);
   }
 }
