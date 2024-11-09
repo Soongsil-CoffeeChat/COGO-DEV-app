@@ -18,7 +18,7 @@ class MentorTimeSettingScreen extends StatefulWidget {
 class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-
+  final Set<DateTime> _markedDays = {}; // 표시할 날짜들을 저장하는 Set
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -66,10 +66,32 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                                 color: CogoColor.main,
                                 shape: BoxShape.circle,
                               ),
+                              todayDecoration: BoxDecoration(
+                                color: CogoColor.systemGray04, // 오늘 날짜의 배경색
+                                shape: BoxShape.circle,
+                              ),
                             ),
                             onPageChanged: (focusedDay) {
                               _focusedDay = focusedDay;
                             },
+                            calendarBuilders: CalendarBuilders(
+                              markerBuilder: (context, day, focusedDay) {
+                                if (_markedDays.contains(day)) {
+                                  return Positioned(
+                                    top: 4,
+                                    child: Container(
+                                      width: 6,
+                                      height: 6,
+                                      decoration: BoxDecoration(
+                                        color: Colors.red, // 빨간 점
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return null;
+                              },
+                            ),
                           ),
                           Text(
                             '선택된 시간대:',
@@ -141,6 +163,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                 onPressed: () {
                   setState(() {
                     // 선택한 날짜를 마커로 표시
+                    _markedDays.add(selectedDay); // 선택한 날짜를 빨간색으로 표시할 리스트에 추가
                     // viewModel.addMarkedDay(selectedDay);
                   });
                   Navigator.pop(context); // 바텀시트 닫기
