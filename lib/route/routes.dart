@@ -33,7 +33,7 @@ import '../features/auth/signup/views/shared_views/completion_screen.dart';
 
 final AppRouter = GoRouter(
   // initialLocation: '/',
-  initialLocation: Paths.agreement,
+  initialLocation: Paths.home,
   routes: [
     GoRoute(
         path: Paths.login,
