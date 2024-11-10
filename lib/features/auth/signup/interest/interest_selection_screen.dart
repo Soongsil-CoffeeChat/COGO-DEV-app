@@ -1,5 +1,9 @@
+import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/common/widgets/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'interest_selection_view_model.dart';
 
 class InterestSelectionScreen extends StatelessWidget {
   const InterestSelectionScreen({super.key});

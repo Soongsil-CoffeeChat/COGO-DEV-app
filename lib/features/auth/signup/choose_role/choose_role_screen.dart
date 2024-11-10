@@ -1,8 +1,9 @@
 import 'package:cogo/common/widgets/components/basic_button2.dart';
 import 'package:cogo/common/widgets/components/header.dart';
-import 'package:cogo/features/auth/signup/view_models/shared_views/choose_role_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'choose_role_view_model.dart';
 
 class ChooseRoleScreen extends StatelessWidget {
   const ChooseRoleScreen({super.key});

@@ -1,4 +1,4 @@
-import 'package:cogo/common/widgets/header.dart';
+import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/auth/signup/name_input/name_input_view_model.dart';
 import 'package:flutter/material.dart';

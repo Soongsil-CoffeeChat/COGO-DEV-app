@@ -1,8 +1,9 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
-import 'package:cogo/features/auth/signup/view_models/mentor/club_selection_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'club_selection_view_model.dart';
 
 class ClubSelectionScreen extends StatelessWidget {
   const ClubSelectionScreen({super.key});
