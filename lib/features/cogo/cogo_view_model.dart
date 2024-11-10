@@ -1,14 +1,13 @@
-import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class CogoScreenViewModel extends ChangeNotifier {
+class CogoViewModel extends ChangeNotifier {
   void navigateToReceivedCogo(BuildContext context) {
-    context.push(Paths.sendedCogo);
+    context.push(Paths.requestedCogo);
   }
 
   void navigateToSuccessedCogo(BuildContext context) {
-    Navigator.pushNamed(context, '/successedCogo');
+    context.push(Paths.successedCogo);
   }
 }

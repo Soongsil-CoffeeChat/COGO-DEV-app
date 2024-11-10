@@ -5,7 +5,7 @@ import 'package:cogo/domain/entity/requested_cogo_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ReceivedCogoViewModel extends ChangeNotifier {
+class SuccessedCogoViewModel extends ChangeNotifier {
   final ApplicationService _applicationService = ApplicationService();
 
   List<RequestedCogoEntity> _items = [];
@@ -14,12 +14,12 @@ class ReceivedCogoViewModel extends ChangeNotifier {
   List<RequestedCogoEntity> get items => _items;
   bool get isLoading => _isLoading;
 
-  Future<void> fetchReceivedCogos() async {
+  Future<void> fetchSuccessedCogos() async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      final response = await _applicationService.getRequestedCogo('UNMATCHED');
+      final response = await _applicationService.getRequestedCogo('MATCHED');
       _items = response
           .map((responseItem) => RequestedCogoEntity.fromResponse(responseItem))
           .toList();
@@ -33,7 +33,7 @@ class ReceivedCogoViewModel extends ChangeNotifier {
 
   void onCogoItemTapped(BuildContext context, RequestedCogoEntity item) {
     context.push(
-      Paths.receivedCogoDetail,
+      Paths.successedCogoDetail,
       extra: {
         'applicationId': item.applicationId,
         'menteeName': item.menteeName,

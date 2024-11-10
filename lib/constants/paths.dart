@@ -22,10 +22,8 @@ abstract class Paths {
   static const String memo = '/memo';
   static const String matching = '/matching';
 
-  static const String receivedCogo = '/receivedCogo';
-  static const String receivedCogoDetail = '/receivedCogoDetail';
-  static const String sendedCogo = '/sendedCogo';
-  static const String sendedCogoDetail = '/sendedCogoDetail';
+  static const String requestedCogo = '/requestedCogo';
+  static const String requestedCogoDetail = '/requestedCogoDetail';
   static const String successedCogo = '/successedCogo';
   static const String successedCogoDetail = '/successedCogoDetail';
 

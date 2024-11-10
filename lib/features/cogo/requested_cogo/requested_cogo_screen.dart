@@ -1,17 +1,17 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/cogo/view_models/mentee/successed_cogo_view_model.dart';
+import 'package:cogo/features/cogo/requested_cogo/requested_cogo_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class SuccessedCogoScreen extends StatelessWidget {
-  const SuccessedCogoScreen({super.key});
+class RequestedCogoScreen extends StatelessWidget {
+  const RequestedCogoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SuccessedCogoViewModel()..fetchSuccessedCogos(),
+      create: (_) => RequestedCogoViewModel()..fetchReceivedCogos(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -23,14 +23,14 @@ class SuccessedCogoScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Header(
-                    title: '성사된 코고',
+                    title: '받은 코고',
                     subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
                     onBackButtonPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
                 const SizedBox(height: 16),
                 Expanded(
-                  child: Consumer<SuccessedCogoViewModel>(
+                  child: Consumer<RequestedCogoViewModel>(
                     builder: (context, viewModel, child) {
                       if (viewModel.isLoading) {
                         return const Center(child: CircularProgressIndicator());
@@ -68,7 +68,7 @@ class SuccessedCogoScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('${item.mentorName}님께 보낸 코고',
+                                  Text('${item.menteeName}님의 코고신청',
                                       style: CogoTextStyle.body16),
                                   Text(formattedDate,
                                       style: CogoTextStyle.body12.copyWith(
