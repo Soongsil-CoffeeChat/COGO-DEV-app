@@ -25,7 +25,6 @@ class HomeViewModel extends ChangeNotifier {
 
   bool isIntroductionComplete = true; // 자기소개 완료 여부를 저장
 
-
   List<MentorPartEntity>? profiles;
 
   Future<void> onButtonPressed(BuildContext context, String title) async {

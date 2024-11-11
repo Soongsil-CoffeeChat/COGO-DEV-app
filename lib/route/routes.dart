@@ -29,17 +29,15 @@ import 'package:cogo/features/mypage/mypage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
-
 final AppRouter = GoRouter(
   // initialLocation: '/',
   initialLocation: Paths.home,
   routes: [
     GoRoute(
-      path: Paths.login,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const LoginScreen(),
+        path: Paths.login,
+        pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: const LoginScreen(),
             )),
     //회원가입
     GoRoute(
