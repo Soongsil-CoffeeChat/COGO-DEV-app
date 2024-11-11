@@ -5,7 +5,7 @@ import 'package:cogo/domain/entity/requested_cogo_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class SuccessedCogoViewModel extends ChangeNotifier {
+class MatchedCogoViewModel extends ChangeNotifier {
   final ApplicationService _applicationService = ApplicationService();
 
   List<RequestedCogoEntity> _items = [];
@@ -33,7 +33,7 @@ class SuccessedCogoViewModel extends ChangeNotifier {
 
   void onCogoItemTapped(BuildContext context, RequestedCogoEntity item) {
     context.push(
-      Paths.successedCogoDetail,
+      Paths.matchedCogoDetail,
       extra: {
         'applicationId': item.applicationId,
         'menteeName': item.menteeName,

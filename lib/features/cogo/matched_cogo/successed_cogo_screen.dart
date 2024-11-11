@@ -1,17 +1,20 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/cogo/requested_cogo/requested_cogo_view_model.dart';
+import 'package:cogo/features/cogo/matched_cogo/successed_cogo_view_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class RequestedCogoScreen extends StatelessWidget {
-  const RequestedCogoScreen({super.key});
+class MatchedCogoScreen extends StatelessWidget {
+  const MatchedCogoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String role = 'mentor';
+
     return ChangeNotifierProvider(
-      create: (_) => RequestedCogoViewModel()..fetchReceivedCogos(),
+      create: (_) => MatchedCogoViewModel()..fetchSuccessedCogos(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -23,23 +26,25 @@ class RequestedCogoScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Header(
-                    title: '받은 코고',
+                    title: '성사된 코고',
                     subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
                     onBackButtonPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
                 const SizedBox(height: 16),
                 Expanded(
-                  child: Consumer<RequestedCogoViewModel>(
+                  child: Consumer<MatchedCogoViewModel>(
                     builder: (context, viewModel, child) {
                       if (viewModel.isLoading) {
                         return const Center(child: CircularProgressIndicator());
                       }
 
                       if (viewModel.items.isEmpty) {
-                        return const Center(
+                        return Center(
                           child: Text(
-                            '받은 코고 신청이 없습니다.',
+                            role == 'mentor'
+                                ? '멘티에게 받은 성사된 코고 신청이 없습니다.'
+                                : '멘토에게 보낸 성사된 코고 신청이 없습니다.',
                             style: CogoTextStyle.body14,
                           ),
                         );
@@ -68,7 +73,10 @@ class RequestedCogoScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('${item.menteeName}님의 코고신청',
+                                  Text(
+                                      role == 'mentor'
+                                          ? '${item.menteeName}님의 코고신청'
+                                          : '${item.mentorName}님께 보낸 코고',
                                       style: CogoTextStyle.body16),
                                   Text(formattedDate,
                                       style: CogoTextStyle.body12.copyWith(

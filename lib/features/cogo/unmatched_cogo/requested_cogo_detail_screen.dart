@@ -1,16 +1,16 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/cogo/requested_cogo/requested_cogo_detail_view_model.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/requested_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class RequestedCogoDetailScreen extends StatelessWidget {
-  const RequestedCogoDetailScreen({super.key});
+class UnMatchedCogoDetailScreen extends StatelessWidget {
+  const UnMatchedCogoDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => RequestedCogoDetailViewModel(),
+      create: (_) => UnMatchedCogoDetailViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -57,7 +57,7 @@ class RequestedCogoDetailScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Consumer<RequestedCogoDetailViewModel>(
+                        Consumer<UnMatchedCogoDetailViewModel>(
                           builder: (context, viewModel, child) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(
@@ -95,7 +95,7 @@ class RequestedCogoDetailScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Consumer<RequestedCogoDetailViewModel>(
+                child: Consumer<UnMatchedCogoDetailViewModel>(
                   builder: (context, viewModel, child) {
                     return Row(
                       children: [

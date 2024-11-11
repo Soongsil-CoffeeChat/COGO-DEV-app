@@ -1,15 +1,15 @@
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/features/cogo/success_cogo/successed_cogo_detail_view_model.dart';
+import 'package:cogo/features/cogo/matched_cogo/successed_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SuccessedCogoDetailScreen extends StatelessWidget {
-  const SuccessedCogoDetailScreen({super.key});
+class MatchedCogoDetailScreen extends StatelessWidget {
+  const MatchedCogoDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SuccessedCogoDetailViewModel(),
+      create: (_) => MatchedCogoDetailViewModel(),
       builder: (context, child) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -72,7 +72,7 @@ class SuccessedCogoDetailScreen extends StatelessWidget {
   }
 
   Widget _buildDateAndTimePicker() {
-    return Consumer<SuccessedCogoDetailViewModel>(
+    return Consumer<MatchedCogoDetailViewModel>(
       builder: (context, viewModel, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
