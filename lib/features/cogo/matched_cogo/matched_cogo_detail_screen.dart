@@ -1,5 +1,5 @@
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/features/cogo/matched_cogo/successed_cogo_detail_view_model.dart';
+import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

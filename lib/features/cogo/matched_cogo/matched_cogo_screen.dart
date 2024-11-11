@@ -1,6 +1,6 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/cogo/matched_cogo/successed_cogo_view_model.dart';
+import 'package:cogo/features/cogo/matched_cogo/matched_cogo_view_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
