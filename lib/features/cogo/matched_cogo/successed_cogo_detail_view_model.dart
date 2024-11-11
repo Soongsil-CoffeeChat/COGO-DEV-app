@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SuccessedCogoDetailViewModel extends ChangeNotifier {
+class MatchedCogoDetailViewModel extends ChangeNotifier {
   int _selectedTimeSlotIndex = -1;
 
   int get selectedTimeSlotIndex => _selectedTimeSlotIndex;

@@ -9,11 +9,11 @@ import 'package:cogo/features/auth/signup/views/shared_views/agreement_screen.da
 import 'package:cogo/features/auth/signup/views/shared_views/choose_role_screen.dart';
 import 'package:cogo/features/auth/signup/views/shared_views/name_input_screen.dart';
 import 'package:cogo/features/auth/signup/views/shared_views/phone_number_screen.dart';
-import 'package:cogo/features/cogo/views/mentor/cogo_screen.dart';
-import 'package:cogo/features/cogo/views/mentor/received_cogo_detail_screen.dart';
-import 'package:cogo/features/cogo/views/mentor/received_cogo_screen.dart';
-import 'package:cogo/features/cogo/views/mentor/successed_cogo_detail_screen.dart';
-import 'package:cogo/features/cogo/views/mentor/successed_cogo_screen.dart';
+import 'package:cogo/features/cogo/cogo_screen.dart';
+import 'package:cogo/features/cogo/matched_cogo/successed_cogo_detail_screen.dart';
+import 'package:cogo/features/cogo/matched_cogo/successed_cogo_screen.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/requested_cogo_detail_screen.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/requested_cogo_screen.dart';
 import 'package:cogo/features/home/apply/views/matching_screen.dart';
 import 'package:cogo/features/home/apply/views/memo_screen.dart';
 import 'package:cogo/features/home/apply/views/schedule_screen.dart';
@@ -33,7 +33,7 @@ import '../features/auth/signup/views/shared_views/completion_screen.dart';
 
 final AppRouter = GoRouter(
   // initialLocation: '/',
-  initialLocation: Paths.agreement,
+  initialLocation: Paths.home,
   routes: [
     GoRoute(
         path: Paths.login,
@@ -149,31 +149,31 @@ final AppRouter = GoRouter(
       ),
     ),
     GoRoute(
-      path: Paths.receivedCogo,
+      path: Paths.unMatchedCogo,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const ReceivedCogoScreen(),
+        child: const UnMatchedCogoScreen(),
       ),
     ),
     GoRoute(
-      path: Paths.receivedCogoDetail,
+      path: Paths.unMatchedCogoDetail,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const ReceivedCogoDetailScreen(),
+        child: const UnMatchedCogoDetailScreen(),
       ),
     ),
     GoRoute(
-      path: Paths.successedCogo,
+      path: Paths.matchedCogo,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const SuccessedCogoScreen(),
+        child: const MatchedCogoScreen(),
       ),
     ),
     GoRoute(
-      path: Paths.successedCogoDetail,
+      path: Paths.matchedCogoDetail,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const SuccessedCogoDetailScreen(),
+        child: const MatchedCogoDetailScreen(),
       ),
     ),
     GoRoute(

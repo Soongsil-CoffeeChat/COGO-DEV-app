@@ -1,7 +1,8 @@
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/features/cogo/cogo_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/cogo/view_models/mentee/cogo_view_model.dart';
+
 import 'package:cogo/common/widgets/widgets.dart';
 
 class CogoScreen extends StatelessWidget {
@@ -9,8 +10,9 @@ class CogoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String role = 'mentor';
     return ChangeNotifierProvider(
-      create: (_) => CogoScreenViewModel(),
+      create: (_) => CogoViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -29,19 +31,21 @@ class CogoScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    'COGO를 하면서 많은 성장을 기원해요!',
+                    role == 'mentor'
+                        ? 'COGO를 하면서 많은 성장을 기원해요!'
+                        : '멘토와 함께 성장하는 시간을 만들어보세요!',
                     style: CogoTextStyle.body12
                         .copyWith(color: CogoColor.systemGray03),
                   ),
                 ),
                 const SizedBox(height: 20),
-                Consumer<CogoScreenViewModel>(
+                Consumer<CogoViewModel>(
                   builder: (context, viewModel, child) {
                     return Column(
                       children: [
                         ListTile(
-                          title: const Text(
-                            '받은 코고',
+                          title: Text(
+                            role == 'mentor' ? '받은 코고' : '신청한 코고',
                             style: CogoTextStyle.body16,
                           ),
                           trailing: const Icon(Icons.chevron_right),

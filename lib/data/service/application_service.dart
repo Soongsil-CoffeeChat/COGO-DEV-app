@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/cogo_application_response.dart';
+import 'package:cogo/data/dto/response/requested_cogo_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -52,6 +53,47 @@ class ApplicationService {
       } else {
         throw Exception(
             'Failed to post Cogo application: ${response.statusCode} ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  String mentorToken = FlutterConfig.get('mentor_token');
+
+  Future<List<RequestedCogoResponse>> getRequestedCogo(String status) async {
+    try {
+      final response = await _apiClient.dio.get(
+        '$apiVersion${Apis.application}/status?status=$status',
+        options: Options(
+          extra: {'skipAuthToken': false},
+          headers: {
+            'Authorization': 'Bearer $mentorToken',
+          },
+        ),
+      );
+
+      log('API Response: ${response.data}');
+
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        if (responseData is Map<String, dynamic> &&
+            responseData.containsKey('content') &&
+            responseData['content'] is List) {
+          final contentList = responseData['content'] as List<dynamic>;
+          return contentList
+              .map((json) => RequestedCogoResponse.fromJson(json))
+              .toList();
+        } else if (responseData == null || responseData.isEmpty) {
+          throw Exception('Empty or null response from server');
+        } else {
+          throw Exception('Unexpected response format: $responseData');
+        }
+      } else {
+        throw Exception('Failed to fetch mentor details: ${response.data}');
       }
     } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');
