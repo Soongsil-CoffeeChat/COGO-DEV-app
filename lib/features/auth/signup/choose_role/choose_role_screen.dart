@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/basic_button2.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:flutter/material.dart';
@@ -40,19 +41,19 @@ class ChooseRoleScreen extends StatelessWidget {
                             children: [
                               BasicButton2(
                                 text: '멘토',
-                                isSelected: viewModel.selectedRole == 'mentor',
+                                // isSelected: viewModel.selectedRole == Role.MENTOR,
                                 isClickable: true,
                                 onPressed: () {
-                                  viewModel.selectRole('mentor', context);
+                                  viewModel.selectRole(Role.MENTOR, context);
                                 },
                                 width: 150,
                               ),
                               BasicButton2(
                                 text: '멘티',
-                                isSelected: viewModel.selectedRole == 'mentee',
+                                // isSelected: viewModel.selectedRole == Role.MENTEE,
                                 isClickable: true,
                                 onPressed: () {
-                                  viewModel.selectRole('mentee', context);
+                                  viewModel.selectRole(Role.MENTEE, context);
                                 },
                                 width: 150,
                               ),

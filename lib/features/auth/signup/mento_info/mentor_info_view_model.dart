@@ -1,4 +1,4 @@
-import 'package:cogo/common/db/locale_manager.dart';
+import 'package:cogo/data/repository/local/locale_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

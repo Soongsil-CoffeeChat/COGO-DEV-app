@@ -1,17 +1,20 @@
+import 'package:cogo/common/enums/interest.dart';
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'interest_selection_view_model.dart';
 
 class InterestSelectionScreen extends StatelessWidget {
-  const InterestSelectionScreen({super.key});
+  const InterestSelectionScreen({super.key, Role? role});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => InterestSelectionViewModel(),
+      create: (_) => InterestSelectionViewModel(userService: UserService()),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(  // SafeArea로 전체 화면을 감쌌습니다.
@@ -41,19 +44,21 @@ class InterestSelectionScreen extends StatelessWidget {
                                 children: [
                                   BasicButton(
                                     text: 'FE',
-                                    isClickable:
-                                        viewModel.selectedInterest == 'FE',
+                                    isClickable: true,
+                                    // viewModel.selectedInterest == 'FE',
                                     onPressed: () {
-                                      viewModel.selectInterest(context, 'FE');
+                                      viewModel.selectInterest(
+                                          context, Interest.FE);
                                     },
                                   ),
                                   const SizedBox(width: 10),
                                   BasicButton(
                                     text: 'BE',
-                                    isClickable:
-                                        viewModel.selectedInterest == 'BE',
+                                    isClickable: true,
+                                    // viewModel.selectedInterest == 'BE',
                                     onPressed: () {
-                                      viewModel.selectInterest(context, 'BE');
+                                      viewModel.selectInterest(
+                                          context, Interest.BE);
                                     },
                                   ),
                                 ],
@@ -64,19 +69,29 @@ class InterestSelectionScreen extends StatelessWidget {
                                 children: [
                                   BasicButton(
                                     text: '기획',
-                                    isClickable:
-                                        viewModel.selectedInterest == '기획',
+                                    isClickable: true,
                                     onPressed: () {
-                                      viewModel.selectInterest(context, '기획');
+                                      viewModel.selectInterest(
+                                          context, Interest.PM);
                                     },
                                   ),
                                   const SizedBox(width: 10),
                                   BasicButton(
                                     text: '디자인',
-                                    isClickable:
-                                        viewModel.selectedInterest == '디자인',
+                                    isClickable: true,
+                                    // viewModel.selectedInterest == '디자인',
                                     onPressed: () {
-                                      viewModel.selectInterest(context, '디자인');
+                                      viewModel.selectInterest(
+                                          context, Interest.DESIGN);
+                                    },
+                                  ),
+                                  BasicButton(
+                                    text: 'MOBILE',
+                                    isClickable: true,
+                                    // viewModel.selectedInterest == '디자인',
+                                    onPressed: () {
+                                      viewModel.selectInterest(
+                                          context, Interest.MOBILE);
                                     },
                                   ),
                                 ],

@@ -1,6 +1,8 @@
 import 'package:cogo/data/service/refresh_service.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/auth/login/login_view_model.dart';
+import 'package:cogo/features/auth/signup/club/club_selection_view_model.dart';
+import 'package:cogo/features/auth/signup/interest/interest_selection_view_model.dart';
 import 'package:cogo/features/auth/signup/name_input/name_input_view_model.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_view_model.dart';
 import 'package:dio/dio.dart';
@@ -25,4 +27,10 @@ void setupServiceLocator() {
 
   getIt.registerFactory<NameInputViewModel>(
       () => NameInputViewModel(userService: getIt<UserService>()));
+
+  getIt.registerFactory<InterestSelectionViewModel>(
+      () => InterestSelectionViewModel(userService: getIt<UserService>()));
+
+  getIt.registerFactory<ClubSelectionViewModel>(
+      () => ClubSelectionViewModel(userService: getIt<UserService>()));
 }

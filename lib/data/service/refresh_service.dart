@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
@@ -8,7 +10,7 @@ class RefreshService {
   final ApiClient _apiClient = ApiClient();
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
-// POST /auth/reissue/mobile -리소스 서버에서 받은 accessToken으로 서비스 accessToken 발급
+  /// POST /auth/reissue/mobile - 리소스 서버에서 받은 accessToken(auth_code)으로 서비스 accessToken 발급
   Future<String> getAccessToken(String authCode, String name) async {
     try {
       final response = await _apiClient.dio.post(
@@ -27,7 +29,8 @@ class RefreshService {
           response.data as Map<String, dynamic>,
           (contentJson) => contentJson.toString(),
         );
-        await _secureStorage.writeData('auth_token', baseResponse.content);
+        await _secureStorage.saveAccessToken(baseResponse.content);
+        log("accessToken ${baseResponse.content}");
         return baseResponse.content;
       } else {
         throw Exception(

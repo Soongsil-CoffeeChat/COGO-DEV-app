@@ -1,5 +1,6 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class ClubSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ClubSelectionViewModel(),
+      create: (_) => ClubSelectionViewModel(userService: UserService()),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -41,8 +42,8 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   BasicButton(
                                     text: 'GDSC',
-                                    isClickable:
-                                        viewModel.selectedClub == 'GDSC',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'GDSC',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'GDSC');
                                     },
@@ -50,8 +51,8 @@ class ClubSelectionScreen extends StatelessWidget {
                                   const SizedBox(width: 10),
                                   BasicButton(
                                     text: 'YOURSSU',
-                                    isClickable:
-                                        viewModel.selectedClub == 'YOURSSU',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'YOURSSU',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'YOURSSU');
                                     },
@@ -64,8 +65,8 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   BasicButton(
                                     text: 'UMC',
-                                    isClickable:
-                                        viewModel.selectedClub == 'UMC',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'UMC',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'UMC');
                                     },
@@ -73,8 +74,8 @@ class ClubSelectionScreen extends StatelessWidget {
                                   const SizedBox(width: 10),
                                   BasicButton(
                                     text: 'LIKELION',
-                                    isClickable:
-                                        viewModel.selectedClub == 'LIKELION',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'LIKELION',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'LIKELION');
                                     },
@@ -86,8 +87,8 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   BasicButton(
                                     text: 'NO CLUB',
-                                    isClickable:
-                                        viewModel.selectedClub == 'NO CLUB',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'NO CLUB',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'NO CLUB');
                                     },

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:cogo/common/db/locale_manager.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/data/repository/local/locale_manager.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +49,7 @@ class NameInputViewModel extends ChangeNotifier {
     if (isValidName.value) {
       try {
         //잘 전송이 되어야 넘어감
-        final result =
-            await userService.setUserInfo(phoneNumber!, nameController.text);
+        await userService.setUserInfo(phoneNumber!, nameController.text);
         context.push('${Paths.agreement}/${Paths.choose}');
 
         notifyListeners();

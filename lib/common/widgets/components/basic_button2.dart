@@ -3,13 +3,14 @@ import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class BasicButton2 extends StatelessWidget {
+  /// 표시할 텍스트
   final String text;
+  /// 선택 가능한지
   final bool isClickable;
 
-  /// 선택 가능한지
-  final bool isSelected;
-
   /// 선택 되었는지
+  // final bool isSelected;
+  /// 눌렀을 떄
   final VoidCallback? onPressed;
   final double? width; //todo small, large
 
@@ -17,7 +18,7 @@ class BasicButton2 extends StatelessWidget {
     Key? key,
     required this.text,
     required this.isClickable,
-    required this.isSelected,
+    // required this.isSelected,
     this.onPressed,
     this.width,
   }) : super(key: key);
@@ -30,11 +31,10 @@ class BasicButton2 extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isClickable ? onPressed : null,
         style: ElevatedButton.styleFrom(
-            backgroundColor: (isClickable & isSelected)
-                ? CogoColor.main
+            backgroundColor:
+                (isClickable) ? CogoColor.main
                 : CogoColor.systemGray02,
-            foregroundColor:
-                (isClickable & isSelected) ? CogoColor.white50 : CogoColor.main,
+            foregroundColor: (isClickable) ? CogoColor.white50 : CogoColor.main,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),

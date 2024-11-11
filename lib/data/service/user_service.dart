@@ -11,13 +11,13 @@ class UserService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
 
-  // GET /api/v2/users/sms - SMS 인증 요청
+  /// GET /api/v2/users/sms - SMS 인증 요청
   Future<SmsVerificationResponse> sendVerificationCode(
       String phoneNumber) async {
     try {
       final response = await _apiClient.dio.get(
         options: Options(
-          extra: {'skipAuthToken': false}, //토큰 해제
+          extra: {'skipAuthToken': false}, //토큰 해제하지 않음
         ),
         apiVersion + Apis.sendSms,
         queryParameters: {
@@ -42,7 +42,7 @@ class UserService {
     }
   }
 
-  //POST /api/v2/users 기본정보 기입
+  ///POST /api/v2/users 기본정보 기입
   Future<UserInfoResponse> setUserInfo(String phoneNumber, String name) async {
     try {
       final response = await _apiClient.dio.post(
@@ -55,7 +55,7 @@ class UserService {
           'name': name,
         },
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         //base response로 받는건 여기서 뿐임.
         final baseResponse = BaseResponse<UserInfoResponse>.fromJson(
           response.data,
@@ -72,10 +72,10 @@ class UserService {
     }
   }
 
-  //POST /api/v2/users/mentor  멘토로 가입하기!
+  ///POST /api/v2/users/mentor  멘토로 가입하기!
   Future<MentorSignupResponse> signUpMentor(String part, String club) async {
     try {
-      final response = await _apiClient.dio.get(
+      final response = await _apiClient.dio.post(
         options: Options(
           extra: {'skipAuthToken': false}, //토큰 해제
         ),
@@ -102,10 +102,10 @@ class UserService {
     }
   }
 
-  //POST /api/v2/users/mentee  멘티로 가입하기!
+  ///POST /api/v2/users/mentee  멘티로 가입하기!
   Future<MenteeSignupResponse> signUpMentee(String part) async {
     try {
-      final response = await _apiClient.dio.get(
+      final response = await _apiClient.dio.post(
         options: Options(
           extra: {'skipAuthToken': false}, //토큰 해제
         ),
@@ -114,7 +114,7 @@ class UserService {
           'part': part,
         },
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         //base response로 받는건 여기서 뿐임.
         final baseResponse = BaseResponse<MenteeSignupResponse>.fromJson(
           response.data,

@@ -39,7 +39,7 @@ class LoginViewModel extends ChangeNotifier {
       try {
         final result = await refreshService.getAccessToken(authCode!, name!);
 
-        await _saveUserInfo(googleUser.displayName, googleUser.email, result);
+        await _saveUserInfo(result, googleUser.displayName, googleUser.email);
         _loginPlatform = LoginPlatform.google;
 
         notifyListeners();
@@ -57,13 +57,11 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> _saveUserInfo(
-      String? name, String email, String accessToken) async {
+  Future<void> _saveUserInfo(String accessToken, String? name,
+      String email) async {
     final SecureStorageRepository secureStorage = SecureStorageRepository();
-
-    secureStorage.writeData('access_token', accessToken);
-    secureStorage.writeData('user_name', name ?? '');
-    secureStorage.writeData('user_email', email);
+    secureStorage.saveUserName(name ?? '');
+    secureStorage.saveUserEmail(email);
   }
 
   Future<void> signOut() async {

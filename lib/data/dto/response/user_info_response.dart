@@ -4,7 +4,7 @@ class UserInfoResponse {
   final String email;
   final String role;
   final String phoneNum;
-  final String picture;
+  final String? picture;
 
   UserInfoResponse({
     required this.username,
@@ -23,7 +23,7 @@ class UserInfoResponse {
       email: json['email'] as String,
       role: json['role'] as String,
       phoneNum: json['phoneNum'] as String,
-      picture: json['picture'] as String,
+      picture: json['picture'] != null ? json['picture'] as String : '',
     );
   }
 

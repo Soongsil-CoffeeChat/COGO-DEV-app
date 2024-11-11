@@ -1,7 +1,7 @@
-import 'package:cogo/common/db/locale_manager.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
+import 'package:cogo/data/repository/local/locale_manager.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

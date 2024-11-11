@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +20,8 @@ class CompletionScreen extends StatelessWidget {
             child: Consumer<CompletionViewModel>(
               builder: (context, viewModel, child) {
                 // role이 "멘토"인지 "멘티"인지에 따라 다른 텍스트를 출력
-                String greetingText =
-                    viewModel.role == "mentor" ? "멘토님! 반갑습니다."
+                String greetingText = viewModel.role == Role.MENTOR
+                    ? "멘토님! 반갑습니다."
                     : "멘티님! 반갑습니다.";
 
                 return Column(

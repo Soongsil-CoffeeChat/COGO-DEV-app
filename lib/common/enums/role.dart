@@ -3,7 +3,7 @@ enum Role {
   MENTEE,
   USER;
 
-  String get getDisplayString {
+  String get getKorean {
     switch (this) {
       case Role.MENTOR:
         return '멘토';
@@ -24,4 +24,11 @@ enum Role {
         return 'user';
     }
   }
+
+  // Role parseRole(String? role) {
+  //   return Role.values.firstWhere(
+  //         (e) => e.toString().split('.').last == role,
+  //     orElse: () => Role.U, // 기본값 설정 (예: guest)
+  //   );
+  // }
 }

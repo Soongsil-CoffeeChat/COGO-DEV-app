@@ -1,17 +1,47 @@
-import 'package:cogo/common/db/locale_manager.dart';
+import 'dart:developer';
+
+import 'package:cogo/common/enums/interest.dart';
+import 'package:cogo/constants/paths.dart';
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
+import 'package:cogo/data/service/user_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ClubSelectionViewModel extends ChangeNotifier {
+  final UserService userService;
   String? selectedClub;
+  Interest? interest;
+  final SecureStorageRepository _secureStorage = SecureStorageRepository();
+
+  ClubSelectionViewModel({required this.userService}) {}
 
   void selectClub(BuildContext context, String club) async {
     selectedClub = club;
     notifyListeners();
 
-    await LocaleManager.instance.setStringValue('selectedClub', club);
+    _secureStorage.saveClub(club);
+    // await LocaleManager.instance.setStringValue('selectedClub', club);
+
+    interest = _secureStorage.readInterest() as Interest;
 
     // 페이지 이동
     context.push('/agreement/mentor_info');
+  }
+
+  Future<void> signUpMentee(BuildContext context) async {
+    try {
+      //잘 전송이 되어야 넘어감
+      await userService.signUpMentor(interest.toString(), selectedClub!);
+      context.push('${Paths.agreement}/${Paths.completion}');
+
+      notifyListeners();
+    } catch (e) {
+      log("Exception occurred: $e");
+      if (e is DioException) {
+        log("DioError details: ${e.response?.data}");
+      }
+      notifyListeners();
+    }
   }
 }
