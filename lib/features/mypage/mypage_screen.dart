@@ -1,14 +1,13 @@
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/data/repository/local/locale_manager.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class MypageScreen extends StatelessWidget {
-  var role = LocaleManager.instance.getStringValue('selectedRole');
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +64,7 @@ class MypageScreen extends StatelessWidget {
                           /**
                            * 멘토에게만 필요한 기능이므로 조건문을 걸어줍니다.
                            */
-
-                          true
-                              // role == "mentor"
+                          viewModel.role == Role.MENTOR.name
                               ? Column(
                                   children: [
                                     ListTile(
