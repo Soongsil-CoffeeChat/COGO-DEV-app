@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/user_role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_view_model.dart';
@@ -7,12 +8,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MatchedCogoScreen extends StatelessWidget {
-  const MatchedCogoScreen({super.key});
+  final dynamic role;
+
+  const MatchedCogoScreen({super.key, this.role = UserRole.MENTOR});
 
   @override
   Widget build(BuildContext context) {
-    String role = 'mentor';
-
     return ChangeNotifierProvider(
       create: (_) => MatchedCogoViewModel()..fetchSuccessedCogos(),
       child: Scaffold(
@@ -42,7 +43,7 @@ class MatchedCogoScreen extends StatelessWidget {
                       if (viewModel.items.isEmpty) {
                         return Center(
                           child: Text(
-                            role == 'mentor'
+                            role == UserRole.MENTOR
                                 ? '멘티에게 받은 성사된 코고 신청이 없습니다.'
                                 : '멘토에게 보낸 성사된 코고 신청이 없습니다.',
                             style: CogoTextStyle.body14,
@@ -74,7 +75,7 @@ class MatchedCogoScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      role == 'mentor'
+                                      role == UserRole.MENTOR
                                           ? '${item.menteeName}님의 코고신청'
                                           : '${item.mentorName}님께 보낸 코고',
                                       style: CogoTextStyle.body16),

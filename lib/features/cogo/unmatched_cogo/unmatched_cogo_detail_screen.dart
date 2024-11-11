@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/user_role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_view_model.dart';
@@ -5,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UnMatchedCogoDetailScreen extends StatelessWidget {
-  const UnMatchedCogoDetailScreen({super.key});
+  final UserRole role;
+
+  const UnMatchedCogoDetailScreen({super.key, this.role = UserRole.MENTOR});
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +63,10 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                         Consumer<UnMatchedCogoDetailViewModel>(
                           builder: (context, viewModel, child) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15.0), // Adds horizontal margins
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: SizedBox(
-                                height:
-                                    100, // Specify a height to make the ListView visible
+                                height: 100,
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
                                   children: [
@@ -74,13 +76,14 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 5),
                                     SingleSelectionTimePicker(
-                                      selectedTimeSlot:
-                                          viewModel.selectedTimeSlotIndex,
+                                      selectedTimeSlot: role == UserRole.MENTOR
+                                          ? viewModel.selectedTimeSlotIndex
+                                          : null,
                                       onTimeSlotSelected:
-                                          viewModel.selectTimeSlot,
-                                      timeSlots: [
-                                        '09:00 ~ 10:00',
-                                      ],
+                                          role == UserRole.MENTOR
+                                              ? viewModel.selectTimeSlot
+                                              : null,
+                                      timeSlots: ['09:00 ~ 10:00'],
                                     ),
                                   ],
                                 ),
@@ -93,38 +96,39 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Consumer<UnMatchedCogoDetailViewModel>(
-                  builder: (context, viewModel, child) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: BasicButton(
-                            text: '거절',
-                            isClickable: false,
-                            onPressed: () {
-                              viewModel.reject(context);
-                            },
+              if (role == UserRole.MENTOR)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Consumer<UnMatchedCogoDetailViewModel>(
+                    builder: (context, viewModel, child) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: BasicButton(
+                              text: '거절',
+                              isClickable: true,
+                              onPressed: () {
+                                viewModel.reject(context);
+                              },
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: BasicButton(
-                            text: '수락',
-                            isClickable: viewModel.isAcceptSelected,
-                            onPressed: viewModel.isAcceptSelected
-                                ? () {
-                                    viewModel.accept(context);
-                                  }
-                                : () {}, // 빈 함수 전달
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: BasicButton(
+                              text: '수락',
+                              isClickable: viewModel.isAcceptSelected,
+                              onPressed: viewModel.isAcceptSelected
+                                  ? () {
+                                      viewModel.accept(context);
+                                    }
+                                  : null, // null 전달로 버튼 비활성화
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
             ],
           ),
         ),
