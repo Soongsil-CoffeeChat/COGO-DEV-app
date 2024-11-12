@@ -36,10 +36,6 @@ class UnMatchedCogoViewModel extends ChangeNotifier {
       Paths.unMatchedCogoDetail,
       extra: {
         'applicationId': item.applicationId,
-        'menteeName': item.menteeName,
-        'applicationMemo': item.applicationMemo,
-        'applicationDate': item.applicationDate.toIso8601String(),
-        'formattedTimeSlot': item.formattedTimeSlot,
       },
     );
   }

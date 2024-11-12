@@ -1,25 +1,41 @@
+import 'dart:developer';
+
+import 'package:cogo/data/service/application_service.dart';
+import 'package:cogo/domain/entity/requested_cogo_entity.dart';
 import 'package:flutter/material.dart';
 
 class UnMatchedCogoDetailViewModel extends ChangeNotifier {
-  int _selectedTimeSlotIndex = -1; // 선택된 시간대 버튼의 인덱스
-  bool _isAcceptSelected = false; // 수락 버튼의 선택 상태
+  final ApplicationService _applicationService = ApplicationService();
 
-  int get selectedTimeSlotIndex => _selectedTimeSlotIndex;
-  bool get isAcceptSelected => _isAcceptSelected;
+  RequestedCogoEntity? _item;
+  bool _isLoading = false;
 
-  void selectTimeSlot(int index) {
-    _selectedTimeSlotIndex = index;
-    _isAcceptSelected = true;
+  RequestedCogoEntity? get item => _item;
+  bool get isLoading => _isLoading;
+
+  Future<void> fetchCogoDetail(int applicationId) async {
+    _isLoading = true;
     notifyListeners();
+
+    try {
+      final response = await _applicationService.getCogoDetail(applicationId);
+      _item = RequestedCogoEntity.fromResponse(response);
+    } catch (e) {
+      log('Error fetching COGO detail: $e');
+      _item = null;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   void accept(BuildContext context) {
-    _isAcceptSelected = true;
-    notifyListeners();
+    // Perform accept logic here
     Navigator.of(context).pop();
   }
 
   void reject(BuildContext context) {
+    // Perform reject logic here
     Navigator.of(context).pop();
   }
 }

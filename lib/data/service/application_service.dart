@@ -61,8 +61,10 @@ class ApplicationService {
     }
   }
 
+  /// 멘토 토큰 설정
   String mentorToken = FlutterConfig.get('mentor_token');
 
+  // 신청받은/신청한 COGO 조회
   Future<List<RequestedCogoResponse>> getRequestedCogo(String status) async {
     try {
       final response = await _apiClient.dio.get(
@@ -94,6 +96,42 @@ class ApplicationService {
         }
       } else {
         throw Exception('Failed to fetch mentor details: ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  // 특정 COGO 조회
+  Future<RequestedCogoResponse> getCogoDetail(int applicationId) async {
+    try {
+      final response = await _apiClient.dio.get(
+        '$apiVersion${Apis.application}/$applicationId',
+        options: Options(
+          extra: {'skipAuthToken': false},
+          headers: {
+            'Authorization': 'Bearer $mentorToken',
+          },
+        ),
+      );
+
+      log('API Response: ${response.data}');
+
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        if (responseData is Map<String, dynamic> &&
+            responseData.containsKey('content') &&
+            responseData['content'] is Map<String, dynamic>) {
+          final content = responseData['content'] as Map<String, dynamic>;
+          return RequestedCogoResponse.fromJson(content);
+        } else {
+          throw Exception('Unexpected response format: $responseData');
+        }
+      } else {
+        throw Exception('Failed to fetch COGO details: ${response.data}');
       }
     } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');
