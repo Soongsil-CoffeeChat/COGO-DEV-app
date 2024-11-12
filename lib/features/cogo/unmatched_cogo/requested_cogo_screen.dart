@@ -1,18 +1,17 @@
-import 'package:cogo/common/widgets/atoms/texts/texts.dart';
-import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/cogo/view_models/mentee/successed_cogo_view_model.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/requested_cogo_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class SuccessedCogoScreen extends StatelessWidget {
-  const SuccessedCogoScreen({super.key});
+class UnMatchedCogoScreen extends StatelessWidget {
+  const UnMatchedCogoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SuccessedCogoViewModel(),
+      create: (_) => UnMatchedCogoViewModel()..fetchReceivedCogos(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -24,24 +23,39 @@ class SuccessedCogoScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Header(
-                    title: '성사된 코고',
+                    title: '받은 코고',
                     subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
                     onBackButtonPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
                 Expanded(
-                  child: Consumer<SuccessedCogoViewModel>(
+                  child: Consumer<UnMatchedCogoViewModel>(
                     builder: (context, viewModel, child) {
+                      if (viewModel.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (viewModel.items.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            '받은 코고 신청이 없습니다.',
+                            style: CogoTextStyle.body14,
+                          ),
+                        );
+                      }
+
                       return ListView.builder(
                         padding: const EdgeInsets.all(16.0),
                         itemCount: viewModel.items.length,
                         itemBuilder: (context, index) {
                           final item = viewModel.items[index];
+                          final formattedDate = DateFormat('yyyy/MM/dd')
+                              .format(item.applicationDate);
+
                           return GestureDetector(
                             onTap: () {
-                              //TODO 클릭 시 수행할 작업 추가
-                              context.push('/successedCogoDetail');
+                              viewModel.onCogoItemTapped(context, item);
                             },
                             child: Container(
                               margin: const EdgeInsets.only(bottom: 10.0),
@@ -54,9 +68,9 @@ class SuccessedCogoScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(item['title']!,
+                                  Text('${item.menteeName}님의 코고신청',
                                       style: CogoTextStyle.body16),
-                                  Text(item['date']!,
+                                  Text(formattedDate,
                                       style: CogoTextStyle.body12.copyWith(
                                           color: CogoColor.systemGray03)),
                                 ],
