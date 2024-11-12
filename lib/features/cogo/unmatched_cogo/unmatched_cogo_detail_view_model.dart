@@ -9,9 +9,11 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
 
   RequestedCogoEntity? _item;
   bool _isLoading = false;
+  int? _selectedTimeSlotIndex;
 
   RequestedCogoEntity? get item => _item;
   bool get isLoading => _isLoading;
+  int? get selectedTimeSlotIndex => _selectedTimeSlotIndex;
 
   Future<void> fetchCogoDetail(int applicationId) async {
     _isLoading = true;
@@ -29,13 +31,16 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
     }
   }
 
+  void selectTimeSlot(int index) {
+    _selectedTimeSlotIndex = index;
+    notifyListeners();
+  }
+
   void accept(BuildContext context) {
-    // Perform accept logic here
     Navigator.of(context).pop();
   }
 
   void reject(BuildContext context) {
-    // Perform reject logic here
     Navigator.of(context).pop();
   }
 }
