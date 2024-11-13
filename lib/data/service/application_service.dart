@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
+import 'package:cogo/data/dto/request/cogo_decision_request.dart';
 import 'package:cogo/data/dto/response/cogo_application_response.dart';
 import 'package:cogo/data/dto/response/requested_cogo_response.dart';
 import 'package:dio/dio.dart';
@@ -127,6 +128,46 @@ class ApplicationService {
             responseData['content'] is Map<String, dynamic>) {
           final content = responseData['content'] as Map<String, dynamic>;
           return RequestedCogoResponse.fromJson(content);
+        } else {
+          throw Exception('Unexpected response format: $responseData');
+        }
+      } else {
+        throw Exception('Failed to fetch COGO details: ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  // 코고 수락/거절 api
+  Future<CogoDecisionRequest> patchCogoDecision(
+      int applicationId, String decision) async {
+    try {
+      final response = await _apiClient.dio.patch(
+        '$apiVersion${Apis.application}/$applicationId/decision?decision=$decision',
+        data: {
+          'applicationId': applicationId,
+          'decision': decision,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $mentorToken',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        log(response.data.toString());
+
+        final responseData = response.data;
+
+        if (responseData is Map<String, dynamic> &&
+            responseData.containsKey('content') &&
+            responseData['content'] is Map<String, dynamic>) {
+          final content = responseData['content'] as Map<String, dynamic>;
+          return CogoDecisionRequest.fromJson(content);
         } else {
           throw Exception('Unexpected response format: $responseData');
         }
