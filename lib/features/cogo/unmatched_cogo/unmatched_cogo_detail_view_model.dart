@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
 import 'package:cogo/data/service/application_service.dart';
 import 'package:cogo/domain/entity/requested_cogo_entity.dart';
 import 'package:flutter/material.dart';
@@ -59,9 +58,9 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
   Future<void> reject(BuildContext context, int applicationId) async {
     _isLoading = true;
     notifyListeners();
-    String accept = 'reject';
+    String reject = 'reject';
     try {
-      await _applicationService.patchCogoDecision(applicationId, accept);
+      await _applicationService.patchCogoDecision(applicationId, reject);
     } catch (e) {
       log('Error patch COGO decision: $e');
     } finally {
