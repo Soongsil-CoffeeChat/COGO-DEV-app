@@ -132,14 +132,6 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                 child: Consumer<UnMatchedCogoDetailViewModel>(
                   builder: (context, viewModel, child) {
                     return SingleSelectionTimePicker(
-                      selectedTimeSlot: role == UserRole.MENTOR
-                          ? viewModel.selectedTimeSlotIndex
-                          : null,
-                      onTimeSlotSelected: role == UserRole.MENTOR
-                          ? (index) {
-                              viewModel.selectTimeSlot(index);
-                            }
-                          : null,
                       timeSlots: [item.formattedTimeSlot],
                     );
                   },
@@ -170,10 +162,8 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
               Expanded(
                 child: BasicButton(
                   text: '수락',
-                  isClickable: viewModel.selectedTimeSlotIndex != null,
-                  onPressed: viewModel.selectedTimeSlotIndex != null
-                      ? () => viewModel.accept(context)
-                      : null,
+                  isClickable: true,
+                  onPressed: () => viewModel.accept(context),
                 ),
               ),
             ],

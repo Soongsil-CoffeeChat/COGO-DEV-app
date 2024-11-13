@@ -131,14 +131,6 @@ class MatchedCogoDetailScreen extends StatelessWidget {
                 child: Consumer<MatchedCogoDetailViewModel>(
                   builder: (context, viewModel, child) {
                     return SingleSelectionTimePicker(
-                      selectedTimeSlot: role == UserRole.MENTOR
-                          ? viewModel.selectedTimeSlotIndex
-                          : null,
-                      onTimeSlotSelected: role == UserRole.MENTOR
-                          ? (index) {
-                              viewModel.selectTimeSlot(index);
-                            }
-                          : null,
                       timeSlots: [item.formattedTimeSlot],
                     );
                   },
