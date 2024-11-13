@@ -35,12 +35,4 @@ class MatchedCogoDetailViewModel extends ChangeNotifier {
     _selectedTimeSlotIndex = index;
     notifyListeners();
   }
-
-  void accept(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
-  void reject(BuildContext context) {
-    Navigator.of(context).pop();
-  }
 }

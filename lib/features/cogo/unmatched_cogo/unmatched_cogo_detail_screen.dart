@@ -32,7 +32,8 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(child: _buildContent(context)),
-                if (role == UserRole.MENTOR) _buildMentorButtons(context),
+                if (role == UserRole.MENTOR)
+                  _buildMentorButtons(context, applicationId),
               ],
             ),
           ),
@@ -144,7 +145,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMentorButtons(BuildContext context) {
+  Widget _buildMentorButtons(BuildContext context, int applicationId) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Consumer<UnMatchedCogoDetailViewModel>(
@@ -155,7 +156,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                 child: BasicButton(
                   text: '거절',
                   isClickable: true,
-                  onPressed: () => viewModel.reject(context),
+                  onPressed: () => viewModel.reject(context, applicationId),
                 ),
               ),
               const SizedBox(width: 10),
@@ -163,7 +164,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                 child: BasicButton(
                   text: '수락',
                   isClickable: true,
-                  onPressed: () => viewModel.accept(context),
+                  onPressed: () => viewModel.accept(context, applicationId),
                 ),
               ),
             ],

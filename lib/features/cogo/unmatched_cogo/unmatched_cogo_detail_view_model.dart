@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
 import 'package:cogo/data/service/application_service.dart';
 import 'package:cogo/domain/entity/requested_cogo_entity.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,9 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
   int? _selectedTimeSlotIndex;
 
   RequestedCogoEntity? get item => _item;
+
   bool get isLoading => _isLoading;
+
   int? get selectedTimeSlotIndex => _selectedTimeSlotIndex;
 
   Future<void> fetchCogoDetail(int applicationId) async {
@@ -36,11 +39,36 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void accept(BuildContext context) {
+  Future<void> accept(BuildContext context, int applicationId) async {
+    _isLoading = true;
+    notifyListeners();
+    String accept = 'accept';
+
+    try {
+      await _applicationService.patchCogoDecision(applicationId, accept);
+    } catch (e) {
+      log('Error patch COGO decision: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+
     Navigator.of(context).pop();
   }
 
-  void reject(BuildContext context) {
+  Future<void> reject(BuildContext context, int applicationId) async {
+    _isLoading = true;
+    notifyListeners();
+    String accept = 'reject';
+    try {
+      await _applicationService.patchCogoDecision(applicationId, accept);
+    } catch (e) {
+      log('Error patch COGO decision: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+
     Navigator.of(context).pop();
   }
 }
