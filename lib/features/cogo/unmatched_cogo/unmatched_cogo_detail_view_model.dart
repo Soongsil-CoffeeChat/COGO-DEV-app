@@ -53,7 +53,7 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
       notifyListeners();
     }
 
-    Navigator.of(context).pop();
+    Navigator.pop(context, 'refresh');
   }
 
   Future<void> reject(BuildContext context, int applicationId) async {
@@ -69,6 +69,6 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
       notifyListeners();
     }
 
-    Navigator.of(context).pop();
+    Navigator.pop(context, 'refresh');
   }
 }
