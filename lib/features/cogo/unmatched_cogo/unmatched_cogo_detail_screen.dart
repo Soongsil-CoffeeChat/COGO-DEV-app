@@ -69,7 +69,6 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
               _buildHeader(context, item),
               const SizedBox(height: 20),
               _buildMessageContainer(item),
-              const SizedBox(height: 20),
               _buildDateAndTimePicker(context, item),
             ],
           ),
