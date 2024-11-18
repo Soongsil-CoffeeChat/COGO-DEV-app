@@ -56,8 +56,8 @@ class _MultiSelectionTimePickerState extends State<MultiSelectionTimePicker> {
             },
             child: Container(
               //todo timepicker로 분리
-              width: 105,
-              height: 25,
+              width: 150,
+              height: 35,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: isSelected ? CogoColor.systemGray05 : CogoColor.white50,
@@ -69,7 +69,7 @@ class _MultiSelectionTimePickerState extends State<MultiSelectionTimePicker> {
               ),
               child: Text(
                 widget.timeSlots[index],
-                style: CogoTextStyle.body12.copyWith(
+                style: CogoTextStyle.body16.copyWith(
                   color:
                       isSelected ? CogoColor.white50 : CogoColor.systemGray03,
                 ),

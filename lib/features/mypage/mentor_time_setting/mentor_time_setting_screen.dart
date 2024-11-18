@@ -202,72 +202,82 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return Container(
-          height: 400,
-          padding: const EdgeInsets.all(15.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(30.0),
-            ),
-            border: Border.all(color: Colors.black, width: 1),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 80,
-                child: DatePicker(date: selectedDay, day: selectedDay),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MultiSelectionTimePicker(
-                        selectedDay: selectedDay,
-                        initialSelectedTimeSlots:
-                            viewModel.selectedTimeSlots[selectedDay] ?? [],
-                        onTimeSlotSelected: (selectedTimeSlot) {
-                          viewModel.addTimeSlot(selectedDay, selectedTimeSlot);
-                          setState(() {
-                            _isSelected = true; // 선택 시 isSelected를 true로 설정
-                            _isSaveButtonEnabled = true;
-                          });
-                        },
-                        onTimeSlotDeselected: (selectedTimeSlot) {
-                          viewModel.deleteTimeSlot(
-                              selectedDay, selectedTimeSlot);
-                          setState(() {
-                            _isSelected =
-                                viewModel.selectedTimeSlots[selectedDay] !=
-                                        null &&
-                                    viewModel.selectedTimeSlots[selectedDay]!
-                                        .isNotEmpty;
-                            _isSaveButtonEnabled =
-                                viewModel.selectedTimeSlots.isNotEmpty;
-                          });
-                        },
-                        timeSlots: viewModel.timeSlots,
-                      ),
-                      const SizedBox(height: 20),
-                      BasicButton2(
-                        onPressed: () {
-                          setState(() {
-                            _markedDays.add(selectedDay);
-                          });
-                          Navigator.pop(context);
-                        },
-                        text: '완료',
-                        isClickable: true,
-                        isSelected: _isSelected, // isSelected 상태 연결
-                      ),
-                    ],
-                  ),
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            // Modal 내부에서 setState 사용 가능
+            return Container(
+              height: 400,
+              padding: const EdgeInsets.all(15.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(30.0),
                 ),
+                border: Border.all(color: Colors.black, width: 1),
               ),
-            ],
-          ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    child: DatePicker(date: selectedDay, day: selectedDay),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          MultiSelectionTimePicker(
+                            selectedDay: selectedDay,
+                            initialSelectedTimeSlots:
+                                viewModel.selectedTimeSlots[selectedDay] ?? [],
+                            onTimeSlotSelected: (selectedTimeSlot) {
+                              viewModel.addTimeSlot(
+                                  selectedDay, selectedTimeSlot);
+                              setModalState(() {
+                                _isSelected =
+                                    true; // 타임 피커 선택 시 isSelected true로 설정
+                              });
+                            },
+                            onTimeSlotDeselected: (selectedTimeSlot) {
+                              viewModel.deleteTimeSlot(
+                                  selectedDay, selectedTimeSlot);
+                              setModalState(() {
+                                _isSelected =
+                                    viewModel.selectedTimeSlots[selectedDay] !=
+                                            null &&
+                                        viewModel
+                                            .selectedTimeSlots[selectedDay]!
+                                            .isNotEmpty;
+                              });
+                            },
+                            timeSlots: viewModel.timeSlots,
+                          ),
+                          const SizedBox(height: 20),
+                          Align(
+                            alignment: Alignment.center, // 버튼을 중앙으로 정렬
+                            child: BasicButton2(
+                              onPressed: () {
+                                setState(() {
+                                  _markedDays.add(selectedDay);
+                                });
+                                Navigator.pop(context);
+                              },
+                              text: '완료',
+                              isClickable: true,
+                              isSelected: _isSelected,
+                              width: 170,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );

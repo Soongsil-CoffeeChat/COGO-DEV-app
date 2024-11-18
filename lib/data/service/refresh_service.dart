@@ -13,11 +13,7 @@ class RefreshService {
   /// POST /auth/reissue/mobile - 리소스 서버에서 받은 accessToken(auth_code)으로 서비스 accessToken 발급
   Future<String> getAccessToken(String authCode, String name) async {
     try {
-      final response = await _apiClient.dio.post(
-        options: Options(
-          extra: {'skipAuthToken': true}, //토큰 해제
-        ),
-        Apis.getAccessToken,
+      final response = await _apiClie
         queryParameters: {
           'accessToken': authCode,
           'name': name,
