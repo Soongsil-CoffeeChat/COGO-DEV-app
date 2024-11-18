@@ -1,3 +1,4 @@
+import 'package:cogo/common/widgets/components/basic_button2.dart';
 import 'package:cogo/common/widgets/multi_selection_time_picker.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
@@ -195,49 +196,75 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
 
   void _showBottomSheet(
       DateTime selectedDay, MentorTimeSettingViewModel viewModel) {
+    bool _isSelected = false; // isSelected 상태 추가
+
     showModalBottomSheet(
+      backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.all(16.0),
           height: 400,
+          padding: const EdgeInsets.all(15.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(30.0),
+            ),
+            border: Border.all(color: Colors.black, width: 1),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}",
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              SizedBox(
+                height: 80,
+                child: DatePicker(date: selectedDay, day: selectedDay),
               ),
-              MultiSelectionTimePicker(
-                selectedDay: selectedDay,
-                initialSelectedTimeSlots:
-                    viewModel.selectedTimeSlots[selectedDay] ?? [],
-                onTimeSlotSelected: (selectedTimeSlot) {
-                  viewModel.addTimeSlot(selectedDay, selectedTimeSlot);
-                  setState(() {
-                    _isSaveButtonEnabled = true;
-                  });
-                },
-                onTimeSlotDeselected: (selectedTimeSlot) {
-                  viewModel.deleteTimeSlot(selectedDay, selectedTimeSlot);
-                  setState(() {
-                    _isSaveButtonEnabled =
-                        viewModel.selectedTimeSlots.isNotEmpty;
-                  });
-                },
-                timeSlots: viewModel.timeSlots,
-              ),
-              const SizedBox(height: 20),
-              BasicButton(
-                onPressed: () {
-                  setState(() {
-                    _markedDays.add(selectedDay); // 선택한 날짜 표시
-                  });
-                  Navigator.pop(context); // 바텀시트 닫기
-                },
-                text: '완료',
-                isClickable: true,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MultiSelectionTimePicker(
+                        selectedDay: selectedDay,
+                        initialSelectedTimeSlots:
+                            viewModel.selectedTimeSlots[selectedDay] ?? [],
+                        onTimeSlotSelected: (selectedTimeSlot) {
+                          viewModel.addTimeSlot(selectedDay, selectedTimeSlot);
+                          setState(() {
+                            _isSelected = true; // 선택 시 isSelected를 true로 설정
+                            _isSaveButtonEnabled = true;
+                          });
+                        },
+                        onTimeSlotDeselected: (selectedTimeSlot) {
+                          viewModel.deleteTimeSlot(
+                              selectedDay, selectedTimeSlot);
+                          setState(() {
+                            _isSelected =
+                                viewModel.selectedTimeSlots[selectedDay] !=
+                                        null &&
+                                    viewModel.selectedTimeSlots[selectedDay]!
+                                        .isNotEmpty;
+                            _isSaveButtonEnabled =
+                                viewModel.selectedTimeSlots.isNotEmpty;
+                          });
+                        },
+                        timeSlots: viewModel.timeSlots,
+                      ),
+                      const SizedBox(height: 20),
+                      BasicButton2(
+                        onPressed: () {
+                          setState(() {
+                            _markedDays.add(selectedDay);
+                          });
+                          Navigator.pop(context);
+                        },
+                        text: '완료',
+                        isClickable: true,
+                        isSelected: _isSelected, // isSelected 상태 연결
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
