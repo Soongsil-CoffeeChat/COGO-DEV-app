@@ -18,7 +18,7 @@ class PhoneNumberScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: true,  // 키도브 오버 플로우 해결
+        resizeToAvoidBottomInset: true, // 키도브 오버 플로우 해결
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -117,25 +117,31 @@ class PhoneNumberScreen extends StatelessWidget {
                                 height: 50,
                                 child: ElevatedButton(
                                   onPressed: (isValid &&
-                                      (!viewModel.showVerificationField.value ||
-                                          isValidCode))
+                                          (!viewModel.showVerificationField
+                                                  .value ||
+                                              isValidCode))
                                       ? () {
-                                    if (viewModel.isPhoneNumberSubmitted) {
-                                      viewModel.onVerificationCodeSubmitted(context);
-                                    } else {
-                                      viewModel.onPhoneNumberSubmitted();
-                                    }
-                                  }
+                                          if (viewModel
+                                              .isPhoneNumberSubmitted) {
+                                            viewModel
+                                                .onVerificationCodeSubmitted(
+                                                    context);
+                                          } else {
+                                            viewModel.onPhoneNumberSubmitted();
+                                          }
+                                        }
                                       : null,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: (isValid &&
-                                        (!viewModel.showVerificationField.value ||
-                                            isValidCode))
+                                            (!viewModel.showVerificationField
+                                                    .value ||
+                                                isValidCode))
                                         ? Colors.black
                                         : Colors.grey[300],
                                     foregroundColor: (isValid &&
-                                        (!viewModel.showVerificationField.value ||
-                                            isValidCode))
+                                            (!viewModel.showVerificationField
+                                                    .value ||
+                                                isValidCode))
                                         ? Colors.white
                                         : Colors.black,
                                     textStyle: const TextStyle(

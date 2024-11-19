@@ -59,7 +59,7 @@ class MatchingScreen extends StatelessWidget {
                         isClickable: true,
                         onPressed: () => viewModel.completeApplication(
                             context, mentorId, possibleDateId, memo),
-                        width: double.infinity,
+                        width: 'large',
                       );
                     },
                   ),

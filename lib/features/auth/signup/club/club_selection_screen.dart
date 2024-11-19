@@ -1,5 +1,6 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,20 +39,19 @@ class ClubSelectionScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  BasicButton(
+                                  SecondaryButton(
                                     text: 'GDSC',
-                                    isClickable: true,
                                     // viewModel.selectedClub == 'GDSC',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'GDSC');
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  BasicButton(
+                                  SecondaryButton(
                                     text: 'YOURSSU',
-                                    isClickable: true,
                                     // viewModel.selectedClub == 'YOURSSU',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'YOURSSU');
@@ -61,20 +61,19 @@ class ClubSelectionScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 16),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  BasicButton(
+                                  SecondaryButton(
                                     text: 'UMC',
-                                    isClickable: true,
                                     // viewModel.selectedClub == 'UMC',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'UMC');
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  BasicButton(
+                                  SecondaryButton(
                                     text: 'LIKELION',
-                                    isClickable: true,
                                     // viewModel.selectedClub == 'LIKELION',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'LIKELION');
@@ -85,13 +84,13 @@ class ClubSelectionScreen extends StatelessWidget {
                               const SizedBox(height: 16),
                               Row(
                                 children: [
-                                  BasicButton(
+                                  SecondaryButton(
                                     text: 'NO CLUB',
-                                    isClickable: true,
                                     // viewModel.selectedClub == 'NO CLUB',
                                     onPressed: () {
                                       viewModel.selectClub(context, 'NO CLUB');
                                     },
+                                    width: 'large',
                                   ),
                                   const SizedBox(width: 10),
                                 ],
