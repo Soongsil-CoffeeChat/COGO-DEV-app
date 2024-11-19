@@ -89,7 +89,8 @@ class PhoneNumberViewModel extends ChangeNotifier {
       log("verificationCode: $_verificationCode, codeController.text ${codeController.text}");
 
       if (_verificationCode == codeController.text) {
-        context.push("${Paths.agreement}/${Paths.name}"); //Todo 이거 괜춘?
+        context.push("${Paths.agreement}/${Paths.name}",
+            extra: phoneController.text); //Todo 이거 괜춘?
       } else {
         errorMessage.value = '인증번호가 일치하지 않습니다.';
       }

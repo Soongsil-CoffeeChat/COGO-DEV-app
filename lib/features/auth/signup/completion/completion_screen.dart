@@ -1,7 +1,9 @@
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/header.dart';
-import 'package:cogo/features/auth/signup/view_models/shared_views/completion_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'completion_view_model.dart';
 
 class CompletionScreen extends StatelessWidget {
   const CompletionScreen({super.key});
@@ -17,8 +19,8 @@ class CompletionScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Consumer<CompletionViewModel>(
               builder: (context, viewModel, child) {
-                // name이 "멘토"인지 "멘티"인지에 따라 다른 텍스트를 출력
-                String greetingText = viewModel.name == "멘토"
+                // role이 "멘토"인지 "멘티"인지에 따라 다른 텍스트를 출력
+                String greetingText = viewModel.role == Role.MENTOR
                     ? "멘토님! 반갑습니다."
                     : "멘티님! 반갑습니다.";
 

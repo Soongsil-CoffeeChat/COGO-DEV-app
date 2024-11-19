@@ -1,29 +1,31 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
-import 'package:cogo/features/auth/signup/view_models/mentee/interest_selection_view_model.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MenteeInterestSelectionScreen extends StatelessWidget {
-  const MenteeInterestSelectionScreen({super.key});
+import 'club_selection_view_model.dart';
+
+class ClubSelectionScreen extends StatelessWidget {
+  const ClubSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MenteeInterestSelectionViewModel(),
+      create: (_) => ClubSelectionViewModel(userService: UserService()),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(  // SafeArea로 전체 화면을 감쌌습니다.
+        body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Consumer<MenteeInterestSelectionViewModel>(
+            child: Consumer<ClubSelectionViewModel>(
               builder: (context, viewModel, child) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Header(
-                      title: '나의 관심사 또는 희망하는\n직종을 하나 선택해주세요',
-                      subtitle: '나중에 관심사가 바뀌어도 수정이 가능해요',
+                      title: '소속된 동아리가 있나요?',
+                      subtitle: '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
                       onBackButtonPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -39,20 +41,20 @@ class MenteeInterestSelectionScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   BasicButton(
-                                    text: 'FE',
-                                    isClickable:
-                                        viewModel.selectedInterest == 'FE',
+                                    text: 'GDSC',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'GDSC',
                                     onPressed: () {
-                                      viewModel.selectInterest(context, 'FE');
+                                      viewModel.selectClub(context, 'GDSC');
                                     },
                                   ),
                                   const SizedBox(width: 10),
                                   BasicButton(
-                                    text: 'BE',
-                                    isClickable:
-                                        viewModel.selectedInterest == 'BE',
+                                    text: 'YOURSSU',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'YOURSSU',
                                     onPressed: () {
-                                      viewModel.selectInterest(context, 'BE');
+                                      viewModel.selectClub(context, 'YOURSSU');
                                     },
                                   ),
                                 ],
@@ -62,24 +64,39 @@ class MenteeInterestSelectionScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   BasicButton(
-                                    text: '기획',
-                                    isClickable:
-                                        viewModel.selectedInterest == '기획',
+                                    text: 'UMC',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'UMC',
                                     onPressed: () {
-                                      viewModel.selectInterest(context, '기획');
+                                      viewModel.selectClub(context, 'UMC');
                                     },
                                   ),
                                   const SizedBox(width: 10),
                                   BasicButton(
-                                    text: '디자인',
-                                    isClickable:
-                                        viewModel.selectedInterest == '디자인',
+                                    text: 'LIKELION',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'LIKELION',
                                     onPressed: () {
-                                      viewModel.selectInterest(context, '디자인');
+                                      viewModel.selectClub(context, 'LIKELION');
                                     },
                                   ),
                                 ],
                               ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  BasicButton(
+                                    text: 'NO CLUB',
+                                    isClickable: true,
+                                    // viewModel.selectedClub == 'NO CLUB',
+                                    onPressed: () {
+                                      viewModel.selectClub(context, 'NO CLUB');
+                                    },
+                                  ),
+                                  const SizedBox(width: 10),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
                             ],
                           ),
                         ),

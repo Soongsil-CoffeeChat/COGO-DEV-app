@@ -7,14 +7,10 @@ import 'package:cogo/data/dto/response/mentor_detail_response.dart';
 import 'package:cogo/data/dto/response/mentor_introduction_response.dart';
 import 'package:cogo/data/dto/response/mentor_part_response.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 class MentorService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
-
-  //TODO 실제 토큰으로 코드 변환 필요
-  String token = FlutterConfig.get('mentor_token');
 
   Future<MentorDetailResponse> getMentorDetail(int mentorId) async {
     try {
@@ -22,9 +18,6 @@ class MentorService {
         '$apiVersion${Apis.mentor}/$mentorId',
         options: Options(
           extra: {'skipAuthToken': false},
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
         ),
       );
       if (response.statusCode == 200) {
@@ -56,9 +49,6 @@ class MentorService {
         apiVersion + Apis.mentorPart,
         options: Options(
           extra: {'skipAuthToken': false},
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
         ),
         queryParameters: {
           'part': part,
@@ -105,9 +95,6 @@ class MentorService {
           'introduction_answer2': introductionAnswer2,
         },
         options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
         ),
       );
 

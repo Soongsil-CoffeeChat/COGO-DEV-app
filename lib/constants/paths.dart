@@ -1,15 +1,14 @@
 abstract class Paths {
   Paths._();
   static const String login = '/login';
+
   static const String agreement = '/agreement';
   static const String phone = 'phone';
   static const String name = 'name';
   static const String choose = 'choose';
-  static const String mentorInterest = 'mentor_interest';
+  static const String interest = 'interest';
   static const String mentorClub = 'mentor_club';
   static const String mentorInfo = 'mentor_info';
-  static const String mentorCompletion = 'mentor_completion';
-  static const String menteeInterest = 'mentee_interest';
   static const String completion = 'completion';
 
   static const String home = '/home';
@@ -27,7 +26,7 @@ abstract class Paths {
   static const String matchedCogo = '/matchedCogo';
   static const String matchedCogoDetail = '/matchedCogoDetail';
 
-  static const String mentorIntroduction = '/mentorIntroduction';
+  static const String mentorIntroduction = '/mentor_introduction';
 
   static const String mentorQuestion1 = '/mentorQuestion1';
   static const String mentorQuestion2 = '/mentorQuestion2';

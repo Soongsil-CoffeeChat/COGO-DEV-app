@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/features/home/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,9 @@ class BottomNavigationViewModel extends ChangeNotifier {
     // HomeViewModel에 접근해서 role과 isIntroductionComplete 값 확인
     final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
 
-    if (index == 1 && homeViewModel.selectedRole == 'mentor' && !homeViewModel.isIntroductionComplete) {
+    if (index == 1 &&
+        homeViewModel.role == Role.MENTOR.name &&
+        !homeViewModel.isIntroductionComplete) {
       // 조건이 만족하면 다이얼로그를 띄움
       _showMentorProfileDialog(context);
     } else {

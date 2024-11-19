@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/features/home/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
 
       // ViewModel의 role과 isIntroductionComplete 값으로 다이얼로그 표시 여부 결정
-      if (viewModel.selectedRole == 'mentor' &&
+      if (viewModel.role == Role.MENTOR.name &&
           !viewModel.isIntroductionComplete) {
         _showMentorProfileDialog(context);
       }
@@ -111,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 description: profileCard.description,
                 onTap: () {
                   // role이 mentor이고, 자기소개가 완료되지 않았다면 다이얼로그 띄우기
-                  if (viewModel.selectedRole == 'mentor' &&
+                  if (viewModel.role == Role.MENTOR.name &&
                       !viewModel.isIntroductionComplete) {
                     _showMentorProfileDialog(context);
                   } else {

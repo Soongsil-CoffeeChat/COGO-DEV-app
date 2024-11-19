@@ -1,29 +1,33 @@
+import 'package:cogo/common/enums/interest.dart';
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
-import 'package:cogo/features/auth/signup/view_models/mentor/club_selection_view_model.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ClubSelectionScreen extends StatelessWidget {
-  const ClubSelectionScreen({super.key});
+import 'interest_selection_view_model.dart';
+
+class InterestSelectionScreen extends StatelessWidget {
+  const InterestSelectionScreen({super.key, Role? role});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ClubSelectionViewModel(),
+      create: (_) => InterestSelectionViewModel(userService: UserService()),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
+        body: SafeArea(  // SafeArea로 전체 화면을 감쌌습니다.
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Consumer<ClubSelectionViewModel>(
+            child: Consumer<InterestSelectionViewModel>(
               builder: (context, viewModel, child) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Header(
-                      title: '소속된 동아리가 있나요?',
-                      subtitle: '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
+                      title: '나의 관심사 또는 희망하는\n직종을 하나 선택해주세요',
+                      subtitle: '나중에 관심사가 바뀌어도 수정이 가능해요',
                       onBackButtonPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -39,20 +43,22 @@ class ClubSelectionScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   BasicButton(
-                                    text: 'GDSC',
-                                    isClickable:
-                                        viewModel.selectedClub == 'GDSC',
+                                    text: 'FE',
+                                    isClickable: true,
+                                    // viewModel.selectedInterest == 'FE',
                                     onPressed: () {
-                                      viewModel.selectClub(context, 'GDSC');
+                                      viewModel.selectInterest(
+                                          context, Interest.FE);
                                     },
                                   ),
                                   const SizedBox(width: 10),
                                   BasicButton(
-                                    text: 'YOURSSU',
-                                    isClickable:
-                                        viewModel.selectedClub == 'YOURSSU',
+                                    text: 'BE',
+                                    isClickable: true,
+                                    // viewModel.selectedInterest == 'BE',
                                     onPressed: () {
-                                      viewModel.selectClub(context, 'YOURSSU');
+                                      viewModel.selectInterest(
+                                          context, Interest.BE);
                                     },
                                   ),
                                 ],
@@ -62,39 +68,34 @@ class ClubSelectionScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   BasicButton(
-                                    text: 'UMC',
-                                    isClickable:
-                                        viewModel.selectedClub == 'UMC',
+                                    text: '기획',
+                                    isClickable: true,
                                     onPressed: () {
-                                      viewModel.selectClub(context, 'UMC');
+                                      viewModel.selectInterest(
+                                          context, Interest.PM);
                                     },
                                   ),
                                   const SizedBox(width: 10),
                                   BasicButton(
-                                    text: 'LIKELION',
-                                    isClickable:
-                                        viewModel.selectedClub == 'LIKELION',
+                                    text: '디자인',
+                                    isClickable: true,
+                                    // viewModel.selectedInterest == '디자인',
                                     onPressed: () {
-                                      viewModel.selectClub(context, 'LIKELION');
+                                      viewModel.selectInterest(
+                                          context, Interest.DESIGN);
                                     },
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                children: [
                                   BasicButton(
-                                    text: 'NO CLUB',
-                                    isClickable:
-                                        viewModel.selectedClub == 'NO CLUB',
+                                    text: 'MOBILE',
+                                    isClickable: true,
+                                    // viewModel.selectedInterest == '디자인',
                                     onPressed: () {
-                                      viewModel.selectClub(context, 'NO CLUB');
+                                      viewModel.selectInterest(
+                                          context, Interest.MOBILE);
                                     },
                                   ),
-                                  const SizedBox(width: 10),
                                 ],
                               ),
-                              const SizedBox(height: 16),
                             ],
                           ),
                         ),
