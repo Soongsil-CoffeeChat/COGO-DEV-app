@@ -34,9 +34,10 @@ class MypageScreen extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(
-                            'assets/image/img_image.svg', // SVG 파일 경로
-                          ),
+                          // SvgPicture.asset(
+                          //   'assets/image/img_image.svg', // SVG 파일 경로
+                          // ),
+                          Image.network('assets/image/img_image.svg'),
                           const SizedBox(height: 20),
                           const Center(
                             child: TagList(tags: [
