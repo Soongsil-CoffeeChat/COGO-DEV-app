@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
@@ -38,8 +40,9 @@ class MypageViewModel extends ChangeNotifier {
       final data = response.toMyPageInfo(); // 변환하여 UserData에 저장
 
       _updateState(myPageInfo: data);
+      log('내 정보 조회 성공');
     } catch (e) {
-      debugPrint('Error fetching user data: $e');
+      log('Error fetching user data: $e');
       _updateState(hasError: true);
     } finally {
       _updateState(isLoading: false);

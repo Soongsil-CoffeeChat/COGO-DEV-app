@@ -78,11 +78,15 @@ class UserService {
     try {
       final response = await _apiClient.dio.get(
         options: Options(
-          extra: {'skipAuthToken': false},
+          extra: {'skipAuthToken': true},
+          headers: {
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiJ9.eyJjYXRlZ29yeSI6ImFjY2VzcyIsInVzZXJuYW1lIjoiZ29vZ2xlIDEwMzM2NDQ3MTQ1MTk0NDk0MDYxNSIsInJvbGUiOiJST0xFX01FTlRPUiIsImlhdCI6MTczMDg4MDY5OSwiZXhwIjoxNzMyNjgwNjk5fQ.FoyJo5kjsp4xm7ulZBzBNl2L_pOO79jwI7QPwjgXKjw',
+          },
         ),
         apiVersion + Apis.userInfo,
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         //base response로 받는건 여기서 뿐임.
         final baseResponse = BaseResponse<MyInfoResponse>.fromJson(
           response.data,

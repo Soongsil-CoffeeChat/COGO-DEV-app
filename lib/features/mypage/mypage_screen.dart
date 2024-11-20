@@ -12,7 +12,7 @@ class MypageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MypageViewModel(),
+      create: (_) => MypageViewModel()..initialize,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -41,6 +41,14 @@ class MypageScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.navigateToLoginScreen(context);
                         },
+                      ),
+                      const SizedBox(height: 30),
+                      BasicButton(
+                        text: "다시 시도하기",
+                        isClickable: true,
+                        onPressed: () {
+                          viewModel.initialize();
+                        },
                       )
                     ],
                   ),
@@ -54,22 +62,23 @@ class MypageScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 13),
                     Text(
                       '${user?.name ?? "사용자"}님',
-                      style: CogoTextStyle.body20,
+                      style: CogoTextStyle.bodySB20,
                       textAlign: TextAlign.center,
                     ),
-                    if (user?.picture == null) ...[
-                      Image.network(user!.picture)
-                    ] else ...[
-                      ///이미지가 없다면 기본 이미지로
-                      SvgPicture.asset(
-                        'assets/image/img_image.svg',
-                      ),
-                    ],
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 13),
+                    Image.network(
+                      user!.picture!,
+                      errorBuilder: (context, error, stackTrace) {
+                        return SvgPicture.asset(
+                            'assets/image/img_image.svg'); // 로드 실패 시 기본 이미지
+                      },
+                    ),
+                    const SizedBox(height: 13),
                     Center(
-                      child: TagList(tags: user?.tags ?? ["동아리", "파트"]),
+                      child: TagList(tags: user.tags),
                     ),
                     const SizedBox(height: 20),
                     ListTile(
