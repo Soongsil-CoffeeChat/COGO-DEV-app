@@ -61,15 +61,19 @@ class MypageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void navigateToMyInformationManagement(BuildContext context) {
+  void navigateToMyInformationManagementScreen(BuildContext context) {
     context.push(Paths.myInfo);
   }
 
-  void navigateToMentorIntroduceManagement(BuildContext context) {
+  void navigateToMentorIntroduceManagementScreen(BuildContext context) {
     context.push(Paths.introduce);
   }
 
-  void navigateToMentorTimeSetting(BuildContext context) {
+  void navigateToMentorTimeSettingScreen(BuildContext context) {
     context.push(Paths.timeSetting);
+  }
+
+  void navigateToLoginScreen(BuildContext context) {
+    context.push(Paths.login);
   }
 }

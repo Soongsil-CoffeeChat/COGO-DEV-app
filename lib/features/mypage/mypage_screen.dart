@@ -25,10 +25,24 @@ class MypageScreen extends StatelessWidget {
               }
 
               if (state.hasError) {
-                return const Center(
-                  child: Text(
-                    '데이터를 불러오는 중 오류가 발생했습니다.',
-                    style: TextStyle(color: Colors.red),
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center, // 수직 중앙 정렬
+                    crossAxisAlignment: CrossAxisAlignment.center, // 가로 중앙 정렬
+                    children: [
+                      const Text(
+                        '데이터를 불러오는 중 오류가 발생했습니다.',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      const SizedBox(height: 30),
+                      BasicButton(
+                        text: "로그인 화면으로 돌아가기",
+                        isClickable: true,
+                        onPressed: () {
+                          viewModel.navigateToLoginScreen(context);
+                        },
+                      )
+                    ],
                   ),
                 );
               }
@@ -61,21 +75,21 @@ class MypageScreen extends StatelessWidget {
                     ListTile(
                       title: const Text('내 정보 관리'),
                       trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          viewModel.navigateToMyInformationManagement(context),
+                      onTap: () => viewModel
+                          .navigateToMyInformationManagementScreen(context),
                     ),
                     if (state.role == Role.MENTOR.name) ...[
                       ListTile(
                         title: const Text('자기소개 관리'),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => viewModel
-                            .navigateToMentorIntroduceManagement(context),
+                            .navigateToMentorIntroduceManagementScreen(context),
                       ),
                       ListTile(
                         title: const Text('시간 설정'),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () =>
-                            viewModel.navigateToMentorTimeSetting(context),
+                        onTap: () => viewModel
+                            .navigateToMentorTimeSettingScreen(context),
                       ),
                     ],
                   ],
