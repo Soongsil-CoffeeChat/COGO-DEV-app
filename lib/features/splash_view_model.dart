@@ -1,8 +1,6 @@
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cogo/data/service/token_service.dart';
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 class SplashViewModel extends ChangeNotifier {
@@ -16,25 +14,19 @@ class SplashViewModel extends ChangeNotifier {
       final accessToken = await _secureStorage.readAccessToken();
 
       if (accessToken != null) {
-        userService
-    .
+        // userService
 
-
-    if (response.statusCode == 200) {
-    // 토큰 유효 → 홈 화면으로 이동
-    _navigationPath = '/home';
-    return;
-    }
-    }
+        // if (response.statusCode == 200) {
+        //   // 토큰 유효 → 홈 화면으로 이동
+        //   _navigationPath = '/home';
+        //   return;
+        // }
+      }
     } catch (e) {
-    debugPrint('Auto login failed: $e');
+      debugPrint('Auto login failed: $e');
     }
 
     // 토큰이 없거나 유효하지 않음 → 로그인 화면으로 이동
-    _navigationPath
-    =
-    '
-    /login
-    ';
+    _navigationPath = ' /login';
   }
 }

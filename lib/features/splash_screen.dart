@@ -1,8 +1,8 @@
+import 'package:cogo/features/splash_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart'; // 상태 관리를 위해 Provider 사용
-
-import 'splash_viewmodel.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
