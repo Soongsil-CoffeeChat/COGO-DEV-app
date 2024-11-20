@@ -1,4 +1,6 @@
 // Content 모델 클래스
+import 'package:cogo/domain/entity/my_page_info.dart';
+
 class MyInfoResponse {
   final String name;
   final String email;
@@ -42,5 +44,13 @@ class MyInfoResponse {
       'club': club,
       'picture': picture,
     };
+  }
+
+  MyPageInfo toMyPageInfo() {
+    return MyPageInfo(
+      name: name,
+      tags: [part, club], // part와 club을 태그 리스트로 합침
+      picture: picture ?? '', // picture가 없으면 빈 문자열로 대체
+    );
   }
 }

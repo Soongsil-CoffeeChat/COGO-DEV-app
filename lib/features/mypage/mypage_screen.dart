@@ -1,13 +1,13 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class MypageScreen extends StatelessWidget {
+  const MypageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,94 +15,73 @@ class MypageScreen extends StatelessWidget {
       create: (_) => MypageViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: true, // 키보드 오버 플로우 해결
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
+          child: Consumer<MypageViewModel>(
+            builder: (context, viewModel, child) {
+              final state = viewModel.state;
+
+              if (state.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (state.hasError) {
+                return const Center(
+                  child: Text(
+                    '데이터를 불러오는 중 오류가 발생했습니다.',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                );
+              }
+
+              final user = state.myPageInfo;
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      '유진 멘토님',
+                    Text(
+                      '${user?.name ?? "사용자"}님',
                       style: CogoTextStyle.body20,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 10),
-                    Consumer<MypageViewModel>(
-                        builder: (context, viewModel, child) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // SvgPicture.asset(
-                          //   'assets/image/img_image.svg', // SVG 파일 경로
-                          // ),
-                          Image.network('assets/image/img_image.svg'),
-                          const SizedBox(height: 20),
-                          const Center(
-                            child: TagList(tags: [
-                              "UMC",
-                              "GDSC"
-                            ]), // Centering the Tag widget
-                          ),
-                          const SizedBox(height: 20),
-                          ListTile(
-                            title: const Text(
-                              '내 정보 관리',
-                              style: CogoTextStyle.body16,
-                            ),
-                            trailing: const Icon(Icons.chevron_right),
-                            onTap: () {
-                              viewModel
-                                  .navigateToMyInformationManagement(context);
-                            },
-                          ),
-                          // const SizedBox(height: 5),
-                          const Divider(
-                              height: 0.2, color: CogoColor.systemGray02),
-                          // const SizedBox(height: 5),
-
-                          /**
-                           * 멘토에게만 필요한 기능이므로 조건문을 걸어줍니다.
-                           */
-                          viewModel.role == Role.MENTOR.name
-                              ? Column(
-                                  children: [
-                                    ListTile(
-                                      title: const Text(
-                                        '자기소개 관리',
-                                        style: CogoTextStyle.body16,
-                                      ),
-                                      trailing: const Icon(Icons.chevron_right),
-                                      onTap: () {
-                                        viewModel
-                                            .navigateToMentorIntroduceManagement(
-                                                context);
-                                      },
-                                    ),
-                                    const Divider(
-                                        height: 0.2,
-                                        color: CogoColor.systemGray02),
-                                    // const SizedBox(height: 5),
-                                    ListTile(
-                                      title: const Text(
-                                        '시간 설정',
-                                        style: CogoTextStyle.body16,
-                                      ),
-                                      trailing: const Icon(Icons.chevron_right),
-                                      onTap: () {
-                                        viewModel.navigateToMentorTimeSetting(
-                                            context);
-                                      },
-                                    ),
-                                  ],
-                                )
-                              : Container(), // 조건이 false일 때 빈 컨테이너 반환
-                        ],
-                      );
-                    })
-                  ]),
-            ),
+                    if (user?.picture == null) ...[
+                      Image.network(user!.picture)
+                    ] else ...[
+                      ///이미지가 없다면 기본 이미지로
+                      SvgPicture.asset(
+                        'assets/image/img_image.svg',
+                      ),
+                    ],
+                    const SizedBox(height: 20),
+                    Center(
+                      child: TagList(tags: user?.tags ?? ["동아리", "파트"]),
+                    ),
+                    const SizedBox(height: 20),
+                    ListTile(
+                      title: const Text('내 정보 관리'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          viewModel.navigateToMyInformationManagement(context),
+                    ),
+                    if (state.role == Role.MENTOR.name) ...[
+                      ListTile(
+                        title: const Text('자기소개 관리'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => viewModel
+                            .navigateToMentorIntroduceManagement(context),
+                      ),
+                      ListTile(
+                        title: const Text('시간 설정'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () =>
+                            viewModel.navigateToMentorTimeSetting(context),
+                      ),
+                    ],
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
