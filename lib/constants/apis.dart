@@ -8,6 +8,7 @@ abstract class Apis {
 
   // 토큰 관련 api
   static const String getAccessToken = "auth/reissue/mobile";
+  static const String reissueAccessToken = "auth/reissue";
 
   // 유저 관련 api
   static const String saveImage = "users/picture";
