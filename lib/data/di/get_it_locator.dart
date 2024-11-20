@@ -7,6 +7,7 @@ import 'package:cogo/features/auth/signup/interest/interest_selection_view_model
 import 'package:cogo/features/auth/signup/name_input/name_input_view_model.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_view_model.dart';
 import 'package:cogo/features/home/home/view_model/home_view_model.dart';
+import 'package:cogo/features/splash_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -19,6 +20,8 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<Dio>(() => Dio());
 
   getIt.registerLazySingleton<MentorService>(() => MentorService());
+
+  getIt.registerLazySingleton<RefreshService>(() => RefreshService());
 
   getIt.registerLazySingleton<UserService>(() => UserService());
 
@@ -41,4 +44,6 @@ void setupServiceLocator() {
       () => ClubSelectionViewModel(userService: getIt<UserService>()));
 
   getIt.registerFactory<HomeViewModel>(() => HomeViewModel());
+
+  getIt.registerFactory<SplashViewModel>(() => SplashViewModel());
 }

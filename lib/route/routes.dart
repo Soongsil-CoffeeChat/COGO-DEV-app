@@ -26,6 +26,7 @@ import 'package:cogo/features/home/search/view/search_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_screen.dart';
 import 'package:cogo/features/mypage/my_info/my_info_screen.dart';
 import 'package:cogo/features/mypage/mypage_screen.dart';
+import 'package:cogo/features/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,6 +36,12 @@ final AppRouter = GoRouter(
   // initialLocation: '/',
   initialLocation: Paths.home,
   routes: [
+    GoRoute(
+        path: Paths.splash,
+        pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: const SplashScreen(),
+            )),
     GoRoute(
       path: Paths.login,
       pageBuilder: (context, state) => MaterialPage(

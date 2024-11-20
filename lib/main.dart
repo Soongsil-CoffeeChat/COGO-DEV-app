@@ -4,9 +4,8 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'common/db/locale_manager.dart';
 import 'data/di/get_it_locator.dart';
-
+import 'data/repository/local/locale_manager.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
