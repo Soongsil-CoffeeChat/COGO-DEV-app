@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart'; // If using GoRouter for navigation
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart'; // 상태 관리를 위해 Provider 사용
+
+import 'splash_viewmodel.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,10 +20,13 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     _controller = AnimationController(vsync: this);
 
-    // Delay for a few seconds while the Lottie animation plays
-    Future.delayed(const Duration(seconds: 5), () {
-      // Navigate to the next screen (e.g., Login Screen or Home Screen)
-      context.go('/login'); // Use your navigation method here
+    // ViewModel 초기화 및 로직 실행
+    final splashViewModel = context.read<SplashViewModel>();
+    splashViewModel.autoLogin().then((_) {
+      // 애니메이션이 끝난 후 화면 전환
+      Future.delayed(const Duration(seconds: 2), () {
+        context.go(splashViewModel.navigationPath ?? '/login');
+      });
     });
   }
 
