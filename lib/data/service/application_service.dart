@@ -4,7 +4,7 @@ import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/request/cogo_decision_request.dart';
 import 'package:cogo/data/dto/response/cogo_application_response.dart';
-import 'package:cogo/data/dto/response/requested_cogo_response.dart';
+import 'package:cogo/data/dto/response/cogo_info_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -66,7 +66,7 @@ class ApplicationService {
   String mentorToken = FlutterConfig.get('mentor_token');
 
   // 신청받은/신청한 COGO 조회
-  Future<List<RequestedCogoResponse>> getRequestedCogo(String status) async {
+  Future<List<CogoInfoResponse>> getRequestedCogo(String status) async {
     try {
       final response = await _apiClient.dio.get(
         '$apiVersion${Apis.application}/status?status=$status',
@@ -88,7 +88,7 @@ class ApplicationService {
             responseData['content'] is List) {
           final contentList = responseData['content'] as List<dynamic>;
           return contentList
-              .map((json) => RequestedCogoResponse.fromJson(json))
+              .map((json) => CogoInfoResponse.fromJson(json))
               .toList();
         } else if (responseData == null || responseData.isEmpty) {
           throw Exception('Empty or null response from server');
@@ -106,7 +106,7 @@ class ApplicationService {
   }
 
   // 특정 COGO 조회
-  Future<RequestedCogoResponse> getCogoDetail(int applicationId) async {
+  Future<CogoInfoResponse> getCogoDetail(int applicationId) async {
     try {
       final response = await _apiClient.dio.get(
         '$apiVersion${Apis.application}/$applicationId',
@@ -127,7 +127,7 @@ class ApplicationService {
             responseData.containsKey('content') &&
             responseData['content'] is Map<String, dynamic>) {
           final content = responseData['content'] as Map<String, dynamic>;
-          return RequestedCogoResponse.fromJson(content);
+          return CogoInfoResponse.fromJson(content);
         } else {
           throw Exception('Unexpected response format: $responseData');
         }

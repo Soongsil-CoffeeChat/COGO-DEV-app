@@ -1,6 +1,6 @@
 import 'package:cogo/common/enums/user_role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/domain/entity/requested_cogo_entity.dart';
+import 'package:cogo/domain/entity/cogo_info_entity.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -78,7 +78,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, RequestedCogoEntity item) {
+  Widget _buildHeader(BuildContext context, CogoInfoEntity item) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: Header(
@@ -91,7 +91,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMessageContainer(RequestedCogoEntity item) {
+  Widget _buildMessageContainer(CogoInfoEntity item) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Container(
@@ -112,8 +112,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDateAndTimePicker(
-      BuildContext context, RequestedCogoEntity item) {
+  Widget _buildDateAndTimePicker(BuildContext context, CogoInfoEntity item) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: SizedBox(

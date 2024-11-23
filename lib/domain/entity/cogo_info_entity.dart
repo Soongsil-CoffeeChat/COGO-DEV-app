@@ -1,6 +1,6 @@
-import 'package:cogo/data/dto/response/requested_cogo_response.dart';
+import 'package:cogo/data/dto/response/cogo_info_response.dart';
 
-class RequestedCogoEntity {
+class CogoInfoEntity {
   final int applicationId;
   final String menteeName;
   final String mentorName;
@@ -9,7 +9,7 @@ class RequestedCogoEntity {
   final String applicationStartTime;
   final String applicationEndTime;
 
-  RequestedCogoEntity({
+  CogoInfoEntity({
     required this.applicationId,
     required this.menteeName,
     required this.mentorName,
@@ -19,8 +19,8 @@ class RequestedCogoEntity {
     required this.applicationEndTime,
   });
 
-  factory RequestedCogoEntity.fromResponse(RequestedCogoResponse response) {
-    return RequestedCogoEntity(
+  factory CogoInfoEntity.fromResponse(CogoInfoResponse response) {
+    return CogoInfoEntity(
       applicationId: response.applicationId,
       menteeName: response.menteeName,
       mentorName: response.mentorName,
