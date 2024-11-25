@@ -44,8 +44,8 @@ class MatchedCogoScreen extends StatelessWidget {
                         return Center(
                           child: Text(
                             role == Role.MENTOR
-                                ? '멘티에게 받은 성사된 코고 신청이 없습니다.'
-                                : '멘토에게 보낸 성사된 코고 신청이 없습니다.',
+                                ? '성사된 코고 신청이 없습니다.'
+                                : '성사된 코고 신청이 없습니다.',
                             style: CogoTextStyle.body14,
                           ),
                         );

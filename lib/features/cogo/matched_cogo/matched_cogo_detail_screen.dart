@@ -16,7 +16,12 @@ class MatchedCogoDetailScreen extends StatelessWidget {
     final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
 
     if (extra == null || !extra.containsKey('applicationId')) {
-      throw Exception('필요한 데이터가 전달되지 않았습니다: $extra');
+      return const Center(
+        child: Text(
+          '코고 신청 정보를 불러올 수 없습니다.',
+          style: CogoTextStyle.body14,
+        ),
+      );
     }
 
     final applicationId = extra['applicationId'] as int;
