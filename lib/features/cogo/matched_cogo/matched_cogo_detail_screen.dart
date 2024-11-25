@@ -1,4 +1,4 @@
-import 'package:cogo/common/enums/user_role.dart';
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/domain/entity/cogo_info_entity.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_view_model.dart';
@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class MatchedCogoDetailScreen extends StatelessWidget {
-  final dynamic role;
+  final Role role;
 
-  const MatchedCogoDetailScreen({super.key, this.role = UserRole.MENTOR});
+  const MatchedCogoDetailScreen({super.key, this.role = Role.MENTOR});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: Header(
-        title: role == UserRole.MENTOR
+        title: role == Role.MENTOR
             ? '${item.menteeName}님이 코고신청을 보냈어요'
             : '${item.mentorName}님께 보낸 코고입니다',
         subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
