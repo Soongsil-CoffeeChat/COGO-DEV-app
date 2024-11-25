@@ -1,4 +1,5 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/constants/button_size.dart';
 import 'package:cogo/features/auth/signup/agreement/agreement_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -98,7 +99,7 @@ Widget agreementBottomSheet(BuildContext context) {
               onPressed: () {
                 viewModel.onConfirmButtonPressed(context);
               },
-              width: 'large',
+              size: ButtonSize.large(),
             ),
           ),
         ],

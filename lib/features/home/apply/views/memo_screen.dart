@@ -1,6 +1,7 @@
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/constants/button_size.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/home/apply/view_models/memo_view_model.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class MemoScreen extends StatelessWidget {
                       onPressed: viewModel.charCount > 0
                           ? () => viewModel.saveMemo(context)
                           : null,
-                      width: 'large',
+                      size: ButtonSize.large(),
                     );
                   },
                 ),

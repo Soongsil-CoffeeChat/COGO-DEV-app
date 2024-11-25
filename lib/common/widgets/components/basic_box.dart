@@ -2,7 +2,6 @@ import 'package:cogo/common/widgets/atoms/texts/texts.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-// todo 이거 isClickable 요소 넣어서 basic button에 추가
 class BasicBox extends StatelessWidget {
   final String info;
   final double? width;

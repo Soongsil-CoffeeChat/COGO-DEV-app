@@ -1,22 +1,18 @@
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/button_size.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class SecondaryButton extends StatefulWidget {
-  /// 표시할 텍스트
   final String text;
-
-  /// 눌렀을 때 실행할 콜백
   final VoidCallback? onPressed;
-
-  /// 버튼의 너비 (small, large)
-  final String width;
+  final ButtonSize size;
 
   const SecondaryButton({
     Key? key,
     required this.text,
     this.onPressed,
-    this.width = 'small',
+    this.size = const SmallButtonSize(), // 기본값 small
   }) : super(key: key);
 
   @override
@@ -29,21 +25,16 @@ class _SecondaryButtonState extends State<SecondaryButton> {
 
   @override
   Widget build(BuildContext context) {
-    /// large, small에 따른 버튼 너비 설정
-    return widget.width == 'large'
-        ? Expanded(
-            child: _buildButton(double.infinity), // 부모에 맞춰 너비 확장
-          )
-        : SizedBox(
-            width: 150, // small일 때 고정 너비
-            child: _buildButton(150),
-          );
+    return SizedBox(
+      width: widget.size.width,
+      child: _buildButton(widget.size.width),
+    );
   }
 
   Widget _buildButton(double width) {
     return ElevatedButton(
       onPressed: () {
-        /// 콜백 실행시 _isPressed 상태 변경
+        /// 콜백 실행 시 _isPressed 상태 변경
         setState(() {
           _isPressed = !_isPressed;
         });
@@ -57,7 +48,7 @@ class _SecondaryButtonState extends State<SecondaryButton> {
         backgroundColor: _isPressed ? Colors.black : CogoColor.systemGray02,
         foregroundColor: _isPressed ? Colors.white : Colors.black,
         textStyle: CogoTextStyle.body18,
-        shadowColor: Colors.transparent, // 그림자를 제거
+        shadowColor: Colors.transparent,
         minimumSize: Size(width, 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),

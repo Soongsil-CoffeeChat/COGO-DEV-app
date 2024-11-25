@@ -44,14 +44,12 @@ class ChooseRoleScreen extends StatelessWidget {
                                 onPressed: () {
                                   viewModel.selectRole(Role.MENTOR, context);
                                 },
-                                width: 'small',
                               ),
                               SecondaryButton(
                                 text: '멘티',
                                 onPressed: () {
                                   viewModel.selectRole(Role.MENTEE, context);
                                 },
-                                width: 'small',
                               ),
                             ],
                           ),
