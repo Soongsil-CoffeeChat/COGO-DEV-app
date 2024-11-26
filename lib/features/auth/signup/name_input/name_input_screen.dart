@@ -1,4 +1,5 @@
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/auth/signup/name_input/name_input_view_model.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class NameInputScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: true,  // 키도브 오버 플로우 해결
+        resizeToAvoidBottomInset: true, // 키도브 오버 플로우 해결
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -58,16 +59,16 @@ class NameInputScreen extends StatelessWidget {
                               return errorMessage == null
                                   ? const SizedBox.shrink()
                                   : Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(
-                                  errorMessage,
-                                  style: const TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                    fontFamily: 'PretendardMedium',
-                                  ),
-                                ),
-                              );
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        errorMessage,
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 12,
+                                          fontFamily: 'PretendardMedium',
+                                        ),
+                                      ),
+                                    );
                             },
                           ),
                           Padding(
@@ -76,34 +77,17 @@ class NameInputScreen extends StatelessWidget {
                               child: ValueListenableBuilder<bool>(
                                 valueListenable: viewModel.isValidName,
                                 builder: (context, isValid, child) {
-                                  return SizedBox(
-                                    width: 170,
-                                    height: 50,
-                                    child: ElevatedButton(
-                                      onPressed: isValid
-                                          ? () {
-                                        viewModel.onConfirmButtonPressed(context);
-                                              viewModel
-                                                  .setPhoneNumber(phoneNumber!);
-                                            }
-                                          : null,
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: isValid
-                                            ? Colors.black
-                                            : Colors.grey[300],
-                                        foregroundColor: isValid
-                                            ? Colors.white
-                                            : Colors.black,
-                                        textStyle: const TextStyle(
-                                          fontFamily: 'PretendardMedium',
-                                          fontSize: 18,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
-                                        ),
-                                      ),
-                                      child: const Text('확인'),
-                                    ),
+                                  return BasicButton(
+                                    onPressed: isValid
+                                        ? () {
+                                            viewModel.onConfirmButtonPressed(
+                                                context);
+                                            viewModel
+                                                .setPhoneNumber(phoneNumber!);
+                                          }
+                                        : null,
+                                    isClickable: true,
+                                    text: '확인',
                                   );
                                 },
                               ),

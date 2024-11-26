@@ -40,9 +40,7 @@ class _SecondaryButtonState extends State<SecondaryButton> {
         });
 
         /// 외부 onPressed 콜백 실행
-        if (widget.onPressed != null) {
-          widget.onPressed!();
-        }
+        widget.onPressed?.call();
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: _isPressed ? Colors.black : CogoColor.systemGray02,

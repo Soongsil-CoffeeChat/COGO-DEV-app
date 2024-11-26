@@ -43,20 +43,25 @@ class ClubSelectionScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SecondaryButton(
-                                    text: 'GDSC',
-                                    // viewModel.selectedClub == 'GDSC',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'GDSC');
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'GDSC',
+                                      // viewModel.selectedClub == 'GDSC',
+                                      onPressed: () {
+                                        viewModel.selectClub(context, 'GDSC');
+                                      },
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  SecondaryButton(
-                                    text: 'YOURSSU',
-                                    // viewModel.selectedClub == 'YOURSSU',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'YOURSSU');
-                                    },
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'YOURSSU',
+                                      // viewModel.selectedClub == 'YOURSSU',
+                                      onPressed: () {
+                                        viewModel.selectClub(
+                                            context, 'YOURSSU');
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
@@ -65,38 +70,44 @@ class ClubSelectionScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SecondaryButton(
-                                    text: 'UMC',
-                                    // viewModel.selectedClub == 'UMC',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'UMC');
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'UMC',
+                                      // viewModel.selectedClub == 'UMC',
+                                      onPressed: () {
+                                        viewModel.selectClub(context, 'UMC');
+                                      },
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  SecondaryButton(
-                                    text: 'LIKELION',
-                                    // viewModel.selectedClub == 'LIKELION',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'LIKELION');
-                                    },
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'LIKELION',
+                                      // viewModel.selectedClub == 'LIKELION',
+                                      onPressed: () {
+                                        viewModel.selectClub(
+                                            context, 'LIKELION');
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 16),
                               Row(
                                 children: [
-                                  SecondaryButton(
-                                    text: 'NO CLUB',
-                                    // viewModel.selectedClub == 'NO CLUB',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'NO CLUB');
-                                    },
-                                    size: ButtonSize.large(),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'NO CLUB',
+                                      // viewModel.selectedClub == 'NO CLUB',
+                                      onPressed: () {
+                                        viewModel.selectClub(
+                                            context, 'NO CLUB');
+                                      },
+                                      size: ButtonSize.large(),
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
                                 ],
                               ),
-                              const SizedBox(height: 16),
                             ],
                           ),
                         ),

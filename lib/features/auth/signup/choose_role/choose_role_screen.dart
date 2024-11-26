@@ -39,17 +39,22 @@ class ChooseRoleScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SecondaryButton(
-                                text: '멘토',
-                                onPressed: () {
-                                  viewModel.selectRole(Role.MENTOR, context);
-                                },
+                              Expanded(
+                                child: SecondaryButton(
+                                  text: '멘토',
+                                  onPressed: () {
+                                    viewModel.selectRole(Role.MENTOR, context);
+                                  },
+                                ),
                               ),
-                              SecondaryButton(
-                                text: '멘티',
-                                onPressed: () {
-                                  viewModel.selectRole(Role.MENTEE, context);
-                                },
+                              const SizedBox(width: 15),
+                              Expanded(
+                                child: SecondaryButton(
+                                  text: '멘티',
+                                  onPressed: () {
+                                    viewModel.selectRole(Role.MENTEE, context);
+                                  },
+                                ),
                               ),
                             ],
                           ),

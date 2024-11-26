@@ -113,7 +113,7 @@ class PhoneNumberScreen extends StatelessWidget {
                             valueListenable: viewModel.isValidCode,
                             builder: (context, isValidCode, child) {
                               return SizedBox(
-                                width: 170,
+                                width: 150,
                                 height: 50,
                                 child: ElevatedButton(
                                   onPressed: (isValid &&

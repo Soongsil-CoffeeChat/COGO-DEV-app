@@ -46,22 +46,26 @@ class InterestSelectionScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SecondaryButton(
-                                    text: 'FE',
-                                    // viewModel.selectedInterest == 'FE',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.FE);
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'FE',
+                                      // viewModel.selectedInterest == 'FE',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.FE);
+                                      },
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  SecondaryButton(
-                                    text: 'BE',
-                                    // viewModel.selectedInterest == 'BE',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.BE);
-                                    },
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'BE',
+                                      // viewModel.selectedInterest == 'BE',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.BE);
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
@@ -70,37 +74,42 @@ class InterestSelectionScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SecondaryButton(
-                                    text: 'PM',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.PM);
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'PM',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.PM);
+                                      },
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  SecondaryButton(
-                                    text: 'DESIGN',
-                                    // viewModel.selectedInterest == '디자인',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.DESIGN);
-                                    },
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'DESIGN',
+                                      // viewModel.selectedInterest == '디자인',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.DESIGN);
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 16),
                               Row(
                                 children: [
-                                  SecondaryButton(
-                                    text: 'MOBILE',
-                                    // viewModel.selectedInterest == '디자인',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.MOBILE);
-                                    },
-                                    size: ButtonSize.large(),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'MOBILE',
+                                      // viewModel.selectedInterest == '디자인',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.MOBILE);
+                                      },
+                                      size: ButtonSize.large(),
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
                                 ],
                               ),
                             ],
