@@ -1,5 +1,6 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/domain/entity/cogo_info_entity.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: const Color(0xFFF7F7F7),
+          color: CogoColor.systemGray01,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
