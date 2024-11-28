@@ -1,5 +1,7 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/common/widgets/components/secondary_button.dart';
+import 'package:cogo/constants/button_size.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,65 +40,74 @@ class ClubSelectionScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  BasicButton(
-                                    text: 'GDSC',
-                                    isClickable: true,
-                                    // viewModel.selectedClub == 'GDSC',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'GDSC');
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'GDSC',
+                                      // viewModel.selectedClub == 'GDSC',
+                                      onPressed: () {
+                                        viewModel.selectClub(context, 'GDSC');
+                                      },
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  BasicButton(
-                                    text: 'YOURSSU',
-                                    isClickable: true,
-                                    // viewModel.selectedClub == 'YOURSSU',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'YOURSSU');
-                                    },
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'YOURSSU',
+                                      // viewModel.selectedClub == 'YOURSSU',
+                                      onPressed: () {
+                                        viewModel.selectClub(
+                                            context, 'YOURSSU');
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 16),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  BasicButton(
-                                    text: 'UMC',
-                                    isClickable: true,
-                                    // viewModel.selectedClub == 'UMC',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'UMC');
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'UMC',
+                                      // viewModel.selectedClub == 'UMC',
+                                      onPressed: () {
+                                        viewModel.selectClub(context, 'UMC');
+                                      },
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  BasicButton(
-                                    text: 'LIKELION',
-                                    isClickable: true,
-                                    // viewModel.selectedClub == 'LIKELION',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'LIKELION');
-                                    },
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'LIKELION',
+                                      // viewModel.selectedClub == 'LIKELION',
+                                      onPressed: () {
+                                        viewModel.selectClub(
+                                            context, 'LIKELION');
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 16),
                               Row(
                                 children: [
-                                  BasicButton(
-                                    text: 'NO CLUB',
-                                    isClickable: true,
-                                    // viewModel.selectedClub == 'NO CLUB',
-                                    onPressed: () {
-                                      viewModel.selectClub(context, 'NO CLUB');
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'NO CLUB',
+                                      // viewModel.selectedClub == 'NO CLUB',
+                                      onPressed: () {
+                                        viewModel.selectClub(
+                                            context, 'NO CLUB');
+                                      },
+                                      size: ButtonSize.large(),
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
                                 ],
                               ),
-                              const SizedBox(height: 16),
                             ],
                           ),
                         ),

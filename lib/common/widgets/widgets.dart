@@ -1,7 +1,8 @@
 export 'atoms/texts/texts.dart';
 export 'components/basic_button.dart';
+export 'components/secondary_button.dart';
 export 'components/basic_textfield.dart';
-export 'components/custom_box.dart';
+export 'components/basic_box.dart';
 export 'components/date_picker.dart';
 export 'components/header.dart';
 export 'horizontal_button_list.dart';

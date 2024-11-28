@@ -1,5 +1,5 @@
 import 'package:cogo/common/enums/role.dart';
-import 'package:cogo/common/widgets/components/basic_button2.dart';
+import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,23 +39,22 @@ class ChooseRoleScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              BasicButton2(
-                                text: '멘토',
-                                // isSelected: viewModel.selectedRole == Role.MENTOR,
-                                isClickable: true,
-                                onPressed: () {
-                                  viewModel.selectRole(Role.MENTOR, context);
-                                },
-                                width: 150,
+                              Expanded(
+                                child: SecondaryButton(
+                                  text: '멘토',
+                                  onPressed: () {
+                                    viewModel.selectRole(Role.MENTOR, context);
+                                  },
+                                ),
                               ),
-                              BasicButton2(
-                                text: '멘티',
-                                // isSelected: viewModel.selectedRole == Role.MENTEE,
-                                isClickable: true,
-                                onPressed: () {
-                                  viewModel.selectRole(Role.MENTEE, context);
-                                },
-                                width: 150,
+                              const SizedBox(width: 15),
+                              Expanded(
+                                child: SecondaryButton(
+                                  text: '멘티',
+                                  onPressed: () {
+                                    viewModel.selectRole(Role.MENTEE, context);
+                                  },
+                                ),
                               ),
                             ],
                           ),

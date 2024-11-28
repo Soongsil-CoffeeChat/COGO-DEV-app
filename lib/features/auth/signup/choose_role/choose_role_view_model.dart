@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 class SignupChooseViewModel extends ChangeNotifier {
   // Role? selectedRole;
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-
+  bool Btnstate = false;
   void selectRole(Role role, BuildContext context) async {
     log(role.toString());
     // selectedRole = role;
@@ -26,5 +26,9 @@ class SignupChooseViewModel extends ChangeNotifier {
       context.push('/agreement/interest');
       log("멘티로 이동");
     }
+  }
+
+  void changeBtnState(bool state) {
+    Btnstate = state;
   }
 }

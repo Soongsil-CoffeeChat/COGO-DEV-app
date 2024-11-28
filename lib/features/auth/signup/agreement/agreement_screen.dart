@@ -1,3 +1,5 @@
+import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/constants/button_size.dart';
 import 'package:cogo/features/auth/signup/agreement/agreement_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -91,32 +93,13 @@ Widget agreementBottomSheet(BuildContext context) {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20.0), // 상단에만 20의 패딩 추가
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: viewModel.isAllRequiredChecked
-                    ? () {
-                  viewModel.onConfirmButtonPressed(context);
-                }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: viewModel.isAllRequiredChecked
-                      ? Colors.black
-                      : const Color(0xFFEDEDED),
-                  foregroundColor: viewModel.isAllRequiredChecked
-                      ? Colors.white
-                      : Colors.black,
-                  textStyle: const TextStyle(
-                    fontFamily: 'PretendardMedium',
-                    fontSize: 18,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: const Text('동의하고 시작하기'),
-              ),
+            child: BasicButton(
+              text: '동의하고 시작하기',
+              isClickable: viewModel.isAllRequiredChecked,
+              onPressed: () {
+                viewModel.onConfirmButtonPressed(context);
+              },
+              size: ButtonSize.large(),
             ),
           ),
         ],

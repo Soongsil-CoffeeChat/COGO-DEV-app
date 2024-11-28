@@ -2,6 +2,8 @@ import 'package:cogo/common/enums/interest.dart';
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/common/widgets/components/secondary_button.dart';
+import 'package:cogo/constants/button_size.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +19,8 @@ class InterestSelectionScreen extends StatelessWidget {
       create: (_) => InterestSelectionViewModel(userService: UserService()),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(  // SafeArea로 전체 화면을 감쌌습니다.
+        body: SafeArea(
+          // SafeArea로 전체 화면을 감쌌습니다.
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Consumer<InterestSelectionViewModel>(
@@ -40,59 +43,72 @@ class InterestSelectionScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  BasicButton(
-                                    text: 'FE',
-                                    isClickable: true,
-                                    // viewModel.selectedInterest == 'FE',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.FE);
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'FE',
+                                      // viewModel.selectedInterest == 'FE',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.FE);
+                                      },
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  BasicButton(
-                                    text: 'BE',
-                                    isClickable: true,
-                                    // viewModel.selectedInterest == 'BE',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.BE);
-                                    },
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'BE',
+                                      // viewModel.selectedInterest == 'BE',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.BE);
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 16),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  BasicButton(
-                                    text: '기획',
-                                    isClickable: true,
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.PM);
-                                    },
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'PM',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.PM);
+                                      },
+                                    ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  BasicButton(
-                                    text: '디자인',
-                                    isClickable: true,
-                                    // viewModel.selectedInterest == '디자인',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.DESIGN);
-                                    },
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'DESIGN',
+                                      // viewModel.selectedInterest == '디자인',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.DESIGN);
+                                      },
+                                    ),
                                   ),
-                                  BasicButton(
-                                    text: 'MOBILE',
-                                    isClickable: true,
-                                    // viewModel.selectedInterest == '디자인',
-                                    onPressed: () {
-                                      viewModel.selectInterest(
-                                          context, Interest.MOBILE);
-                                    },
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      text: 'MOBILE',
+                                      // viewModel.selectedInterest == '디자인',
+                                      onPressed: () {
+                                        viewModel.selectInterest(
+                                            context, Interest.MOBILE);
+                                      },
+                                      size: ButtonSize.large(),
+                                    ),
                                   ),
                                 ],
                               ),
