@@ -1,5 +1,7 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/domain/entity/cogo_info_entity.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +9,11 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class MatchedCogoDetailScreen extends StatelessWidget {
-  final Role role;
-
-  const MatchedCogoDetailScreen({super.key, this.role = Role.MENTOR});
+  const MatchedCogoDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
-
     if (extra == null || !extra.containsKey('applicationId')) {
       return const Center(
         child: Text(
@@ -23,25 +22,22 @@ class MatchedCogoDetailScreen extends StatelessWidget {
         ),
       );
     }
-
     final applicationId = extra['applicationId'] as int;
 
     return ChangeNotifierProvider(
       create: (_) =>
           MatchedCogoDetailViewModel()..fetchCogoDetail(applicationId),
-      builder: (context, child) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(child: _buildContent(context)),
-              ],
-            ),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(child: _buildContent(context)),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -70,7 +66,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(context, item),
+              _buildHeader(context, viewModel.role, item),
               const SizedBox(height: 20),
               _buildMessageContainer(item),
               _buildDateAndTimePicker(context, item),
@@ -81,11 +77,11 @@ class MatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, CogoInfoEntity item) {
+  Widget _buildHeader(BuildContext context, String? role, CogoInfoEntity item) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: Header(
-        title: role == Role.MENTOR
+        title: role == Role.MENTOR.name
             ? '${item.menteeName}님이 코고신청을 보냈어요'
             : '${item.mentorName}님께 보낸 코고입니다',
         subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
@@ -104,7 +100,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: const Color(0xFFF7F7F7),
+          color: CogoColor.systemGray01,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

@@ -7,9 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class UnMatchedCogoScreen extends StatelessWidget {
-  final Role role;
-
-  const UnMatchedCogoScreen({super.key, this.role = Role.MENTOR});
+  const UnMatchedCogoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,7 @@ class UnMatchedCogoScreen extends StatelessWidget {
                       if (viewModel.items.isEmpty) {
                         return Center(
                           child: Text(
-                            role == Role.MENTOR
+                            viewModel.role == Role.MENTOR.name
                                 ? '멘티에게 받은 코고 신청이 없습니다.'
                                 : '멘토에게 보낸 코고 신청이 없습니다.',
                             style: CogoTextStyle.body14,
@@ -74,7 +72,7 @@ class UnMatchedCogoScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    role == Role.MENTOR
+                                    viewModel.role == Role.MENTOR.name
                                         ? '${item.menteeName}님의 코고신청'
                                         : '${item.mentorName}님께 보낸 코고',
                                     style: CogoTextStyle.body16,
