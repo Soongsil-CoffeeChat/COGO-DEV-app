@@ -4,6 +4,7 @@ import 'package:cogo/data/dto/request/time_select_request.dart';
 import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
 class MentorTimeSettingViewModel extends ChangeNotifier {
   final PossibledateService possibledateService;
 
@@ -110,8 +111,7 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
 
   Future<void> postPossibleDates() async {
     try {
-      final result =
-          await possibledateService.updateMentorPossibleDates(_timeSlotDto);
+      await possibledateService.updateMentorPossibleDates(_timeSlotDto);
       notifyListeners();
     } catch (e) {
       log("Exception occurred: $e");

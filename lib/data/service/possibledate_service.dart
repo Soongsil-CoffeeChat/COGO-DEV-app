@@ -14,9 +14,6 @@ class PossibledateService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
 
-  //TODO : 추후 실제 유저 토큰으로 바꿔야 함
-  String token = FlutterConfig.get('mentor_token');
-
   ///  POST
   ///  멘토가 직접 커피챗 가능시간 갱신하기
   Future<AddPossibleDateResponse> updateMentorPossibleDates(
@@ -27,9 +24,6 @@ class PossibledateService {
         data: availableTimes, // 요청 본문 데이터
         options: Options(
           extra: {'skipAuthToken': false},
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
         ),
       );
 
@@ -65,9 +59,6 @@ class PossibledateService {
         '$apiVersion${Apis.possibleDates}/$mentorId',
         options: Options(
           extra: {'skipAuthToken': false},
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
         ),
       );
       if (response.statusCode == 200) {

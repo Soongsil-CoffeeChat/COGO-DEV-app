@@ -37,41 +37,45 @@ class _MultiSelectionTimePickerState extends State<MultiSelectionTimePicker> {
   Widget build(BuildContext context) {
     return Center(
       child: Wrap(
-        spacing: 10.0,
+        spacing: 15.0,
         runSpacing: 15.0,
         children: List.generate(widget.timeSlots.length, (index) {
           final isSelected = selectedTimeSlots.contains(index);
 
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                if (isSelected) {
-                  selectedTimeSlots.remove(index);
-                  widget.onTimeSlotDeselected?.call(index);
-                } else {
-                  selectedTimeSlots.add(index);
-                  widget.onTimeSlotSelected?.call(index);
-                }
-              });
-            },
-            child: Container(
-              //todo timepicker로 분리
-              width: 150,
-              height: 35,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: isSelected ? CogoColor.systemGray05 : CogoColor.white50,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: CogoColor.systemGray03,
-                  width: 0.7,
-                ),
-              ),
-              child: Text(
-                widget.timeSlots[index],
-                style: CogoTextStyle.body16.copyWith(
+          return SizedBox(
+            width: MediaQuery.of(context).size.width / 2 - 24,
+
+            /// 화면 반절 크기
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (isSelected) {
+                    selectedTimeSlots.remove(index);
+                    widget.onTimeSlotDeselected?.call(index);
+                  } else {
+                    selectedTimeSlots.add(index);
+                    widget.onTimeSlotSelected?.call(index);
+                  }
+                });
+              },
+              child: Container(
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
                   color:
-                      isSelected ? CogoColor.white50 : CogoColor.systemGray03,
+                      isSelected ? CogoColor.systemGray05 : CogoColor.white50,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: CogoColor.systemGray03,
+                    width: 0.7,
+                  ),
+                ),
+                child: Text(
+                  widget.timeSlots[index],
+                  style: CogoTextStyle.body16.copyWith(
+                    color:
+                        isSelected ? CogoColor.white50 : CogoColor.systemGray03,
+                  ),
                 ),
               ),
             ),

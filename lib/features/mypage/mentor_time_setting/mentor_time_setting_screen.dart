@@ -20,7 +20,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final Set<DateTime> _markedDays = {}; // 표시할 날짜들을 저장하는 Set
-  bool _isSaveButtonEnabled = false; // 완료 버튼 활성화 상태
+  final bool _isSaveButtonEnabled = true; // 완료 버튼 활성화 상태
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +219,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 50,
+                    height: 60,
                     child: DatePicker(date: selectedDay, day: selectedDay),
                   ),
                   const SizedBox(height: 20),
@@ -266,7 +266,6 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                               },
                               text: '완료',
                               isClickable: true,
-                              isSelected: _isSelected,
                               width: 170,
                             ),
                           ),

@@ -23,7 +23,7 @@ class HomeViewModel extends ChangeNotifier {
     role = await _secureStorage.readRole();
   }
 
-  bool isIntroductionComplete = true; // 자기소개 완료 여부를 저장
+  bool isIntroductionComplete = false; // 자기소개 완료 여부를 저장
 
   List<MentorPartEntity>? profiles;
 
