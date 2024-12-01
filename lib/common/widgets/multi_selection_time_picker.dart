@@ -70,7 +70,7 @@ class _MultiSelectionTimePickerState extends State<MultiSelectionTimePicker> {
                     color: isSelected
                         ? CogoColor.systemGray04
                         : CogoColor.systemGray03,
-                    width: 0.7,
+                    width: isSelected ? 1.2 : 0.7,
                   ),
                 ),
                 child: Text(
