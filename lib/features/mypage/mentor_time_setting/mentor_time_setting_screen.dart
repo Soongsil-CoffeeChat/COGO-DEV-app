@@ -152,8 +152,8 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                     child: Consumer<MentorTimeSettingViewModel>(
                       builder: (context, viewModel, child) {
                         return BasicButton(
-                          onPressed: () {
-                            viewModel.postPossibleDates();
+                          onPressed: () async {
+                            await viewModel.postPossibleDates();
                             viewModel.navigateToMentorTimeChecking(context);
                           },
                           text: '다음',
