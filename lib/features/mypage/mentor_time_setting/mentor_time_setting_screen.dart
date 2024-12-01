@@ -18,8 +18,12 @@ class MentorTimeSettingScreen extends StatefulWidget {
 class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  final Set<DateTime> _markedDays = {}; // 표시할 날짜들을 저장하는 Set
-  bool _isSelected = false; // 시간 선택 여부를 추적하는 변수
+
+  /// 표시할 날짜들을 저장하는 Set
+  final Set<DateTime> _markedDays = {};
+
+  /// 시간 선택 여부를 추적하는 변수
+  bool _isSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +70,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                                   _selectedDay = selectedDay;
                                   _focusedDay = focusedDay;
 
-                                  // 선택된 날짜를 _markedDays에 추가하거나 제거
+                                  /// 선택된 날짜를 _markedDays에 추가하거나 제거하는 동작
                                   if (_markedDays.contains(selectedDay)) {
                                     _markedDays.remove(selectedDay);
                                   } else {
@@ -109,7 +113,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                               },
                               calendarBuilders: CalendarBuilders(
                                 markerBuilder: (context, day, focusedDay) {
-                                  // 선택된 날짜에 마커를 표시
+                                  /// 선택된 날짜에 마커를 표시
                                   if (_markedDays.contains(day)) {
                                     return Center(
                                       child: Container(
@@ -149,7 +153,8 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                       builder: (context, viewModel, child) {
                         return BasicButton(
                           onPressed: () {
-                            viewModel.postPossibleDates(); // viewModel의 메서드 호출
+                            viewModel.postPossibleDates();
+                            viewModel.navigateToMentorTimeChecking(context);
                           },
                           text: '다음',
                           isClickable: _isSelected,

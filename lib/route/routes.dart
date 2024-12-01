@@ -23,6 +23,7 @@ import 'package:cogo/features/home/mentor_detail/views/mentor_question1_screen.d
 import 'package:cogo/features/home/mentor_detail/views/mentor_question2_screen.dart';
 import 'package:cogo/features/home/profile/view/profile_detail_screen.dart';
 import 'package:cogo/features/home/search/view/search_screen.dart';
+import 'package:cogo/features/mypage/mentor_time_checking/mentor_time_checking_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_screen.dart';
 import 'package:cogo/features/mypage/my_info/my_info_screen.dart';
 import 'package:cogo/features/mypage/mypage_screen.dart';
@@ -229,6 +230,13 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const MentorTimeSettingScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.timeChecking,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const MentorTimeCheckingScreen(),
       ),
     ),
     StatefulShellRoute.indexedStack(

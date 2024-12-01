@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/dto/request/time_select_request.dart';
 import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MentorTimeSettingViewModel extends ChangeNotifier {
   final PossibledateService possibledateService;
@@ -120,5 +122,9 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
       }
       notifyListeners();
     }
+  }
+
+  void navigateToMentorTimeChecking(BuildContext context) {
+    context.push(Paths.timeChecking);
   }
 }
