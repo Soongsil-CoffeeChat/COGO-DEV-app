@@ -27,8 +27,7 @@ class HomeViewModel extends ChangeNotifier {
 
   List<MentorPartEntity>? profiles;
 
-  Future<void> onButtonPressed(BuildContext context, String title) async {
-    final part = title; // API 호출에 사용할 mentorId
+  Future<void> getProfilesForPart(BuildContext context, String part) async {
     try {
       final responseProfiles = await mentorService.getMentorPart(part);
       profiles = responseProfiles

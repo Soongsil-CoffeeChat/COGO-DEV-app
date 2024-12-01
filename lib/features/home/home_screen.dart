@@ -12,7 +12,14 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController = TabController(
+    length: 5,
+    vsync: this,
+    initialIndex: 0,
+  ); // TabController 추가
+
   @override
   void initState() {
     super.initState();
@@ -21,18 +28,27 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
 
-      // ViewModel의 role과 isIntroductionComplete 값으로 다이얼로그 표시 여부 결정
+      /// ViewModel의 role과 isIntroductionComplete 값으로 다이얼로그 표시 여부 결정
       if (viewModel.role == Role.MENTOR.name &&
           !viewModel.isIntroductionComplete) {
         _showMentorProfileDialog(context);
       }
     });
+
+    /// TabController 초기화
+    _tabController = TabController(length: 5, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose(); // TabController 메모리 해제
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => HomeViewModel(),
+      create: (_) => HomeViewModel()..getProfilesForPart(context, 'FE'),
       builder: (context, child) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -65,18 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: const Size.fromHeight(60.0),
         child: Column(
           children: [
-            HorizontalButtonList(
-              buttonTitles: const ['PM', 'DESIGN', 'FE', 'BE'],
-              onButtonPressed: (title) {
-                Provider.of<HomeViewModel>(context, listen: false)
-                    .onButtonPressed(context, title);
-              },
-            ),
+            // CustomTabBar로 변경
+            MentorPartSelectionTapBar(tabController: _tabController),
             const SizedBox(height: 10),
-            Divider(
-              height: 1,
-              color: Colors.grey[300],
-            ),
           ],
         ),
       ),
@@ -128,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-// 다이얼로그 띄우는 함수
+  /// 멘토 프로필 작성 유도 다이얼로그
   void _showMentorProfileDialog(BuildContext context) {
     showDialog(
       context: context,

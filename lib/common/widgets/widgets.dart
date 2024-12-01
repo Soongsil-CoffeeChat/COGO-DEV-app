@@ -10,3 +10,4 @@ export 'horizontal_date_picker.dart';
 export 'mentor_profile_reminder_dialog.dart';
 export 'profile_card.dart';
 export 'single_selection_time_picker.dart';
+export 'mentor_part_selection_tap_bar.dart';
