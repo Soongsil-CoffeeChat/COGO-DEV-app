@@ -1,4 +1,3 @@
-import 'package:cogo/common/widgets/components/basic_button2.dart';
 import 'package:cogo/common/widgets/multi_selection_time_picker.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
@@ -20,7 +19,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final Set<DateTime> _markedDays = {}; // 표시할 날짜들을 저장하는 Set
-  final bool _isSaveButtonEnabled = true; // 완료 버튼 활성화 상태
+  bool _isSelected = false; // 시간 선택 여부를 추적하는 변수
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +33,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -50,6 +50,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                     return Expanded(
                       child: SingleChildScrollView(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TableCalendar(
@@ -64,6 +65,14 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                                 setState(() {
                                   _selectedDay = selectedDay;
                                   _focusedDay = focusedDay;
+
+                                  // 선택된 날짜를 _markedDays에 추가하거나 제거
+                                  if (_markedDays.contains(selectedDay)) {
+                                    _markedDays.remove(selectedDay);
+                                  } else {
+                                    _markedDays.add(selectedDay);
+                                  }
+
                                   _showBottomSheet(selectedDay, viewModel);
                                 });
                               },
@@ -100,6 +109,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                               },
                               calendarBuilders: CalendarBuilders(
                                 markerBuilder: (context, day, focusedDay) {
+                                  // 선택된 날짜에 마커를 표시
                                   if (_markedDays.contains(day)) {
                                     return Center(
                                       child: Container(
@@ -125,66 +135,28 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                                 },
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            const Text(
-                              '선택된 시간대:',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: viewModel.selectedTimeSlots.length,
-                              itemBuilder: (context, index) {
-                                final date = viewModel.selectedTimeSlots.keys
-                                    .toList()[index];
-                                final timeSlots =
-                                    viewModel.selectedTimeSlots[date]!;
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '${date.year}-${date.month}-${date.day}',
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Text(
-                                        timeSlots.join(', '),
-                                        style: const TextStyle(
-                                          color: CogoColor.systemGray03,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                            ElevatedButton(
-                              onPressed: _isSaveButtonEnabled
-                                  ? viewModel.postPossibleDates
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: _isSaveButtonEnabled
-                                    ? CogoColor.main
-                                    : CogoColor.systemGray04,
-                              ),
-                              child: const Text("완료하기"),
-                            ),
                           ],
                         ),
                       ),
                     );
                   },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Consumer<MentorTimeSettingViewModel>(
+                      builder: (context, viewModel, child) {
+                        return BasicButton(
+                          onPressed: () {
+                            viewModel.postPossibleDates(); // viewModel의 메서드 호출
+                          },
+                          text: '다음',
+                          isClickable: _isSelected,
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -196,15 +168,12 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
 
   void _showBottomSheet(
       DateTime selectedDay, MentorTimeSettingViewModel viewModel) {
-    bool _isSelected = false; // isSelected 상태 추가
-
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
-            // Modal 내부에서 setState 사용 가능
             return Container(
               height: 400,
               padding: const EdgeInsets.all(15.0),
@@ -236,8 +205,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                               viewModel.addTimeSlot(
                                   selectedDay, selectedTimeSlot);
                               setModalState(() {
-                                _isSelected =
-                                    true; // 타임 피커 선택 시 isSelected true로 설정
+                                _isSelected = true;
                               });
                             },
                             onTimeSlotDeselected: (selectedTimeSlot) {
@@ -255,20 +223,6 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                             timeSlots: viewModel.timeSlots,
                           ),
                           const SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.center, // 버튼을 중앙으로 정렬
-                            child: BasicButton2(
-                              onPressed: () {
-                                setState(() {
-                                  _markedDays.add(selectedDay);
-                                });
-                                Navigator.pop(context);
-                              },
-                              text: '완료',
-                              isClickable: true,
-                              width: 170,
-                            ),
-                          ),
                         ],
                       ),
                     ),
