@@ -1,6 +1,6 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/home/apply/view_models/schedule_view_model.dart';
+import 'package:cogo/features/home/apply/schedule/schedule_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

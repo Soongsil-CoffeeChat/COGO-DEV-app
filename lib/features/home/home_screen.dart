@@ -1,6 +1,6 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/features/home/home/view_model/home_view_model.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
