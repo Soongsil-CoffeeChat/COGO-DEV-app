@@ -12,6 +12,8 @@ class MentorTimeCheckingScreen extends StatefulWidget {
 }
 
 class _MentorTimeCheckingScreenState extends State<MentorTimeCheckingScreen> {
+  // 모든 날짜에 대해 동일한 selectedTimeSlot을 관리
+  int? selectedTimeSlot;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -57,6 +59,7 @@ class _MentorTimeCheckingScreenState extends State<MentorTimeCheckingScreen> {
 
                                     /// 각 날짜에 대해 가능한 시간대 표시 (TimePicker)
                                     SingleSelectionTimePicker(
+                                      isSelectedTimePicker: true,
                                       timeSlots: viewModel.groupedDates[date]!
                                           .map((timeSlot) =>
                                               timeSlot.formattedTimeSlot)

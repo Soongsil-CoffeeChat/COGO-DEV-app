@@ -55,6 +55,7 @@ class ScheduleScreen extends StatelessWidget {
                                       ),
                                     )
                                   : SingleSelectionTimePicker(
+                                      isSelectedTimePicker: false,
                                       selectedTimeSlot:
                                           viewModel.selectedTimeSlot,
                                       onTimeSlotSelected:
