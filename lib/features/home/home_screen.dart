@@ -1,5 +1,6 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/home/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -96,7 +97,22 @@ class _HomeScreenState extends State<HomeScreen>
         final profiles = viewModel.profiles;
 
         if (profiles == null || profiles.isEmpty) {
-          return const Center(child: Text('멘토 정보가 없습니다'));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/icons/3d_img/3d_empty.png',
+                  height: 130,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  '멘토 정보가 없습니다',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ],
+            ),
+          );
         }
 
         return ListView.builder(
