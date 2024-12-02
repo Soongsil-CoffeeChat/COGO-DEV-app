@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import 'mypage_state.dart';
 
 class MypageViewModel extends ChangeNotifier {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
@@ -78,5 +77,33 @@ class MypageViewModel extends ChangeNotifier {
 
   void navigateToLoginScreen(BuildContext context) {
     context.push(Paths.login);
+  }
+}
+
+class MypageUiState {
+  final bool isLoading;
+  final bool hasError;
+  final MyPageInfo? myPageInfo;
+  final String? role;
+
+  const MypageUiState({
+    this.isLoading = false,
+    this.hasError = false,
+    this.myPageInfo,
+    this.role,
+  });
+
+  MypageUiState copyWith({
+    bool? isLoading,
+    bool? hasError,
+    MyPageInfo? myPageInfo,
+    String? role,
+  }) {
+    return MypageUiState(
+      isLoading: isLoading ?? this.isLoading,
+      hasError: hasError ?? this.hasError,
+      myPageInfo: myPageInfo ?? this.myPageInfo,
+      role: role ?? this.role,
+    );
   }
 }
