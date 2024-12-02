@@ -1,6 +1,7 @@
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/cogo/unmatched_cogo/requested_cogo_view_model.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -37,9 +38,11 @@ class UnMatchedCogoScreen extends StatelessWidget {
                       }
 
                       if (viewModel.items.isEmpty) {
-                        return const Center(
+                        return Center(
                           child: Text(
-                            '받은 코고 신청이 없습니다.',
+                            viewModel.role == Role.MENTOR.name
+                                ? '멘티에게 받은 코고 신청이 없습니다.'
+                                : '멘토에게 보낸 코고 신청이 없습니다.',
                             style: CogoTextStyle.body14,
                           ),
                         );
@@ -68,8 +71,12 @@ class UnMatchedCogoScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('${item.menteeName}님의 코고신청',
-                                      style: CogoTextStyle.body16),
+                                  Text(
+                                    viewModel.role == Role.MENTOR.name
+                                        ? '${item.menteeName}님의 코고신청'
+                                        : '${item.mentorName}님께 보낸 코고',
+                                    style: CogoTextStyle.body16,
+                                  ),
                                   Text(formattedDate,
                                       style: CogoTextStyle.body12.copyWith(
                                           color: CogoColor.systemGray03)),

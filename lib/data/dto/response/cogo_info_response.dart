@@ -1,4 +1,4 @@
-class RequestedCogoResponse {
+class CogoInfoResponse {
   final int applicationId;
   final String menteeName;
   final String mentorName;
@@ -7,7 +7,7 @@ class RequestedCogoResponse {
   final String applicationStartTime;
   final String applicationEndTime;
 
-  RequestedCogoResponse({
+  CogoInfoResponse({
     required this.applicationId,
     required this.menteeName,
     required this.mentorName,
@@ -17,8 +17,8 @@ class RequestedCogoResponse {
     required this.applicationEndTime,
   });
 
-  factory RequestedCogoResponse.fromJson(Map<String, dynamic> json) {
-    return RequestedCogoResponse(
+  factory CogoInfoResponse.fromJson(Map<String, dynamic> json) {
+    return CogoInfoResponse(
       applicationId: json['application_id'],
       menteeName: json['mentee_name'],
       mentorName: json['mentor_name'],
