@@ -35,7 +35,7 @@ class MypageViewModel extends ChangeNotifier {
     _updateState(isLoading: true, hasError: false);
 
     try {
-      var response = await userService.getUserInfo();
+      final response = await userService.getUserInfo();
       final data = response.toMyPageInfo(); // 변환하여 UserData에 저장
 
       _updateState(myPageInfo: data);
