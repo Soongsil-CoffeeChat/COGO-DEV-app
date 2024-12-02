@@ -82,20 +82,21 @@ class MypageScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     ListTile(
-                      title: const Text('내 정보 관리'),
+                      title: const Text('내 정보 관리', style: CogoTextStyle.body16),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => viewModel
                           .navigateToMyInformationManagementScreen(context),
                     ),
                     if (state.role == Role.MENTOR.name) ...[
                       ListTile(
-                        title: const Text('자기소개 관리'),
+                        title:
+                            const Text('자기소개 관리', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => viewModel
                             .navigateToMentorIntroduceManagementScreen(context),
                       ),
                       ListTile(
-                        title: const Text('시간 설정'),
+                        title: const Text('시간 설정', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => viewModel
                             .navigateToMentorTimeSettingScreen(context),
