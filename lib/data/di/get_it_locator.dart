@@ -20,6 +20,8 @@ void setupServiceLocator() {
 
   getIt.registerLazySingleton<MentorService>(() => MentorService());
 
+  getIt.registerLazySingleton<UserService>(() => UserService());
+
   /**
    * 뷰모델 등록
    */

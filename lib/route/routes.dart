@@ -33,7 +33,7 @@ import 'package:go_router/go_router.dart';
 
 final AppRouter = GoRouter(
   // initialLocation: '/',
-  initialLocation: Paths.login,
+  initialLocation: Paths.home,
   routes: [
     GoRoute(
       path: Paths.login,

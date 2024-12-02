@@ -3,6 +3,7 @@ import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
 import 'package:cogo/data/dto/response/mentee_signup_response.dart';
 import 'package:cogo/data/dto/response/mentor_signup_response.dart';
+import 'package:cogo/data/dto/response/my_info_response.dart';
 import 'package:cogo/data/dto/response/sms_verification_response.dart';
 import 'package:cogo/data/dto/response/user_info_response.dart';
 import 'package:dio/dio.dart';
@@ -60,6 +61,32 @@ class UserService {
         final baseResponse = BaseResponse<UserInfoResponse>.fromJson(
           response.data,
           (contentJson) => UserInfoResponse.fromJson(contentJson),
+        );
+        return baseResponse.content;
+      } else {
+        throw Exception('Failed to send verification code ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  ///GET /api/v2/users 기본정보 조회
+  Future<MyInfoResponse> getUserInfo() async {
+    try {
+      final response = await _apiClient.dio.get(
+        options: Options(
+          extra: {'skipAuthToken': false},
+        ),
+        apiVersion + Apis.userInfo,
+      );
+      if (response.statusCode == 200) {
+        //base response로 받는건 여기서 뿐임.
+        final baseResponse = BaseResponse<MyInfoResponse>.fromJson(
+          response.data,
+          (contentJson) => MyInfoResponse.fromJson(contentJson),
         );
         return baseResponse.content;
       } else {

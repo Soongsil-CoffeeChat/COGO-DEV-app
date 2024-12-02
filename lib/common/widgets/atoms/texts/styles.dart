@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cogo/constants/constants.dart';
+import 'package:flutter/material.dart';
 
 final class CogoTextStyle {
   static const TextStyle tittle = TextStyle(
@@ -58,6 +58,12 @@ final class CogoTextStyle {
 
   static const TextStyle body20 = TextStyle(
     fontFamily: "PretendardBold",
+    fontSize: 20,
+    color: CogoColor.systemGray05,
+  );
+
+  static const TextStyle bodySB20 = TextStyle(
+    fontFamily: "PretendardSemiBold",
     fontSize: 20,
     color: CogoColor.systemGray05,
   );
