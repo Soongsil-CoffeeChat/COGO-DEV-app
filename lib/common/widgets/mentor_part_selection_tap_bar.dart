@@ -14,13 +14,38 @@ class MentorPartSelectionTapBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       controller: tabController,
-      isScrollable: true,
+      isScrollable: false,
       tabs: const [
-        Tab(text: 'FE'),
-        Tab(text: 'MOBILE'),
-        Tab(text: 'BE'),
-        Tab(text: 'PM'),
-        Tab(text: 'DESIGN'),
+        Tab(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text('FE'),
+          ),
+        ),
+        Tab(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text('MOBILE'),
+          ),
+        ),
+        Tab(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text('BE'),
+          ),
+        ),
+        Tab(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text('PM'),
+          ),
+        ),
+        Tab(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text('DESIGN'),
+          ),
+        ),
       ],
       onTap: (index) {
         /// 탭을 클릭했을 때 파트별 호출
@@ -39,7 +64,7 @@ class MentorPartSelectionTapBar extends StatelessWidget {
       unselectedLabelStyle: CogoTextStyle.bodySB14,
 
       /// 인디케이터 설정
-      indicatorSize: TabBarIndicatorSize.label,
+      indicatorSize: TabBarIndicatorSize.tab,
       indicator: const BoxDecoration(
         shape: BoxShape.circle,
         color: CogoColor.systemGray05,

@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen>
   late TabController _tabController = TabController(
     length: 5,
     vsync: this,
-    initialIndex: 0,
+    initialIndex: 1,
   ); // TabController 추가
 
   @override
@@ -58,7 +58,6 @@ class _HomeScreenState extends State<HomeScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10),
                 _buildProfileCardList(context),
               ],
             ),
@@ -80,12 +79,13 @@ class _HomeScreenState extends State<HomeScreen>
       centerTitle: false,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-        child: Column(
-          children: [
-            // CustomTabBar로 변경
-            MentorPartSelectionTapBar(tabController: _tabController),
-            const SizedBox(height: 10),
-          ],
+        child: SizedBox(
+          height: AppBar().preferredSize.height,
+          width: Size.infinite.width,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: MentorPartSelectionTapBar(tabController: _tabController),
+          ),
         ),
       ),
     );
@@ -101,6 +101,8 @@ class _HomeScreenState extends State<HomeScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // TODO :  center 적용 안됨 이슈 -> 일단 사이즈 박스로 해결
+                SizedBox(height: MediaQuery.of(context).size.height / 5),
                 Image.asset(
                   'assets/icons/3d_img/3d_empty.png',
                   height: 130,
