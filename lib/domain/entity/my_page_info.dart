@@ -1,6 +1,7 @@
 class MyPageInfo {
   final String name;
-  final List<String> tags; // part와 club을 합친 태그 리스트
+  /// part와 club을 합친 태그 리스트
+  final List<String> tags; 
   final String? picture;
 
   MyPageInfo({
