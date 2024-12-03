@@ -1,8 +1,7 @@
-import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/home/home_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -15,55 +14,57 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController = TabController(
-    length: 5,
-    vsync: this,
-    initialIndex: 1,
-  ); // TabController 추가
+  final List<String> parts = ['FE', 'MOBILE', 'BE', 'PM', 'DESIGN'];
+  late TabController _tabController;
+  late HomeViewModel viewModel;
 
   @override
   void initState() {
     super.initState();
 
-    // 화면이 로드된 후에 Provider에 접근
+    /// 컨트롤러 초기화
+    _tabController = TabController(length: 5, vsync: this, initialIndex: 0);
+
+    /// 초기 데이터 로드 (첫번째 탭인 FE 호출)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-
-      /// ViewModel의 role과 isIntroductionComplete 값으로 다이얼로그 표시 여부 결정
-      if (viewModel.role == Role.MENTOR.name &&
-          !viewModel.isIntroductionComplete) {
-        _showMentorProfileDialog(context);
-      }
+      viewModel.getProfilesForPart(context, 'FE');
     });
 
-    /// TabController 초기화
-    _tabController = TabController(length: 5, vsync: this);
+    /// 인덱스가 변화할때마다 api 재호출
+    int previousIndex = _tabController.index;
+    _tabController.addListener(() {
+      if (_tabController.index != previousIndex) {
+        previousIndex = _tabController.index;
+        final viewModel = Provider.of<HomeViewModel>(context, listen: false);
+        final part =
+            ['FE', 'MOBILE', 'BE', 'PM', 'DESIGN'][_tabController.index];
+        viewModel.getProfilesForPart(context, part);
+      }
+    });
   }
 
+  /// TabController 메모리 해제
   @override
   void dispose() {
-    _tabController.dispose(); // TabController 메모리 해제
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => HomeViewModel()..getProfilesForPart(context, 'FE'),
-      builder: (context, child) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: _customAppBar(context),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildProfileCardList(context),
-              ],
-            ),
-          ),
-        );
-      },
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _customAppBar(context),
+      body: Consumer<HomeViewModel>(
+        builder: (context, viewModel, child) {
+          return Column(
+            children: [
+              _buildTabBarView(context),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -82,11 +83,55 @@ class _HomeScreenState extends State<HomeScreen>
         child: SizedBox(
           height: AppBar().preferredSize.height,
           width: Size.infinite.width,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: MentorPartSelectionTapBar(tabController: _tabController),
-          ),
+          child: Align(alignment: Alignment.centerLeft, child: _buildTabBar()),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTabBar() {
+    return TabBar(
+      controller: _tabController,
+      isScrollable: false,
+      tabs: parts
+          .map((part) => Tab(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(part),
+                ),
+              ))
+          .toList(),
+
+      /// 선택된 탭의 텍스트
+      labelColor: CogoColor.systemGray05,
+      labelStyle: CogoTextStyle.bodySB14,
+
+      /// 선택되지 않은 탭의 텍스트
+      unselectedLabelColor: CogoColor.systemGray03,
+      unselectedLabelStyle: CogoTextStyle.bodySB14,
+
+      /// 인디케이터 설정
+      indicatorSize: TabBarIndicatorSize.tab,
+      indicator: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: CogoColor.systemGray05,
+      ),
+      indicatorPadding: const EdgeInsets.only(bottom: 43.0), // 상단 점의 위치 잡기
+    );
+  }
+
+  Widget _buildTabBarView(BuildContext context) {
+    return Expanded(
+      child: Consumer<HomeViewModel>(
+        builder: (context, viewModel, child) {
+          return TabBarView(
+            controller: _tabController,
+            children: List.generate(
+              5,
+              (index) => _buildProfileCardList(context),
+            ),
+          );
+        },
       ),
     );
   }
@@ -96,13 +141,13 @@ class _HomeScreenState extends State<HomeScreen>
       builder: (context, viewModel, child) {
         final profiles = viewModel.profiles;
 
-        if (profiles == null || profiles.isEmpty) {
+        if (profiles == null) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (profiles.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // TODO :  center 적용 안됨 이슈 -> 일단 사이즈 박스로 해결
-                SizedBox(height: MediaQuery.of(context).size.height / 5),
                 Image.asset(
                   'assets/icons/3d_img/3d_empty.png',
                   height: 130,
@@ -118,9 +163,7 @@ class _HomeScreenState extends State<HomeScreen>
         }
 
         return ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          scrollDirection: Axis.vertical,
           itemCount: profiles.length,
           itemBuilder: (context, index) {
             final profileCard = profiles[index];
@@ -136,29 +179,12 @@ class _HomeScreenState extends State<HomeScreen>
                 title: profileCard.title,
                 description: profileCard.description,
                 onTap: () {
-                  // role이 mentor이고, 자기소개가 완료되지 않았다면 다이얼로그 띄우기
-                  if (viewModel.role == Role.MENTOR.name &&
-                      !viewModel.isIntroductionComplete) {
-                    _showMentorProfileDialog(context);
-                  } else {
-                    viewModel.onProfileCardTapped(
-                        context, profileCard.mentorId);
-                  }
+                  viewModel.onProfileCardTapped(context, profileCard.mentorId);
                 },
               ),
             );
           },
         );
-      },
-    );
-  }
-
-  /// 멘토 프로필 작성 유도 다이얼로그
-  void _showMentorProfileDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const MentorProfileReminderDialog();
       },
     );
   }
