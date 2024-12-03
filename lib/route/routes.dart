@@ -35,7 +35,6 @@ import 'package:go_router/go_router.dart';
 
 
 final AppRouter = GoRouter(
-  // initialLocation: '/',
   initialLocation: Paths.splash,
   routes: [
     GoRoute(
