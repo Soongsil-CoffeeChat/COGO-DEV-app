@@ -33,8 +33,7 @@ import 'package:go_router/go_router.dart';
 
 
 final AppRouter = GoRouter(
-  // initialLocation: '/',
-  initialLocation: Paths.home,
+  initialLocation: Paths.splash,
   routes: [
     GoRoute(
         path: Paths.splash,
@@ -48,7 +47,8 @@ final AppRouter = GoRouter(
         key: state.pageKey,
         child: const LoginScreen(),
             )),
-    //회원가입
+
+    ///회원가입
     GoRoute(
       path: Paths.agreement,
       pageBuilder: (context, state) => MaterialPage(
@@ -112,7 +112,8 @@ final AppRouter = GoRouter(
         ),
       ],
     ),
-    //app bar
+
+    ///app bar
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(
@@ -205,9 +206,8 @@ final AppRouter = GoRouter(
         child: const MentorQuestion2Screen(),
       ),
     ),
-    /**
-       * my page
-       */
+
+    /// my page
     GoRoute(
       path: Paths.myInfo,
       pageBuilder: (context, state) => MaterialPage(

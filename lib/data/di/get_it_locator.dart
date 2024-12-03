@@ -14,20 +14,17 @@ import 'package:get_it/get_it.dart';
 final GetIt getIt = GetIt.instance;
 
 void setupServiceLocator() {
-  /**
-   * dio 등록
-   */
+  ///dio 등록
   getIt.registerLazySingleton<Dio>(() => Dio());
 
+  ///Service 등록
   getIt.registerLazySingleton<MentorService>(() => MentorService());
 
   getIt.registerLazySingleton<RefreshService>(() => RefreshService());
 
   getIt.registerLazySingleton<UserService>(() => UserService());
 
-  /**
-   * 뷰모델 등록
-   */
+  ///뷰모델 등록
   getIt.registerFactory<LoginViewModel>(
       () => LoginViewModel(refreshService: getIt<RefreshService>()));
 
@@ -45,5 +42,7 @@ void setupServiceLocator() {
 
   getIt.registerFactory<HomeViewModel>(() => HomeViewModel());
 
-  getIt.registerFactory<SplashViewModel>(() => SplashViewModel());
+  // getIt.registerFactory<SplashViewModel>(() => SplashViewModel());
+
+  getIt.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
 }
