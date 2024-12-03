@@ -114,7 +114,8 @@ final AppRouter = GoRouter(
         ),
       ],
     ),
-    //app bar
+
+    ///app bar
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(
@@ -207,9 +208,8 @@ final AppRouter = GoRouter(
         child: const MentorQuestion2Screen(),
       ),
     ),
-    /**
-       * my page
-       */
+
+    /// my page
     GoRoute(
       path: Paths.myInfo,
       pageBuilder: (context, state) => MaterialPage(
