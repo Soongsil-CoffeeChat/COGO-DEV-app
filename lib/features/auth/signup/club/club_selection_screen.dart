@@ -1,7 +1,5 @@
-import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
-import 'package:cogo/constants/button_size.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -103,7 +101,7 @@ class ClubSelectionScreen extends StatelessWidget {
                                         viewModel.selectClub(
                                             context, 'NO CLUB');
                                       },
-                                      size: ButtonSize.large(),
+                                      size: SBSize.LARGE,
                                     ),
                                   ),
                                 ],
