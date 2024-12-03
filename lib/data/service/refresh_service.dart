@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/token_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:dio/dio.dart';
 
@@ -11,7 +12,7 @@ class RefreshService {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
   /// POST /auth/reissue/mobile - 리소스 서버에서 받은 accessToken(auth_code)으로 서비스 accessToken 발급
-  Future<String> getAccessToken(String authCode, String name) async {
+  Future<TokenResponse> getAccessToken(String authCode, String name) async {
     try {
       final response = await _apiClient.dio.post(
         options: Options(
@@ -24,14 +25,22 @@ class RefreshService {
         },
       );
       if (response.statusCode == 200) {
-        //base response로 받는건 여기서 뿐임.
-        final baseResponse = BaseResponse<String>.fromJson(
+        // BaseResponse
+        final baseResponse = BaseResponse<TokenResponse>.fromJson(
           response.data as Map<String, dynamic>,
-          (contentJson) => contentJson.toString(),
+          (contentJson) =>
+              TokenResponse.fromJson(contentJson as Map<String, dynamic>),
         );
-        await _secureStorage.saveAccessToken(baseResponse.content);
-        log("accessToken ${baseResponse.content}");
-        return baseResponse.content;
+
+// AccessToken 저장 로직 수정
+        final tokenResponse = baseResponse.content;
+
+        if (tokenResponse != null) {
+          await _secureStorage.saveAccessToken(tokenResponse.accessToken);
+          log("accessToken ${tokenResponse.accessToken}");
+        }
+
+        return tokenResponse;
       } else {
         throw Exception(
             'Failed to send verification code ${response.data.toString()}');

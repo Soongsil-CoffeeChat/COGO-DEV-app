@@ -39,7 +39,8 @@ class LoginViewModel extends ChangeNotifier {
       try {
         final result = await refreshService.getAccessToken(authCode!, name!);
 
-        await _saveUserInfo(result, googleUser.displayName, googleUser.email);
+        await _saveUserInfo(
+            result.accessToken, googleUser.displayName, googleUser.email);
         _loginPlatform = LoginPlatform.google;
 
         notifyListeners();
