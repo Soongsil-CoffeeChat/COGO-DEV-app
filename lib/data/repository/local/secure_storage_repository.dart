@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class SecureStorageRepository {
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
+  ///토큰
   Future<String?> readAccessToken() async {
     return await _storage.read(key: "access_token");
   }
@@ -11,6 +12,15 @@ class SecureStorageRepository {
     await _storage.write(key: "access_token", value: accessToken);
   }
 
+  Future<String?> readRefreshToken() async {
+    return await _storage.read(key: "refresh_token");
+  }
+
+  Future<void> saveRefreshToken(String refreshToken) async {
+    await _storage.write(key: "refresh_token", value: refreshToken);
+  }
+
+  ///유저 정보
   Future<void> saveUserName(String name) async {
     await _storage.write(key: "user_name", value: name);
   }
