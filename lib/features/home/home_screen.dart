@@ -150,13 +150,12 @@ class _HomeScreenState extends State<HomeScreen>
               children: [
                 Image.asset(
                   'assets/icons/3d_img/3d_empty.png',
-                  height: 130,
+                  height: 150,
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  '멘토 정보가 없습니다',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
+                Text('등록된 코고 멘토가 없어요',
+                    style: CogoTextStyle.body14
+                        .copyWith(color: CogoColor.systemGray03)),
               ],
             ),
           );
