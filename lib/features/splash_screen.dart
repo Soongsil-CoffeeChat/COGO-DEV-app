@@ -1,8 +1,7 @@
 import 'package:cogo/features/splash_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart'; // 상태 관리를 위해 Provider 사용
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,11 +20,16 @@ class _SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(vsync: this);
 
     // ViewModel 초기화 및 로직 실행
-    final splashViewModel = context.read<SplashViewModel>();
-    splashViewModel.autoLogin().then((_) {
-      // 애니메이션이 끝난 후 화면 전환
+    final splashViewModel = GetIt.instance<SplashViewModel>(); // getIt 사용
+
+    // autoLogin 결과에 따라 화면 전환
+    splashViewModel.autoLogin().then((isLoggedIn) {
       Future.delayed(const Duration(seconds: 2), () {
-        context.go(splashViewModel.navigationPath ?? '/login');
+        if (isLoggedIn) {
+          splashViewModel.navigateToHomeScreen(context); // 홈 화면으로 이동
+        } else {
+          splashViewModel.navigateToLoginScreen(context); // 로그인 화면으로 이동
+        }
       });
     });
   }
