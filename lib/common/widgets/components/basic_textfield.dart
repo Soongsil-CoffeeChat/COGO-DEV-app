@@ -2,26 +2,39 @@ import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextFieldWithCounter extends StatelessWidget {
+/// Size enum
+enum BTSize {
+  SMALL,
+  LARGE,
+}
+
+/// 상수 정의
+const double _smallHeight = 50.0;
+const double _largeHeight = 200.0;
+
+class BasicTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final int currentCount;
   final int maxCount;
-  final double height; //todo small large
+  final BTSize size;
   final int maxLines;
 
-  const CustomTextFieldWithCounter({
+  const BasicTextField({
     Key? key,
     required this.controller,
     required this.hintText,
     required this.currentCount,
     required this.maxCount,
-    required this.height,
+    required this.size,
     required this.maxLines,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // `size`에 따라 높이를 설정
+    final double height = (size == BTSize.LARGE) ? _largeHeight : _smallHeight;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -44,7 +57,6 @@ class CustomTextFieldWithCounter extends StatelessWidget {
               border: InputBorder.none,
               counterText: '',
             ),
-            onChanged: (text) => {}, // ViewModel로부터 분리됨
           ),
         ),
         const SizedBox(height: 5),

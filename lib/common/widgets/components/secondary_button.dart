@@ -1,18 +1,26 @@
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/constants/button_size.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
+
+/// Size enum
+enum SBSize {
+  SMALL,
+  LARGE,
+}
+
+const double _smallWidth = 150;
+const double _largeWidth = double.infinity;
 
 class SecondaryButton extends StatefulWidget {
   final String text;
   final VoidCallback? onPressed;
-  final ButtonSize size;
+  final SBSize size;
 
   const SecondaryButton({
     Key? key,
     required this.text,
     this.onPressed,
-    this.size = const SmallButtonSize(), // 기본값 small
+    this.size = SBSize.SMALL, // 기본값 small
   }) : super(key: key);
 
   @override
@@ -25,34 +33,32 @@ class _SecondaryButtonState extends State<SecondaryButton> {
 
   @override
   Widget build(BuildContext context) {
+    final width = (widget.size == BBSize.LARGE) ? _largeWidth : _smallWidth;
     return SizedBox(
-      width: widget.size.width,
-      child: _buildButton(widget.size.width),
-    );
-  }
+      width: width,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: () {
+          /// 콜백 실행 시 _isPressed 상태 변경
+          setState(() {
+            _isPressed = !_isPressed;
+          });
 
-  Widget _buildButton(double width) {
-    return ElevatedButton(
-      onPressed: () {
-        /// 콜백 실행 시 _isPressed 상태 변경
-        setState(() {
-          _isPressed = !_isPressed;
-        });
-
-        /// 외부 onPressed 콜백 실행
-        widget.onPressed?.call();
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: _isPressed ? Colors.black : CogoColor.systemGray02,
-        foregroundColor: _isPressed ? Colors.white : Colors.black,
-        textStyle: CogoTextStyle.body18,
-        shadowColor: Colors.transparent,
-        minimumSize: Size(width, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          /// 외부 onPressed 콜백 실행
+          widget.onPressed?.call();
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: _isPressed ? Colors.black : CogoColor.systemGray02,
+          foregroundColor: _isPressed ? Colors.white : Colors.black,
+          textStyle: CogoTextStyle.body18,
+          shadowColor: Colors.transparent,
+          // minimumSize: Size(width, 50),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
         ),
+        child: Text(widget.text),
       ),
-      child: Text(widget.text),
     );
   }
 }

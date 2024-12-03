@@ -41,6 +41,7 @@ class MypageScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.navigateToLoginScreen(context);
                         },
+                        size: BBSize.SMALL,
                       ),
                       const SizedBox(height: 30),
                       BasicButton(
@@ -49,6 +50,7 @@ class MypageScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.initialize();
                         },
+                        size: BBSize.SMALL,
                       )
                     ],
                   ),
