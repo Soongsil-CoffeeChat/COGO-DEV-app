@@ -132,6 +132,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
                   builder: (context, viewModel, child) {
                     return SingleSelectionTimePicker(
                       timeSlots: [item.formattedTimeSlot],
+                      isSelectedTimePicker: false,
                     );
                   },
                 ),
