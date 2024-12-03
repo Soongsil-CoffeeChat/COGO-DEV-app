@@ -50,7 +50,6 @@ class MentorQuestion2Screen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 170),
-
                   Center(
                     child: SizedBox(
                       width: 170,
@@ -58,9 +57,11 @@ class MentorQuestion2Screen extends StatelessWidget {
                       child: Consumer<MentorIntroductionViewModel>(
                         builder: (context, viewModel, child) {
                           return BasicButton(
-                            text: '저장하기',
+                            text: '다음',
                             isClickable: viewModel.isFormValid,
-                            onPressed: viewModel.isFormValid ? () => viewModel.saveIntroduction(context) : null,
+                            onPressed: viewModel.isFormValid
+                                ? () => viewModel.saveIntroduction(context)
+                                : null,
                           );
                         },
                       ),

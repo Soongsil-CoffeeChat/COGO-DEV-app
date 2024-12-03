@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cogo/data/service/mentor_service.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +84,7 @@ class MentorIntroductionViewModel extends ChangeNotifier {
       await _mentorService.patchMentorIntroduction(
           title, description, answer1, answer2);
 
-      context.popUntil(Paths.home);
+      context.push(Paths.timeSetting);
     } catch (e) {
       log('Failed to save introduction: $e');
     }

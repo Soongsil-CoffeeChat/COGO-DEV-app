@@ -2,6 +2,7 @@ import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
+/// 중복 선택 time picker
 class MultiSelectionTimePicker extends StatefulWidget {
   final DateTime selectedDay;
   final List<int> initialSelectedTimeSlots;
@@ -37,41 +38,48 @@ class _MultiSelectionTimePickerState extends State<MultiSelectionTimePicker> {
   Widget build(BuildContext context) {
     return Center(
       child: Wrap(
-        spacing: 10.0,
+        spacing: 15.0,
         runSpacing: 15.0,
         children: List.generate(widget.timeSlots.length, (index) {
           final isSelected = selectedTimeSlots.contains(index);
 
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                if (isSelected) {
-                  selectedTimeSlots.remove(index);
-                  widget.onTimeSlotDeselected?.call(index);
-                } else {
-                  selectedTimeSlots.add(index);
-                  widget.onTimeSlotSelected?.call(index);
-                }
-              });
-            },
-            child: Container(
-              //todo timepicker로 분리
-              width: 105,
-              height: 25,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: isSelected ? CogoColor.systemGray05 : CogoColor.white50,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: CogoColor.systemGray03,
-                  width: 0.7,
-                ),
-              ),
-              child: Text(
-                widget.timeSlots[index],
-                style: CogoTextStyle.body12.copyWith(
+          return SizedBox(
+            width: MediaQuery.of(context).size.width / 2 - 24,
+
+            /// 화면 반절 크기
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (isSelected) {
+                    selectedTimeSlots.remove(index);
+                    widget.onTimeSlotDeselected?.call(index);
+                  } else {
+                    selectedTimeSlots.add(index);
+                    widget.onTimeSlotSelected?.call(index);
+                  }
+                });
+              },
+              child: Container(
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
                   color:
-                      isSelected ? CogoColor.white50 : CogoColor.systemGray03,
+                      isSelected ? CogoColor.systemGray01 : CogoColor.white50,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: isSelected
+                        ? CogoColor.systemGray04
+                        : CogoColor.systemGray03,
+                    width: isSelected ? 1.2 : 0.7,
+                  ),
+                ),
+                child: Text(
+                  widget.timeSlots[index],
+                  style: CogoTextStyle.body16.copyWith(
+                    color: isSelected
+                        ? CogoColor.systemGray04
+                        : CogoColor.systemGray03,
+                  ),
                 ),
               ),
             ),
