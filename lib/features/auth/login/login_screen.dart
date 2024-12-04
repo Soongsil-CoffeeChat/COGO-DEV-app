@@ -1,5 +1,4 @@
 import 'package:cogo/common/enums/login_platform.dart';
-import 'package:cogo/data/service/refresh_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +11,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => LoginViewModel(
-        refreshService: RefreshService(),
-      ),
+      create: (_) => LoginViewModel(),
       child: Scaffold(
         body: SafeArea(
           child: Padding(

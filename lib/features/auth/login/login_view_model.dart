@@ -5,10 +5,11 @@ import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/refresh_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final RefreshService refreshService;
+  final RefreshService refreshService = GetIt.instance<RefreshService>();
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
@@ -18,7 +19,7 @@ class LoginViewModel extends ChangeNotifier {
 
   String? get errorMessage => _errorMessage;
 
-  LoginViewModel({required this.refreshService});
+  LoginViewModel();
 
   Future<void> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();

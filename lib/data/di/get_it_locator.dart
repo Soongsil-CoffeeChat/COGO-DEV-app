@@ -22,11 +22,12 @@ void setupServiceLocator() {
 
   getIt.registerLazySingleton<UserService>(() => UserService());
 
+  getIt.registerLazySingleton<RefreshService>(() => RefreshService());
+
   /**
    * 뷰모델 등록
    */
-  getIt.registerFactory<LoginViewModel>(
-      () => LoginViewModel(refreshService: getIt<RefreshService>()));
+  getIt.registerFactory<LoginViewModel>(() => LoginViewModel());
 
   getIt.registerFactory<PhoneNumberViewModel>(
       () => PhoneNumberViewModel(userService: getIt<UserService>()));
