@@ -60,7 +60,9 @@ class RefreshService {
 
       final response = await _apiClient.dio.post(
         options: Options(
-          extra: {'skipAuthToken': true}, //토큰 해제
+          extra: {'skipAuthToken': true},
+
+          ///기존 엑세스 토큰을 해제함
           headers: {
             'refreshToken': 'Bearer $refreshToken',
           },
@@ -90,7 +92,6 @@ class RefreshService {
             'Failed to send verification code ${response.data.toString()}');
       }
     } on DioException catch (e) {
-      //애로 감 다
       throw Exception('Error: ${e.response?.data.toString() ?? e.message}');
     }
   }
