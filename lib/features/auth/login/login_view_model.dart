@@ -19,6 +19,10 @@ class LoginViewModel extends ChangeNotifier {
 
   String? get errorMessage => _errorMessage;
 
+  late bool _isNewUser;
+
+  bool get isNewUser => _isNewUser;
+
   LoginViewModel();
 
   Future<void> signInWithGoogle() async {
@@ -38,10 +42,12 @@ class LoginViewModel extends ChangeNotifier {
       final authCode = googleSignInAuthentication.accessToken;
 
       try {
-        await refreshService.getAccessToken(authCode!, name!);
+        final response = await refreshService.getAccessToken(authCode!, name!);
 
         await _saveUserInfo(googleUser.displayName, googleUser.email);
         _loginPlatform = LoginPlatform.google;
+
+        _isNewUser = response.newAccount;
 
         notifyListeners();
       } catch (e) {

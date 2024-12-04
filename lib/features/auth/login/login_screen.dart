@@ -1,4 +1,5 @@
 import 'package:cogo/common/enums/login_platform.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -44,8 +45,10 @@ class LoginScreen extends StatelessWidget {
                       platform: LoginPlatform.google,
                       onTap: () async {
                         await viewModel.signInWithGoogle();
-                        if (viewModel.loginPlatform == LoginPlatform.google) {
-                          context.push('/agreement');
+                        if (viewModel.isNewUser) {
+                          context.push(Paths.agreement);
+                        } else {
+                          context.push(Paths.home);
                         }
                       },
                     ),
