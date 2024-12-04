@@ -8,7 +8,7 @@ class TokenResponse with _$TokenResponse {
   const factory TokenResponse({
     required String accessToken,
     required String refreshToken,
-    required bool isNewAccount,
+    required bool newAccount,
   }) = _TokenResponse;
 
   factory TokenResponse.fromJson(Map<String, dynamic> json) =>
