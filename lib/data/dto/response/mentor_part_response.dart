@@ -1,47 +1,21 @@
-class MentorPartResponse {
-  final String? picture;
-  final String? mentorName;
-  final String? part;
-  final String? club;
-  final String? username;
-  final int mentorId;
-  final String? title;
-  final String? description;
-  
-  MentorPartResponse({
-    required this.picture,
-    required this.mentorName,
-    required this.part,
-    required this.club,
-    required this.username,
-    required this.mentorId,
-    required this.title,
-    required this.description,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  factory MentorPartResponse.fromJson(Map<String, dynamic> json) {
-    return MentorPartResponse(
-      picture: json['picture'],
-      mentorName: json['mentorName'],
-      part: json['part'],
-      club: json['club'],
-      username: json['username'],
-      mentorId: json['mentorId'],
-      title: json['title'],
-      description: json['description'],
-    );
-  }
+part 'mentor_part_response.freezed.dart';
+part 'mentor_part_response.g.dart';
 
-  Map<String, dynamic> toJson() {
-    return {
-      "picture": picture,
-      "mentorName": mentorName,
-      "part": part,
-      "club": club,
-      "username": username,
-      "mentorId": mentorId,
-      "title": title,
-      "description": description
-    };
-  }
+@freezed
+class MentorPartResponse with _$MentorPartResponse {
+  const factory MentorPartResponse({
+    String? picture,
+    String? mentorName,
+    String? part,
+    String? club,
+    String? username,
+    required int mentorId,
+    String? title,
+    String? description,
+  }) = _MentorPartResponse;
+
+  factory MentorPartResponse.fromJson(Map<String, dynamic> json) =>
+      _$MentorPartResponseFromJson(json);
 }

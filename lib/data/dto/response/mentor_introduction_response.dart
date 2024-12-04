@@ -1,31 +1,17 @@
-class MentorIntroductionResponse {
-  final String introductionTitle;
-  final String introductionDescription;
-  final String introductionAnswer1;
-  final String introductionAnswer2;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  MentorIntroductionResponse({
-    required this.introductionTitle,
-    required this.introductionDescription,
-    required this.introductionAnswer1,
-    required this.introductionAnswer2,
-  });
+part 'mentor_introduction_response.freezed.dart';
+part 'mentor_introduction_response.g.dart';
 
-  factory MentorIntroductionResponse.fromJson(Map<String, dynamic> json) {
-    return MentorIntroductionResponse(
-      introductionTitle: json['introduction_title'],
-      introductionDescription: json['introduction_description'],
-      introductionAnswer1: json['introduction_answer1'],
-      introductionAnswer2: json['introduction_answer2'],
-    );
-  }
+@freezed
+class MentorIntroductionResponse with _$MentorIntroductionResponse {
+  const factory MentorIntroductionResponse({
+    required String introductionTitle,
+    required String introductionDescription,
+    required String introductionAnswer1,
+    required String introductionAnswer2,
+  }) = _MentorIntroductionResponse;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'introduction_title': introductionTitle,
-      'introduction_description': introductionDescription,
-      'introduction_answer1': introductionAnswer1,
-      'introduction_answer2': introductionAnswer2,
-    };
-  }
+  factory MentorIntroductionResponse.fromJson(Map<String, dynamic> json) =>
+      _$MentorIntroductionResponseFromJson(json);
 }

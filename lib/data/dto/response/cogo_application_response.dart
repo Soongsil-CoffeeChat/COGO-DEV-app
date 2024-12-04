@@ -1,27 +1,16 @@
-class CogoApplicationResponse {
-  final int? mentorId;
-  final int? possibleDateId;
-  final String? memo;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  CogoApplicationResponse({
-    required this.mentorId,
-    required this.possibleDateId,
-    required this.memo,
-  });
+part 'cogo_application_response.freezed.dart';
+part 'cogo_application_response.g.dart';
 
-  factory CogoApplicationResponse.fromJson(Map<String, dynamic> json) {
-    return CogoApplicationResponse(
-      mentorId: json['mentorId'],
-      possibleDateId: json['possibleDateId'],
-      memo: json['memo'],
-    );
-  }
+@freezed
+class CogoApplicationResponse with _$CogoApplicationResponse {
+  const factory CogoApplicationResponse({
+    int? mentorId,
+    int? possibleDateId,
+    String? memo,
+  }) = _CogoApplicationResponse;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'mentorId': mentorId,
-      'possibleDateId': possibleDateId,
-      'memo': memo,
-    };
-  }
+  factory CogoApplicationResponse.fromJson(Map<String, dynamic> json) =>
+      _$CogoApplicationResponseFromJson(json);
 }

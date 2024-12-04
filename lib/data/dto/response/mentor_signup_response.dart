@@ -1,29 +1,16 @@
-class MentorSignupResponse {
-  final String part;
-  final String club;
-  final int introductionId;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  MentorSignupResponse({
-    required this.part,
-    required this.club,
-    required this.introductionId,
-  });
+part 'mentor_signup_response.freezed.dart';
+part 'mentor_signup_response.g.dart';
 
-  // JSON 데이터를 MentorSignupResponse 객체로 변환
-  factory MentorSignupResponse.fromJson(Map<String, dynamic> json) {
-    return MentorSignupResponse(
-      part: json['part'] as String,
-      club: json['club'] as String,
-      introductionId: json['introductionId'] as int,
-    );
-  }
+@freezed
+class MentorSignupResponse with _$MentorSignupResponse {
+  const factory MentorSignupResponse({
+    required String part,
+    required String club,
+    required int introductionId,
+  }) = _MentorSignupResponse;
 
-  // MentorSignupResponse 객체를 JSON으로 변환
-  Map<String, dynamic> toJson() {
-    return {
-      'part': part,
-      'club': club,
-      'introductionId': introductionId,
-    };
-  }
+  factory MentorSignupResponse.fromJson(Map<String, dynamic> json) =>
+      _$MentorSignupResponseFromJson(json);
 }

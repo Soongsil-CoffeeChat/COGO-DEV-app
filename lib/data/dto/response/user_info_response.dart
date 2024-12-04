@@ -1,41 +1,19 @@
-class UserInfoResponse {
-  final String username;
-  final String name;
-  final String email;
-  final String role;
-  final String phoneNum;
-  final String? picture;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  UserInfoResponse({
-    required this.username,
-    required this.name,
-    required this.email,
-    required this.role,
-    required this.phoneNum,
-    required this.picture,
-  });
+part 'user_info_response.freezed.dart';
+part 'user_info_response.g.dart';
 
-  // JSON 데이터를 UserResponse 객체로 변환
-  factory UserInfoResponse.fromJson(Map<String, dynamic> json) {
-    return UserInfoResponse(
-      username: json['username'] as String,
-      name: json['name'] as String,
-      email: json['email'] as String,
-      role: json['role'] as String,
-      phoneNum: json['phoneNum'] as String,
-      picture: json['picture'] != null ? json['picture'] as String : '',
-    );
-  }
+@freezed
+class UserInfoResponse with _$UserInfoResponse {
+  const factory UserInfoResponse({
+    required String username,
+    required String name,
+    required String email,
+    required String role,
+    required String phoneNum,
+    String? picture,
+  }) = _UserInfoResponse;
 
-  // UserResponse 객체를 JSON으로 변환
-  Map<String, dynamic> toJson() {
-    return {
-      'username': username,
-      'name': name,
-      'email': email,
-      'role': role,
-      'phoneNum': phoneNum,
-      'picture': picture,
-    };
-  }
+  factory UserInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserInfoResponseFromJson(json);
 }

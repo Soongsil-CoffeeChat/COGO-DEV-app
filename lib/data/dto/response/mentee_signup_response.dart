@@ -1,21 +1,14 @@
-class MenteeSignupResponse {
-  final String part;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  MenteeSignupResponse({
-    required this.part,
-  });
+part 'mentee_signup_response.freezed.dart';
+part 'mentee_signup_response.g.dart';
 
-  // JSON 데이터를 MentorSignupResponse 객체로 변환
-  factory MenteeSignupResponse.fromJson(Map<String, dynamic> json) {
-    return MenteeSignupResponse(
-      part: json['part'] as String,
-    );
-  }
+@freezed
+class MenteeSignupResponse with _$MenteeSignupResponse {
+  const factory MenteeSignupResponse({
+    required String part,
+  }) = _MenteeSignupResponse;
 
-  // MentorSignupResponse 객체를 JSON으로 변환
-  Map<String, dynamic> toJson() {
-    return {
-      'part': part,
-    };
-  }
+  factory MenteeSignupResponse.fromJson(Map<String, dynamic> json) =>
+      _$MenteeSignupResponseFromJson(json);
 }

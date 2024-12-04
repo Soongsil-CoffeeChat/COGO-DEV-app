@@ -1,31 +1,17 @@
-class MentorPossibleDateResponse {
-  final int possibleDateId;
-  final String date;
-  final String startTime;
-  final String endTime;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  MentorPossibleDateResponse({
-    required this.possibleDateId,
-    required this.date,
-    required this.startTime,
-    required this.endTime,
-  });
+part 'mentor_possible_date_response.freezed.dart';
+part 'mentor_possible_date_response.g.dart';
 
-  factory MentorPossibleDateResponse.fromJson(Map<String, dynamic> json) {
-    return MentorPossibleDateResponse(
-      possibleDateId: json['possible_date_id'],
-      date: json['date'],
-      startTime: json['start_time'],
-      endTime: json['end_time'],
-    );
-  }
+@freezed
+class MentorPossibleDateResponse with _$MentorPossibleDateResponse {
+  const factory MentorPossibleDateResponse({
+    required int possibleDateId,
+    required String date,
+    required String startTime,
+    required String endTime,
+  }) = _MentorPossibleDateResponse;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'possible_date_id': possibleDateId,
-      'date': date,
-      'start_time': startTime,
-      'end_time': endTime,
-    };
-  }
+  factory MentorPossibleDateResponse.fromJson(Map<String, dynamic> json) =>
+      _$MentorPossibleDateResponseFromJson(json);
 }

@@ -36,7 +36,7 @@ class MypageViewModel extends ChangeNotifier {
 
     try {
       final response = await userService.getUserInfo();
-      final data = response.toMyPageInfo(); // 변환하여 UserData에 저장
+      final data = MyPageInfo.fromResponse(response); // 변환하여 UserData에 저장
 
       _updateState(myPageInfo: data);
       log('내 정보 조회 성공');

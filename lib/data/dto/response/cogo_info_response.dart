@@ -1,43 +1,20 @@
-class CogoInfoResponse {
-  final int applicationId;
-  final String menteeName;
-  final String mentorName;
-  final String applicationMemo;
-  final String applicationDate;
-  final String applicationStartTime;
-  final String applicationEndTime;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  CogoInfoResponse({
-    required this.applicationId,
-    required this.menteeName,
-    required this.mentorName,
-    required this.applicationMemo,
-    required this.applicationDate,
-    required this.applicationStartTime,
-    required this.applicationEndTime,
-  });
+part 'cogo_info_response.freezed.dart';
+part 'cogo_info_response.g.dart';
 
-  factory CogoInfoResponse.fromJson(Map<String, dynamic> json) {
-    return CogoInfoResponse(
-      applicationId: json['application_id'],
-      menteeName: json['mentee_name'],
-      mentorName: json['mentor_name'],
-      applicationMemo: json['application_memo'],
-      applicationDate: json['application_date'],
-      applicationStartTime: json['application_start_time'],
-      applicationEndTime: json['application_end_time'],
-    );
-  }
+@freezed
+class CogoInfoResponse with _$CogoInfoResponse {
+  const factory CogoInfoResponse({
+    required int applicationId,
+    required String menteeName,
+    required String mentorName,
+    required String applicationMemo,
+    required String applicationDate,
+    required String applicationStartTime,
+    required String applicationEndTime,
+  }) = _CogoInfoResponse;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'application_id': applicationId,
-      'mentee_name': menteeName,
-      'mentor_name': mentorName,
-      'application_memo': applicationMemo,
-      'application_date': applicationDate,
-      'application_start_time': applicationStartTime,
-      'application_end_time': applicationEndTime,
-    };
-  }
+  factory CogoInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$CogoInfoResponseFromJson(json);
 }
