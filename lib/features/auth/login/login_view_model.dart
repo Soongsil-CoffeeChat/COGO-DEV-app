@@ -5,10 +5,11 @@ import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/refresh_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final RefreshService refreshService;
+  final RefreshService refreshService = GetIt.instance<RefreshService>();
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
@@ -18,7 +19,11 @@ class LoginViewModel extends ChangeNotifier {
 
   String? get errorMessage => _errorMessage;
 
-  LoginViewModel({required this.refreshService});
+  late bool _isNewUser;
+
+  bool get isNewUser => _isNewUser;
+
+  LoginViewModel();
 
   Future<void> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -37,10 +42,12 @@ class LoginViewModel extends ChangeNotifier {
       final authCode = googleSignInAuthentication.accessToken;
 
       try {
-        final result = await refreshService.getAccessToken(authCode!, name!);
+        final response = await refreshService.getAccessToken(authCode!, name!);
 
-        await _saveUserInfo(result, googleUser.displayName, googleUser.email);
+        await _saveUserInfo(googleUser.displayName, googleUser.email);
         _loginPlatform = LoginPlatform.google;
+
+        _isNewUser = response.newAccount;
 
         notifyListeners();
       } catch (e) {
@@ -57,8 +64,7 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> _saveUserInfo(String accessToken, String? name,
-      String email) async {
+  Future<void> _saveUserInfo(String? name, String email) async {
     final SecureStorageRepository secureStorage = SecureStorageRepository();
     secureStorage.saveUserName(name ?? '');
     secureStorage.saveUserEmail(email);
