@@ -17,11 +17,11 @@ class SecondaryButton extends StatefulWidget {
   final SBSize size;
 
   const SecondaryButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.size = SBSize.SMALL, // 기본값 small
-  }) : super(key: key);
+  });
 
   @override
   _SecondaryButtonState createState() => _SecondaryButtonState();
