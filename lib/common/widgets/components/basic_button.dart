@@ -18,12 +18,12 @@ class BasicButton extends StatelessWidget {
   final BBSize size;
 
   const BasicButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.isClickable,
     this.onPressed,
     this.size = BBSize.SMALL, // 기본값 small
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

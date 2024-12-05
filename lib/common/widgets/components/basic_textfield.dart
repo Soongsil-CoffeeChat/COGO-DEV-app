@@ -21,14 +21,14 @@ class BasicTextField extends StatelessWidget {
   final int maxLines;
 
   const BasicTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.currentCount,
     required this.maxCount,
     required this.size,
     required this.maxLines,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
