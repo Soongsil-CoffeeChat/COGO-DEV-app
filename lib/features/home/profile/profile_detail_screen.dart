@@ -3,7 +3,7 @@ import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/home/profile/view_model/profile_detail_view_model.dart';
+import 'package:cogo/features/home/profile/profile_detail_view_model.dart';
 
 class ProfileDetailScreen extends StatelessWidget {
   final int mentorId;

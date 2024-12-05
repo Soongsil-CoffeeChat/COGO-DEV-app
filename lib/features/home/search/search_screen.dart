@@ -1,7 +1,7 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/home/search/view_model/search_view_model.dart';
+import 'package:cogo/features/home/search/search_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +44,8 @@ class SearchScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(30.0),
                                 border: Border.all(color: Colors.black),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10.0),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 3.0, horizontal: 10.0),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -52,18 +53,22 @@ class SearchScreen extends StatelessWidget {
                                       spacing: 5.0,
                                       runSpacing: 5.0,
                                       children: viewModel.selectedTags
-                                          .map((tag) => _buildTagChip(context, viewModel, tag)) // tag 함수
+                                          .map((tag) => _buildTagChip(context,
+                                              viewModel, tag)) // tag 함수
                                           .toList(),
                                     ),
                                   ),
                                   IconButton(
-                                    icon: SvgPicture.asset('assets/icons/button/search.svg'),
+                                    icon: SvgPicture.asset(
+                                        'assets/icons/button/search.svg'),
                                     onPressed: () {
                                       // 검색 버튼 클릭 시 검색 실행
                                       if (viewModel.selectedTags.isEmpty) {
-                                        viewModel.clearSearch(); // 태그가 없으면 검색 초기화
+                                        viewModel
+                                            .clearSearch(); // 태그가 없으면 검색 초기화
                                       } else {
-                                        viewModel.search(viewModel.selectedTags.join(' '));
+                                        viewModel.search(
+                                            viewModel.selectedTags.join(' '));
                                       }
                                     },
                                   ),
@@ -84,7 +89,8 @@ class SearchScreen extends StatelessWidget {
                             const SizedBox(height: 5),
                             Text(
                               '파트',
-                              style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
+                              style: CogoTextStyle.body12
+                                  .copyWith(color: CogoColor.systemGray03),
                             ),
                             const SizedBox(height: 15),
                             Row(
@@ -145,7 +151,8 @@ class SearchScreen extends StatelessWidget {
                             const SizedBox(height: 15),
                             Text(
                               '동아리',
-                              style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
+                              style: CogoTextStyle.body12
+                                  .copyWith(color: CogoColor.systemGray03),
                             ),
                             const SizedBox(height: 15),
                             Row(
@@ -196,21 +203,25 @@ class SearchScreen extends StatelessWidget {
                       ),
                     ],
                     // 검색 결과가 있으면 프로필 카드를 표시하고, 버튼들을 없앰
-                    if (viewModel.hasSearched && viewModel.selectedTags.isNotEmpty)
+                    if (viewModel.hasSearched &&
+                        viewModel.selectedTags.isNotEmpty)
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.7, // 화면의 70% 차지
+                        height: MediaQuery.of(context).size.height *
+                            0.7, // 화면의 70% 차지
                         child: viewModel.searchResults.isNotEmpty
                             ? ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          itemCount: viewModel.searchResults.length,
-                          itemBuilder: (context, index) {
-                            final profile = viewModel.searchResults[index];
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-
-                            );
-                          },
-                        )
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                itemCount: viewModel.searchResults.length,
+                                itemBuilder: (context, index) {
+                                  final profile =
+                                      viewModel.searchResults[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                  );
+                                },
+                              )
                             : const Center(child: Text('검색 결과가 없습니다.')),
                       ),
                   ],
@@ -224,7 +235,8 @@ class SearchScreen extends StatelessWidget {
   }
 
   // 검색창 태그 위젯
-  Widget _buildTagChip(BuildContext context, SearchViewModel viewModel, String tag) {
+  Widget _buildTagChip(
+      BuildContext context, SearchViewModel viewModel, String tag) {
     return Chip(
       label: Text(
         tag,

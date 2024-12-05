@@ -79,4 +79,16 @@ final class CogoTextStyle {
     fontSize: 12,
     color: CogoColor.main,
   );
+
+  static const TextStyle bodySB14 = TextStyle(
+    fontFamily: "PretendardSemiBold",
+    fontSize: 14,
+    color: CogoColor.systemGray05,
+  );
+
+  static const TextStyle bodySB16 = TextStyle(
+    fontFamily: "PretendardSemiBold",
+    fontSize: 16,
+    color: CogoColor.systemGray05,
+  );
 }

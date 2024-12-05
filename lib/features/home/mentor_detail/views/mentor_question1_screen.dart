@@ -1,6 +1,6 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/paths.dart';
-import 'package:cogo/features/home/mentor_detail/view_models/mentor_introduction_view_model.dart';
+import 'package:cogo/features/home/mentor_detail/mentor_introduction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +38,6 @@ class MentorQuestion1Screen extends StatelessWidget {
                             style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),
-
                           CustomTextFieldWithCounter(
                             controller: viewModel.answer1Controller,
                             hintText: '멘토링 가능한 분야를 적어주세요',
@@ -53,7 +52,6 @@ class MentorQuestion1Screen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 170),
-
                   Center(
                     child: SizedBox(
                       width: 170,
@@ -63,7 +61,9 @@ class MentorQuestion1Screen extends StatelessWidget {
                           return BasicButton(
                             text: '다음',
                             isClickable: viewModel.isFormValid,
-                            onPressed: viewModel.isFormValid ? () => context.push(Paths.mentorQuestion2) : null,
+                            onPressed: viewModel.isFormValid
+                                ? () => context.push(Paths.mentorQuestion2)
+                                : null,
                           );
                         },
                       ),

@@ -1,5 +1,5 @@
 import 'package:cogo/common/navigator/view_model/bottom_navigation_bar_view_model.dart';
-import 'package:cogo/features/home/home/view_model/home_view_model.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
