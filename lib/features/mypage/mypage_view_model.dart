@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/domain/entity/my_page_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 
 class MypageViewModel extends ChangeNotifier {
@@ -46,15 +48,6 @@ class MypageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> logOut() async {
-    _secureStorage.deleteAllData();
-  }
-
-  Future<void> signOut() async {
-    _secureStorage.deleteAllData();
-    userService.signOut();
-  }
-
   void _updateState({
     bool? isLoading,
     bool? hasError,
@@ -68,6 +61,22 @@ class MypageViewModel extends ChangeNotifier {
       role: role,
     );
     notifyListeners();
+  }
+
+  void navigateToMyInformationManagementScreen(BuildContext context) {
+    context.push(Paths.myInfo);
+  }
+
+  void navigateToMentorIntroduceManagementScreen(BuildContext context) {
+    context.push(Paths.introduce);
+  }
+
+  void navigateToMentorTimeSettingScreen(BuildContext context) {
+    context.push(Paths.timeSetting);
+  }
+
+  void navigateToLoginScreen(BuildContext context) {
+    context.push(Paths.login);
   }
 }
 
