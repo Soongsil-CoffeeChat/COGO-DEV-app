@@ -21,12 +21,8 @@ class ClubSelectionViewModel extends ChangeNotifier {
     notifyListeners();
 
     _secureStorage.saveClub(club);
-    // await LocaleManager.instance.setStringValue('selectedClub', club);
 
     interest = _secureStorage.readInterest() as Interest;
-
-    // 페이지 이동
-    context.push('/agreement/mentor_info');
   }
 
   Future<void> signUpMentee(BuildContext context) async {

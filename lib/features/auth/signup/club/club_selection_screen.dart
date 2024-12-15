@@ -1,7 +1,9 @@
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'club_selection_view_model.dart';
@@ -44,7 +46,6 @@ class ClubSelectionScreen extends StatelessWidget {
                                   Expanded(
                                     child: SecondaryButton(
                                       text: 'GDSC',
-                                      // viewModel.selectedClub == 'GDSC',
                                       onPressed: () {
                                         viewModel.selectClub(context, 'GDSC');
                                       },
@@ -54,7 +55,6 @@ class ClubSelectionScreen extends StatelessWidget {
                                   Expanded(
                                     child: SecondaryButton(
                                       text: 'YOURSSU',
-                                      // viewModel.selectedClub == 'YOURSSU',
                                       onPressed: () {
                                         viewModel.selectClub(
                                             context, 'YOURSSU');
@@ -71,9 +71,10 @@ class ClubSelectionScreen extends StatelessWidget {
                                   Expanded(
                                     child: SecondaryButton(
                                       text: 'UMC',
-                                      // viewModel.selectedClub == 'UMC',
                                       onPressed: () {
                                         viewModel.selectClub(context, 'UMC');
+                                        context.push(
+                                            '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
                                   ),
@@ -81,10 +82,11 @@ class ClubSelectionScreen extends StatelessWidget {
                                   Expanded(
                                     child: SecondaryButton(
                                       text: 'LIKELION',
-                                      // viewModel.selectedClub == 'LIKELION',
                                       onPressed: () {
                                         viewModel.selectClub(
                                             context, 'LIKELION');
+                                        context.push(
+                                            '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
                                   ),
@@ -96,10 +98,11 @@ class ClubSelectionScreen extends StatelessWidget {
                                   Expanded(
                                     child: SecondaryButton(
                                       text: 'NO CLUB',
-                                      // viewModel.selectedClub == 'NO CLUB',
                                       onPressed: () {
                                         viewModel.selectClub(
                                             context, 'NO CLUB');
+                                        context.push(
+                                            '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                       size: SBSize.LARGE,
                                     ),
