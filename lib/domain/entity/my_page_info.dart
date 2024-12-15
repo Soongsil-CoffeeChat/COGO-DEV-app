@@ -14,8 +14,8 @@ class MyPageInfo {
 
   factory MyPageInfo.fromResponse(MyInfoResponse response) {
     List<String> tags = [];
-    if (response.part.isNotEmpty) {
-      tags.add(response.part);
+    if (response.part?.isNotEmpty ?? false) {
+      tags.add(response.part!);
     }
     if (response.club?.isNotEmpty ?? false) {
       tags.add(response.club!);
