@@ -1,6 +1,12 @@
+import 'dart:developer';
+
+import 'package:cogo/data/service/mentor_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class MentorIntroductionViewModel extends ChangeNotifier {
+  final MentorService mentorService = GetIt.instance<MentorService>();
+
   // TextEditingController로 각 필드 관리
   final TextEditingController introController = TextEditingController();
   final TextEditingController question1Controller = TextEditingController();
@@ -11,8 +17,11 @@ class MentorIntroductionViewModel extends ChangeNotifier {
 
   // 각 텍스트 필드의 글자 수를 계산
   int get introCharCount => introController.text.length;
+
   int get question1CharCount => question1Controller.text.length;
+
   int get question2CharCount => question2Controller.text.length;
+
   int get question3CharCount => question3Controller.text.length;
 
   MentorIntroductionViewModel() {
@@ -38,9 +47,17 @@ class MentorIntroductionViewModel extends ChangeNotifier {
   }
 
   // 데이터를 저장하는 함수
-  void saveIntroduction(BuildContext context) {
-    //TODO : 데이터 저장 로직 구현
-    Navigator.of(context).pop(); // 저장 후 화면 종료
+  Future<void> saveIntroduction(BuildContext context) async {
+    try {
+      await mentorService.patchMentorIntroduction(
+          introController.text,
+          question1Controller.text,
+          question2Controller.text,
+          question3Controller.text);
+      Navigator.of(context).pop(); // 저장 후 화면 종료
+    } catch (e) {
+      log('Failed to save introduction: $e');
+    }
   }
 
   // ViewModel이 제거될 때 Controller도 함께 해제
