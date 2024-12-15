@@ -4,7 +4,7 @@ import 'package:cogo/data/service/mentor_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-class MentorIntroductionViewModel extends ChangeNotifier {
+class MyMentorIntroductionViewModel extends ChangeNotifier {
   final MentorService mentorService = GetIt.instance<MentorService>();
 
   // TextEditingController로 각 필드 관리
@@ -24,7 +24,7 @@ class MentorIntroductionViewModel extends ChangeNotifier {
 
   int get question3CharCount => question3Controller.text.length;
 
-  MentorIntroductionViewModel() {
+  MyMentorIntroductionViewModel() {
     // 각 컨트롤러에 리스너를 추가하여 값이 변경될 때마다 상태를 확인
     introController.addListener(_validateForm);
     question1Controller.addListener(_validateForm);

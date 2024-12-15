@@ -1,15 +1,15 @@
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/features/mypage/mentor_introduce/mentor_introduce_view_model.dart';
+import 'package:cogo/features/mypage/mentor_introduce/my_mentor_introduce_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MentorIntroductionScreen extends StatelessWidget {
-  const MentorIntroductionScreen({super.key});
+class MyMentorIntroductionScreen extends StatelessWidget {
+  const MyMentorIntroductionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MentorIntroductionViewModel(),
+      create: (_) => MyMentorIntroductionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -25,7 +25,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                     onBackButtonPressed: () => Navigator.of(context).pop(),
                   ),
                   const SizedBox(height: 10),
-                  Consumer<MentorIntroductionViewModel>(
+                  Consumer<MyMentorIntroductionViewModel>(
                     builder: (context, viewModel, child) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +91,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       height: 50,
-                      child: Consumer<MentorIntroductionViewModel>(
+                      child: Consumer<MyMentorIntroductionViewModel>(
                         builder: (context, viewModel, child) {
                           return ElevatedButton(
                             onPressed: viewModel.isFormValid

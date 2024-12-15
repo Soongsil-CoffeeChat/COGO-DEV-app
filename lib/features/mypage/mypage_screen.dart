@@ -95,7 +95,7 @@ class MypageScreen extends StatelessWidget {
                         title:
                             const Text('자기소개 관리', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () => context.push(Paths.mentorIntroduction),
+                        onTap: () => context.push(Paths.myMentorIntroduce),
                       ),
                       ListTile(
                         title: const Text('시간 설정', style: CogoTextStyle.body16),

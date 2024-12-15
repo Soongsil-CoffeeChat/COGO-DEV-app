@@ -32,7 +32,7 @@ abstract class Paths {
   static const String mentorQuestion2 = '/mentorQuestion2';
 
   static const String myInfo = '/myInfo';
-  static const String introduce = '/introduce';
+  static const String myMentorIntroduce = '/my_mentor_introduce';
   static const String timeSetting = '/time_setting';
   static const String timeChecking = '/time_checking';
 }

@@ -40,7 +40,8 @@ final AppRouter = GoRouter(
               key: state.pageKey,
               child: const LoginScreen(),
             )),
-    //회원가입
+
+    ///회원가입
     GoRoute(
       path: Paths.agreement,
       pageBuilder: (context, state) => MaterialPage(
@@ -104,7 +105,8 @@ final AppRouter = GoRouter(
         ),
       ],
     ),
-    //app bar
+
+    ///app bar
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(
@@ -208,10 +210,10 @@ final AppRouter = GoRouter(
       ),
     ),
     GoRoute(
-      path: Paths.introduce,
+      path: Paths.myMentorIntroduce,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const MentorIntroductionScreen(),
+        child: const MyMentorIntroductionScreen(),
       ),
     ),
     GoRoute(
