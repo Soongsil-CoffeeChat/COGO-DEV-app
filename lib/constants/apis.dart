@@ -12,7 +12,7 @@ abstract class Apis {
 
   /// 유저 관련 api
   static const String saveImage = "users/picture";
-  static const String userInfo = "users";
+  static const String user = "users";
   static const String signUpMentor = "users/mentor";
   static const String signUpMentee = "users/mentee";
   static const String setPhoneNumber = "users/phone";
