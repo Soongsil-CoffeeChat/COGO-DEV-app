@@ -47,7 +47,10 @@ class ClubSelectionScreen extends StatelessWidget {
                                     child: SecondaryButton(
                                       text: 'GDSC',
                                       onPressed: () {
-                                        viewModel.selectClub(context, 'GDSC');
+                                        viewModel.selectClub('GDSC');
+                                        viewModel.signUpMentee();
+                                        context.push(
+                                            '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
                                   ),
@@ -56,8 +59,10 @@ class ClubSelectionScreen extends StatelessWidget {
                                     child: SecondaryButton(
                                       text: 'YOURSSU',
                                       onPressed: () {
-                                        viewModel.selectClub(
-                                            context, 'YOURSSU');
+                                        viewModel.selectClub('YOURSSU');
+                                        viewModel.signUpMentee();
+                                        context.push(
+                                            '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
                                   ),
@@ -72,7 +77,8 @@ class ClubSelectionScreen extends StatelessWidget {
                                     child: SecondaryButton(
                                       text: 'UMC',
                                       onPressed: () {
-                                        viewModel.selectClub(context, 'UMC');
+                                        viewModel.selectClub('UMC');
+                                        viewModel.signUpMentee();
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -83,8 +89,8 @@ class ClubSelectionScreen extends StatelessWidget {
                                     child: SecondaryButton(
                                       text: 'LIKELION',
                                       onPressed: () {
-                                        viewModel.selectClub(
-                                            context, 'LIKELION');
+                                        viewModel.selectClub('LIKELION');
+                                        viewModel.signUpMentee();
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -99,8 +105,8 @@ class ClubSelectionScreen extends StatelessWidget {
                                     child: SecondaryButton(
                                       text: 'NO CLUB',
                                       onPressed: () {
-                                        viewModel.selectClub(
-                                            context, 'NO CLUB');
+                                        viewModel.selectClub('NO CLUB');
+                                        viewModel.signUpMentee();
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
