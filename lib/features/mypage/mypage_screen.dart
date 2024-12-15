@@ -114,7 +114,7 @@ class MypageScreen extends StatelessWidget {
                         title: const Text('탈퇴하기', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => {
-                              viewModel.logOut(),
+                              viewModel.signOut(),
                               context.push(Paths.login),
                             }),
                   ],

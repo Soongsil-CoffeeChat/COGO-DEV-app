@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
@@ -168,6 +170,7 @@ class UserService {
         apiVersion + Apis.user,
       );
       if (response.statusCode == 200) {
+        log("탈퇴 성공");
       } else {
         throw Exception('Failed to send verification code ${response.data}');
       }
