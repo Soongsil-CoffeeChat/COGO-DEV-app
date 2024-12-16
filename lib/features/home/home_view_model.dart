@@ -22,7 +22,7 @@ class HomeViewModel extends ChangeNotifier {
     role = await _secureStorage.readRole();
   }
 
-  Future<void> getProfilesForPart(BuildContext context, String part) async {
+  Future<void> getProfilesForPart(String part) async {
     try {
       final responseProfiles = await mentorService.getMentorPart(part);
       profiles = responseProfiles

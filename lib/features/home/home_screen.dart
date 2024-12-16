@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen>
     /// 초기 데이터 로드 (첫번째 탭인 FE 호출)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-      viewModel.getProfilesForPart(context, Interest.FE.label);
+      viewModel.getProfilesForPart(Interest.FE.label);
     });
 
     /// 인덱스가 변화할때마다 api 재호출
@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen>
         previousIndex = _tabController.index;
         final viewModel = Provider.of<HomeViewModel>(context, listen: false);
         final part = Interest.values[_tabController.index].label;
-        viewModel.getProfilesForPart(context, part);
+        viewModel.getProfilesForPart(part);
       }
     });
   }
