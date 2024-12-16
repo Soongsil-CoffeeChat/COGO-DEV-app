@@ -1,6 +1,6 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/paths.dart';
-import 'package:cogo/features/home/mentor_detail/view_models/mentor_introduction_view_model.dart';
+import 'package:cogo/features/home/mentor_detail/mentor_introduction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +58,6 @@ class MentorIntroductionScreen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 120),
-
                   Center(
                     child: SizedBox(
                       width: 170,
@@ -67,7 +66,9 @@ class MentorIntroductionScreen extends StatelessWidget {
                           return BasicButton(
                             text: '다음',
                             isClickable: viewModel.isFormValid,
-                            onPressed: viewModel.isFormValid ? () => context.push(Paths.mentorQuestion1) : null,
+                            onPressed: viewModel.isFormValid
+                                ? () => context.push(Paths.mentorQuestion1)
+                                : null,
                           );
                         },
                       ),
