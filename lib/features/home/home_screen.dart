@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cogo/features/home/home_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:cogo/common/enums/interest.dart'; // Interest import
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  final List<String> parts = ['FE', 'MOBILE', 'BE', 'PM', 'DESIGN'];
   late TabController _tabController;
   late HomeViewModel viewModel;
 
@@ -23,12 +23,13 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
 
     /// 컨트롤러 초기화
-    _tabController = TabController(length: 5, vsync: this, initialIndex: 0);
+    _tabController = TabController(
+        length: Interest.values.length, vsync: this, initialIndex: 0);
 
     /// 초기 데이터 로드 (첫번째 탭인 FE 호출)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-      viewModel.getProfilesForPart(context, 'FE');
+      viewModel.getProfilesForPart(context, Interest.FE.label);
     });
 
     /// 인덱스가 변화할때마다 api 재호출
@@ -37,8 +38,7 @@ class _HomeScreenState extends State<HomeScreen>
       if (_tabController.index != previousIndex) {
         previousIndex = _tabController.index;
         final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-        final part =
-            ['FE', 'MOBILE', 'BE', 'PM', 'DESIGN'][_tabController.index];
+        final part = Interest.values[_tabController.index].label;
         viewModel.getProfilesForPart(context, part);
       }
     });
@@ -93,11 +93,11 @@ class _HomeScreenState extends State<HomeScreen>
     return TabBar(
       controller: _tabController,
       isScrollable: false,
-      tabs: parts
-          .map((part) => Tab(
+      tabs: Interest.values
+          .map((interest) => Tab(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text(part),
+                  child: Text(interest.label),
                 ),
               ))
           .toList(),
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen>
           return TabBarView(
             controller: _tabController,
             children: List.generate(
-              5,
+              Interest.values.length,
               (index) => _buildProfileCardList(context),
             ),
           );
