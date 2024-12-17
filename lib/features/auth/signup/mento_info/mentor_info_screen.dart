@@ -1,6 +1,8 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'mentor_info_view_model.dart';
@@ -41,7 +43,7 @@ class MentorInfoScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: BasicButton(
-                                      text: viewModel.name ?? '나는 교회',
+                                      text: viewModel.name ?? '',
                                       isClickable: true,
                                       onPressed: () {},
                                     ),
@@ -49,7 +51,7 @@ class MentorInfoScreen extends StatelessWidget {
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: BasicButton(
-                                      text: viewModel.selectedInterst ?? 'BE',
+                                      text: viewModel.selectedInterest ?? '',
                                       isClickable: true,
                                       onPressed: () {},
                                     ),
@@ -63,8 +65,7 @@ class MentorInfoScreen extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: BasicButton(
-                                        text:
-                                            viewModel.selectedClub ?? 'YOURSSU',
+                                        text: viewModel.selectedClub ?? '',
                                         isClickable: true,
                                         onPressed: () {},
                                       ),
@@ -79,8 +80,27 @@ class MentorInfoScreen extends StatelessWidget {
                                   width: 170,
                                   height: 45,
                                   child: ElevatedButton(
-                                    onPressed: () {
-                                      viewModel.nextPage(context);
+                                    onPressed: () async {
+                                      /// 이때 멘토 회원 가입 api를 호출함
+                                      if (viewModel.isSignUpSuccessful) {
+                                        context.push(
+                                            '${Paths.agreement}/${Paths.completion}');
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content:
+                                                Text(viewModel.errorMessage!),
+                                            action: SnackBarAction(
+                                              label: 'Retry',
+                                              onPressed: () {
+                                                viewModel.clearError();
+                                                viewModel.signUpMentor();
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.grey[300],

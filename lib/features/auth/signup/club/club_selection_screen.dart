@@ -1,7 +1,6 @@
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:cogo/constants/paths.dart';
-import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +47,7 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'GDSC',
                                       onPressed: () {
                                         viewModel.selectClub('GDSC');
-                                        viewModel.signUpMentee();
+
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -60,7 +59,6 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'YOURSSU',
                                       onPressed: () {
                                         viewModel.selectClub('YOURSSU');
-                                        viewModel.signUpMentee();
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -78,7 +76,6 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'UMC',
                                       onPressed: () {
                                         viewModel.selectClub('UMC');
-                                        viewModel.signUpMentee();
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -90,7 +87,6 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'LIKELION',
                                       onPressed: () {
                                         viewModel.selectClub('LIKELION');
-                                        viewModel.signUpMentee();
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -106,7 +102,6 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'NO CLUB',
                                       onPressed: () {
                                         viewModel.selectClub('NO CLUB');
-                                        viewModel.signUpMentee();
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },

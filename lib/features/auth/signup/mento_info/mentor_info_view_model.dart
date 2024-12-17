@@ -1,18 +1,26 @@
-import 'package:cogo/data/repository/local/locale_manager.dart';
+import 'dart:developer';
+
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
+import 'package:cogo/data/service/user_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get_it/get_it.dart';
 
 class MentorInfoViewModel extends ChangeNotifier {
   final UserService userService = GetIt.instance<UserService>();
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
   String? name;
-  String? selectedInterst;
+  String? selectedInterest;
   String? selectedClub;
-  String? selectedJob;
-  String? selectedExperience;
-  String? selectedChurch;
-  bool isButtonClicked = false;
+
+  bool _isSignUpSuccessful = false;
+
+  bool get isSignUpSuccessful => _isSignUpSuccessful;
+
+  String? _errorMessage;
+
+  String? get errorMessage => _errorMessage;
 
   MentorInfoViewModel() {
     _loadPreferences();
@@ -21,24 +29,32 @@ class MentorInfoViewModel extends ChangeNotifier {
   void _loadPreferences() async {
     notifyListeners();
 
-    name = LocaleManager.instance.getStringValue('name');
-    selectedInterst = LocaleManager.instance.getStringValue('mentorSelectedInterest');
-    selectedClub = LocaleManager.instance.getStringValue('selectedClub');
-    selectedJob = LocaleManager.instance.getStringValue('selectedJob');
-    selectedExperience = LocaleManager.instance.getStringValue('selectedExperience');
-    selectedChurch = LocaleManager.instance.getStringValue('selectedChurch');
+    name = await _secureStorage.readUserName();
+    selectedInterest = await _secureStorage.readInterest();
+    selectedClub = await _secureStorage.readClub();
   }
 
-  void selectInfo(String info) {
-    selectedClub = info;
-    notifyListeners();
+  ///멘토로 가입 api 호출
+  Future<void> signUpMentor() async {
+    try {
+      //잘 전송이 되어야 넘어감
+      await userService.signUpMentor(selectedInterest!, selectedClub!);
+      _isSignUpSuccessful = true;
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = '멘토 회원가입이 실패하였습니다. 다시 시도해주세요.';
+
+      log("Exception occurred: $e");
+      if (e is DioException) {
+        log("DioError details: ${e.response?.data}");
+      }
+      notifyListeners();
+    }
   }
 
-  void nextPage(BuildContext context) {
-    isButtonClicked = true;
+  // 에러 메시지 초기화
+  void clearError() {
+    _errorMessage = null;
     notifyListeners();
-    Future.delayed(Duration(milliseconds: 300), () {
-      context.push('/agreement/completion');
-    });
   }
 }

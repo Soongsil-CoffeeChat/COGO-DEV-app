@@ -1,39 +1,23 @@
 import 'dart:developer';
 
-import 'package:cogo/common/enums/interest.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
-import 'package:cogo/data/service/user_service.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ClubSelectionViewModel extends ChangeNotifier {
-  final UserService userService;
   String? selectedClub;
-  Interest? interest;
+  String? interest;
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
-  ClubSelectionViewModel({required this.userService}) {}
+  ClubSelectionViewModel();
 
-  void selectClub(String club) async {
+  Future<void> selectClub(String club) async {
     selectedClub = club;
     notifyListeners();
 
     _secureStorage.saveClub(club);
 
-    interest = _secureStorage.readInterest() as Interest;
-  }
+    interest = await _secureStorage.readInterest();
 
-  Future<void> signUpMentee() async {
-    try {
-      //잘 전송이 되어야 넘어감
-      await userService.signUpMentor(interest.toString(), selectedClub!);
-      notifyListeners();
-    } catch (e) {
-      log("Exception occurred: $e");
-      if (e is DioException) {
-        log("DioError details: ${e.response?.data}");
-      }
-      notifyListeners();
-    }
+    log("ClubSelectionViewModel selectedClub: $selectedClub interest $interest");
   }
 }
