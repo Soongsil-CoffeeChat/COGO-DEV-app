@@ -1,9 +1,10 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
-import 'package:cogo/features/home/apply/view_models/matching_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import 'matching_view_model.dart';
 
 class MatchingScreen extends StatelessWidget {
   const MatchingScreen({super.key});
