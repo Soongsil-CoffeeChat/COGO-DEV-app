@@ -20,13 +20,7 @@ class MypageViewModel extends ChangeNotifier {
   }
 
   void initialize() async {
-    _loadPreferences();
     await fetchUserData();
-  }
-
-  Future<void> _loadPreferences() async {
-    final role = await _secureStorage.readRole();
-    _updateState(role: role);
   }
 
   Future<void> fetchUserData() async {
@@ -75,13 +69,11 @@ class MypageUiState {
   final bool isLoading;
   final bool hasError;
   final MyPageInfo? myPageInfo;
-  final String? role;
 
   const MypageUiState({
     this.isLoading = false,
     this.hasError = false,
     this.myPageInfo,
-    this.role,
   });
 
   MypageUiState copyWith({
@@ -94,7 +86,6 @@ class MypageUiState {
       isLoading: isLoading ?? this.isLoading,
       hasError: hasError ?? this.hasError,
       myPageInfo: myPageInfo ?? this.myPageInfo,
-      role: role ?? this.role,
     );
   }
 }
