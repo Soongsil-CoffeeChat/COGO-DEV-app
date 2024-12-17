@@ -5,7 +5,7 @@ import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class SignupChooseViewModel extends ChangeNotifier {
+class ChooseRoleViewModel extends ChangeNotifier {
   // Role? selectedRole;
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
   bool Btnstate = false;
