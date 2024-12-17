@@ -1,4 +1,4 @@
-import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/common/widgets/components/basic_box.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,7 @@ class MentorInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => MentorInfoViewModel(),
+      lazy: false, // 즉시 ViewModel 초기화
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(  // SafeArea로 전체 화면을 감쌌습니다.
@@ -42,18 +43,14 @@ class MentorInfoScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: BasicButton(
-                                      text: viewModel.name ?? '',
-                                      isClickable: true,
-                                      onPressed: () {},
+                                    child: BasicBox(
+                                      info: viewModel.name ?? '이름',
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
-                                    child: BasicButton(
-                                      text: viewModel.selectedInterest ?? '',
-                                      isClickable: true,
-                                      onPressed: () {},
+                                    child: BasicBox(
+                                      info: viewModel.selectedInterest ?? '파트',
                                     ),
                                   ),
                                 ],
@@ -64,10 +61,8 @@ class MentorInfoScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Expanded(
-                                      child: BasicButton(
-                                        text: viewModel.selectedClub ?? '',
-                                        isClickable: true,
-                                        onPressed: () {},
+                                      child: BasicBox(
+                                        info: viewModel.selectedClub ?? '동아리',
                                       ),
                                     ),
                                   ],
@@ -96,6 +91,11 @@ class MentorInfoScreen extends StatelessWidget {
                                               onPressed: () {
                                                 viewModel.clearError();
                                                 viewModel.signUpMentor();
+                                                if (viewModel
+                                                    .isSignUpSuccessful) {
+                                                  context.push(
+                                                      '${Paths.agreement}/${Paths.completion}');
+                                                }
                                               },
                                             ),
                                           ),
