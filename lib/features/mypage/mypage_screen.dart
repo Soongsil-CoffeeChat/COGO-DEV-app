@@ -108,14 +108,18 @@ class MypageScreen extends StatelessWidget {
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => {
                               viewModel.logOut(),
-                              context.push(Paths.login),
+                              context.go(Paths.login),
+
+                              ///라우팅 히스토리를 다 지움
                             }),
                     ListTile(
                         title: const Text('탈퇴하기', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => {
                               viewModel.signOut(),
-                              context.push(Paths.login),
+                              context.go(Paths.login),
+
+                              ///라우팅 히스토리를 다 지움
                             }),
                   ],
                 ),
