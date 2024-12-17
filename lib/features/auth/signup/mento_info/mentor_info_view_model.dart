@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -22,9 +21,6 @@ class MentorInfoViewModel extends ChangeNotifier {
 
   String? get selectedClub => _selectedClub;
 
-  bool _isSignUpSuccessful = false;
-  bool get isSignUpSuccessful => _isSignUpSuccessful;
-
   String? _errorMessage = "";
   String? get errorMessage => _errorMessage;
 
@@ -42,20 +38,15 @@ class MentorInfoViewModel extends ChangeNotifier {
   }
 
   ///멘토로 가입 api 호출
-  Future<void> signUpMentor() async {
+  Future<bool> signUpMentor() async {
     try {
-      //잘 전송이 되어야 넘어감
       await userService.signUpMentor(selectedInterest!, selectedClub!);
-      _isSignUpSuccessful = true;
       notifyListeners();
+      return true; // 성공 시 true 반환
     } catch (e) {
       _errorMessage = '멘토 회원가입이 실패하였습니다. 다시 시도해주세요.';
-
-      log("Exception occurred: $e");
-      if (e is DioException) {
-        log("DioError details: ${e.response?.data}");
-      }
       notifyListeners();
+      return false; // 실패 시 false 반환
     }
   }
 

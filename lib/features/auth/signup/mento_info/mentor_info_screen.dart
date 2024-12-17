@@ -17,7 +17,8 @@ class MentorInfoScreen extends StatelessWidget {
       lazy: false, // 즉시 ViewModel 초기화
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(  // SafeArea로 전체 화면을 감쌌습니다.
+        body: SafeArea(
+          // SafeArea로 전체 화면을 감쌌습니다.
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Consumer<MentorInfoViewModel>(
@@ -40,7 +41,8 @@ class MentorInfoScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: BasicBox(
@@ -76,30 +78,25 @@ class MentorInfoScreen extends StatelessWidget {
                                   height: 45,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      /// 이때 멘토 회원 가입 api를 호출함
-                                      if (viewModel.isSignUpSuccessful) {
-                                        context.push(
-                                            '${Paths.agreement}/${Paths.completion}');
+                                      final isSuccessful =
+                                          await viewModel.signUpMentor();
+
+                                      if (isSuccessful) {
+                                        if (context.mounted) {
+                                          context.push(
+                                              '${Paths.agreement}/${Paths.completion}');
+                                        }
                                       } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content:
-                                                Text(viewModel.errorMessage!),
-                                            action: SnackBarAction(
-                                              label: 'Retry',
-                                              onPressed: () {
-                                                viewModel.clearError();
-                                                viewModel.signUpMentor();
-                                                if (viewModel
-                                                    .isSignUpSuccessful) {
-                                                  context.push(
-                                                      '${Paths.agreement}/${Paths.completion}');
-                                                }
-                                              },
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  viewModel.errorMessage ??
+                                                      '멘토 회원가입이 실패하였습니다.'),
                                             ),
-                                          ),
-                                        );
+                                          );
+                                        }
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
