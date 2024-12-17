@@ -73,16 +73,22 @@ class MypageScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 13),
-                    Image.network(
-                      user!.picture!,
-                      errorBuilder: (context, error, stackTrace) {
-                        return SvgPicture.asset(
-                            'assets/image/img_image.svg'); // 로드 실패 시 기본 이미지
-                      },
-                    ),
+                    if (user?.picture != null && user!.picture!.isNotEmpty) ...[
+                      Image.network(
+                        user.picture!,
+                        errorBuilder: (context, error, stackTrace) {
+                          return SvgPicture.asset(
+                              'assets/image/img_image.svg'); // 기본 로컬 이미지
+                        },
+                        fit: BoxFit.cover,
+                      ),
+                    ] else ...[
+                      SvgPicture.asset('assets/image/img_image.svg'),
+                      // 기본 로컬 이미지
+                    ],
                     const SizedBox(height: 13),
                     Center(
-                      child: TagList(tags: user.tags),
+                      child: TagList(tags: user!.tags),
                     ),
                     const SizedBox(height: 20),
                     ListTile(
