@@ -5,11 +5,13 @@ class MyPageInfo {
   /// part와 club을 합친 태그 리스트
   final List<String> tags; 
   final String? picture;
+  final String role;
 
   MyPageInfo({
     required this.name,
     required this.tags,
     required this.picture,
+    required this.role,
   });
 
   factory MyPageInfo.fromResponse(MyInfoResponse response) {
@@ -25,6 +27,7 @@ class MyPageInfo {
       name: response.name,
       tags: tags,
       picture: response.picture ?? '', // picture가 null이면 빈 문자열로 대체
+      role: response.role ?? '',
     );
   }
 }

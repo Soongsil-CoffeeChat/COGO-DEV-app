@@ -3,7 +3,7 @@ import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 /// Size enum
-enum BBSize {
+enum BasicButtonSize {
   SMALL,
   LARGE,
 }
@@ -15,20 +15,20 @@ class BasicButton extends StatelessWidget {
   final String text;
   final bool isClickable;
   final VoidCallback? onPressed;
-  final BBSize size;
+  final BasicButtonSize size;
 
   const BasicButton({
     super.key,
     required this.text,
     required this.isClickable,
     this.onPressed,
-    this.size = BBSize.SMALL, // 기본값 small
+    this.size = BasicButtonSize.SMALL, // 기본값 small
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: (size == BBSize.LARGE) ? _largeWidth : _smallWidth,
+      width: (size == BasicButtonSize.LARGE) ? _largeWidth : _smallWidth,
       height: 50,
       child: ElevatedButton(
         onPressed: isClickable ? onPressed : null,

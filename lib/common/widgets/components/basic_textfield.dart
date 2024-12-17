@@ -3,7 +3,7 @@ import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 /// Size enum
-enum BTSize {
+enum BasicTextFieldSize {
   SMALL,
   LARGE,
 }
@@ -17,7 +17,7 @@ class BasicTextField extends StatelessWidget {
   final String hintText;
   final int currentCount;
   final int maxCount;
-  final BTSize size;
+  final BasicTextFieldSize size;
   final int maxLines;
 
   const BasicTextField({
@@ -33,7 +33,8 @@ class BasicTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // `size`에 따라 높이를 설정
-    final double height = (size == BTSize.LARGE) ? _largeHeight : _smallHeight;
+    final double height =
+        (size == BasicTextFieldSize.LARGE) ? _largeHeight : _smallHeight;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,

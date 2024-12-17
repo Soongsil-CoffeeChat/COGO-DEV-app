@@ -84,7 +84,7 @@ class MemoScreen extends StatelessWidget {
                       onPressed: viewModel.charCount > 0
                           ? () => viewModel.saveMemo(context)
                           : null,
-                      size: BBSize.LARGE,
+                      size: BasicButtonSize.LARGE,
                     );
                   },
                 ),

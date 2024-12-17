@@ -98,7 +98,7 @@ Widget agreementBottomSheet(BuildContext context) {
               onPressed: () {
                 viewModel.onConfirmButtonPressed(context);
               },
-              size: BBSize.LARGE,
+              size: BasicButtonSize.LARGE,
             ),
           ),
         ],

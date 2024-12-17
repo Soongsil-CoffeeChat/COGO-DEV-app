@@ -33,7 +33,8 @@ class _SecondaryButtonState extends State<SecondaryButton> {
 
   @override
   Widget build(BuildContext context) {
-    final width = (widget.size == BBSize.LARGE) ? _largeWidth : _smallWidth;
+    final width =
+        (widget.size == BasicButtonSize.LARGE) ? _largeWidth : _smallWidth;
     return SizedBox(
       width: width,
       height: 50,

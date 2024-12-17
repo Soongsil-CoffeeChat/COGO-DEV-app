@@ -43,7 +43,7 @@ class MentorQuestion1Screen extends StatelessWidget {
                             hintText: '멘토링 가능한 분야를 적어주세요',
                             currentCount: viewModel.answer1CharCount,
                             maxCount: 200,
-                            size: BTSize.LARGE,
+                            size: BasicTextFieldSize.LARGE,
                             maxLines: 5,
                           ),
                           const SizedBox(height: 10),

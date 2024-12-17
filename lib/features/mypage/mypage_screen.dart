@@ -43,7 +43,7 @@ class MypageScreen extends StatelessWidget {
                         onPressed: () {
                           context.push(Paths.login);
                         },
-                        size: BBSize.SMALL,
+                        size: BasicButtonSize.SMALL,
                       ),
                       const SizedBox(height: 30),
                       BasicButton(
@@ -52,7 +52,7 @@ class MypageScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.initialize();
                         },
-                        size: BBSize.SMALL,
+                        size: BasicButtonSize.SMALL,
                       )
                     ],
                   ),
@@ -90,7 +90,7 @@ class MypageScreen extends StatelessWidget {
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.push(Paths.myInfo),
                     ),
-                    if (state.role == Role.MENTOR.name) ...[
+                    if (user.role == Role.MENTOR.name) ...[
                       ListTile(
                         title:
                             const Text('자기소개 관리', style: CogoTextStyle.body16),

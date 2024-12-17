@@ -41,7 +41,7 @@ class MentorQuestion2Screen extends StatelessWidget {
                             hintText: '프로젝트나 근무 경험에 대해 적어주세요',
                             currentCount: viewModel.answer2CharCount,
                             maxCount: 200,
-                            size: BTSize.LARGE,
+                            size: BasicTextFieldSize.LARGE,
                             maxLines: 5,
                           ),
                           const SizedBox(height: 10),
