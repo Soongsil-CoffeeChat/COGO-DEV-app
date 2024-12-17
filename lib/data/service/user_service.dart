@@ -114,7 +114,7 @@ class UserService {
           'club': club,
         },
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         //base response로 받는건 여기서 뿐임.
         final baseResponse = BaseResponse<MentorSignupResponse>.fromJson(
           response.data,
