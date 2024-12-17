@@ -14,7 +14,7 @@ class InterestSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => InterestSelectionViewModel(userService: UserService()),
+      create: (_) => InterestSelectionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(

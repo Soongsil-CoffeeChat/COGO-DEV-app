@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class MentorInfoViewModel extends ChangeNotifier {
+  final UserService userService = GetIt.instance<UserService>();
+  final SecureStorageRepository _secureStorage = SecureStorageRepository();
+
   String? name;
   String? selectedInterst;
   String? selectedClub;

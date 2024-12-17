@@ -14,7 +14,7 @@ class ClubSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ClubSelectionViewModel(userService: UserService()),
+      create: (_) => ClubSelectionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
