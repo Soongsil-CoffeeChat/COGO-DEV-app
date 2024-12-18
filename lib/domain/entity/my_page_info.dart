@@ -26,7 +26,7 @@ class MyPageInfo {
     return MyPageInfo(
       name: response.name,
       tags: tags,
-      picture: response.picture ?? '', // picture가 null이면 빈 문자열로 대체
+      picture: response.picture,
       role: response.role ?? '',
     );
   }
