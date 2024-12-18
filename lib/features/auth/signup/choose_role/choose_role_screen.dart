@@ -1,6 +1,6 @@
 import 'package:cogo/common/enums/role.dart';
-import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,13 +13,13 @@ class ChooseRoleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // bool isMentor = false;
     return ChangeNotifierProvider(
-      create: (_) => SignupChooseViewModel(),
+      create: (_) => ChooseRoleViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Consumer<SignupChooseViewModel>(
+            child: Consumer<ChooseRoleViewModel>(
               builder: (context, viewModel, child) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

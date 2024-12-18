@@ -1,6 +1,8 @@
-import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/common/widgets/components/basic_box.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'mentor_info_view_model.dart';
@@ -12,9 +14,11 @@ class MentorInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => MentorInfoViewModel(),
+      lazy: false, // 즉시 ViewModel 초기화
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(  // SafeArea로 전체 화면을 감쌌습니다.
+        body: SafeArea(
+          // SafeArea로 전체 화면을 감쌌습니다.
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Consumer<MentorInfoViewModel>(
@@ -37,21 +41,18 @@ class MentorInfoScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: BasicButton(
-                                      text: viewModel.name ?? '나는 교회',
-                                      isClickable: true,
-                                      onPressed: () {},
+                                    child: BasicBox(
+                                      info: viewModel.name ?? '이름',
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
-                                    child: BasicButton(
-                                      text: viewModel.selectedInterst ?? 'BE',
-                                      isClickable: true,
-                                      onPressed: () {},
+                                    child: BasicBox(
+                                      info: viewModel.selectedInterest ?? '파트',
                                     ),
                                   ),
                                 ],
@@ -62,11 +63,8 @@ class MentorInfoScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Expanded(
-                                      child: BasicButton(
-                                        text:
-                                            viewModel.selectedClub ?? 'YOURSSU',
-                                        isClickable: true,
-                                        onPressed: () {},
+                                      child: BasicBox(
+                                        info: viewModel.selectedClub ?? '동아리',
                                       ),
                                     ),
                                   ],
@@ -79,8 +77,27 @@ class MentorInfoScreen extends StatelessWidget {
                                   width: 170,
                                   height: 45,
                                   child: ElevatedButton(
-                                    onPressed: () {
-                                      viewModel.nextPage(context);
+                                    onPressed: () async {
+                                      final isSuccessful =
+                                          await viewModel.signUpMentor();
+
+                                      if (isSuccessful) {
+                                        if (context.mounted) {
+                                          context.push(
+                                              '${Paths.agreement}/${Paths.completion}');
+                                        }
+                                      } else {
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  viewModel.errorMessage ??
+                                                      '멘토 회원가입이 실패하였습니다.'),
+                                            ),
+                                          );
+                                        }
+                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.grey[300],

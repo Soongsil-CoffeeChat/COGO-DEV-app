@@ -1,11 +1,10 @@
 import 'package:cogo/common/enums/interest.dart';
 import 'package:cogo/common/enums/role.dart';
-import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
-import 'package:cogo/constants/button_size.dart';
-import 'package:cogo/data/service/user_service.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'interest_selection_view_model.dart';
@@ -16,7 +15,7 @@ class InterestSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => InterestSelectionViewModel(userService: UserService()),
+      create: (_) => InterestSelectionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -49,10 +48,19 @@ class InterestSelectionScreen extends StatelessWidget {
                                   Expanded(
                                     child: SecondaryButton(
                                       text: 'FE',
-                                      // viewModel.selectedInterest == 'FE',
                                       onPressed: () {
-                                        viewModel.selectInterest(
-                                            context, Interest.FE);
+                                        handleButtonPress(
+                                          context: context,
+                                          role: viewModel.role,
+                                          interest: Interest.FE,
+                                          isSignSuccess:
+                                              viewModel.isMenteeSignSuccess,
+                                          onSelectInterest: (interest) =>
+                                              viewModel
+                                                  .selectInterest(interest),
+                                          onSignUpMentee: (interest) =>
+                                              viewModel.signUpMentee(interest),
+                                        );
                                       },
                                     ),
                                   ),
@@ -62,8 +70,18 @@ class InterestSelectionScreen extends StatelessWidget {
                                       text: 'BE',
                                       // viewModel.selectedInterest == 'BE',
                                       onPressed: () {
-                                        viewModel.selectInterest(
-                                            context, Interest.BE);
+                                        handleButtonPress(
+                                          context: context,
+                                          role: viewModel.role,
+                                          interest: Interest.BE,
+                                          isSignSuccess:
+                                              viewModel.isMenteeSignSuccess,
+                                          onSelectInterest: (interest) =>
+                                              viewModel
+                                                  .selectInterest(interest),
+                                          onSignUpMentee: (interest) =>
+                                              viewModel.signUpMentee(interest),
+                                        );
                                       },
                                     ),
                                   ),
@@ -78,8 +96,18 @@ class InterestSelectionScreen extends StatelessWidget {
                                     child: SecondaryButton(
                                       text: 'PM',
                                       onPressed: () {
-                                        viewModel.selectInterest(
-                                            context, Interest.PM);
+                                        handleButtonPress(
+                                          context: context,
+                                          role: viewModel.role,
+                                          interest: Interest.PM,
+                                          isSignSuccess:
+                                              viewModel.isMenteeSignSuccess,
+                                          onSelectInterest: (interest) =>
+                                              viewModel
+                                                  .selectInterest(interest),
+                                          onSignUpMentee: (interest) =>
+                                              viewModel.signUpMentee(interest),
+                                        );
                                       },
                                     ),
                                   ),
@@ -89,8 +117,18 @@ class InterestSelectionScreen extends StatelessWidget {
                                       text: 'DESIGN',
                                       // viewModel.selectedInterest == '디자인',
                                       onPressed: () {
-                                        viewModel.selectInterest(
-                                            context, Interest.DESIGN);
+                                        handleButtonPress(
+                                          context: context,
+                                          role: viewModel.role,
+                                          interest: Interest.DESIGN,
+                                          isSignSuccess:
+                                              viewModel.isMenteeSignSuccess,
+                                          onSelectInterest: (interest) =>
+                                              viewModel
+                                                  .selectInterest(interest),
+                                          onSignUpMentee: (interest) =>
+                                              viewModel.signUpMentee(interest),
+                                        );
                                       },
                                     ),
                                   ),
@@ -104,10 +142,20 @@ class InterestSelectionScreen extends StatelessWidget {
                                       text: 'MOBILE',
                                       // viewModel.selectedInterest == '디자인',
                                       onPressed: () {
-                                        viewModel.selectInterest(
-                                            context, Interest.MOBILE);
+                                        handleButtonPress(
+                                          context: context,
+                                          role: viewModel.role,
+                                          interest: Interest.MOBILE,
+                                          isSignSuccess:
+                                              viewModel.isMenteeSignSuccess,
+                                          onSelectInterest: (interest) =>
+                                              viewModel
+                                                  .selectInterest(interest),
+                                          onSignUpMentee: (interest) =>
+                                              viewModel.signUpMentee(interest),
+                                        );
                                       },
-                                      size: ButtonSize.large(),
+                                      size: SBSize.LARGE,
                                     ),
                                   ),
                                 ],
@@ -125,5 +173,26 @@ class InterestSelectionScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void handleButtonPress({
+    required BuildContext context,
+    required String? role,
+    required Interest interest,
+    required bool isSignSuccess,
+    required void Function(Interest) onSelectInterest,
+    required void Function(Interest) onSignUpMentee,
+  }) {
+    onSelectInterest(interest);
+
+    if (role == Role.MENTOR.name) {
+      context.push('${Paths.agreement}/${Paths.mentorClub}');
+    } else {
+      onSignUpMentee(interest);
+
+      if (isSignSuccess) {
+        context.push('${Paths.agreement}/${Paths.completion}');
+      }
+    }
   }
 }

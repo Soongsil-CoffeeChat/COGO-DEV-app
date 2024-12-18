@@ -34,22 +34,22 @@ class MentorIntroductionScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // 제목
-                          CustomTextFieldWithCounter(
+                          BasicTextField(
                             controller: viewModel.titleController,
                             hintText: '제목',
                             currentCount: viewModel.tittleCharCount,
                             maxCount: 50,
-                            height: 50,
+                            size: BasicTextFieldSize.SMALL,
                             maxLines: 1,
                           ),
                           const SizedBox(height: 10),
                           //자기소개 입력
-                          CustomTextFieldWithCounter(
+                          BasicTextField(
                             controller: viewModel.descriptionController,
                             hintText: '자기소개를 입력해주세요',
                             currentCount: viewModel.descriptionCharCount,
                             maxCount: 200,
-                            height: 200,
+                            size: BasicTextFieldSize.LARGE,
                             maxLines: 5,
                           ),
                           const SizedBox(height: 10),

@@ -9,8 +9,8 @@ class MyInfoResponse with _$MyInfoResponse {
     required String name,
     String? email,
     String? phoneNum,
-    required String role,
-    required String part,
+    String? role,
+    String? part,
     String? club,
     String? picture,
   }) = _MyInfoResponse;

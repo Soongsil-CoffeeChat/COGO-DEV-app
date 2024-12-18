@@ -38,12 +38,12 @@ class MentorQuestion1Screen extends StatelessWidget {
                             style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),
-                          CustomTextFieldWithCounter(
+                          BasicTextField(
                             controller: viewModel.answer1Controller,
                             hintText: '멘토링 가능한 분야를 적어주세요',
                             currentCount: viewModel.answer1CharCount,
                             maxCount: 200,
-                            height: 200,
+                            size: BasicTextFieldSize.LARGE,
                             maxLines: 5,
                           ),
                           const SizedBox(height: 10),

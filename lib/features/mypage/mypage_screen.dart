@@ -1,9 +1,11 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class MypageScreen extends StatelessWidget {
@@ -39,8 +41,9 @@ class MypageScreen extends StatelessWidget {
                         text: "로그인 화면으로 돌아가기",
                         isClickable: true,
                         onPressed: () {
-                          viewModel.navigateToLoginScreen(context);
+                          context.push(Paths.login);
                         },
+                        size: BasicButtonSize.SMALL,
                       ),
                       const SizedBox(height: 30),
                       BasicButton(
@@ -49,6 +52,7 @@ class MypageScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.initialize();
                         },
+                        size: BasicButtonSize.SMALL,
                       )
                     ],
                   ),
@@ -84,24 +88,35 @@ class MypageScreen extends StatelessWidget {
                     ListTile(
                       title: const Text('내 정보 관리', style: CogoTextStyle.body16),
                       trailing: const Icon(Icons.chevron_right),
-                      onTap: () => viewModel
-                          .navigateToMyInformationManagementScreen(context),
+                      onTap: () => context.push(Paths.myInfo),
                     ),
-                    if (state.role == Role.MENTOR.name) ...[
+                    if (user.role == Role.MENTOR.name) ...[
                       ListTile(
                         title:
                             const Text('자기소개 관리', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () => viewModel
-                            .navigateToMentorIntroduceManagementScreen(context),
+                        onTap: () => context.push(Paths.myMentorIntroduce),
                       ),
                       ListTile(
                         title: const Text('시간 설정', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () => viewModel
-                            .navigateToMentorTimeSettingScreen(context),
+                        onTap: () => context.push(Paths.timeSetting),
                       ),
                     ],
+                    ListTile(
+                        title: const Text('로그아웃', style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => {
+                              viewModel.logOut(),
+                              context.go(Paths.login), //라우팅 히스토리를 다 지움
+                            }),
+                    ListTile(
+                        title: const Text('탈퇴하기', style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => {
+                              viewModel.signOut(),
+                              context.go(Paths.login), //라우팅 히스토리를 다 지움
+                            }),
                   ],
                 ),
               );

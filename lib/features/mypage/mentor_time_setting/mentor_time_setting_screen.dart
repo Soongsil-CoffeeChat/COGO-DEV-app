@@ -159,6 +159,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                           },
                           text: '다음',
                           isClickable: _isSelected,
+                          size: BasicButtonSize.SMALL,
                         );
                       },
                     ),

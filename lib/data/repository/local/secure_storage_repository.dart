@@ -21,6 +21,10 @@ class SecureStorageRepository {
   }
 
   ///유저 정보
+  Future<String?> readUserName() async {
+    return await _storage.read(key: "user_name");
+  }
+
   Future<void> saveUserName(String name) async {
     await _storage.write(key: "user_name", value: name);
   }

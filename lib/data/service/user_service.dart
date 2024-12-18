@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
@@ -50,7 +52,7 @@ class UserService {
         options: Options(
           extra: {'skipAuthToken': false},
         ),
-        apiVersion + Apis.userInfo,
+        apiVersion + Apis.user,
         data: {
           'phoneNum': phoneNumber,
           'name': name,
@@ -80,7 +82,7 @@ class UserService {
         options: Options(
           extra: {'skipAuthToken': false},
         ),
-        apiVersion + Apis.userInfo,
+        apiVersion + Apis.user,
       );
       if (response.statusCode == 200) {
         //base response로 받는건 여기서 뿐임.
@@ -112,7 +114,7 @@ class UserService {
           'club': club,
         },
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         //base response로 받는건 여기서 뿐임.
         final baseResponse = BaseResponse<MentorSignupResponse>.fromJson(
           response.data,
@@ -148,6 +150,27 @@ class UserService {
           (contentJson) => MenteeSignupResponse.fromJson(contentJson),
         );
         return baseResponse.content;
+      } else {
+        throw Exception('Failed to send verification code ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  ///DELETE /api/v2/user 탈퇴하기
+  Future<void> signOut() async {
+    try {
+      final response = await _apiClient.dio.delete(
+        options: Options(
+          extra: {'skipAuthToken': false}, //토큰 해제
+        ),
+        apiVersion + Apis.user,
+      );
+      if (response.statusCode == 200) {
+        log("탈퇴 성공");
       } else {
         throw Exception('Failed to send verification code ${response.data}');
       }

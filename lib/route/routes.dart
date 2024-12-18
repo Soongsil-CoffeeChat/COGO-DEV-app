@@ -23,6 +23,7 @@ import 'package:cogo/features/home/mentor_detail/views/mentor_question1_screen.d
 import 'package:cogo/features/home/mentor_detail/views/mentor_question2_screen.dart';
 import 'package:cogo/features/home/profile/profile_detail_screen.dart';
 import 'package:cogo/features/home/search/search_screen.dart';
+import 'package:cogo/features/mypage/mentor_introduce/my_mentor_introduce_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_checking/mentor_time_checking_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_screen.dart';
 import 'package:cogo/features/mypage/my_info/my_info_screen.dart';
@@ -40,7 +41,8 @@ final AppRouter = GoRouter(
               key: state.pageKey,
               child: const LoginScreen(),
             )),
-    //회원가입
+
+    ///회원가입
     GoRoute(
       path: Paths.agreement,
       pageBuilder: (context, state) => MaterialPage(
@@ -104,7 +106,8 @@ final AppRouter = GoRouter(
         ),
       ],
     ),
-    //app bar
+
+    ///app bar
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(
@@ -208,10 +211,10 @@ final AppRouter = GoRouter(
       ),
     ),
     GoRoute(
-      path: Paths.introduce,
+      path: Paths.myMentorIntroduce,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const MentorIntroductionScreen(),
+        child: const MyMentorIntroductionScreen(),
       ),
     ),
     GoRoute(

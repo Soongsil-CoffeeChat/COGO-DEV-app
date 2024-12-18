@@ -1,12 +1,10 @@
 import 'dart:developer';
 
-import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/domain/entity/my_page_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 
 class MypageViewModel extends ChangeNotifier {
@@ -22,13 +20,7 @@ class MypageViewModel extends ChangeNotifier {
   }
 
   void initialize() async {
-    _loadPreferences();
     await fetchUserData();
-  }
-
-  Future<void> _loadPreferences() async {
-    final role = await _secureStorage.readRole();
-    _updateState(role: role);
   }
 
   Future<void> fetchUserData() async {
@@ -48,6 +40,15 @@ class MypageViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> logOut() async {
+    _secureStorage.deleteAllData();
+  }
+
+  Future<void> signOut() async {
+    _secureStorage.deleteAllData();
+    userService.signOut();
+  }
+
   void _updateState({
     bool? isLoading,
     bool? hasError,
@@ -62,35 +63,17 @@ class MypageViewModel extends ChangeNotifier {
     );
     notifyListeners();
   }
-
-  void navigateToMyInformationManagementScreen(BuildContext context) {
-    context.push(Paths.myInfo);
-  }
-
-  void navigateToMentorIntroduceManagementScreen(BuildContext context) {
-    context.push(Paths.introduce);
-  }
-
-  void navigateToMentorTimeSettingScreen(BuildContext context) {
-    context.push(Paths.timeSetting);
-  }
-
-  void navigateToLoginScreen(BuildContext context) {
-    context.push(Paths.login);
-  }
 }
 
 class MypageUiState {
   final bool isLoading;
   final bool hasError;
   final MyPageInfo? myPageInfo;
-  final String? role;
 
   const MypageUiState({
     this.isLoading = false,
     this.hasError = false,
     this.myPageInfo,
-    this.role,
   });
 
   MypageUiState copyWith({
@@ -103,7 +86,6 @@ class MypageUiState {
       isLoading: isLoading ?? this.isLoading,
       hasError: hasError ?? this.hasError,
       myPageInfo: myPageInfo ?? this.myPageInfo,
-      role: role ?? this.role,
     );
   }
 }
