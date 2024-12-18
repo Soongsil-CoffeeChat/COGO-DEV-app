@@ -86,6 +86,11 @@ class MypageScreen extends StatelessWidget {
                       SvgPicture.asset('assets/image/img_image.svg'),
                       // 기본 로컬 이미지
                     ],
+                    BasicButton(
+                      text: "프로필 사진 변경",
+                      isClickable: true,
+                      onPressed: () => {context.push(Paths.image)},
+                    ),
                     const SizedBox(height: 13),
                     Center(
                       child: TagList(tags: user!.tags),

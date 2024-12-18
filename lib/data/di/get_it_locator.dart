@@ -1,5 +1,6 @@
 import 'package:cogo/data/service/mentor_service.dart';
 import 'package:cogo/data/service/refresh_service.dart';
+import 'package:cogo/data/service/s3_service.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/auth/login/login_view_model.dart';
 import 'package:cogo/features/auth/signup/club/club_selection_view_model.dart';
@@ -27,6 +28,8 @@ void setupServiceLocator() {
 
 
   ///뷰모델 등록
+  getIt.registerLazySingleton<S3Service>(() => S3Service());
+
   getIt.registerFactory<LoginViewModel>(() => LoginViewModel());
 
   getIt.registerFactory<PhoneNumberViewModel>(

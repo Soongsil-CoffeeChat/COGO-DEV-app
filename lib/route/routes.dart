@@ -223,7 +223,7 @@ final AppRouter = GoRouter(
       path: Paths.myMentorIntroduce,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const MentorIntroductionScreen(),
+        child: const MyMentorIntroductionScreen(),
       ),
     ),
     GoRoute(
@@ -263,6 +263,13 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const ReportDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.image,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: ImageUploadScreen(),
       ),
     ),
     StatefulShellRoute.indexedStack(
