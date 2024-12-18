@@ -25,13 +25,13 @@ class ImageUploadScreen extends StatelessWidget {
                     ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: viewModel.pickImage,
+                    onPressed: viewModel.pickImageFromGallery,
                     child: Text("Pick Image from Gallery"),
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed:
-                        viewModel.isUploading ? null : viewModel.uploadToS3,
+                        viewModel.isUploading ? null : viewModel.uploadImage,
                     child: viewModel.isUploading
                         ? CircularProgressIndicator(color: Colors.white)
                         : Text("Upload to S3"),
