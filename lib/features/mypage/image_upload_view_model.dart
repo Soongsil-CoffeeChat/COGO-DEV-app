@@ -1,15 +1,18 @@
 import 'dart:io';
 
 import 'package:cogo/data/service/s3_service.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageUploadViewModel extends ChangeNotifier {
   final S3Service s3service = GetIt.instance<S3Service>();
+  final UserService userService = GetIt.instance<UserService>();
 
   File? _selectedImage;
   bool _isUploading = false;
+  bool _isUpload = false;
   String? _uploadResult;
   String? _errorMessage;
 
@@ -19,6 +22,8 @@ class ImageUploadViewModel extends ChangeNotifier {
   // Getters
   File? get selectedImage => _selectedImage;
   bool get isUploading => _isUploading;
+
+  bool get isUpload => _isUpload;
   String? get uploadResult => _uploadResult;
   String? get errorMessage => _errorMessage;
 
@@ -75,7 +80,9 @@ class ImageUploadViewModel extends ChangeNotifier {
       _uploadResult = await s3service.uploadImage(_selectedImage!.path);
 
       //todo 이미지 업로드 api
+
       // 업로드 성공
+      _isUpload = await userService.saveImage(_uploadResult!);
       _isUploading = false;
       notifyListeners();
     } catch (e) {

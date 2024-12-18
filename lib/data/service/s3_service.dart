@@ -1,27 +1,15 @@
-import 'dart:developer';
-
-import 'package:cogo/data/dto/response/base_response.dart';
-import 'package:cogo/data/dto/response/image_save_response.dart';
-import 'package:cogo/data/repository/local/secure_storage_repository.dart';
+import 'package:cogo/constants/apis.dart';
+import 'package:cogo/data/di/api_client.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_config/flutter_config.dart';
 
-import '../../../constants/apis.dart';
 
 class S3Service {
-  final Dio _dio = Dio();
-  final SecureStorageRepository _secureStorage = SecureStorageRepository();
-
-  S3Service();
+  final ApiClient _apiClient = ApiClient();
+  static const apiVersion = "api/v2/";
 
   Future<String?> uploadImage(String imagePath) async {
     try {
-      // API 엔드포인트 URL
-      const apiVersion = "api/v2/";
-      final url = '${FlutterConfig.get("base_url")}$apiVersion${Apis.s3}/v2';
-
-      // 토큰 가져오기
-      var token = await _secureStorage.readAccessToken();
+      const url = '$apiVersion${Apis.s3}/v2';
 
       // FormData 생성
       final formData = FormData.fromMap({
@@ -29,45 +17,25 @@ class S3Service {
             filename: imagePath.split('/').last)
       });
 
-      // Dio 요청 옵션 설정
-      final options = Options(
-        headers: {
-          'accept': '*/*',
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'multipart/form-data',
-        },
-      );
-
       // 요청 전송
-      final response = await _dio.post(
+      final response = await _apiClient.dio.post(
         url,
         data: formData,
-        options: options,
+        options: Options(
+          headers: {
+            'accept': '*/*',
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
       );
 
-      // Log Interceptor 추가
-      _dio.interceptors.add(LogInterceptor(
-        request: true,
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: true,
-        responseBody: true,
-        error: true,
-        logPrint: (obj) {
-          log("서버통신 $obj");
-        },
-      ));
-
-      if (response.statusCode == 201) {
-        //base response로 받는건 여기서 뿐임.
-        final baseResponse = BaseResponse<ImageSaveResponse>.fromJson(
-          response.data,
-          (contentJson) => ImageSaveResponse.fromJson(contentJson),
-        );
-        return baseResponse.content.savedUrl;
-      } else {
-        throw Exception('서버 통신 실패 ${response.statusCode}');
+      // 상태 코드 확인
+      if (response.statusCode != 201) {
+        throw Exception('업로드 실패: 상태 코드 = ${response.statusCode}');
       }
+
+      // 업로드 성공
+      return response.data.toString();
     } on DioException catch (e) {
       // Dio 특화된 에러 처리
       throw Exception('업로드 중 오류 발생: ${e.response?.data ?? e.message}');
