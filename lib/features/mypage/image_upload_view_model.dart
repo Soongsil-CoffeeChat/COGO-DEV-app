@@ -1,21 +1,20 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:cogo/constants/apis.dart';
-import 'package:cogo/data/repository/local/secure_storage_repository.dart';
-import 'package:dio/dio.dart';
+import 'package:cogo/data/service/s3_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageUploadViewModel extends ChangeNotifier {
-  final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  final Dio _dio = Dio();
+  final S3Service s3service = GetIt.instance<S3Service>();
 
   File? _selectedImage;
   bool _isUploading = false;
   String? _uploadResult;
   String? _errorMessage;
+
+  // 생성자
+  ImageUploadViewModel();
 
   // Getters
   File? get selectedImage => _selectedImage;
@@ -72,53 +71,16 @@ class ImageUploadViewModel extends ChangeNotifier {
       _errorMessage = null;
       notifyListeners();
 
-      // API 엔드포인트 URL
-      const apiVersion = "api/v2/";
-      final url = '${FlutterConfig.get("base_url")}$apiVersion${Apis.s3}/v2';
+      // 서비스를 통해 이미지 업로드
+      _uploadResult = await s3service.uploadImage(_selectedImage!.path);
 
-      // 토큰 가져오기
-      var token = await _secureStorage.readAccessToken();
-
-      // FormData 생성
-      final formData = FormData.fromMap({
-        'image': await MultipartFile.fromFile(_selectedImage!.path,
-            filename: _selectedImage!.path.split('/').last)
-      });
-
-      // Dio 요청 옵션 설정
-      final options = Options(
-        headers: {
-          'accept': '*/*',
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'multipart/form-data',
-        },
-      );
-
-      // 요청 전송
-      final response = await _dio.post(
-        url,
-        data: formData,
-        options: options,
-      );
-
-      // 상태 코드 확인
-      if (response.statusCode != 201) {
-        throw Exception('업로드 실패: 상태 코드 = ${response.statusCode}');
-      }
-
+      //todo 이미지 업로드 api
       // 업로드 성공
-      _uploadResult = response.data.toString();
-      log(_uploadResult.toString());
-      _isUploading = false;
-      notifyListeners();
-    } on DioException catch (e) {
-      // Dio 특화된 에러 처리
-      _errorMessage = '업로드 중 오류 발생: ${e.response?.data ?? e.message}';
       _isUploading = false;
       notifyListeners();
     } catch (e) {
-      // 기타 예외 처리
-      _errorMessage = '업로드 중 오류 발생: ${e.toString()}';
+      // 에러 처리
+      _errorMessage = e.toString();
       _isUploading = false;
       notifyListeners();
     }
