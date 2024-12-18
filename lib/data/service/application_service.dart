@@ -1,21 +1,15 @@
-import 'dart:developer';
-
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/request/cogo_decision_request.dart';
 import 'package:cogo/data/dto/response/cogo_application_response.dart';
 import 'package:cogo/data/dto/response/cogo_info_response.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 class ApplicationService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
 
-  // TODO 실제 토큰으로 코드 변환 필요
-  String token = FlutterConfig.get('mentee_token');
-
-  // Cogo 신청
+  /// Cogo 신청
   Future<CogoApplicationResponse> postCogo(
       int mentorId, int possibleDateId, String memo) async {
     try {
@@ -27,15 +21,11 @@ class ApplicationService {
           'memo': memo,
         },
         options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
+          extra: {'skipAuthToken': false},
         ),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        log(response.data.toString());
-
         final responseData = response.data;
 
         if (responseData is Map<String, dynamic> &&
@@ -62,23 +52,15 @@ class ApplicationService {
     }
   }
 
-  /// 멘토 토큰 설정
-  String mentorToken = FlutterConfig.get('mentor_token');
-
-  // 신청받은/신청한 COGO 조회
+  /// 신청받은/신청한 COGO 조회
   Future<List<CogoInfoResponse>> getRequestedCogo(String status) async {
     try {
       final response = await _apiClient.dio.get(
         '$apiVersion${Apis.application}/status?status=$status',
         options: Options(
           extra: {'skipAuthToken': false},
-          headers: {
-            'Authorization': 'Bearer $mentorToken',
-          },
         ),
       );
-
-      log('API Response: ${response.data}');
 
       if (response.statusCode == 200) {
         final responseData = response.data;
@@ -105,20 +87,15 @@ class ApplicationService {
     }
   }
 
-  // 특정 COGO 조회
+  /// 특정 COGO 조회
   Future<CogoInfoResponse> getCogoDetail(int applicationId) async {
     try {
       final response = await _apiClient.dio.get(
         '$apiVersion${Apis.application}/$applicationId',
         options: Options(
           extra: {'skipAuthToken': false},
-          headers: {
-            'Authorization': 'Bearer $mentorToken',
-          },
         ),
       );
-
-      log('API Response: ${response.data}');
 
       if (response.statusCode == 200) {
         final responseData = response.data;
@@ -141,7 +118,7 @@ class ApplicationService {
     }
   }
 
-  // 코고 수락/거절 api
+  /// 코고 수락/거절 api
   Future<CogoDecisionRequest> patchCogoDecision(
       int applicationId, String decision) async {
     try {
@@ -152,15 +129,11 @@ class ApplicationService {
           'decision': decision,
         },
         options: Options(
-          headers: {
-            'Authorization': 'Bearer $mentorToken',
-          },
+          extra: {'skipAuthToken': false},
         ),
       );
 
       if (response.statusCode == 200) {
-        log(response.data.toString());
-
         final responseData = response.data;
 
         if (responseData is Map<String, dynamic> &&

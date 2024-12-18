@@ -1,13 +1,15 @@
 import 'dart:developer';
 
 import 'package:cogo/constants/paths.dart';
-import 'package:cogo/data/repository/local/locale_manager.dart';
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class NameInputViewModel extends ChangeNotifier {
+  final SecureStorageRepository _secureStorage = SecureStorageRepository();
+
   final UserService userService;
 
   String? _phoneNumber;
@@ -42,7 +44,7 @@ class NameInputViewModel extends ChangeNotifier {
     isValidName.value = isValid;
     errorMessage.value = isValid ? null : '성함을 입력해주세요';
 
-    await LocaleManager.instance.setStringValue('name', name);
+    await _secureStorage.saveUserName(name);
   }
 
   Future<void> onConfirmButtonPressed(BuildContext context) async {

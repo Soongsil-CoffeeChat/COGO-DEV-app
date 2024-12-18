@@ -42,7 +42,7 @@ class MentorService {
     }
   }
 
-  // 파트별 멘토리스트 호출
+  /// 파트별 멘토리스트 호출
   Future<List<MentorPartResponse>> getMentorPart(String part) async {
     try {
       final response = await _apiClient.dio.get(
@@ -56,8 +56,6 @@ class MentorService {
       );
 
       if (response.statusCode == 200) {
-        //print(response.data);
-
         final baseResponse = BaseResponse<List<MentorPartResponse>>.fromJson(
           response.data,
           (contentJson) {
@@ -66,8 +64,6 @@ class MentorService {
                 .toList();
           },
         );
-
-        print('baseResponse:${baseResponse.content}');
         return baseResponse.content;
       } else {
         return <MentorPartResponse>[];
@@ -79,7 +75,7 @@ class MentorService {
     }
   }
 
-  //멘토 자기소개 입력
+  ///멘토 자기소개 입력
   Future<MentorIntroductionResponse> patchMentorIntroduction(
       String introductionTitle,
       String introductionDescription,

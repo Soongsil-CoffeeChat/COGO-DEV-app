@@ -8,7 +8,7 @@ enum SBSize {
   LARGE,
 }
 
-const double _smallWidth = 150;
+const double _smallWidth = 170;
 const double _largeWidth = double.infinity;
 
 class SecondaryButton extends StatefulWidget {

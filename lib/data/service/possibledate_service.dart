@@ -13,8 +13,7 @@ class PossibledateService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
 
-  ///  POST
-  ///  멘토가 직접 커피챗 가능시간 갱신하기
+  ///  POST 멘토가 직접 커피챗 가능시간 갱신하기
   Future<AddPossibleDateResponse> updateMentorPossibleDates(
       List<TimeSlotDto> availableTimes) async {
     try {

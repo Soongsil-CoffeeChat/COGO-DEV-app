@@ -7,12 +7,10 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 import 'data/di/get_it_locator.dart';
-import 'data/repository/local/locale_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables(); // env
-  await LocaleManager.preferencesInit(); // SharedPreferences 초기화
   await initializeDateFormatting('ko_KR', null);
 
   setupServiceLocator(); //get it
