@@ -35,10 +35,6 @@ class ApiClient {
             options.headers['Authorization'] = 'Bearer $token';
           }
         }
-        // if (options.extra['multipart']==true){
-        //   options.headers.remove('Content-Type');
-        //   options.headers['Content-Type'] = ' multipart/form-data';
-        // }
         log('요청 보내는 중: ${options.method} ${options.path}');
         return handler.next(options);
       },
