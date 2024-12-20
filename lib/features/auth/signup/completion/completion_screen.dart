@@ -1,6 +1,8 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'completion_view_model.dart';
@@ -20,7 +22,7 @@ class CompletionScreen extends StatelessWidget {
             child: Consumer<CompletionViewModel>(
               builder: (context, viewModel, child) {
                 // role이 "멘토"인지 "멘티"인지에 따라 다른 텍스트를 출력
-                String greetingText = viewModel.role == Role.MENTOR
+                String greetingText = viewModel.role == Role.MENTOR.name
                     ? "멘토님! 반갑습니다."
                     : "멘티님! 반갑습니다.";
 
@@ -28,7 +30,7 @@ class CompletionScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Header(
-                      title: '$greetingText',
+                      title: greetingText,
                       subtitle:
                       'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
                       onBackButtonPressed: () {
@@ -39,7 +41,7 @@ class CompletionScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Center(
                         child: Image.asset(
-                          'assets/icons/3d_img/3d_fire.png',
+                          'assets/icons/3d_img/3d_fire.png', //todo change svg
                           width: 300,
                           height: 300,
                         ),
@@ -52,7 +54,7 @@ class CompletionScreen extends StatelessWidget {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
-                            viewModel.completeApplication(context);
+                            context.go(Paths.home); // 다음 페이지 경로로 변경
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
