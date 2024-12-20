@@ -1,6 +1,7 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/features/auth/signup/agreement/agreement_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class AgreementScreen extends StatefulWidget {
@@ -96,7 +97,9 @@ Widget agreementBottomSheet(BuildContext context) {
               text: '동의하고 시작하기',
               isClickable: viewModel.isAllRequiredChecked,
               onPressed: () {
-                viewModel.onConfirmButtonPressed(context);
+                if (viewModel.isAllRequiredChecked) {
+                  context.push('/agreement/phone');
+                }
               },
               size: BasicButtonSize.LARGE,
             ),
