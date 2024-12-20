@@ -1,8 +1,9 @@
-import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/auth/signup/name_input/name_input_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class NameInputScreen extends StatelessWidget {
@@ -80,10 +81,13 @@ class NameInputScreen extends StatelessWidget {
                                   return BasicButton(
                                     onPressed: isValid
                                         ? () {
-                                            viewModel.onConfirmButtonPressed(
-                                                context);
                                             viewModel
                                                 .setPhoneNumber(phoneNumber!);
+                                            viewModel.onConfirmButtonPressed();
+                                            if (viewModel.isSuccess) {
+                                              context.push(
+                                                  '${Paths.agreement}/${Paths.choose}');
+                                            }
                                           }
                                         : null,
                                     isClickable: true,
