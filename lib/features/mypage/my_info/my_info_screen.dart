@@ -1,16 +1,33 @@
-import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/mypage/my_info/my_info_view_model.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 
-class MyInfoScreen extends StatelessWidget {
+class MyInfoScreen extends StatefulWidget {
   const MyInfoScreen({super.key});
 
   @override
+  State<MyInfoScreen> createState() => _MyInfoScreenState();
+}
+
+class _MyInfoScreenState extends State<MyInfoScreen> {
+  late MyInfoViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = MyInfoViewModel();
+
+    // 첫 프레임이 끝난 직후, 안전하게 initialize() 호출
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _viewModel.initialize();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MyInfoViewModel(),
+    return ChangeNotifierProvider.value(
+      value: _viewModel,
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true,
@@ -48,58 +65,97 @@ class MyInfoScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
 
-                    /// 전화번호 필드
-                    TextField(
-                      controller: viewModel.phoneController,
-                      keyboardType: TextInputType.phone,
-                      style: CogoTextStyle.body18,
-                      decoration: const InputDecoration(
-                        labelText: '휴대폰 번호',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
+                    /// 전화번호 필드 + 인증번호 받기 버튼
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: viewModel.phoneController,
+                            keyboardType: TextInputType.phone,
+                            style: CogoTextStyle.body18,
+                            decoration: const InputDecoration(
+                              labelText: '휴대폰 번호',
+                              labelStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                            ),
+                          ),
                         ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                      ),
+                        const SizedBox(width: 8),
+                        if (viewModel.isPhoneChanged)
+                          ElevatedButton(
+                              onPressed: () {
+                                // TODO 인증번호 발송 로직
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                foregroundColor: Colors.white,
+                                textStyle: CogoTextStyle.body12,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: const Text("인증번호 받기")),
+                      ],
                     ),
                     const SizedBox(height: 20),
 
-                    /// 이메일 필드
-                    TextField(
-                      controller: viewModel.emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      style: CogoTextStyle.body18,
-                      decoration: const InputDecoration(
-                        labelText: '이메일 주소',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
+                    /// 이메일 필드 + 인증번호 받기 버튼
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: viewModel.emailController,
+                            keyboardType: TextInputType.phone,
+                            style: CogoTextStyle.body18,
+                            decoration: const InputDecoration(
+                              labelText: '이메일 번호',
+                              labelStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                            ),
+                          ),
                         ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                      ),
+                        const SizedBox(width: 8),
+                        if (viewModel.isEmailChanged)
+                          ElevatedButton(
+                              onPressed: () {
+                                // TODO 인증번호 발송 로직
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                foregroundColor: Colors.white,
+                                textStyle: CogoTextStyle.body12,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: const Text("인증번호 받기")),
+                      ],
                     ),
                     const Spacer(),
 
                     /// 수정하기 버튼
                     Align(
                       alignment: Alignment.bottomCenter,
-                      child: Consumer<MyInfoViewModel>(
-                        builder: (context, viewModel, child) {
-                          return BasicButton(
-                            text: '수정하기',
-                            onPressed: viewModel.isEditable
-                                ? () {
-                                    // 수정 로직
-                                    // ex) viewModel.updateUserInfo();
-                                  }
-                                : null, // null이면 비활성화로 처리 가능
-                            isClickable: viewModel.isEditable,
-                          );
-                        },
+                      child: BasicButton(
+                        text: '수정하기',
+                        onPressed: viewModel.isEditable
+                            ? () {
+                                // viewModel.updateUserInfo();
+                              }
+                            : null,
+                        isClickable: viewModel.isEditable,
                       ),
                     ),
                     const SizedBox(height: 10),
