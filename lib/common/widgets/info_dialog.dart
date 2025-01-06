@@ -4,13 +4,22 @@ import 'package:cogo/features/home/mentor_detail/views/mentor_introduction_scree
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class MentorProfileReminderDialog extends StatelessWidget {
-  const MentorProfileReminderDialog({Key? key}) : super(key: key);
+class InfoDialog extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String imagePath;
+
+  const InfoDialog({
+    Key? key,
+    required this.title,
+    required this.subtitle,
+    required this.imagePath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double dialogWidth = screenWidth - 40; // 전체 화면 너비에서 20을 뺀 값
+    final double dialogWidth = screenWidth - 40;
     final double dialogHeight = dialogWidth;
 
     return Dialog(
@@ -31,19 +40,19 @@ class MentorProfileReminderDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text(
-                    '멘토 활동을 시작하려면\n프로필 작성을 완료해주세요',
+                  Text(
+                    title,
                     style: CogoTextStyle.body16,
                   ),
-                  const Text(
-                    '입력하신 정보는 하단의 MY에서 수정이 가능해요',
+                  Text(
+                    subtitle,
                     style: CogoTextStyle.body12,
                   ),
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Image.asset(
-                        'assets/icons/3d_img/3d_heart.png',
+                        imagePath,
                         width: 130,
                         height: 130,
                       ),
@@ -57,14 +66,14 @@ class MentorProfileReminderDialog extends StatelessWidget {
                     ),
                     child: Text(
                       '멘토 프로필 작성하기',
-                      style: CogoTextStyle.button1
-                          .copyWith(color: CogoColor.white50),
+                      style: CogoTextStyle.button1.copyWith(
+                        color: CogoColor.white50,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            // 닫기 버튼
             Positioned(
               top: -50,
               right: 0,

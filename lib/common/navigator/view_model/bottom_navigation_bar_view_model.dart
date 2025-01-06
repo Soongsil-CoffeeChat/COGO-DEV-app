@@ -1,9 +1,9 @@
 import 'package:cogo/common/enums/role.dart';
-import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/features/home/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart'; // Provider를 사용하여 HomeViewModel 접근
+import 'package:provider/provider.dart';
+import 'package:cogo/common/widgets/widgets.dart';
 
 class BottomNavigationViewModel extends ChangeNotifier {
   final GoRouter goRouter;
@@ -46,7 +46,11 @@ class BottomNavigationViewModel extends ChangeNotifier {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const MentorProfileReminderDialog();
+        return const InfoDialog(
+          title: "멘토 활동을 시작하려면\n프로필 작성을 완료해주세요",
+          subtitle: '입력하신 정보는 하단의 MY에서 수정이 가능해요',
+          imagePath: 'assets/icons/3d_img/3d_heart.png',
+        );
       },
     );
   }
