@@ -1,25 +1,21 @@
 import 'dart:developer';
-import 'package:cogo/data/dto/response/my_info_response.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class MyInfoViewModel extends ChangeNotifier {
-  final UserService userService;
+  final UserService userService = GetIt.instance<UserService>();
 
-  MyInfoViewModel({required this.userService});
-
-  // TextEditingController 선언
+  /// TextEditingController 관리
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
-  // 컨트롤러에서 값을 가져오는 메서드
   String get name => nameController.text;
   String get phone => phoneController.text;
   String get email => emailController.text;
 
-  // 컨트롤러 값 변경 후 알림
   void updateName(String newName) {
     nameController.text = newName;
     notifyListeners();
@@ -35,7 +31,6 @@ class MyInfoViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ViewModel이 Dispose될 때 컨트롤러 정리
   @override
   void dispose() {
     nameController.dispose();
@@ -44,14 +39,20 @@ class MyInfoViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  // API 호출하여 데이터 가져오기
+  /// 초기 호출
+  MyInfoViewModel() {
+    initialize();
+  }
+
+  void initialize() async {
+    await getMyInfo();
+  }
+
+  /// 기본정보 조회 api
   Future<void> getMyInfo() async {
     try {
-      // API 호출
       final response = await userService.getUserInfo();
 
-      print("이름: ${response.name}");
-      // 컨트롤러에 값 설정
       nameController.text = response.name;
       emailController.text = response.email ?? '';
       phoneController.text = response.phoneNum ?? '';
