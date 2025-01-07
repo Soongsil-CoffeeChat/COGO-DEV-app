@@ -1,6 +1,7 @@
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -36,11 +37,18 @@ class LoginScreen extends StatelessWidget {
                 }
               });
 
-              return Row(
+              return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center, // 가로축 가운데 정렬
                 children: [
-                  SizedBox(width: 16),
-                  Expanded(
+                  // SizedBox(height: 200),
+                  SvgPicture.asset(
+                    'assets/cogo_logo.svg',
+                    width: 120, // 원하는 크기 지정
+                    // height: 200,
+                  ),
+                  SizedBox(height: 120),
+                  SizedBox(
                     child: _loginButton(
                       platform: LoginPlatform.google,
                       onTap: () async {
@@ -50,6 +58,19 @@ class LoginScreen extends StatelessWidget {
                         } else {
                           context.push(Paths.home);
                         }
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  SizedBox(
+                    child: _loginButton(
+                      platform: LoginPlatform.apple,
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('애플 로그인은 준비 중입니다.'),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -69,11 +90,11 @@ class LoginScreen extends StatelessWidget {
     String getPlatformAsset(LoginPlatform platform) {
       switch (platform) {
         case LoginPlatform.google:
-          return 'assets/image/button_google_login.png';
+          return 'assets/image/img_google_login.svg';
         case LoginPlatform.apple:
-          return 'assets/image/button_google_login.png'; //todo 일단 구글로
+          return 'assets/image/img_apple_login.svg'; //todo 일단 구글로
         default:
-          return 'assets/image/button_google_login.png';
+          return '';
       }
     }
 
@@ -83,7 +104,7 @@ class LoginScreen extends StatelessWidget {
         onTap: onTap,
         child: SizedBox(
           width: double.infinity,
-          child: Image.asset(
+          child: SvgPicture.asset(
             getPlatformAsset(platform),
             fit: BoxFit.fitWidth,
           ),
