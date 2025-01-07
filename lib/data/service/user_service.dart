@@ -168,7 +168,7 @@ class UserService {
         options: Options(
           extra: {'skipAuthToken': false}, //토큰 해제
         ),
-        apiVersion + Apis.sendEmail,
+        Apis.sendEmail,
         queryParameters: {
           'email': email,
         },

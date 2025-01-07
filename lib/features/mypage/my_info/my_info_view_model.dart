@@ -183,11 +183,9 @@ class MyInfoViewModel extends ChangeNotifier {
   Future<void> onEmailSendButtonClicked() async {
     isClickEmailSendBtn = true;
     // TODO: 이메일 인증코드 발송 로직
-    final cleanedEmail = emailController.text.replaceAll('@', '%40');
-
-    print("이메일:$cleanedEmail");
     try {
-      final result = await userService.emailVerificationCode(cleanedEmail);
+      final result =
+          await userService.emailVerificationCode(emailController.text);
       _emailVerificationCode = result.code;
       errorMessage.value = null;
       log("Received verificationCode: $_emailVerificationCode");

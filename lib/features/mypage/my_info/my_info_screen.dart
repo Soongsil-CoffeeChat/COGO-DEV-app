@@ -252,7 +252,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),
                 child: BasicButton(
-                  text: '수정하기',
+                  text: '저장하기',
                   onPressed: _viewModel.isEditable
                       ? () {
                           // viewModel.updateUserInfo();
