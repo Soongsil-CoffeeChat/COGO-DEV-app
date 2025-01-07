@@ -89,7 +89,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         if (viewModel.isPhoneChanged)
                           ElevatedButton(
                               onPressed: () {
-                                // TODO 인증번호 발송 로직
+                                viewModel.onPhoneNumberSubmitted();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
@@ -103,6 +103,48 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               child: const Text("인증번호 받기")),
                       ],
                     ),
+                    const SizedBox(height: 20),
+
+                    /// 휴대폰 인증번호 받기 클릭시 나오는 인증 번호 text field
+                    if (viewModel.showVerificationField.value)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller:
+                                  viewModel.phoneVerificationCodeController,
+                              keyboardType: TextInputType.number,
+                              style: CogoTextStyle.body18,
+                              decoration: const InputDecoration(
+                                labelText: '인증번호',
+                                labelStyle: TextStyle(color: Colors.grey),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          if (viewModel.isPhoneChanged)
+                            ElevatedButton(
+                                onPressed: () {
+                                  viewModel.onPhoneNumberSubmitted();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.white,
+                                  textStyle: CogoTextStyle.body12,
+                                  shadowColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                child: const Text("확인")),
+                        ],
+                      ),
                     const SizedBox(height: 20),
 
                     /// 이메일 필드 + 인증번호 받기 버튼
@@ -129,7 +171,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         if (viewModel.isEmailChanged)
                           ElevatedButton(
                               onPressed: () {
-                                // TODO 인증번호 발송 로직
+                                //TODO 이메일 인증번호
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,

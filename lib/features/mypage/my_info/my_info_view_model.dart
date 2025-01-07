@@ -7,49 +7,69 @@ import 'package:get_it/get_it.dart';
 class MyInfoViewModel extends ChangeNotifier {
   final UserService userService = GetIt.instance<UserService>();
 
-  String? _verificationCode;
+  String? _verificationCode; // 서버에서 받은 인증코드
   String? _message;
 
   String? get verificationCode => _verificationCode;
   String? get message => _message;
 
-  /// 원본 값(서버에서 받은 것)
+  // 원본 값(서버에서 받은 것)
   String _originalName = '';
   String _originalPhone = '';
   String _originalEmail = '';
 
-  /// TextEditingControllers
+  // TextEditingControllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final ValueNotifier<bool> isValidPhoneNumber = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> isValidCode = ValueNotifier<bool>(false);
-  final ValueNotifier<String?> errorMessage = ValueNotifier<String?>(null);
-  final TextEditingController codeController = TextEditingController();
-  final ValueNotifier<bool> showVerificationField = ValueNotifier<bool>(false);
+  final TextEditingController phoneVerificationCodeController =
+      TextEditingController();
+  final TextEditingController emailVerificationCodeController =
+      TextEditingController();
 
-  /// 수정 가능 여부
+  // 인증코드 입력
+  final TextEditingController codeController = TextEditingController();
+
+  /// 수정 가능 여부 (이름 필드 예시)
   bool _isEditable = false;
   bool get isEditable => _isEditable;
-  bool isPhoneNumberSubmitted = false;
 
-  /// 휴대폰, 이메일 변경 여부 Getter
+  /// 전화번호 정규식 검사 결과
+  final ValueNotifier<bool> isValidPhoneNumber = ValueNotifier<bool>(false);
+
+  /// 코드 입력 검사 결과 (비어있지 않은지 정도만 확인)
+  final ValueNotifier<bool> isValidCode = ValueNotifier<bool>(false);
+
+  /// 에러 메시지 (전화번호/코드 검증 실패 시)
+  final ValueNotifier<String?> errorMessage = ValueNotifier<String?>(null);
+
+  /// 인증번호 입력 필드 노출 여부
+  final ValueNotifier<bool> showVerificationField = ValueNotifier<bool>(false);
+
+  // 휴대폰, 이메일 변경 여부 Getter
   bool get isPhoneChanged => phoneController.text != _originalPhone;
   bool get isEmailChanged => emailController.text != _originalEmail;
 
-  MyInfoViewModel() {}
+  MyInfoViewModel();
 
   /// 화면 진입 후, 실제 초기 로딩
   Future<void> initialize() async {
     await getMyInfo();
 
-    // Controller 값이 바뀔 때마다 _isEditable 갱신
+    // 이름 / 전화번호 / 이메일 변경 -> 수정 가능 여부 체크
     nameController.addListener(_checkIfChanged);
     phoneController.addListener(_checkIfChanged);
+
+    // 전화번호 변경 -> 유효성 검사
+    phoneController.addListener(_validatePhoneNumber);
+
     emailController.addListener(_checkIfChanged);
+
+    // 인증코드 변경 -> 유효성 검사
+    codeController.addListener(_validateCode);
   }
 
-  /// 기본 정보 호출 api
+  /// 서버에서 내 정보 불러오기
   Future<void> getMyInfo() async {
     try {
       final response = await userService.getUserInfo();
@@ -76,66 +96,70 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  /// 현재 값 vs 원본 값 비교
+  /// 이름 필드 기준 수정 가능 여부
   void _checkIfChanged() {
     notifyListeners();
     final nameChanged = (nameController.text != _originalName);
-
     if (_isEditable != nameChanged) {
       _isEditable = nameChanged;
       notifyListeners();
     }
   }
 
-  /// 전화번호가 규격에 맞는지 ghkrdls
+  /// 전화번호 유효성 검사
   void _validatePhoneNumber() {
     final phoneNumber = phoneController.text.replaceAll('-', '');
-    final regex = RegExp(r'^\d{3}\d{4}\d{4}$'); // 전화번호 형식 확인
+    final regex = RegExp(r'^\d{3}\d{4}\d{4}$');
     final isValid = regex.hasMatch(phoneNumber);
+
     isValidPhoneNumber.value = isValid;
-    errorMessage.value = isValid ? null : '전화번호 형식으로 입력해주세요';
+    errorMessage.value = isValid ? null : '전화번호 형식을 확인하세요.';
   }
 
-  /// 인증코드가 입력되었는지 ghkrdls
+  /// 인증코드 유효성(비어있지 않은지 등) 검사
   void _validateCode() {
     isValidCode.value = codeController.text.isNotEmpty;
   }
 
+  /// "인증하기" 버튼 탭 -> 서버에 인증코드 발송
   Future<void> onPhoneNumberSubmitted() async {
-    //휴대폰 번호 제출 = 인증 코드 발송
-    // 번호 제출
     if (isValidPhoneNumber.value) {
-      isPhoneNumberSubmitted = true;
-      showVerificationField.value = true; // 인증번호 필드 표시
-      final cleanedPhoneNumber = phoneController.text.replaceAll('-', '');
+      // 전화번호가 유효하면 인증코드 발송 API 호출
+      showVerificationField.value = true; // 인증코드 입력 필드 노출
 
+      final cleanedPhoneNumber = phoneController.text.replaceAll('-', '');
       try {
         final result =
             await userService.sendVerificationCode(cleanedPhoneNumber);
         _verificationCode = result.verificationCode;
+        errorMessage.value = null;
         log("Received verificationCode: $_verificationCode");
-        notifyListeners();
       } catch (e) {
         log("Exception occurred: $e");
         if (e is DioException) {
           log("DioError details: ${e.response?.data}");
         }
-        _message = 'An error occurred while sending verification code.';
-        notifyListeners();
+        _message = '인증번호 전송 중 오류가 발생했습니다.';
+        errorMessage.value = _message;
       }
+
+      notifyListeners();
     }
   }
 
-  void onVerificationCodeSubmitted(BuildContext context) {
+  /// "확인" 버튼 탭 -> 사용자가 입력한 인증코드를 검증
+  void checkVerificationCode() {
     if (isValidCode.value) {
-      // 사용자가 입력한 인증번호와 서버에서 받은 인증번호를 비교
-      log("verificationCode: $_verificationCode, codeController.text ${codeController.text}");
-
       if (_verificationCode == codeController.text) {
-        //Todo 인증번호 일치시 로직 구현
+        // 인증 성공 로직
+        errorMessage.value = null;
+        log("인증번호 일치 - 인증 성공");
       } else {
+        // 인증 실패
         errorMessage.value = '인증번호가 일치하지 않습니다.';
       }
+    } else {
+      errorMessage.value = '인증번호를 입력해주세요.';
     }
   }
 
@@ -144,12 +168,15 @@ class MyInfoViewModel extends ChangeNotifier {
     nameController.dispose();
     phoneController.dispose();
     emailController.dispose();
+
     codeController.removeListener(_validateCode);
     codeController.dispose();
+
     isValidPhoneNumber.dispose();
     isValidCode.dispose();
     showVerificationField.dispose();
     errorMessage.dispose();
+
     super.dispose();
   }
 }
