@@ -1,4 +1,5 @@
 import 'package:cogo/common/widgets/components/basic_button.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/auth/signup/agreement/agreement_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -98,7 +99,7 @@ Widget agreementBottomSheet(BuildContext context) {
               isClickable: viewModel.isAllRequiredChecked,
               onPressed: () {
                 if (viewModel.isAllRequiredChecked) {
-                  context.push('/agreement/phone');
+                  context.push('/${Paths.agreement}/${Paths.phone}');
                 }
               },
               size: BasicButtonSize.LARGE,

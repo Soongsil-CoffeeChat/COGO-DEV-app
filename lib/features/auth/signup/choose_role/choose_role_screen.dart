@@ -1,6 +1,7 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,8 @@ class ChooseRoleScreen extends StatelessWidget {
                                   text: '멘티',
                                   onPressed: () {
                                     viewModel.selectRole(Role.MENTEE);
-                                    context.push('/agreement/interest');
+                                    context.push(
+                                        '/${Paths.agreement}/${Paths.interest}');
                                   },
                                 ),
                               ),
