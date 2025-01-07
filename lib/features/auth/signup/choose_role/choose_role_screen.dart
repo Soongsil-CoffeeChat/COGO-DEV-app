@@ -56,7 +56,7 @@ class ChooseRoleScreen extends StatelessWidget {
                                   onPressed: () {
                                     viewModel.selectRole(Role.MENTEE);
                                     context.push(
-                                        '/${Paths.agreement}/${Paths.interest}');
+                                        '${Paths.agreement}/${Paths.interest}');
                                   },
                                 ),
                               ),

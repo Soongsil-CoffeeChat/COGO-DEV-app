@@ -99,7 +99,7 @@ Widget agreementBottomSheet(BuildContext context) {
               isClickable: viewModel.isAllRequiredChecked,
               onPressed: () {
                 if (viewModel.isAllRequiredChecked) {
-                  context.push('/${Paths.agreement}/${Paths.phone}');
+                  context.push('${Paths.agreement}/${Paths.phone}');
                 }
               },
               size: BasicButtonSize.LARGE,
