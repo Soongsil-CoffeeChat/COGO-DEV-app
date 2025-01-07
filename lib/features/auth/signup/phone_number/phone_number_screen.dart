@@ -1,4 +1,5 @@
 import 'package:cogo/common/utils/phone_number_input_formatter.dart';
+import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_view_model.dart';
@@ -112,50 +113,27 @@ class PhoneNumberScreen extends StatelessWidget {
                           return ValueListenableBuilder<bool>(
                             valueListenable: viewModel.isValidCode,
                             builder: (context, isValidCode, child) {
-                              return SizedBox(
-                                width: 150,
-                                height: 50,
-                                child: ElevatedButton(
-                                  onPressed: (isValid &&
-                                          (!viewModel.showVerificationField
-                                                  .value ||
-                                              isValidCode))
-                                      ? () {
-                                          if (viewModel
-                                              .isPhoneNumberSubmitted) {
-                                            viewModel
-                                                .onVerificationCodeSubmitted(
-                                                    context);
-                                          } else {
-                                            viewModel.onPhoneNumberSubmitted();
-                                          }
+                              return BasicButton(
+                                text: viewModel.isPhoneNumberSubmitted
+                                    ? '확인'
+                                    : '인증 번호 받기',
+                                isClickable: isValid &&
+                                    (!viewModel.showVerificationField.value ||
+                                        isValidCode),
+                                onPressed: (isValid &&
+                                        (!viewModel
+                                                .showVerificationField.value ||
+                                            isValidCode))
+                                    ? () {
+                                        if (viewModel.isPhoneNumberSubmitted) {
+                                          viewModel.onVerificationCodeSubmitted(
+                                              context);
+                                        } else {
+                                          viewModel.onPhoneNumberSubmitted();
                                         }
-                                      : null,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: (isValid &&
-                                            (!viewModel.showVerificationField
-                                                    .value ||
-                                                isValidCode))
-                                        ? Colors.black
-                                        : Colors.grey[300],
-                                    foregroundColor: (isValid &&
-                                            (!viewModel.showVerificationField
-                                                    .value ||
-                                                isValidCode))
-                                        ? Colors.white
-                                        : Colors.black,
-                                    textStyle: const TextStyle(
-                                      fontFamily: 'PretendardMedium',
-                                      fontSize: 18,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  child: Text(viewModel.isPhoneNumberSubmitted
-                                      ? '확인'
-                                      : '인증 번호 받기'),
-                                ),
+                                      }
+                                    : null,
+                                size: BasicButtonSize.SMALL,
                               );
                             },
                           );
