@@ -139,7 +139,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 if (viewModel.isPhoneChanged)
                                   ElevatedButton(
                                       onPressed: () {
-                                        viewModel.checkVerificationCode();
+                                        viewModel.checkPhoneVerificationCode();
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.black,
@@ -162,7 +162,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               Expanded(
                                 child: TextField(
                                   controller: viewModel.emailController,
-                                  keyboardType: TextInputType.phone,
+                                  keyboardType: TextInputType.text,
                                   style: CogoTextStyle.body18,
                                   decoration: const InputDecoration(
                                     labelText: '이메일 번호',
@@ -226,7 +226,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 const SizedBox(width: 8),
                                 ElevatedButton(
                                     onPressed: () {
-                                      viewModel.checkVerificationCode();
+                                      viewModel.checkEmailVerificationCode();
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.black,

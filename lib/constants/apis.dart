@@ -9,6 +9,7 @@ abstract class Apis {
   /// 토큰 관련 api
   static const String getAccessToken = "auth/issue/mobile";
   static const String reissueToken = "auth/reissue/mobile";
+  static const String sendEmail = "auth/email";
 
   /// 유저 관련 api
   static const String saveImage = "users/picture";

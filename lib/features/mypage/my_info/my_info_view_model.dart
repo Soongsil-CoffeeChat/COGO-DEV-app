@@ -7,10 +7,12 @@ import 'package:get_it/get_it.dart';
 class MyInfoViewModel extends ChangeNotifier {
   final UserService userService = GetIt.instance<UserService>();
 
-  String? _verificationCode; // 서버에서 받은 인증코드
+  String? _phoneVerificationCode; // 서버에서 받은 인증코드
+  String? _emailVerificationCode; // 서버에서 받은 인증코드
   String? _message;
 
-  String? get verificationCode => _verificationCode;
+  String? get phoneVerificationCode => _phoneVerificationCode;
+
   String? get message => _message;
 
   // 원본 값(서버에서 받은 것)
@@ -32,6 +34,7 @@ class MyInfoViewModel extends ChangeNotifier {
 
   /// 수정 가능 여부 (이름 필드 예시)
   bool _isEditable = false;
+
   bool get isEditable => _isEditable;
 
   /// 전화번호 정규식 검사 결과
@@ -48,10 +51,12 @@ class MyInfoViewModel extends ChangeNotifier {
 
   /// 휴대폰, 이메일 변경 여부 Getter
   bool get isPhoneChanged => phoneController.text != _originalPhone;
+
   bool get isEmailChanged => emailController.text != _originalEmail;
 
   /// 이메일 인증 버튼 상태
   bool _isClickEmailSendBtn = false;
+
   bool get isClickEmailSendBtn => _isClickEmailSendBtn;
 
   set isClickEmailSendBtn(bool value) {
@@ -132,7 +137,7 @@ class MyInfoViewModel extends ChangeNotifier {
     isValidCode.value = codeController.text.isNotEmpty;
   }
 
-  /// "인증하기" 버튼 탭 -> 서버에 인증코드 발송
+  /// "인증하기" 버튼 탭 -> 서버에 전화번호 인증코드 발송
   Future<void> onPhoneNumberSubmitted() async {
     if (isValidPhoneNumber.value) {
       // 전화번호가 유효하면 인증코드 발송 API 호출
@@ -142,9 +147,9 @@ class MyInfoViewModel extends ChangeNotifier {
       try {
         final result =
             await userService.sendVerificationCode(cleanedPhoneNumber);
-        _verificationCode = result.verificationCode;
+        _phoneVerificationCode = result.verificationCode;
         errorMessage.value = null;
-        log("Received verificationCode: $_verificationCode");
+        log("Received verificationCode: $_phoneVerificationCode");
       } catch (e) {
         log("Exception occurred: $e");
         if (e is DioException) {
@@ -158,10 +163,10 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  /// "확인" 버튼 탭 -> 사용자가 입력한 인증코드를 검증
-  void checkVerificationCode() {
+  /// "확인" 버튼 탭 -> 사용자가 입력한 전화번호 인증코드를 검증
+  void checkPhoneVerificationCode() {
     if (isValidCode.value) {
-      if (_verificationCode == codeController.text) {
+      if (_phoneVerificationCode == codeController.text) {
         // 인증 성공 로직
         errorMessage.value = null;
         log("인증번호 일치 - 인증 성공");
@@ -174,9 +179,44 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  void onEmailSendButtonClicked() {
-    // TODO: 이메일 인증코드 발송 로직
+  /// "인증하기" 버튼 탭 -> 서버에 이메일 인증코드 발송
+  Future<void> onEmailSendButtonClicked() async {
     isClickEmailSendBtn = true;
+    // TODO: 이메일 인증코드 발송 로직
+    final cleanedEmail = emailController.text.replaceAll('@', '%40');
+
+    print("이메일:$cleanedEmail");
+    try {
+      final result = await userService.emailVerificationCode(cleanedEmail);
+      _emailVerificationCode = result.code;
+      errorMessage.value = null;
+      log("Received verificationCode: $_emailVerificationCode");
+    } catch (e) {
+      log("Exception occurred: $e");
+      if (e is DioException) {
+        log("DioError details: ${e.response?.data}");
+      }
+      _message = '인증번호 전송 중 오류가 발생했습니다.';
+      errorMessage.value = _message;
+    }
+
+    notifyListeners();
+  }
+
+  /// "확인" 버튼 탭 -> 사용자가 입력한 전화번호 인증코드를 검증
+  void checkEmailVerificationCode() {
+    if (isValidCode.value) {
+      if (_phoneVerificationCode == codeController.text) {
+        // 인증 성공 로직
+        errorMessage.value = null;
+        log("인증번호 일치 - 인증 성공");
+      } else {
+        // 인증 실패
+        errorMessage.value = '인증번호가 일치하지 않습니다.';
+      }
+    } else {
+      errorMessage.value = '인증번호를 입력해주세요.';
+    }
   }
 
   @override
