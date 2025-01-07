@@ -46,9 +46,20 @@ class MyInfoViewModel extends ChangeNotifier {
   /// 인증번호 입력 필드 노출 여부
   final ValueNotifier<bool> showVerificationField = ValueNotifier<bool>(false);
 
-  // 휴대폰, 이메일 변경 여부 Getter
+  /// 휴대폰, 이메일 변경 여부 Getter
   bool get isPhoneChanged => phoneController.text != _originalPhone;
   bool get isEmailChanged => emailController.text != _originalEmail;
+
+  /// 이메일 인증 버튼 상태
+  bool _isClickEmailSendBtn = false;
+  bool get isClickEmailSendBtn => _isClickEmailSendBtn;
+
+  set isClickEmailSendBtn(bool value) {
+    if (_isClickEmailSendBtn != value) {
+      _isClickEmailSendBtn = value;
+      notifyListeners(); // 값 변경 시 UI 업데이트
+    }
+  }
 
   MyInfoViewModel();
 
@@ -161,6 +172,11 @@ class MyInfoViewModel extends ChangeNotifier {
     } else {
       errorMessage.value = '인증번호를 입력해주세요.';
     }
+  }
+
+  void onEmailSendButtonClicked() {
+    // TODO: 이메일 인증코드 발송 로직
+    isClickEmailSendBtn = true;
   }
 
   @override
