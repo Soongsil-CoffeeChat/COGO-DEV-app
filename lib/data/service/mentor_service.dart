@@ -116,4 +116,42 @@ class MentorService {
       throw Exception('An unexpected error occurred: $e');
     }
   }
+
+  /// 멘토 세부 정보 수정
+  Future<MentorIntroductionResponse> patchEditMentorDetail(
+      String mentorName, String mentorPhoneNumber, String mentorEmail) async {
+    try {
+      final response = await _apiClient.dio.patch(
+        apiVersion + Apis.mentor,
+        data: {
+          'mentor_name': mentorName,
+          'mentor_phone_number': mentorPhoneNumber,
+          'mentor_email': mentorEmail,
+        },
+        options: Options(),
+      );
+
+      if (response.statusCode == 200) {
+        log(response.data.toString());
+
+        final responseData = response.data;
+
+        // 데이터가 Map 형식인지 확인하여 서버 응답 처리추가
+        if (responseData is Map<String, dynamic> &&
+            responseData['content'] != null) {
+          final contentJson = responseData['content'] as Map<String, dynamic>;
+          return MentorIntroductionResponse.fromJson(contentJson);
+        } else {
+          throw Exception('Unexpected response format: $responseData');
+        }
+      } else {
+        throw Exception(
+            'Failed to patch mentor introduction: ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
 }
