@@ -136,7 +136,7 @@ class UserService {
     try {
       final response = await _apiClient.dio.post(
         options: Options(
-          extra: {'skipAuthToken': false}, //토큰 해제
+          extra: {'skipAuthToken': false}, //토큰 해제를 하지 마라
         ),
         apiVersion + Apis.signUpMentee,
         data: {
@@ -165,7 +165,7 @@ class UserService {
     try {
       final response = await _apiClient.dio.delete(
         options: Options(
-          extra: {'skipAuthToken': false}, //토큰 해제
+          extra: {'skipAuthToken': false}, //토큰 해제를 하지 마라
         ),
         apiVersion + Apis.user,
       );
