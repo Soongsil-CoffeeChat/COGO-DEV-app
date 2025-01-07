@@ -41,12 +41,12 @@ class MentorInfoViewModel extends ChangeNotifier {
   Future<bool> signUpMentor() async {
     try {
       await userService.signUpMentor(selectedInterest!, selectedClub!);
-      notifyListeners();
       return true; // 성공 시 true 반환
     } catch (e) {
       _errorMessage = '멘토 회원가입이 실패하였습니다. 다시 시도해주세요.';
-      notifyListeners();
       return false; // 실패 시 false 반환
+    } finally {
+      notifyListeners();
     }
   }
 

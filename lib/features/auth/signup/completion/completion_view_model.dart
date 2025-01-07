@@ -18,9 +18,4 @@ class CompletionViewModel extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
-
-  void completeApplication(BuildContext context) {
-    context.go(Paths.home); // 다음 페이지 경로로 변경
-    //todo 자동로그인 로직
-  }
 }

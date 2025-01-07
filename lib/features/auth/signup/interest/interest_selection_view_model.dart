@@ -30,9 +30,9 @@ class InterestSelectionViewModel extends ChangeNotifier {
   void selectInterest(Interest interest) async {
     log(interest.name);
     selectedInterest = interest;
-    notifyListeners();
 
     await _secureStorage.saveInterest(interest.name);
+    notifyListeners();
   }
 
   Future<void> signUpMentee(Interest interest) async {

@@ -1,7 +1,9 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'choose_role_view_model.dart';
@@ -11,7 +13,6 @@ class ChooseRoleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // bool isMentor = false;
     return ChangeNotifierProvider(
       create: (_) => ChooseRoleViewModel(),
       child: Scaffold(
@@ -43,7 +44,9 @@ class ChooseRoleScreen extends StatelessWidget {
                                 child: SecondaryButton(
                                   text: '멘토',
                                   onPressed: () {
-                                    viewModel.selectRole(Role.MENTOR, context);
+                                    viewModel.selectRole(Role.MENTOR);
+                                    context.push(
+                                        '${Paths.agreement}/${Paths.interest}');
                                   },
                                 ),
                               ),
@@ -52,7 +55,9 @@ class ChooseRoleScreen extends StatelessWidget {
                                 child: SecondaryButton(
                                   text: '멘티',
                                   onPressed: () {
-                                    viewModel.selectRole(Role.MENTEE, context);
+                                    viewModel.selectRole(Role.MENTEE);
+                                    context.push(
+                                        '${Paths.agreement}/${Paths.interest}');
                                   },
                                 ),
                               ),
