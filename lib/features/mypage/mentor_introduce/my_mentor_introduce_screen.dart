@@ -69,7 +69,6 @@ class MyMentorIntroductionScreen extends StatelessWidget {
                           ),
                         );
                       }
-                      final mentor = state.myMentorInfo;
                       {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

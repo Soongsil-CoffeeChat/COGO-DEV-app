@@ -115,8 +115,6 @@ class MyMentorIntroductionViewModel extends ChangeNotifier {
     _state = _state.copyWith(
       isLoading: isLoading,
       hasError: hasError,
-      myMentorInfo: myMentorInfo,
-      role: role,
     );
     notifyListeners();
   }
@@ -125,24 +123,19 @@ class MyMentorIntroductionViewModel extends ChangeNotifier {
 class MyMentorIntroductionUiState {
   final bool isLoading;
   final bool hasError;
-  final MyMentorEntity? myMentorInfo;
 
   const MyMentorIntroductionUiState({
     this.isLoading = false,
     this.hasError = false,
-    this.myMentorInfo,
   });
 
   MyMentorIntroductionUiState copyWith({
     bool? isLoading,
     bool? hasError,
-    MyMentorEntity? myMentorInfo,
-    String? role,
   }) {
     return MyMentorIntroductionUiState(
       isLoading: isLoading ?? this.isLoading,
       hasError: hasError ?? this.hasError,
-      myMentorInfo: myMentorInfo ?? this.myMentorInfo,
     );
   }
 }
