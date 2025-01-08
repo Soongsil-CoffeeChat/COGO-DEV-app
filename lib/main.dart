@@ -1,16 +1,18 @@
 import 'package:cogo/common/navigator/view_model/bottom_navigation_bar_view_model.dart';
+import 'package:cogo/data/di/get_it_locator.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/splash_view_model.dart';
 import 'package:cogo/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
-import 'data/di/get_it_locator.dart';
-import 'features/home/home_view_model.dart';
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FlutterNativeSplash.remove();
   await FlutterConfig.loadEnvVariables(); // env
   await initializeDateFormatting('ko_KR', null);
 
