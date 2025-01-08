@@ -1,4 +1,5 @@
 import 'package:cogo/common/widgets/components/secondary_textfield.dart';
+import 'package:cogo/common/widgets/components/third_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/mypage/my_info/my_info_view_model.dart';
@@ -70,20 +71,13 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               ),
                               const SizedBox(width: 8),
                               if (viewModel.isPhoneChanged)
-                                ElevatedButton(
-                                    onPressed: () {
-                                      viewModel.onPhoneNumberSubmitted();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black,
-                                      foregroundColor: Colors.white,
-                                      textStyle: CogoTextStyle.body12,
-                                      shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                    ),
-                                    child: const Text("인증번호 받기")),
+                                ThirdButton(
+                                  text: "인증번호 받기",
+                                  isClickable: viewModel.isPhoneChanged,
+                                  onPressed: () {
+                                    viewModel.onPhoneNumberSubmitted();
+                                  },
+                                ),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -102,21 +96,15 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 if (viewModel.isPhoneChanged)
-                                  ElevatedButton(
+                                  ThirdButton(
                                       onPressed: () {
                                         viewModel.checkPhoneVerificationCode();
                                       },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.black,
-                                        foregroundColor: Colors.white,
-                                        textStyle: CogoTextStyle.body12,
-                                        shadowColor: Colors.transparent,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
+                                      text: "확인",
+                                      isClickable: true
+
+                                      /// 인증번호 4자리 완성되면 true 되도록 수정,
                                       ),
-                                      child: const Text("확인")),
                               ],
                             ),
                           const SizedBox(height: 20),
@@ -133,21 +121,14 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               ),
                               const SizedBox(width: 8),
                               if (viewModel.isEmailChanged)
-                                ElevatedButton(
-                                    onPressed: () {
-                                      viewModel.onEmailSendButtonClicked();
-                                      //TODO 이메일 인증번호
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black,
-                                      foregroundColor: Colors.white,
-                                      textStyle: CogoTextStyle.body12,
-                                      shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                    ),
-                                    child: const Text("인증번호 받기")),
+                                ThirdButton(
+                                  onPressed: () {
+                                    viewModel.onEmailSendButtonClicked();
+                                    //TODO 이메일 인증번호
+                                  },
+                                  text: "인증번호 받기",
+                                  isClickable: viewModel.isEmailChanged,
+                                ),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -165,20 +146,15 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      viewModel.checkEmailVerificationCode();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black,
-                                      foregroundColor: Colors.white,
-                                      textStyle: CogoTextStyle.body12,
-                                      shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                    ),
-                                    child: const Text("확인")),
+                                ThirdButton(
+                                  onPressed: () {
+                                    viewModel.checkEmailVerificationCode();
+                                  },
+                                  text: "확인",
+                                  isClickable: true,
+
+                                  /// 인증 번호 숫자 입력 완료시 활성화 되도록 수정
+                                ),
                               ],
                             ),
                           const SizedBox(height: 20),
