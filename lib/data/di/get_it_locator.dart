@@ -21,8 +21,6 @@ void setupServiceLocator() {
   ///Service 등록
   getIt.registerLazySingleton<MentorService>(() => MentorService());
 
-  getIt.registerLazySingleton<RefreshService>(() => RefreshService());
-
   getIt.registerLazySingleton<UserService>(() => UserService());
 
   getIt.registerLazySingleton<RefreshService>(() => RefreshService());

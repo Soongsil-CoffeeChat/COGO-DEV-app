@@ -1,48 +1,24 @@
 import 'dart:developer';
 
-import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
-import '../constants/paths.dart';
 
 class SplashViewModel extends ChangeNotifier {
-  final SecureStorageRepository _secureStorage = SecureStorageRepository();
   final UserService userService = GetIt.instance<UserService>();
-
-  // String? _navigationPath; // 네비게이션 경로
-  // String? get navigationPath => _navigationPath;
 
   Future<bool> autoLogin() async {
     try {
-      final accessToken = await _secureStorage.readAccessToken();
-
-      if (accessToken != null) {
-        // userService
-
-        // if (response.statusCode == 200) {
-        //   // 토큰 유효 → 홈 화면으로 이동
-        //   _navigationPath = '/home';
-        //   return;
-        // }
+      final response = await userService.getUserInfo();
+      if (response.email!.isNotEmpty) {
         return true;
+      } else {
+        return false;
       }
     } catch (e) {
       log('Auto login failed: $e');
+      return false;
     }
-
-    // 토큰이 없거나 유효하지 않음 → 로그인 화면으로 이동
-    // _navigationPath = ' /login';
-    return false;
-  }
-
-  void navigateToLoginScreen(BuildContext context) {
-    context.push(Paths.login);
-  }
-
-  void navigateToHomeScreen(BuildContext context) {
-    context.push(Paths.home);
   }
 }

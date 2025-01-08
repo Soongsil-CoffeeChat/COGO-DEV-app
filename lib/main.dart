@@ -1,4 +1,5 @@
 import 'package:cogo/common/navigator/view_model/bottom_navigation_bar_view_model.dart';
+import 'package:cogo/features/splash_view_model.dart';
 import 'package:cogo/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -20,11 +21,12 @@ void main() async {
       ChangeNotifierProvider(
         create: (_) => BottomNavigationViewModel(AppRouter),
       ),
+      ChangeNotifierProvider(create: (_) => SplashViewModel()),
       ChangeNotifierProvider(
         create: (_) => HomeViewModel(),
       ),
     ],
-    child: const MyApp(),
+    child: MyApp(),
   ));
 }
 

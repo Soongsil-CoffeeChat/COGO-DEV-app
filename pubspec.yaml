@@ -51,8 +51,11 @@ dependencies:
   #달력
   table_calendar: ^3.0.9
 
+  # 직렬화 Freezed
   freezed_annotation: ^2.0.3
 
+  #토스트 메시지
+  fluttertoast: ^8.0.9
 
   # 애니메이션 로티
   lottie: ^2.2.0
