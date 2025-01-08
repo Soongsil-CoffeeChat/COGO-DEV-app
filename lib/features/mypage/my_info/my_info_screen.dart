@@ -255,7 +255,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                   text: '저장하기',
                   onPressed: _viewModel.isEditable
                       ? () {
-                          // viewModel.updateUserInfo();
+                          _viewModel.updateUserInfo();
                         }
                       : null,
                   isClickable: _viewModel.isEditable,

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cogo/data/service/mentor_service.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get_it/get_it.dart';
 
 class MyInfoViewModel extends ChangeNotifier {
   final UserService userService = GetIt.instance<UserService>();
+  final MentorService mentorService = GetIt.instance<MentorService>();
 
   String? _phoneVerificationCode; // 서버에서 받은 인증코드
   String? _emailVerificationCode; // 서버에서 받은 인증코드
@@ -33,7 +35,7 @@ class MyInfoViewModel extends ChangeNotifier {
   final TextEditingController codeController = TextEditingController();
 
   /// 수정 가능 여부 (이름 필드 예시)
-  bool _isEditable = false;
+  bool _isEditable = true;
 
   bool get isEditable => _isEditable;
 
@@ -215,6 +217,21 @@ class MyInfoViewModel extends ChangeNotifier {
     } else {
       errorMessage.value = '인증번호를 입력해주세요.';
     }
+  }
+
+  Future<void> updateUserInfo() async {
+    try {
+      await mentorService.patchEditMentorDetail(
+          nameController.text, phoneController.text, emailController.text);
+    } catch (e) {
+      log("Exception occurred: $e");
+      if (e is DioException) {
+        log("DioError details: ${e.response?.data}");
+      }
+      errorMessage.value = _message;
+    }
+
+    notifyListeners();
   }
 
   @override

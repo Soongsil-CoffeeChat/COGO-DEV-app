@@ -6,7 +6,7 @@ part 'email_verification_response.g.dart';
 @freezed
 class EmailVerificationResponse with _$EmailVerificationResponse {
   const factory EmailVerificationResponse({
-    required String code,
+    @JsonKey(name: 'code') required String code,
   }) = _EmailVerificationResponse;
 
   factory EmailVerificationResponse.fromJson(Map<String, dynamic> json) =>

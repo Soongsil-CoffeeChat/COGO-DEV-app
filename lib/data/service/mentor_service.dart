@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/edit_mentor_detail_response.dart';
 import 'package:cogo/data/dto/response/mentor_detail_response.dart';
 import 'package:cogo/data/dto/response/mentor_introduction_response.dart';
 import 'package:cogo/data/dto/response/mentor_part_response.dart';
@@ -118,7 +119,7 @@ class MentorService {
   }
 
   /// 멘토 세부 정보 수정
-  Future<MentorIntroductionResponse> patchEditMentorDetail(
+  Future<EditMentorDetailResponse> patchEditMentorDetail(
       String mentorName, String mentorPhoneNumber, String mentorEmail) async {
     try {
       final response = await _apiClient.dio.patch(
@@ -131,18 +132,19 @@ class MentorService {
         options: Options(),
       );
 
+      log('상태코드: $response.statusCode');
       if (response.statusCode == 200) {
         log(response.data.toString());
 
         final responseData = response.data;
 
-        // 데이터가 Map 형식인지 확인하여 서버 응답 처리추가
         if (responseData is Map<String, dynamic> &&
             responseData['content'] != null) {
           final contentJson = responseData['content'] as Map<String, dynamic>;
-          return MentorIntroductionResponse.fromJson(contentJson);
+          return EditMentorDetailResponse.fromJson(contentJson);
         } else {
-          throw Exception('Unexpected response format: $responseData');
+          throw Exception(
+              'Unexpected response format or null content: $responseData');
         }
       } else {
         throw Exception(
