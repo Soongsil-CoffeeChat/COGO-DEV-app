@@ -47,6 +47,7 @@ class ReportScreen extends StatelessWidget {
                         context.push(Paths.reportDetail);
                       },
                     ),
+                    const Divider(height: 1, color: CogoColor.systemGray02),
                     ListTile(
                       title: const Text(
                         '멘토링 중에 분쟁 발생했어요',
@@ -57,6 +58,7 @@ class ReportScreen extends StatelessWidget {
                         context.push(Paths.reportDetail);
                       },
                     ),
+                    const Divider(height: 1, color: CogoColor.systemGray02),
                     ListTile(
                       title: const Text(
                         '멘토의 소속이나, 인적사항이 거짓인것 같아요',
@@ -67,6 +69,7 @@ class ReportScreen extends StatelessWidget {
                         context.push(Paths.reportDetail);
                       },
                     ),
+                    const Divider(height: 1, color: CogoColor.systemGray02),
                     ListTile(
                         title: const Text('기타 부적절한 행위가 있었어요',
                             style: CogoTextStyle.body16),
