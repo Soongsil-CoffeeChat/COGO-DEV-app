@@ -61,7 +61,7 @@ class ReportDetailScreen extends StatelessWidget {
                       '멘토링 과정에서 비매너 행위 발생\n- 잘못된 정보 제공\n- 상대방에 부적절한 언행\n- 기타 양자간 분쟁 가능성이 있는 비매너 행위',
                       style: CogoTextStyle.body9,
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 80),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
