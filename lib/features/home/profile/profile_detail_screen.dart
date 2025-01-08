@@ -35,6 +35,7 @@ class ProfileDetailScreen extends StatelessWidget {
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
+                    backgroundColor: CogoColor.white50,
                     shape: const RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16)),
@@ -201,7 +202,7 @@ class ProfileDetailScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            leading: const Icon(Icons.report),
+            leading: const Icon(Icons.flag),
             title: const Text(
               '신고하기',
               style: CogoTextStyle.body16,
