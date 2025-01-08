@@ -22,9 +22,7 @@ void main() async {
         create: (_) => BottomNavigationViewModel(AppRouter),
       ),
       ChangeNotifierProvider(create: (_) => SplashViewModel()),
-      ChangeNotifierProvider(
-        create: (_) => HomeViewModel(),
-      ),
+      ChangeNotifierProvider(create: (_) => HomeViewModel()),
     ],
     child: MyApp(),
   ));
