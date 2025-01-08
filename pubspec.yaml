@@ -98,7 +98,8 @@ flutter:
         - asset: assets/fonts/Pretendard-Light.ttf
 
 flutter_native_splash:
-  color: "#ffffff" # Background color of the splash screen
-  image: assets/image/logo.svg # Optional: static image
-  android:fullscreen: true # Optional: make it fullscreen
-  ios:fullscreen: true # Optional: make it fullscreen
+  color: "#ffffff"  # 배경색 설정 (흰색으로 설정)
+  image: null       # 이미지 비활성화
+  android: true     # Android에서 적용
+  ios: true         # iOS에서 적용
+  web: false        # 웹에서 스플래시 화면을 사용하지 않도록 설정
