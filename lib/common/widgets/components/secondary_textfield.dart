@@ -7,11 +7,15 @@ class SecondaryTextfield extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
 
+  /// 수정 가능 여부 체크
+  final bool readOnly;
+
   const SecondaryTextfield({
     Key? key,
     required this.labelText,
     required this.controller,
     required this.keyboardType,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -19,6 +23,7 @@ class SecondaryTextfield extends StatelessWidget {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
+      readOnly: readOnly,
       style: CogoTextStyle.body18,
       decoration: InputDecoration(
         labelText: labelText,
