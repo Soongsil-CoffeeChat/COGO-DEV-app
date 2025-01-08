@@ -218,7 +218,7 @@ final AppRouter = GoRouter(
       ),
     ),
     GoRoute(
-      path: Paths.introduce,
+      path: Paths.myMentorIntroduce,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const MentorIntroductionScreen(),
