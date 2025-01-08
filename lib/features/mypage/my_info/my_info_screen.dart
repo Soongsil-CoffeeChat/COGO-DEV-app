@@ -1,3 +1,4 @@
+import 'package:cogo/common/widgets/components/secondary_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/features/mypage/my_info/my_info_view_model.dart';
@@ -18,7 +19,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
     super.initState();
     _viewModel = MyInfoViewModel();
 
-    // 첫 프레임이 끝난 직후, 안전하게 initialize() 호출
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _viewModel.initialize();
     });
@@ -42,7 +42,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          /// 헤더
                           Header(
                             title: '코고 회원 정보',
                             subtitle: '개인정보는 정보통신망법에 따라 안전하게 보관됩니다.',
@@ -52,20 +51,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           const SizedBox(height: 30),
 
                           /// 이름 필드
-                          TextField(
+                          SecondaryTextfield(
                             controller: viewModel.nameController,
                             keyboardType: TextInputType.text,
-                            style: CogoTextStyle.body18,
-                            decoration: const InputDecoration(
-                              labelText: '이름',
-                              labelStyle: TextStyle(color: Colors.grey),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
+                            labelText: '이름',
                           ),
                           const SizedBox(height: 20),
 
@@ -73,22 +62,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           Row(
                             children: [
                               Expanded(
-                                child: TextField(
+                                child: SecondaryTextfield(
                                   controller: viewModel.phoneController,
                                   keyboardType: TextInputType.phone,
-                                  style: CogoTextStyle.body18,
-                                  decoration: const InputDecoration(
-                                    labelText: '휴대폰 번호',
-                                    labelStyle: TextStyle(color: Colors.grey),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                    ),
-                                  ),
+                                  labelText: '휴대폰 번호',
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -116,23 +93,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: TextField(
+                                  child: SecondaryTextfield(
                                     controller: viewModel
                                         .phoneVerificationCodeController,
                                     keyboardType: TextInputType.number,
-                                    style: CogoTextStyle.body18,
-                                    decoration: const InputDecoration(
-                                      labelText: '인증번호',
-                                      labelStyle: TextStyle(color: Colors.grey),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                      ),
-                                    ),
+                                    labelText: '인증번호',
                                   ),
                                 ),
                                 const SizedBox(width: 8),
@@ -160,22 +125,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           Row(
                             children: [
                               Expanded(
-                                child: TextField(
+                                child: SecondaryTextfield(
                                   controller: viewModel.emailController,
                                   keyboardType: TextInputType.text,
-                                  style: CogoTextStyle.body18,
-                                  decoration: const InputDecoration(
-                                    labelText: '이메일 번호',
-                                    labelStyle: TextStyle(color: Colors.grey),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                    ),
-                                  ),
+                                  labelText: '이메일 번호',
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -204,23 +157,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: TextField(
+                                  child: SecondaryTextfield(
                                     controller: viewModel
                                         .emailVerificationCodeController,
                                     keyboardType: TextInputType.number,
-                                    style: CogoTextStyle.body18,
-                                    decoration: const InputDecoration(
-                                      labelText: '인증번호',
-                                      labelStyle: TextStyle(color: Colors.grey),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                      ),
-                                    ),
+                                    labelText: '인증번호',
                                   ),
                                 ),
                                 const SizedBox(width: 8),
