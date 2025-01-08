@@ -37,4 +37,5 @@ abstract class Paths {
   static const String timeChecking = '/time_checking';
 
   static const String report = '/report';
+  static const String reportDetail = '/report_detail';
 }
