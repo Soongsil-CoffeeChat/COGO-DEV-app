@@ -1,9 +1,10 @@
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/features/home/profile/profile_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:cogo/features/home/profile/profile_detail_view_model.dart';
 
 class ProfileDetailScreen extends StatelessWidget {
   final int mentorId;
@@ -94,29 +95,22 @@ class ProfileDetailScreen extends StatelessWidget {
                       const SizedBox(height: 8),
                       _buildProfileIntro(profile.introductionDescription),
                       const SizedBox(height: 30),
-                      _buildTitleText('질문질문... 자기소개 유도 질문...'),
+                      _buildTitleText('이런 분야에서 멘토링이 가능해요'),
                       const SizedBox(height: 8),
                       _buildProfileDescription(profile.introductionAnswer1),
                       const SizedBox(height: 30),
-                      _buildTitleText('질문질문... 자기소개 유도 질문...'),
+                      _buildTitleText('이런 경험들을 해왔어요'),
                       const SizedBox(height: 8),
                       _buildProfileDescription(profile.introductionAnswer2),
                       const SizedBox(height: 30),
-                      ElevatedButton(
+                      BasicButton(
+                        text: '코고 신청하기',
+                        isClickable: true,
+                        size: BasicButtonSize.LARGE,
                         onPressed: () {
                           viewModel.applyForCogo(context, mentorId);
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: CogoColor.main,
-                          foregroundColor: CogoColor.white50,
-                          textStyle: CogoTextStyle.body18,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          minimumSize: const Size(double.infinity, 50),
-                        ),
-                        child: const Text('코고 신청하기'),
-                      ),
+                      )
                     ],
                   );
                 },

@@ -45,8 +45,8 @@ class MypageViewModel extends ChangeNotifier {
   }
 
   Future<void> signOut() async {
-    await userService.signOut();
     _secureStorage.deleteAllData();
+    userService.signOut();
   }
 
   void _updateState({
