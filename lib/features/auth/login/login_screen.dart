@@ -15,6 +15,7 @@ class LoginScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => LoginViewModel(),
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -47,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                     width: 120, // 원하는 크기 지정
                     // height: 200,
                   ),
-                  SizedBox(height: 120),
+                  SizedBox(height: 200),
                   SizedBox(
                     child: _loginButton(
                       platform: LoginPlatform.google,
@@ -61,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 15),
                   SizedBox(
                     child: _loginButton(
                       platform: LoginPlatform.apple,
@@ -106,7 +107,7 @@ class LoginScreen extends StatelessWidget {
           width: double.infinity,
           child: SvgPicture.asset(
             getPlatformAsset(platform),
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.contain,
           ),
         ),
       ),
