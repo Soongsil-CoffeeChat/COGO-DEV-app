@@ -1,3 +1,4 @@
+import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 import 'package:cogo/common/widgets/components/secondary_textfield.dart';
 import 'package:cogo/common/widgets/components/third_button.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             controller: viewModel.nameController,
                             keyboardType: TextInputType.text,
                             labelText: '이름',
+                            readOnly: true,
                           ),
                           const SizedBox(height: 20),
 
@@ -63,17 +65,22 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           Row(
                             children: [
                               Expanded(
+                                // 전화 번호 필드
                                 child: SecondaryTextfield(
                                   controller: viewModel.phoneController,
                                   keyboardType: TextInputType.phone,
+                                  inputFormatters: [
+                                    PhoneNumberInputFormatter(),
+                                  ],
                                   labelText: '휴대폰 번호',
                                 ),
                               ),
                               const SizedBox(width: 8),
                               if (viewModel.isPhoneChanged)
+                                // 인증 번호 받기 버튼
                                 ThirdButton(
                                   text: "인증번호 받기",
-                                  isClickable: viewModel.isPhoneChanged,
+                                  isClickable: viewModel.validatePhoneNumber(),
                                   onPressed: () {
                                     viewModel.onPhoneNumberSubmitted();
                                   },
@@ -95,16 +102,21 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                if (viewModel.isPhoneChanged)
-                                  ThirdButton(
-                                      onPressed: () {
-                                        viewModel.checkPhoneVerificationCode();
-                                      },
-                                      text: "확인",
-                                      isClickable: true
-
-                                      /// 인증번호 4자리 완성되면 true 되도록 수정,
-                                      ),
+                                //if (viewModel.isPhoneChanged)
+                                ThirdButton(
+                                  onPressed: () {
+                                    viewModel.checkPhoneVerificationCode();
+                                    if (viewModel.showSuccessSnackbar) {
+                                      showSuccessSnackbar(
+                                          context, '인증번호가 일치합니다.');
+                                    } else {
+                                      showSuccessSnackbar(
+                                          context, '인증번호가 일치하지 않습니다.');
+                                    }
+                                  },
+                                  text: "확인",
+                                  isClickable: true,
+                                ),
                               ],
                             ),
                           const SizedBox(height: 20),
@@ -181,6 +193,16 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void showSuccessSnackbar(BuildContext context, String text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(text),
+        backgroundColor: Colors.green,
+        duration: const Duration(seconds: 4), // 표시 시간
       ),
     );
   }

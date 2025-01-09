@@ -1,6 +1,7 @@
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SecondaryTextfield extends StatelessWidget {
   final String labelText;
@@ -10,12 +11,18 @@ class SecondaryTextfield extends StatelessWidget {
   /// 수정 가능 여부 체크
   final bool readOnly;
 
+  /// inputFormatter 텍스트 포멧 형식 지정 해줌
+  final List<TextInputFormatter> inputFormatters;
+
   const SecondaryTextfield({
     Key? key,
     required this.labelText,
     required this.controller,
     required this.keyboardType,
     this.readOnly = false,
+
+    /// 기본값으로 빈 리스트로 설정
+    this.inputFormatters = const [],
   }) : super(key: key);
 
   @override
@@ -24,6 +31,7 @@ class SecondaryTextfield extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       readOnly: readOnly,
+      inputFormatters: inputFormatters,
       style: CogoTextStyle.body18,
       decoration: InputDecoration(
         labelText: labelText,

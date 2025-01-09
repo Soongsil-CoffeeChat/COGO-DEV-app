@@ -20,9 +20,10 @@ class ThirdButton extends StatelessWidget {
     final textColor = isClickable ? Colors.white : CogoColor.systemGray03;
     final borderColor = isClickable ? Colors.black : CogoColor.systemGray03;
 
-    return ElevatedButton(
+    /// 왜 outlined button만 될까???? 뭐지???????
+    return OutlinedButton(
       onPressed: isClickable ? onPressed : null,
-      style: ElevatedButton.styleFrom(
+      style: OutlinedButton.styleFrom(
         backgroundColor: backgroundColor,
         foregroundColor: textColor,
         textStyle: CogoTextStyle.body12,
