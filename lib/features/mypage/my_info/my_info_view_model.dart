@@ -26,7 +26,7 @@ class MyInfoViewModel extends ChangeNotifier {
   bool _canSendEmailVerification = true;
   bool get canSendEmailVerification => _canSendEmailVerification;
 
-  /// 이미 인증번호 받기 버튼을 눌러서 현재 '인증 진행 중' 상태인지 확인하는 변수
+  /// 이미 인증번호 받기 버튼을 눌러서 현재 인증 진행 중 상태인지 확인하는 변수
   bool _isVerifyingPhone = false;
   bool get isVerifyingPhone => _isVerifyingPhone;
   bool _isVerifyingEmail = false;
@@ -80,7 +80,7 @@ class MyInfoViewModel extends ChangeNotifier {
   }
 
   MyInfoViewModel() {
-    /// 인증 로직을 리셋을 위해 listener를 추가해서 '입력값이 바뀔 때' 실행되게 함
+    /// 인증 로직을 리셋을 위해 listener를 추가해서 입력값이 바뀔 때 실행되게 함
     phoneController.addListener(_onPhoneNumberChanged);
     emailController.addListener(_onEmailChanged);
   }
@@ -115,39 +115,6 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  /// 전화번호가 바뀌면 -> 인증 로직 초기화
-  void _onPhoneNumberChanged() {
-    // 인증 진행 중인 상태에서 전화번호가 변경되면 리셋
-    if (_isVerifyingPhone) {
-      _resetPhoneVerificationState();
-    }
-    // 전화번호 유효성 검사
-    validatePhoneNumber();
-    notifyListeners();
-  }
-
-  /// 전화번호 인증 로직 초기화
-  void _resetPhoneVerificationState() {
-    _codeTimer?.cancel();
-    _codeTimer = null;
-    _remainingSeconds = 0;
-    _canSendPhoneVerification = true;
-    _isVerifyingPhone = false;
-    showVerificationField.value = false;
-    phoneVerificationCodeController.clear();
-    successPhoneVerificationCode = false;
-    notifyListeners();
-  }
-
-  /// 전화번호 정규식 검사
-  bool validatePhoneNumber() {
-    final phoneNumber = phoneController.text.replaceAll('-', '');
-    final regex = RegExp(r'^\d{3}\d{4}\d{4}$');
-    final isValid = regex.hasMatch(phoneNumber);
-    isValidPhoneNumber.value = isValid;
-    return isValid;
-  }
-
   /// 인증번호 받기 버튼 → 서버에 인증코드 발송
   Future<void> onPhoneNumberSubmitted() async {
     // 이미 비활성화라면 return
@@ -161,7 +128,7 @@ class MyInfoViewModel extends ChangeNotifier {
       _canSendPhoneVerification = false;
       notifyListeners();
 
-      // 3분 타이머
+      // 타이머 설정 -> 3분
       _startCodeTimer(180);
 
       showVerificationField.value = true;
@@ -185,33 +152,10 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  /// 3분 카운트다운 타이머
-  void _startCodeTimer(int totalSeconds) {
-    _codeTimer?.cancel();
-
-    _remainingSeconds = totalSeconds;
-    notifyListeners();
-
-    _codeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remainingSeconds > 0) {
-        _remainingSeconds--;
-        notifyListeners();
-      } else {
-        // 시간 다됨 → 타이머 종료 + 버튼 재활성화
-        timer.cancel();
-        _codeTimer = null;
-        _remainingSeconds = 0;
-        _canSendPhoneVerification = true;
-        notifyListeners();
-      }
-    });
-  }
-
-  /// "확인" 버튼 → 입력한 인증코드 검증
+  /// 휴대폰 "확인" 버튼 → 입력한 인증코드 검증
   void checkPhoneVerificationCode() {
     if (_phoneVerificationCode == phoneVerificationCodeController.text) {
       // 인증 성공
-      log("인증번호 일치 - 인증 성공");
       successPhoneVerificationCode = true;
 
       // 타이머 중단
@@ -223,7 +167,7 @@ class MyInfoViewModel extends ChangeNotifier {
       _isVerifyingPhone = false;
       showVerificationField.value = false;
 
-      /// 원본값 갱신
+      // 원본값 갱신
       _originalPhone = phoneController.text;
 
       isEditable = true;
@@ -234,17 +178,17 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  /// "인증하기" 버튼 탭 -> 서버에 이메일 인증코드 발송
+  /// 이메일 "인증하기" 버튼 탭 -> 서버에 이메일 인증코드 발송
   Future<void> onEmailSendButtonClicked() async {
     isClickEmailSendBtn = true;
     // 이미 비활성화 상태면 return
     if (!_canSendEmailVerification) return;
 
     _isVerifyingEmail = true;
-    _canSendEmailVerification = false; // 버튼 비활성화
+    _canSendEmailVerification = false;
     notifyListeners();
 
-    // 타이머 시작 (예: 3분 = 180초)
+    // 타이머 설정 -> 3분
     _startEmailTimer(180);
 
     try {
@@ -262,49 +206,6 @@ class MyInfoViewModel extends ChangeNotifier {
       errorMessage.value = _message;
     }
 
-    notifyListeners();
-  }
-
-  void _startEmailTimer(int totalSeconds) {
-    _emailTimer?.cancel(); // 혹시 이미 진행 중인 타이머가 있으면 취소
-
-    _remainingEmailSeconds = totalSeconds;
-    notifyListeners();
-
-    _emailTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remainingEmailSeconds > 0) {
-        _remainingEmailSeconds--;
-        notifyListeners();
-      } else {
-        // 0초가 되면 타이머 종료 + 버튼 재활성화
-        timer.cancel();
-        _emailTimer = null;
-        _remainingEmailSeconds = 0;
-        _canSendEmailVerification = true;
-        notifyListeners();
-      }
-    });
-  }
-
-  void _onEmailChanged() {
-    // 이미 인증 진행 중이라면 리셋
-    if (_isVerifyingEmail) {
-      _resetEmailVerificationState();
-    }
-    // 필요하다면 이메일 유효성 검사 등도 수행
-    notifyListeners();
-  }
-
-  void _resetEmailVerificationState() {
-    _emailTimer?.cancel();
-    _emailTimer = null;
-    _remainingEmailSeconds = 0;
-    _canSendEmailVerification = true;
-    _isVerifyingEmail = false;
-
-    isClickEmailSendBtn = false;
-    emailVerificationCodeController.clear();
-    successEmailVerificationCode = false;
     notifyListeners();
   }
 
@@ -347,6 +248,104 @@ class MyInfoViewModel extends ChangeNotifier {
       errorMessage.value = _message;
     }
 
+    notifyListeners();
+  }
+
+  /// 타이머 설정
+  void _startEmailTimer(int totalSeconds) {
+    _emailTimer?.cancel(); // 혹시 이미 진행 중인 타이머가 있으면 취소
+
+    _remainingEmailSeconds = totalSeconds;
+    notifyListeners();
+
+    _emailTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingEmailSeconds > 0) {
+        _remainingEmailSeconds--;
+        notifyListeners();
+      } else {
+        // 0초가 되면 타이머 종료 + 버튼 재활성화
+        timer.cancel();
+        _emailTimer = null;
+        _remainingEmailSeconds = 0;
+        _canSendEmailVerification = true;
+        notifyListeners();
+      }
+    });
+  }
+
+  /// 카운트다운 타이머
+  void _startCodeTimer(int totalSeconds) {
+    _codeTimer?.cancel();
+
+    _remainingSeconds = totalSeconds;
+    notifyListeners();
+
+    _codeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingSeconds > 0) {
+        _remainingSeconds--;
+        notifyListeners();
+      } else {
+        // 시간 다됨 → 타이머 종료 + 버튼 재활성화
+        timer.cancel();
+        _codeTimer = null;
+        _remainingSeconds = 0;
+        _canSendPhoneVerification = true;
+        notifyListeners();
+      }
+    });
+  }
+
+  /// 전화번호 정규식 검사
+  bool validatePhoneNumber() {
+    final phoneNumber = phoneController.text.replaceAll('-', '');
+    final regex = RegExp(r'^\d{3}\d{4}\d{4}$');
+    final isValid = regex.hasMatch(phoneNumber);
+    isValidPhoneNumber.value = isValid;
+    return isValid;
+  }
+
+  void _onEmailChanged() {
+    // 이미 인증 진행 중이라면 리셋
+    if (_isVerifyingEmail) {
+      _resetEmailVerificationState();
+    }
+    notifyListeners();
+  }
+
+  /// 전화번호가 바뀌면 -> 인증 로직 초기화
+  void _onPhoneNumberChanged() {
+    // 인증 진행 중인 상태에서 전화번호가 변경되면 리셋
+    if (_isVerifyingPhone) {
+      _resetPhoneVerificationState();
+    }
+    // 전화번호 유효성 검사
+    validatePhoneNumber();
+    notifyListeners();
+  }
+
+  /// 전화번호 인증 로직 초기화
+  void _resetPhoneVerificationState() {
+    _codeTimer?.cancel();
+    _codeTimer = null;
+    _remainingSeconds = 0;
+    _canSendPhoneVerification = true;
+    _isVerifyingPhone = false;
+    showVerificationField.value = false;
+    phoneVerificationCodeController.clear();
+    successPhoneVerificationCode = false;
+    notifyListeners();
+  }
+
+  void _resetEmailVerificationState() {
+    _emailTimer?.cancel();
+    _emailTimer = null;
+    _remainingEmailSeconds = 0;
+    _canSendEmailVerification = true;
+    _isVerifyingEmail = false;
+
+    isClickEmailSendBtn = false;
+    emailVerificationCodeController.clear();
+    successEmailVerificationCode = false;
     notifyListeners();
   }
 
