@@ -106,9 +106,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 ThirdButton(
                                   onPressed: () {
                                     viewModel.checkPhoneVerificationCode();
-                                    if (viewModel.showSuccessSnackbar) {
+                                    if (viewModel
+                                        .successPhoneVerificationCode) {
                                       showSuccessSnackbar(
-                                          context, '인증번호가 일치합니다.');
+                                          context, '휴대폰 번호 인증에 성공하였습니다.');
                                     } else {
                                       showSuccessSnackbar(
                                           context, '인증번호가 일치하지 않습니다.');
@@ -161,11 +162,17 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 ThirdButton(
                                   onPressed: () {
                                     viewModel.checkEmailVerificationCode();
+                                    if (viewModel
+                                        .successEmailVerificationCode) {
+                                      showSuccessSnackbar(
+                                          context, '이메일 인증에 성공하였습니다.');
+                                    } else {
+                                      showSuccessSnackbar(
+                                          context, '인증번호가 일치하지 않습니다.');
+                                    }
                                   },
                                   text: "확인",
                                   isClickable: true,
-
-                                  /// 인증 번호 숫자 입력 완료시 활성화 되도록 수정
                                 ),
                               ],
                             ),
@@ -177,7 +184,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                 ),
               ),
 
-              /// 수정하기 버튼 (항상 아래 고정, 위에서부터 높이 10)
+              /// 저장하기 버튼
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),
                 child: BasicButton(

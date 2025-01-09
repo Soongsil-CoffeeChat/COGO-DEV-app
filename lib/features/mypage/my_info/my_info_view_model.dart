@@ -9,7 +9,8 @@ class MyInfoViewModel extends ChangeNotifier {
   final UserService userService = GetIt.instance<UserService>();
   final MentorService mentorService = GetIt.instance<MentorService>();
 
-  bool showSuccessSnackbar = false;
+  bool successPhoneVerificationCode = false;
+  bool successEmailVerificationCode = false;
 
   String? _phoneVerificationCode; // 서버에서 받은 인증코드
   String? _emailVerificationCode; // 서버에서 받은 인증코드
@@ -33,7 +34,7 @@ class MyInfoViewModel extends ChangeNotifier {
   final TextEditingController emailVerificationCodeController =
       TextEditingController();
 
-  /// 수정 가능 여부 (이름 필드 예시)
+  /// 수정 가능 여부
   bool _isEditable = true;
 
   bool get isEditable => _isEditable;
@@ -160,7 +161,7 @@ class MyInfoViewModel extends ChangeNotifier {
     if (_phoneVerificationCode == phoneVerificationCodeController.text) {
       // 인증 성공
       log("인증번호 일치 - 인증 성공");
-      showSuccessSnackbar = true;
+      successPhoneVerificationCode = true;
 
       // 인증번호 입력 필드 숨기기
       showVerificationField.value = false;
@@ -198,18 +199,17 @@ class MyInfoViewModel extends ChangeNotifier {
 
   /// "확인" 버튼 탭 -> 사용자가 입력한 이메일 인증코드를 검증
   void checkEmailVerificationCode() {
-    if (isValidCode.value) {
-      if (_phoneVerificationCode == emailVerificationCodeController.text) {
-        // 인증 성공 로직
-        // TODO: 이메일 인증 성공 로직 추가 구현 필요
-        errorMessage.value = null;
-        log("인증번호 일치 - 인증 성공");
-      } else {
-        // 인증 실패
-        errorMessage.value = '인증번호가 일치하지 않습니다.';
-      }
+    if (_emailVerificationCode == emailVerificationCodeController.text) {
+      successEmailVerificationCode = true;
+
+      isClickEmailSendBtn = false;
+
+      _originalEmail = emailController.text;
+
+      log("인증번호 일치 - 인증 성공");
     } else {
-      errorMessage.value = '인증번호를 입력해주세요.';
+      // 인증 실패
+      errorMessage.value = '인증번호가 일치하지 않습니다.';
     }
   }
 
