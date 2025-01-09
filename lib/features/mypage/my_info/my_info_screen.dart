@@ -44,7 +44,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          /// 헤더
                           Header(
                             title: '코고 회원 정보',
                             subtitle: '개인정보는 정보통신망법에 따라 안전하게 보관됩니다.',
@@ -78,8 +77,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               const SizedBox(width: 8),
                               if (viewModel.isPhoneChanged)
                                 ThirdButton(
-                                  text: "인증번호 받기",
-                                  isClickable: viewModel.validatePhoneNumber(),
+                                  text: viewModel.isVerifyingPhone
+                                      ? "재발송"
+                                      : "인증번호 받기",
+                                  isClickable:
+                                      viewModel.validatePhoneNumber() &&
+                                          viewModel.canSendPhoneVerification,
                                   onPressed: viewModel.onPhoneNumberSubmitted,
                                 ),
                             ],
@@ -91,6 +94,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             Row(
                               children: [
                                 Expanded(
+                                  /// 휴대폰 인증 번호 text field
                                   child: SecondaryTextfield(
                                     controller: viewModel
                                         .phoneVerificationCodeController,
@@ -99,6 +103,17 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
+
+                                /// 타이머
+                                Text(
+                                  _formatTime(viewModel
+                                      .remainingSeconds), // 남은 시간을 mm:ss 형태로 포맷
+                                  style: CogoTextStyle.bodyL12
+                                      .copyWith(color: Colors.red),
+                                ),
+                                const SizedBox(width: 8),
+
+                                /// 확인 버튼
                                 ThirdButton(
                                   onPressed: () {
                                     viewModel.checkPhoneVerificationCode();
@@ -144,6 +159,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             Row(
                               children: [
                                 Expanded(
+                                  /// 이메일 인증번호 text field
                                   child: SecondaryTextfield(
                                     controller: viewModel
                                         .emailVerificationCodeController,
@@ -152,6 +168,17 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
+
+                                /// 타이머
+                                Text(
+                                  _formatTime(viewModel
+                                      .remainingSeconds), // 남은 시간을 mm:ss 형태로 포맷
+                                  style: CogoTextStyle.bodyL12
+                                      .copyWith(color: Colors.red),
+                                ),
+                                const SizedBox(width: 8),
+
+                                /// 확인 버튼
                                 ThirdButton(
                                   onPressed: () {
                                     viewModel.checkEmailVerificationCode();
@@ -208,5 +235,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
         duration: const Duration(seconds: 4),
       ),
     );
+  }
+
+  String _formatTime(int seconds) {
+    final minutes = seconds ~/ 60;
+    final secs = seconds % 60;
+    // 예: 2:05 / 0:08 이런 식으로
+    return '$minutes:${secs.toString().padLeft(2, '0')}';
   }
 }

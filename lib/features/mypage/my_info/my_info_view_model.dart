@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:cogo/data/service/mentor_service.dart';
 import 'package:cogo/data/service/user_service.dart';
@@ -9,23 +10,38 @@ class MyInfoViewModel extends ChangeNotifier {
   final UserService userService = GetIt.instance<UserService>();
   final MentorService mentorService = GetIt.instance<MentorService>();
 
+  /// 인증 번호 타이머 설정
+  Timer? _codeTimer;
+  int _remainingSeconds = 0;
+  int get remainingSeconds => _remainingSeconds;
+
+  /// 인증번호 받기 버튼 활성화 여부
+  bool _canSendPhoneVerification = true;
+  bool get canSendPhoneVerification => _canSendPhoneVerification;
+
+  /// 이미 인증번호 받기 버튼을 눌러서 현재 '인증 진행 중' 상태인지 확인하는 변수
+  bool _isVerifyingPhone = false;
+  bool get isVerifyingPhone => _isVerifyingPhone;
+
+  /// 인증 성공 확인 변수
   bool successPhoneVerificationCode = false;
   bool successEmailVerificationCode = false;
 
-  String? _phoneVerificationCode; // 서버에서 받은 인증코드
-  String? _emailVerificationCode; // 서버에서 받은 인증코드
+  /// 인증 번호를 담는 변수
+  String? _phoneVerificationCode;
+  String? _emailVerificationCode;
+
   String? _message;
 
   String? get phoneVerificationCode => _phoneVerificationCode;
-
   String? get message => _message;
 
-  // 원본 값(서버에서 받은 것)
+  /// 서버에서 받은 사용자 정보(이름, 폰번호, 이메일)
   String _originalName = '';
   String _originalPhone = '';
   String _originalEmail = '';
 
-  // TextEditingControllers
+  /// Text field 컨트롤러
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -34,26 +50,15 @@ class MyInfoViewModel extends ChangeNotifier {
   final TextEditingController emailVerificationCodeController =
       TextEditingController();
 
-  /// 전화번호 정규식 검사 결과
   final ValueNotifier<bool> isValidPhoneNumber = ValueNotifier<bool>(false);
-
-  /// 코드 입력 검사 결과 (비어있지 않은지 정도만 확인)
   final ValueNotifier<bool> isValidCode = ValueNotifier<bool>(false);
-
-  /// 에러 메시지 (전화번호/코드 검증 실패 시)
   final ValueNotifier<String?> errorMessage = ValueNotifier<String?>(null);
-
-  /// 인증번호 입력 필드 노출 여부
   final ValueNotifier<bool> showVerificationField = ValueNotifier<bool>(false);
 
-  /// 휴대폰, 이메일 변경 여부 Getter
   bool get isPhoneChanged => phoneController.text != _originalPhone;
-
   bool get isEmailChanged => emailController.text != _originalEmail;
 
-  /// 이메일 인증 버튼 상태
   bool _isClickEmailSendBtn = false;
-
   bool get isClickEmailSendBtn => _isClickEmailSendBtn;
 
   bool isEditable = false;
@@ -65,31 +70,27 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  MyInfoViewModel();
-
-  /// 화면 진입 후, 실제 초기 로딩
-  Future<void> initialize() async {
-    await getMyInfo();
-
-    // 전화번호 / 이메일 변경 -> 수정 가능 여부 체크
-    phoneController.addListener(() => notifyListeners());
-    emailController.addListener(() => notifyListeners());
-
-    // 전화번호 변경 -> 유효성 검사
-    phoneController.addListener(validatePhoneNumber);
+  MyInfoViewModel() {
+    /// 인증 로직을 리셋을 위해 listener를 추가해서 '입력값이 바뀔 때' 실행되게 함
+    phoneController.addListener(_onPhoneNumberChanged);
   }
 
-  /// 서버에서 내 정보 불러오기
+  /// 화면 초기화
+  Future<void> initialize() async {
+    await getMyInfo();
+    phoneController.addListener(() => notifyListeners());
+    emailController.addListener(() => notifyListeners());
+  }
+
+  /// 서버에서 회원 정보 불러오기
   Future<void> getMyInfo() async {
     try {
       final response = await userService.getUserInfo();
 
-      // 컨트롤러에 값 설정
       nameController.text = response.name;
       phoneController.text = response.phoneNum ?? '';
       emailController.text = response.email ?? '';
 
-      // 원본 값 저장
       _originalName = response.name;
       _originalPhone = response.phoneNum ?? '';
       _originalEmail = response.email ?? '';
@@ -104,23 +105,56 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  /// 전화번호 유효성 검사
+  /// 전화번호가 바뀌면 -> 인증 로직 초기화
+  void _onPhoneNumberChanged() {
+    // 인증 진행 중인 상태에서 전화번호가 변경되면 리셋
+    if (_isVerifyingPhone) {
+      _resetPhoneVerificationState();
+    }
+    // 전화번호 유효성 검사
+    validatePhoneNumber();
+    notifyListeners();
+  }
+
+  /// 전화번호 인증 로직 초기화
+  void _resetPhoneVerificationState() {
+    _codeTimer?.cancel();
+    _codeTimer = null;
+    _remainingSeconds = 0;
+    _canSendPhoneVerification = true;
+    _isVerifyingPhone = false;
+    showVerificationField.value = false;
+    phoneVerificationCodeController.clear();
+    successPhoneVerificationCode = false;
+    notifyListeners();
+  }
+
+  /// 전화번호 정규식 검사
   bool validatePhoneNumber() {
     final phoneNumber = phoneController.text.replaceAll('-', '');
     final regex = RegExp(r'^\d{3}\d{4}\d{4}$');
     final isValid = regex.hasMatch(phoneNumber);
-
     isValidPhoneNumber.value = isValid;
-
     return isValid;
   }
 
-  /// "인증하기" 버튼 탭 -> 서버에 전화번호 인증코드 발송
+  /// 인증번호 받기 버튼 → 서버에 인증코드 발송
   Future<void> onPhoneNumberSubmitted() async {
-    if (isValidPhoneNumber.value) {
-      // 전화번호가 유효하면 인증코드 발송 API 호출
-      showVerificationField.value = true; // 인증코드 입력 필드 노출
+    // 이미 비활성화라면 return
+    if (!_canSendPhoneVerification) return;
 
+    if (isValidPhoneNumber.value) {
+      // 인증 진행 중 상태로 전환
+      _isVerifyingPhone = true;
+
+      // 버튼 비활성화
+      _canSendPhoneVerification = false;
+      notifyListeners();
+
+      // 3분 타이머
+      _startCodeTimer(180);
+
+      showVerificationField.value = true;
       final cleanedPhoneNumber = phoneController.text.replaceAll('-', '');
       try {
         final result =
@@ -141,22 +175,48 @@ class MyInfoViewModel extends ChangeNotifier {
     }
   }
 
-  /// "확인" 버튼 탭 -> 사용자가 입력한 전화번호 인증코드를 검증
+  /// 3분 카운트다운 타이머
+  void _startCodeTimer(int totalSeconds) {
+    _codeTimer?.cancel();
+
+    _remainingSeconds = totalSeconds;
+    notifyListeners();
+
+    _codeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingSeconds > 0) {
+        _remainingSeconds--;
+        notifyListeners();
+      } else {
+        // 시간 다됨 → 타이머 종료 + 버튼 재활성화
+        timer.cancel();
+        _codeTimer = null;
+        _remainingSeconds = 0;
+        _canSendPhoneVerification = true;
+        notifyListeners();
+      }
+    });
+  }
+
+  /// "확인" 버튼 → 입력한 인증코드 검증
   void checkPhoneVerificationCode() {
     if (_phoneVerificationCode == phoneVerificationCodeController.text) {
       // 인증 성공
       log("인증번호 일치 - 인증 성공");
       successPhoneVerificationCode = true;
 
-      // 인증번호 입력 필드 숨기기
+      // 타이머 중단
+      _codeTimer?.cancel();
+      _codeTimer = null;
+      _remainingSeconds = 0;
+      _canSendPhoneVerification = true;
+
+      _isVerifyingPhone = false;
       showVerificationField.value = false;
 
-      // 현재 입력된 휴대폰 번호를 원본으로 만들어 더 이상 변경된 것으로 간주되지 않도록 함
+      /// 원본값 갱신
       _originalPhone = phoneController.text;
 
       isEditable = true;
-      notifyListeners();
-
       notifyListeners();
     } else {
       // 인증 실패
@@ -229,6 +289,7 @@ class MyInfoViewModel extends ChangeNotifier {
     isValidCode.dispose();
     showVerificationField.dispose();
     errorMessage.dispose();
+    _codeTimer?.cancel();
 
     super.dispose();
   }
