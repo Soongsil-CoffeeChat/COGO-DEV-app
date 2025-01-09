@@ -75,7 +75,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   labelText: '휴대폰 번호',
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 10),
 
                               /// 인증번호 받기 / 재발송 버튼
                               if (viewModel.isPhoneChanged)
@@ -105,7 +105,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                     labelText: '인증번호',
                                   ),
                                 ),
-                                const SizedBox(width: 8),
+                                const SizedBox(width: 10),
 
                                 /// 타이머
                                 Text(
@@ -114,7 +114,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   style: CogoTextStyle.bodyL12
                                       .copyWith(color: Colors.red),
                                 ),
-                                const SizedBox(width: 8),
+                                const SizedBox(width: 10),
 
                                 /// 확인 버튼
                                 ThirdButton(
@@ -144,10 +144,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 child: SecondaryTextfield(
                                   controller: viewModel.emailController,
                                   keyboardType: TextInputType.text,
-                                  labelText: '이메일 번호',
+                                  labelText: '이메일 주소',
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 10),
                               if (viewModel.isEmailChanged)
 
                                 /// 인증번호 받기 / 재발송 버튼
@@ -176,7 +176,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                     labelText: '인증번호',
                                   ),
                                 ),
-                                const SizedBox(width: 8),
+                                const SizedBox(width: 10),
 
                                 /// 타이머
                                 Text(
@@ -185,7 +185,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   style: CogoTextStyle.bodyL12
                                       .copyWith(color: Colors.red),
                                 ),
-                                const SizedBox(width: 8),
+                                const SizedBox(width: 10),
 
                                 /// 확인 버튼
                                 ThirdButton(
