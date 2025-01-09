@@ -65,6 +65,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           Row(
                             children: [
                               Expanded(
+                                /// 휴대폰 번호 text field
                                 child: SecondaryTextfield(
                                   controller: viewModel.phoneController,
                                   keyboardType: TextInputType.phone,
@@ -75,6 +76,8 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 ),
                               ),
                               const SizedBox(width: 8),
+
+                              /// 인증번호 받기 / 재발송 버튼
                               if (viewModel.isPhoneChanged)
                                 ThirdButton(
                                   text: viewModel.isVerifyingPhone
@@ -137,6 +140,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           Row(
                             children: [
                               Expanded(
+                                /// 이메일 text field
                                 child: SecondaryTextfield(
                                   controller: viewModel.emailController,
                                   keyboardType: TextInputType.text,
@@ -145,9 +149,14 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               ),
                               const SizedBox(width: 8),
                               if (viewModel.isEmailChanged)
+
+                                /// 인증번호 받기 / 재발송 버튼
                                 ThirdButton(
-                                  text: "인증번호 받기",
-                                  isClickable: viewModel.isEmailChanged,
+                                  text: viewModel.isVerifyingEmail
+                                      ? "재발송"
+                                      : "인증번호 받기",
+                                  isClickable: viewModel.isEmailChanged &&
+                                      viewModel.canSendEmailVerification,
                                   onPressed: viewModel.onEmailSendButtonClicked,
                                 ),
                             ],
@@ -172,7 +181,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 /// 타이머
                                 Text(
                                   _formatTime(viewModel
-                                      .remainingSeconds), // 남은 시간을 mm:ss 형태로 포맷
+                                      .remainingEmailSeconds), // 남은 시간을 mm:ss 형태로 포맷
                                   style: CogoTextStyle.bodyL12
                                       .copyWith(color: Colors.red),
                                 ),
