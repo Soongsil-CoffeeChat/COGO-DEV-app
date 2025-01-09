@@ -44,6 +44,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          /// 헤더
                           Header(
                             title: '코고 회원 정보',
                             subtitle: '개인정보는 정보통신망법에 따라 안전하게 보관됩니다.',
@@ -65,7 +66,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           Row(
                             children: [
                               Expanded(
-                                // 전화 번호 필드
                                 child: SecondaryTextfield(
                                   controller: viewModel.phoneController,
                                   keyboardType: TextInputType.phone,
@@ -77,19 +77,16 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               ),
                               const SizedBox(width: 8),
                               if (viewModel.isPhoneChanged)
-                                // 인증 번호 받기 버튼
                                 ThirdButton(
                                   text: "인증번호 받기",
                                   isClickable: viewModel.validatePhoneNumber(),
-                                  onPressed: () {
-                                    viewModel.onPhoneNumberSubmitted();
-                                  },
+                                  onPressed: viewModel.onPhoneNumberSubmitted,
                                 ),
                             ],
                           ),
                           const SizedBox(height: 20),
 
-                          /// 휴대폰 인증번호 받기 클릭시 나오는 인증 번호 text field
+                          /// 휴대폰 인증번호 받기 클릭 시 나오는 인증 번호 text field
                           if (viewModel.showVerificationField.value)
                             Row(
                               children: [
@@ -102,7 +99,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                //if (viewModel.isPhoneChanged)
                                 ThirdButton(
                                   onPressed: () {
                                     viewModel.checkPhoneVerificationCode();
@@ -135,18 +131,15 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               const SizedBox(width: 8),
                               if (viewModel.isEmailChanged)
                                 ThirdButton(
-                                  onPressed: () {
-                                    viewModel.onEmailSendButtonClicked();
-                                    //TODO 이메일 인증번호
-                                  },
                                   text: "인증번호 받기",
                                   isClickable: viewModel.isEmailChanged,
+                                  onPressed: viewModel.onEmailSendButtonClicked,
                                 ),
                             ],
                           ),
                           const SizedBox(height: 20),
 
-                          /// 이메일 인증번호 받기 클릭시 나오는 인증 번호 text field
+                          /// 이메일 인증번호 받기 클릭 시 나오는 인증 번호 text field
                           if (viewModel.isClickEmailSendBtn)
                             Row(
                               children: [
@@ -185,17 +178,20 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
               ),
 
               /// 저장하기 버튼
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),
-                child: BasicButton(
-                  text: '저장하기',
-                  onPressed: _viewModel.isEditable
-                      ? () {
-                          _viewModel.updateUserInfo();
-                        }
-                      : null,
-                  isClickable: _viewModel.isEditable,
-                ),
+              /// 따로 Cusumer 구독을 해야지 상태가 변경됨 왜지???
+              Consumer<MyInfoViewModel>(
+                builder: (context, viewModel, child) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),
+                    child: BasicButton(
+                      text: '저장하기',
+                      onPressed: viewModel.isEditable
+                          ? viewModel.updateUserInfo
+                          : null,
+                      isClickable: viewModel.isEditable,
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -209,7 +205,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
       SnackBar(
         content: Text(text),
         backgroundColor: Colors.green,
-        duration: const Duration(seconds: 4), // 표시 시간
+        duration: const Duration(seconds: 4),
       ),
     );
   }
