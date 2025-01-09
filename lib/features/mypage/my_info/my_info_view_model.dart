@@ -34,11 +34,6 @@ class MyInfoViewModel extends ChangeNotifier {
   final TextEditingController emailVerificationCodeController =
       TextEditingController();
 
-  /// 수정 가능 여부
-  bool _isEditable = true;
-
-  bool get isEditable => _isEditable;
-
   /// 전화번호 정규식 검사 결과
   final ValueNotifier<bool> isValidPhoneNumber = ValueNotifier<bool>(false);
 
@@ -61,6 +56,8 @@ class MyInfoViewModel extends ChangeNotifier {
 
   bool get isClickEmailSendBtn => _isClickEmailSendBtn;
 
+  bool isEditable = false;
+
   set isClickEmailSendBtn(bool value) {
     if (_isClickEmailSendBtn != value) {
       _isClickEmailSendBtn = value;
@@ -75,8 +72,8 @@ class MyInfoViewModel extends ChangeNotifier {
     await getMyInfo();
 
     // 전화번호 / 이메일 변경 -> 수정 가능 여부 체크
-    phoneController.addListener(_checkIfChanged);
-    emailController.addListener(_checkIfChanged);
+    phoneController.addListener(() => notifyListeners());
+    emailController.addListener(() => notifyListeners());
 
     // 전화번호 변경 -> 유효성 검사
     phoneController.addListener(validatePhoneNumber);
@@ -97,24 +94,12 @@ class MyInfoViewModel extends ChangeNotifier {
       _originalPhone = response.phoneNum ?? '';
       _originalEmail = response.email ?? '';
 
-      // 초기 상태에서 수정 사항 없음
-      _isEditable = false;
       notifyListeners();
     } catch (e) {
       log("Exception occurred: $e");
       if (e is DioException) {
         log("DioError details: ${e.response?.data}");
       }
-      notifyListeners();
-    }
-  }
-
-  /// 이름 필드 기준 수정 가능 여부
-  void _checkIfChanged() {
-    notifyListeners();
-    final nameChanged = (nameController.text != _originalName);
-    if (_isEditable != nameChanged) {
-      _isEditable = nameChanged;
       notifyListeners();
     }
   }
@@ -169,6 +154,9 @@ class MyInfoViewModel extends ChangeNotifier {
       // 현재 입력된 휴대폰 번호를 원본으로 만들어 더 이상 변경된 것으로 간주되지 않도록 함
       _originalPhone = phoneController.text;
 
+      isEditable = true;
+      notifyListeners();
+
       notifyListeners();
     } else {
       // 인증 실패
@@ -200,13 +188,15 @@ class MyInfoViewModel extends ChangeNotifier {
   /// "확인" 버튼 탭 -> 사용자가 입력한 이메일 인증코드를 검증
   void checkEmailVerificationCode() {
     if (_emailVerificationCode == emailVerificationCodeController.text) {
+      log("인증번호 일치 - 인증 성공");
       successEmailVerificationCode = true;
 
       isClickEmailSendBtn = false;
 
       _originalEmail = emailController.text;
 
-      log("인증번호 일치 - 인증 성공");
+      isEditable = true;
+      notifyListeners();
     } else {
       // 인증 실패
       errorMessage.value = '인증번호가 일치하지 않습니다.';
@@ -218,6 +208,7 @@ class MyInfoViewModel extends ChangeNotifier {
     try {
       await mentorService.patchEditMentorDetail(
           nameController.text, phoneController.text, emailController.text);
+      isEditable = false;
     } catch (e) {
       log("Exception occurred: $e");
       if (e is DioException) {
