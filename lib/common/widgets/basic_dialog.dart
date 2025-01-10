@@ -1,20 +1,23 @@
-import 'package:cogo/common/widgets/atoms/texts/texts.dart';
-import 'package:cogo/constants/constants.dart';
-import 'package:cogo/features/home/mentor_detail/views/mentor_introduction_screen.dart';
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class InfoDialog extends StatelessWidget {
+/// 확인 버튼이 하나인 다이얼로그
+class BasicDialog extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imagePath;
+  final String buttonText;
+  final VoidCallback? onPressed;
 
-  const InfoDialog({
-    Key? key,
-    required this.title,
-    required this.subtitle,
-    required this.imagePath,
-  }) : super(key: key);
+  const BasicDialog(
+      {Key? key,
+      required this.title,
+      required this.subtitle,
+      required this.imagePath,
+      required this.buttonText,
+      required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,19 +61,11 @@ class InfoDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () => Navigator.of(context).push(_createRoute()),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CogoColor.systemGray05,
-                      minimumSize: Size(dialogWidth, 50),
-                    ),
-                    child: Text(
-                      '멘토 프로필 작성하기',
-                      style: CogoTextStyle.button1.copyWith(
-                        color: CogoColor.white50,
-                      ),
-                    ),
-                  ),
+                  BasicButton(
+                    text: buttonText,
+                    isClickable: true,
+                    onPressed: onPressed,
+                  )
                 ],
               ),
             ),
@@ -89,21 +84,6 @@ class InfoDialog extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const MentorIntroductionScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero)
-            .chain(CurveTween(curve: Curves.ease));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
     );
   }
 }

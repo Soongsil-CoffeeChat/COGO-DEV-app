@@ -6,6 +6,7 @@ export 'components/basic_box.dart';
 export 'components/date_picker.dart';
 export 'components/header.dart';
 export 'horizontal_date_picker.dart';
-export 'info_dialog.dart';
+export 'basic_dialog.dart';
+export 'secondary_dialog.dart';
 export 'profile_card.dart';
 export 'single_selection_time_picker.dart';
