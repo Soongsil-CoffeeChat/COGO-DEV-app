@@ -32,7 +32,7 @@ class CompletionScreen extends StatelessWidget {
                     Header(
                       title: greetingText,
                       subtitle:
-                      'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
+                          'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
                       onBackButtonPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -41,7 +41,7 @@ class CompletionScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Center(
                         child: Image.asset(
-                          'assets/icons/3d_img/3d_fire.png', //todo change svg
+                          'assets/icons/3d_img/fire.png',
                           width: 300,
                           height: 300,
                         ),

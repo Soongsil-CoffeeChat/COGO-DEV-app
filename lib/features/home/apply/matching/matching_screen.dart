@@ -45,7 +45,7 @@ class MatchingScreen extends StatelessWidget {
                 const Spacer(),
                 Center(
                   child: Image.asset(
-                    'assets/icons/3d_img/3d_coffee.png',
+                    'assets/icons/3d_img/coffee.png',
                     width: 200,
                     height: 200,
                   ),
