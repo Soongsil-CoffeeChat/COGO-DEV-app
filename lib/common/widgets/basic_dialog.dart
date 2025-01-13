@@ -65,6 +65,7 @@ class BasicDialog extends StatelessWidget {
                     text: buttonText,
                     isClickable: true,
                     onPressed: onPressed,
+                    size: BasicButtonSize.LARGE,
                   )
                 ],
               ),

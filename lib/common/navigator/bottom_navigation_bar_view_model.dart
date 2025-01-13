@@ -1,4 +1,5 @@
 import 'package:cogo/common/enums/role.dart';
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/mypage/profile_management/mentor_introduction_screen.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +8,28 @@ import 'package:provider/provider.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 
 class BottomNavigationViewModel extends ChangeNotifier {
+  final SecureStorageRepository _secureStorage = SecureStorageRepository();
+  String? role;
+
   final GoRouter goRouter;
   int _selectedIndex = 0;
 
-  BottomNavigationViewModel(this.goRouter);
-
   int get selectedIndex => _selectedIndex;
+
+  BottomNavigationViewModel(this.goRouter) {
+    _loadPreferences();
+  }
+
+  void _loadPreferences() async {
+    role = await _secureStorage.readRole();
+  }
 
   void setIndex(int index, BuildContext context) {
     // HomeViewModel에 접근해서 role과 isIntroductionComplete 값 확인
     final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
 
     if (index == 1 &&
-        homeViewModel.role == Role.MENTOR.name &&
+        role == 'MENTOR' &&
         !homeViewModel.isIntroductionComplete) {
       // 조건이 만족하면 다이얼로그를 띄움
       _showMentorProfileDialog(context);
