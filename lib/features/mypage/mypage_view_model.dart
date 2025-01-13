@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:cogo/common/widgets/secondary_dialog.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/domain/entity/my_page_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-
+import 'package:go_router/go_router.dart';
 
 class MypageViewModel extends ChangeNotifier {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
@@ -44,9 +46,8 @@ class MypageViewModel extends ChangeNotifier {
     _secureStorage.deleteAllData();
   }
 
-  Future<void> signOut() async {
-    _secureStorage.deleteAllData();
-    userService.signOut();
+  Future<void> signOut(BuildContext context) async {
+    _showMentorProfileDialog(context);
   }
 
   void _updateState({
@@ -62,6 +63,27 @@ class MypageViewModel extends ChangeNotifier {
       role: role,
     );
     notifyListeners();
+  }
+
+  void _showMentorProfileDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SecondaryDialog(
+          title: "정말 탈퇴하시겠어요?",
+          subtitle: '탈퇴가 진행시 계정은 삭제되며, 계정은 복구되지 않습니다.',
+          imagePath: 'assets/icons/3d_img/trash.png',
+          firstButtonText: '취소하기',
+          secondButtonText: '탈퇴하기',
+          firstOnPressed: () => Navigator.of(context).pop(),
+          secondOnPressed: () {
+            _secureStorage.deleteAllData();
+            userService.signOut();
+            context.go(Paths.login);
+          },
+        );
+      },
+    );
   }
 }
 
