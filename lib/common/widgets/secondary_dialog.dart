@@ -9,7 +9,8 @@ class SecondaryDialog extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imagePath;
-  final String buttonText;
+  final String firstButtonText;
+  final String secondButtonText;
   final VoidCallback? firstOnPressed;
   final VoidCallback? secondOnPressed;
 
@@ -18,7 +19,8 @@ class SecondaryDialog extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.imagePath,
-    required this.buttonText,
+    required this.firstButtonText,
+    required this.secondButtonText,
     required this.firstOnPressed,
     required this.secondOnPressed,
   }) : super(key: key);
@@ -53,7 +55,8 @@ class SecondaryDialog extends StatelessWidget {
                   ),
                   Text(
                     subtitle,
-                    style: CogoTextStyle.body12,
+                    style: CogoTextStyle.body12
+                        .copyWith(color: CogoColor.systemGray03),
                   ),
                   Center(
                     child: Padding(
@@ -67,31 +70,42 @@ class SecondaryDialog extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      /// basic buttond으로 바꾸기
-                      ElevatedButton(
-                        onPressed: firstOnPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: CogoColor.systemGray05,
-                          minimumSize: Size(dialogWidth, 50),
-                        ),
-                        child: Text(
-                          buttonText,
-                          style: CogoTextStyle.button1.copyWith(
-                            color: CogoColor.white50,
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: firstOnPressed,
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: CogoColor.white50,
+                            minimumSize: const Size(0, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              side: const BorderSide(
+                                color: CogoColor.systemGray03,
+                                width: 0.5,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            firstButtonText,
+                            style: CogoTextStyle.body16,
                           ),
                         ),
                       ),
-
-                      ElevatedButton(
-                        onPressed: firstOnPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: CogoColor.systemGray05,
-                          minimumSize: Size(dialogWidth, 50),
-                        ),
-                        child: Text(
-                          buttonText,
-                          style: CogoTextStyle.button1.copyWith(
-                            color: CogoColor.white50,
+                      const SizedBox(width: 10.0),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: secondOnPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: CogoColor.systemGray05,
+                            minimumSize: const Size(0, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: Text(
+                            secondButtonText,
+                            style: CogoTextStyle.body16.copyWith(
+                              color: CogoColor.white50,
+                            ),
                           ),
                         ),
                       ),
@@ -115,21 +129,6 @@ class SecondaryDialog extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const MentorIntroductionScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero)
-            .chain(CurveTween(curve: Curves.ease));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
     );
   }
 }
