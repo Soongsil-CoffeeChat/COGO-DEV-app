@@ -1,9 +1,11 @@
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/home/profile/profile_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ProfileDetailScreen extends StatelessWidget {
@@ -28,6 +30,23 @@ class ProfileDetailScreen extends StatelessWidget {
             icon: SvgPicture.asset('assets/icons/button/chevron_left.svg'),
             onPressed: () => Navigator.of(context).pop(),
           ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: CogoColor.white50,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(16)),
+                    ),
+                    builder: (BuildContext context) {
+                      return _buildBottomSheetContent(context);
+                    },
+                  );
+                },
+                icon: const Icon(Icons.more_vert))
+          ],
           title: Consumer<ProfileDetailViewModel>(
             builder: (context, viewModel, child) {
               if (viewModel.isLoading) {
@@ -172,6 +191,28 @@ class ProfileDetailScreen extends StatelessWidget {
       child: Text(
         description,
         style: CogoTextStyle.intro,
+      ),
+    );
+  }
+
+  Widget _buildBottomSheetContent(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.flag),
+            title: const Text(
+              '신고하기',
+              style: CogoTextStyle.body16,
+            ),
+            onTap: () {
+              context.push(Paths.report);
+              // 설정 메뉴 선택
+            },
+          ),
+        ],
       ),
     );
   }
