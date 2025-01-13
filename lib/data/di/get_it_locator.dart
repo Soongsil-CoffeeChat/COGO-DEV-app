@@ -8,26 +8,25 @@ import 'package:cogo/features/auth/signup/mento_info/mentor_info_view_model.dart
 import 'package:cogo/features/auth/signup/name_input/name_input_view_model.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_view_model.dart';
 import 'package:cogo/features/home/home_view_model.dart';
+import 'package:cogo/features/splash_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt getIt = GetIt.instance;
 
 void setupServiceLocator() {
-  /**
-   * dio 등록
-   */
+  ///dio 등록
   getIt.registerLazySingleton<Dio>(() => Dio());
 
+  ///Service 등록
   getIt.registerLazySingleton<MentorService>(() => MentorService());
 
   getIt.registerLazySingleton<UserService>(() => UserService());
 
   getIt.registerLazySingleton<RefreshService>(() => RefreshService());
 
-  /**
-   * 뷰모델 등록
-   */
+
+  ///뷰모델 등록
   getIt.registerFactory<LoginViewModel>(() => LoginViewModel());
 
   getIt.registerFactory<PhoneNumberViewModel>(
@@ -44,4 +43,6 @@ void setupServiceLocator() {
   getIt.registerFactory<MentorInfoViewModel>(() => MentorInfoViewModel());
 
   getIt.registerFactory<HomeViewModel>(() => HomeViewModel());
+
+  getIt.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
 }

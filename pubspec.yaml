@@ -1,5 +1,5 @@
 name: cogo
-description: "cogo_dev_app"
+description: "COGO"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -51,8 +51,14 @@ dependencies:
   #달력
   table_calendar: ^3.0.9
 
+  # 직렬화 Freezed
   freezed_annotation: ^2.0.3
 
+  #토스트 메시지
+  fluttertoast: ^8.0.9
+
+  # 애니메이션 로티
+  lottie: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +78,7 @@ flutter:
     - assets/icons/3d_img/
     - assets/icons/button/
     - assets/image/
+    - assets/lottie/
 
   fonts:
     - family: PretendardRegular
@@ -89,3 +96,10 @@ flutter:
     - family: PretendardLight
       fonts:
         - asset: assets/fonts/Pretendard-Light.ttf
+
+flutter_native_splash:
+  color: "#ffffff"  # 배경색 설정 (흰색으로 설정)
+  image: null       # 이미지 비활성화
+  android: true     # Android에서 적용
+  ios: true         # iOS에서 적용
+  web: false        # 웹에서 스플래시 화면을 사용하지 않도록 설정

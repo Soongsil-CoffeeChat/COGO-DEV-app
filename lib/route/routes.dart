@@ -28,18 +28,26 @@ import 'package:cogo/features/mypage/mentor_time_checking/mentor_time_checking_s
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_screen.dart';
 import 'package:cogo/features/mypage/my_info/my_info_screen.dart';
 import 'package:cogo/features/mypage/mypage_screen.dart';
+import 'package:cogo/features/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+
+
 final AppRouter = GoRouter(
-  // initialLocation: '/',
-  initialLocation: Paths.login,
+  initialLocation: Paths.splash,
   routes: [
     GoRoute(
-        path: Paths.login,
+        path: Paths.splash,
         pageBuilder: (context, state) => MaterialPage(
               key: state.pageKey,
-              child: const LoginScreen(),
+              child: SplashScreen(),
+            )),
+    GoRoute(
+      path: Paths.login,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const LoginScreen(),
             )),
 
     ///회원가입
@@ -200,9 +208,8 @@ final AppRouter = GoRouter(
         child: const MentorQuestion2Screen(),
       ),
     ),
-    /**
-       * my page
-       */
+
+    /// my page
     GoRoute(
       path: Paths.myInfo,
       pageBuilder: (context, state) => MaterialPage(
@@ -214,7 +221,7 @@ final AppRouter = GoRouter(
       path: Paths.myMentorIntroduce,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const MyMentorIntroductionScreen(),
+        child: const MentorIntroductionScreen(),
       ),
     ),
     GoRoute(
@@ -233,13 +240,6 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const MentorTimeSettingScreen(),
-      ),
-    ),
-    GoRoute(
-      path: Paths.timeChecking,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const MentorTimeCheckingScreen(),
       ),
     ),
     StatefulShellRoute.indexedStack(
