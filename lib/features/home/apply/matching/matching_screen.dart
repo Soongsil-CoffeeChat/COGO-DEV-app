@@ -1,5 +1,6 @@
-import 'package:cogo/common/widgets/components/basic_button.dart';
-import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/common/utils/routing_extension.dart';
+import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -53,16 +54,35 @@ class MatchingScreen extends StatelessWidget {
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Consumer<MatchingViewModel>(
-                    builder: (context, viewModel, child) {
-                      return BasicButton(
-                        text: '코고 신청 완료하기',
-                        isClickable: true,
-                        onPressed: () => viewModel.completeApplication(
-                            context, mentorId, possibleDateId, memo),
-                        size: BasicButtonSize.LARGE,
-                      );
-                    },
+                  child: Column(
+                    children: [
+                      Consumer<MatchingViewModel>(
+                        builder: (context, viewModel, child) {
+                          return BasicButton(
+                            text: '코고 신청 완료하기',
+                            isClickable: true,
+                            onPressed: () => viewModel.completeApplication(
+                                context, mentorId, possibleDateId, memo),
+                            size: BasicButtonSize.LARGE,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          _showCancelDialog(context);
+                        },
+                        child: Text(
+                          '처음으로 돌아가기',
+                          style: CogoTextStyle.body9.copyWith(
+                            color: CogoColor.systemGray03,
+                            decoration: TextDecoration.underline,
+                            decorationColor: CogoColor.systemGray03,
+                            decorationThickness: 1.0,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -70,6 +90,21 @@ class MatchingScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showCancelDialog(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BasicDialog(
+          title: "정말 돌아가시겠어요?",
+          subtitle: '돌아가시게 되면 작성하신 내용이 모두 사라져요',
+          imagePath: 'assets/icons/3d_img/caution.png',
+          buttonText: '홈으로 돌아가기',
+          onPressed: () => context.popUntil(Paths.home),
+        );
+      },
     );
   }
 }
