@@ -79,8 +79,6 @@ class ImageUploadViewModel extends ChangeNotifier {
       // 서비스를 통해 이미지 업로드
       _uploadResult = await s3service.uploadImage(_selectedImage!.path);
 
-      //todo 이미지 업로드 api
-
       // 업로드 성공
       _isUpload = await userService.saveImage(_uploadResult!);
       _isUploading = false;
