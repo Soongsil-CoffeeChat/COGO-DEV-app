@@ -85,16 +85,26 @@ class MypageScreen extends StatelessWidget {
                           child: Stack(
                             children: [
                               ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(20)),
-                                child: Image.network(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                  child: Image.network(
                                   user.picture?.isNotEmpty == true
                                       ? user.picture!
                                       : '',
                                   width: double.infinity,
                                   height: 150,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      // 이미지를 로딩 중일 때, 아이콘을 항상 위에 놓음
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      } else {
+                                        return const Center(
+                                            child: CircularProgressIndicator());
+                                      }
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
                                     log("===이미지 에러===");
                                     return Image.asset(
                                       'assets/default_img.png', // 로컬 기본 이미지
@@ -105,8 +115,8 @@ class MypageScreen extends StatelessWidget {
                                   },
                                 ),
                               ),
-                              const Positioned(
-                                top: 0,
+                                Positioned(
+                                  top: 0,
                                 left: 0,
                                 right: 0,
                                 bottom: 0,
@@ -115,13 +125,13 @@ class MypageScreen extends StatelessWidget {
                                   child: Icon(
                                     Icons.camera_alt,
                                     size: 48,
-                                    color: Colors.grey,
-                                  ),
+                                      color: Colors.grey
+                                          .withOpacity(0.6), // 투명도 조절
+                                    ),
                                 ),
                               ),
                             ],
-                          ),
-                        ),
+                            )),
                       ] else ...[
                         GestureDetector(
                           onTap: () {
