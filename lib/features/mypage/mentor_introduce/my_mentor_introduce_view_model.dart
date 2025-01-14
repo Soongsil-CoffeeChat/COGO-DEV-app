@@ -66,7 +66,7 @@ class MyMentorIntroductionViewModel extends ChangeNotifier {
       var response = await mentorService.fetchMentorIntroduction();
       var data = MyMentorEntity.fromResponse(response);
 
-      introController.text = data.introductionAnswer1.toString();
+      introController.text = data.introductionAnswer1;
       descriptionController.text = data.introductionDescription;
       question1Controller.text = data.introductionAnswer1;
       question2Controller.text = data.introductionAnswer2;
