@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/constants/colors.dart';
@@ -85,20 +87,28 @@ class ProfileDetailScreen extends StatelessWidget {
                   }
 
                   return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ClipRRect(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(20)),
-                        child: Image.asset(
-                          profile.imageUrl.isNotEmpty
-                              ? profile.imageUrl
-                              : 'assets/default_img.png',
-                          width: double.infinity,
-                          height: 150,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          child: Image.network(
+                            profile.imageUrl.isNotEmpty
+                                ? profile.imageUrl
+                                : '', // 빈 문자열로 설정해 에러를 유도
+                            width: double.infinity,
+                            height: 150,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              log("===이미지 에러===");
+                              return Image.asset(
+                                'assets/default_img.png', // 로컬 기본 이미지
+                                width: double.infinity,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          )),
                       const SizedBox(height: 30),
                       Center(
                         child: Row(
