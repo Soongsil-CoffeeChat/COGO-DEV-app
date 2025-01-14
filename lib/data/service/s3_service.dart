@@ -1,7 +1,8 @@
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
+import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/image_save_response.dart';
 import 'package:dio/dio.dart';
-
 
 class S3Service {
   final ApiClient _apiClient = ApiClient();
@@ -34,8 +35,11 @@ class S3Service {
         throw Exception('업로드 실패: 상태 코드 = ${response.statusCode}');
       }
 
-      // 업로드 성공
-      return response.data.toString();
+      final baseResponse = BaseResponse<ImageSaveResponse>.fromJson(
+        response.data,
+        (contentJson) => ImageSaveResponse.fromJson(contentJson),
+      );
+      return baseResponse.content.savedUrl;
     } on DioException catch (e) {
       // Dio 특화된 에러 처리
       throw Exception('업로드 중 오류 발생: ${e.response?.data ?? e.message}');
