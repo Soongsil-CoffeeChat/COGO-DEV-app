@@ -1,5 +1,6 @@
 import 'package:cogo/common/utils/phone_number_input_formatter.dart';
 import 'package:cogo/common/widgets/components/secondary_textfield.dart';
+import 'package:cogo/common/widgets/components/snack_bar_widget.dart';
 import 'package:cogo/common/widgets/components/third_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -123,10 +124,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                         viewModel.checkPhoneVerificationCode();
                                         if (viewModel
                                             .successPhoneVerificationCode) {
-                                          showSnackbar(
+                                          SnackbarWidgt.show(
                                               context, '휴대폰 번호 인증에 성공하였습니다.');
                                         } else {
-                                          showSnackbar(
+                                          SnackbarWidgt.show(
                                               context, '인증번호가 일치하지 않습니다.');
                                         }
                                       },
@@ -195,9 +196,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                     viewModel.checkEmailVerificationCode();
                                     if (viewModel
                                         .successEmailVerificationCode) {
-                                      showSnackbar(context, '이메일 인증에 성공하였습니다.');
+                                      SnackbarWidgt.show(
+                                          context, '이메일 인증에 성공하였습니다.');
                                     } else {
-                                      showSnackbar(context, '인증번호가 일치하지 않습니다.');
+                                      SnackbarWidgt.show(
+                                          context, '인증번호가 일치하지 않습니다.');
                                     }
                                   },
                                   text: "확인",
@@ -231,17 +234,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  /// 인증 완료 다이얼로그
-  void showSnackbar(BuildContext context, String text) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(text, style: CogoTextStyle.body14),
-        backgroundColor: Colors.white,
-        duration: const Duration(seconds: 4),
       ),
     );
   }
