@@ -57,7 +57,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             controller: viewModel.nameController,
                             keyboardType: TextInputType.text,
                             labelText: '이름',
-                            readOnly: true,
+                            isEditable: true,
                           ),
                           const SizedBox(height: 20),
 

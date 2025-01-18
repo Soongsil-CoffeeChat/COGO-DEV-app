@@ -9,7 +9,7 @@ class SecondaryTextfield extends StatelessWidget {
   final TextInputType keyboardType;
 
   /// 수정 가능 여부 체크
-  final bool readOnly;
+  final bool isEditable;
 
   /// inputFormatter 텍스트 포멧 형식 지정 해줌
   final List<TextInputFormatter> inputFormatters;
@@ -19,7 +19,7 @@ class SecondaryTextfield extends StatelessWidget {
     required this.labelText,
     required this.controller,
     required this.keyboardType,
-    this.readOnly = false,
+    this.isEditable = false,
 
     /// 기본값으로 빈 리스트로 설정
     this.inputFormatters = const [],
@@ -30,7 +30,7 @@ class SecondaryTextfield extends StatelessWidget {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
-      readOnly: readOnly,
+      readOnly: isEditable,
       inputFormatters: inputFormatters,
       style: CogoTextStyle.body18,
       decoration: InputDecoration(
