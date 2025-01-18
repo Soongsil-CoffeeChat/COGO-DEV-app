@@ -57,7 +57,7 @@ class BottomNavigationViewModel extends ChangeNotifier {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return BasicDialog(
+        return OneButtonDialog(
           title: "멘토 활동을 시작하려면\n프로필 작성을 완료해주세요",
           subtitle: '입력하신 정보는 하단의 MY에서 수정이 가능해요',
           imagePath: 'assets/icons/3d_img/heart.png',

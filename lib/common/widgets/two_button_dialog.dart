@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// 확인 버튼이 두개인 다이얼로그
-class SecondaryDialog extends StatelessWidget {
+class TwoButtonDialog extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imagePath;
@@ -14,7 +14,7 @@ class SecondaryDialog extends StatelessWidget {
   final VoidCallback? firstOnPressed;
   final VoidCallback? secondOnPressed;
 
-  const SecondaryDialog({
+  const TwoButtonDialog({
     Key? key,
     required this.title,
     required this.subtitle,

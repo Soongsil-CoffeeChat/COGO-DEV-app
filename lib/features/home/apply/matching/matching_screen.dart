@@ -97,7 +97,7 @@ class MatchingScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return BasicDialog(
+        return OneButtonDialog(
           title: "정말 돌아가시겠어요?",
           subtitle: '돌아가시게 되면 작성하신 내용이 모두 사라져요',
           imagePath: 'assets/icons/3d_img/caution.png',

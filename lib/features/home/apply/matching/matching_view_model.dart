@@ -35,7 +35,7 @@ class MatchingViewModel extends ChangeNotifier {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return BasicDialog(
+        return OneButtonDialog(
           title: "커피챗 신청이 완료되었어요!",
           subtitle: '멘토님께서 신청을 승인할때까지 기다려주세요',
           imagePath: 'assets/icons/3d_img/calendar.png',

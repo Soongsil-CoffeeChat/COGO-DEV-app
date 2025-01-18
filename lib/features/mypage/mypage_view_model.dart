@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:cogo/common/widgets/secondary_dialog.dart';
+import 'package:cogo/common/widgets/two_button_dialog.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
@@ -69,7 +69,7 @@ class MypageViewModel extends ChangeNotifier {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SecondaryDialog(
+        return TwoButtonDialog(
           title: "정말 탈퇴하시겠어요?",
           subtitle: '탈퇴가 진행시 계정은 삭제되며, 계정은 복구되지 않습니다.',
           imagePath: 'assets/icons/3d_img/trash.png',

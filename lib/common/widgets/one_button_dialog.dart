@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// 확인 버튼이 하나인 다이얼로그
-class BasicDialog extends StatelessWidget {
+class OneButtonDialog extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imagePath;
   final String buttonText;
   final VoidCallback? onPressed;
 
-  const BasicDialog(
+  const OneButtonDialog(
       {Key? key,
       required this.title,
       required this.subtitle,
