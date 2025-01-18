@@ -47,7 +47,9 @@ class MypageViewModel extends ChangeNotifier {
   }
 
   Future<void> signOut(BuildContext context) async {
-    _showMentorProfileDialog(context);
+    _secureStorage.deleteAllData();
+    userService.signOut();
+    context.go(Paths.login);
   }
 
   void _updateState({
@@ -63,27 +65,6 @@ class MypageViewModel extends ChangeNotifier {
       role: role,
     );
     notifyListeners();
-  }
-
-  void _showMentorProfileDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return TwoButtonDialog(
-          title: "정말 탈퇴하시겠어요?",
-          subtitle: '탈퇴가 진행시 계정은 삭제되며, 계정은 복구되지 않습니다.',
-          imagePath: 'assets/icons/3d_img/trash.png',
-          firstButtonText: '취소하기',
-          secondButtonText: '탈퇴하기',
-          firstOnPressed: () => Navigator.of(context).pop(),
-          secondOnPressed: () {
-            _secureStorage.deleteAllData();
-            userService.signOut();
-            context.go(Paths.login);
-          },
-        );
-      },
-    );
   }
 }
 
