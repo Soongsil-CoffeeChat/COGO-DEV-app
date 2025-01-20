@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/email_verification_response.dart';
 import 'package:cogo/data/dto/response/mentee_signup_response.dart';
 import 'package:cogo/data/dto/response/mentor_signup_response.dart';
 import 'package:cogo/data/dto/response/my_info_response.dart';
@@ -148,6 +149,35 @@ class UserService {
         final baseResponse = BaseResponse<MenteeSignupResponse>.fromJson(
           response.data,
           (contentJson) => MenteeSignupResponse.fromJson(contentJson),
+        );
+        return baseResponse.content;
+      } else {
+        throw Exception('Failed to send verification code ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  ///POST /auth/email 이메일 인증 코드
+  Future<EmailVerificationResponse> emailVerificationCode(String email) async {
+    try {
+      final response = await _apiClient.dio.get(
+        options: Options(
+          extra: {'skipAuthToken': false}, //토큰 해제
+        ),
+        Apis.sendEmail,
+        queryParameters: {
+          'email': email,
+        },
+      );
+      if (response.statusCode == 200) {
+        //base response로 받는건 여기서 뿐임.
+        final baseResponse = BaseResponse<EmailVerificationResponse>.fromJson(
+          response.data,
+          (contentJson) => EmailVerificationResponse.fromJson(contentJson),
         );
         return baseResponse.content;
       } else {

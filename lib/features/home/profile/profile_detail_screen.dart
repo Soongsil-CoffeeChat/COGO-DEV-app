@@ -190,7 +190,7 @@ class ProfileDetailScreen extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(
         description,
-        style: CogoTextStyle.intro,
+        style: CogoTextStyle.bodyL12,
       ),
     );
   }

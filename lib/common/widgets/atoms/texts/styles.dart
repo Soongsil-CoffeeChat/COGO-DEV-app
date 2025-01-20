@@ -74,7 +74,7 @@ final class CogoTextStyle {
     color: CogoColor.sub1,
   );
 
-  static const TextStyle intro = TextStyle(
+  static const TextStyle bodyL12 = TextStyle(
     fontFamily: "PretendardLight",
     fontSize: 12,
     color: CogoColor.main,
