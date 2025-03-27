@@ -1,4 +1,4 @@
-import 'package:cogo/common/navigator/view_model/bottom_navigation_bar_view_model.dart';
+import 'package:cogo/common/navigator/bottom_navigation_bar_view_model.dart';
 import 'package:cogo/data/di/get_it_locator.dart';
 import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/splash_view_model.dart';
