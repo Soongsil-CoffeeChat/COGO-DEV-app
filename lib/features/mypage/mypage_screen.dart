@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart';
@@ -61,69 +63,128 @@ class MypageScreen extends StatelessWidget {
 
               final user = state.myPageInfo;
 
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 13),
-                    Text(
-                      '${user?.name ?? "사용자"}님',
-                      style: CogoTextStyle.bodySB20,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 13),
-                    if (user?.picture != null && user!.picture!.isNotEmpty) ...[
-                      Image.network(
-                        user.picture!,
-                        errorBuilder: (context, error, stackTrace) {
-                          return SvgPicture.asset(
-                              'assets/image/img_image.svg'); // 기본 로컬 이미지
-                        },
-                        fit: BoxFit.cover,
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 13),
+                      Text(
+                        '${user?.name ?? "사용자"}님',
+                        style: CogoTextStyle.bodySB20,
+                        textAlign: TextAlign.center,
                       ),
-                    ] else ...[
-                      SvgPicture.asset('assets/image/img_image.svg'),
-                      // 기본 로컬 이미지
-                    ],
-                    const SizedBox(height: 13),
-                    Center(
-                      child: TagList(tags: user!.tags),
-                    ),
-                    const SizedBox(height: 20),
-                    ListTile(
-                      title: const Text('내 정보 관리', style: CogoTextStyle.body16),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => context.push(Paths.myInfo),
-                    ),
-                    if (user.role == Role.MENTOR.name) ...[
+                      const SizedBox(height: 13),
+                      if (user?.picture != null &&
+                          user!.picture!.isNotEmpty) ...[
+                        GestureDetector(
+                          onTap: () {
+                            context.push(Paths.image);
+                          },
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                  child: Image.network(
+                                  user.picture?.isNotEmpty == true
+                                      ? user.picture!
+                                      : '',
+                                  width: double.infinity,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      // 이미지를 로딩 중일 때, 아이콘을 항상 위에 놓음
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      } else {
+                                        return const Center(
+                                            child: CircularProgressIndicator());
+                                      }
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                    log("===이미지 에러===");
+                                    return Image.asset(
+                                      'assets/default_img.png', // 로컬 기본 이미지
+                                      width: double.infinity,
+                                      height: 150,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ),
+                              ),
+                                Positioned(
+                                  top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: Align(
+                                  alignment: Alignment.center, // 중앙에 배치
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: 48,
+                                      color: Colors.grey
+                                          .withOpacity(0.6), // 투명도 조절
+                                    ),
+                                ),
+                              ),
+                            ],
+                            )),
+                      ] else ...[
+                        GestureDetector(
+                          onTap: () {
+                            context.push(Paths.image);
+                          },
+                          child: SvgPicture.asset(
+                            'assets/image/img_image.svg', // 기본 로컬 이미지
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 13),
+                      Center(
+                        child: TagList(tags: user!.tags),
+                      ),
+                      const SizedBox(height: 20),
                       ListTile(
                         title:
-                            const Text('자기소개 관리', style: CogoTextStyle.body16),
+                            const Text('내 정보 관리', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () => context.push(Paths.myMentorIntroduce),
+                        onTap: () => context.push(Paths.myInfo),
                       ),
+                      if (user.role == Role.MENTOR.name) ...[
+                        ListTile(
+                          title: const Text('자기소개 관리',
+                              style: CogoTextStyle.body16),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => context.push(Paths.myMentorIntroduce),
+                        ),
+                        ListTile(
+                          title:
+                              const Text('시간 설정', style: CogoTextStyle.body16),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => context.push(Paths.timeSetting),
+                        ),
+                      ],
                       ListTile(
-                        title: const Text('시간 설정', style: CogoTextStyle.body16),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () => context.push(Paths.timeSetting),
-                      ),
+                          title:
+                              const Text('로그아웃', style: CogoTextStyle.body16),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => {
+                                viewModel.logOut(),
+                                context.go(Paths.login), //라우팅 히스토리를 다 지움
+                              }),
+                      ListTile(
+                          title:
+                              const Text('탈퇴하기', style: CogoTextStyle.body16),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => {
+                                viewModel.signOut(),
+                                context.go(Paths.login), //라우팅 히스토리를 다 지움
+                              }),
                     ],
-                    ListTile(
-                        title: const Text('로그아웃', style: CogoTextStyle.body16),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () => {
-                              viewModel.logOut(),
-                              context.go(Paths.login), //라우팅 히스토리를 다 지움
-                            }),
-                    ListTile(
-                        title: const Text('탈퇴하기', style: CogoTextStyle.body16),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () => {
-                              viewModel.signOut(),
-                              context.go(Paths.login), //라우팅 히스토리를 다 지움
-                            }),
-                  ],
+                  ),
                 ),
               );
             },

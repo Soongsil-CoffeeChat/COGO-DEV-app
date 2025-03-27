@@ -1,7 +1,7 @@
 import 'package:cogo/common/widgets/atoms/texts/texts.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
-import 'package:flutter/material.dart';
 import 'package:cogo/constants/constants.dart';
+import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
   final String picture;
@@ -58,13 +58,20 @@ class ProfileCard extends StatelessWidget {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
-                  child: Image.asset(
-                    picture.isNotEmpty ? picture : 'assets/default_img.png',
-                    width: double.infinity,
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    child: Image.network(
+                      picture.isNotEmpty ? picture : '', // 빈 문자열로 설정해 에러를 유도
+                      width: double.infinity,
+                      height: 150,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/default_img.png', // 로컬 기본 이미지
+                          width: double.infinity,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )),
                 Positioned(
                   top: 15,
                   left: 15,
