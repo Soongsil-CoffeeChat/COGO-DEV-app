@@ -30,7 +30,6 @@ class ApiClient {
         // 특정 API에서만 토큰을 제외
         if (options.extra['skipAuthToken'] != true) {
           var token = await _secureStorage.readAccessToken();
-          log("secureStroage " + token.toString());
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }

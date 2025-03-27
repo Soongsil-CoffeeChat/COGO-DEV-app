@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/edit_mentor_detail_response.dart';
 import 'package:cogo/data/dto/response/mentor_detail_response.dart';
 import 'package:cogo/data/dto/response/mentor_introduction_response.dart';
 import 'package:cogo/data/dto/response/mentor_part_response.dart';
@@ -128,6 +129,45 @@ class MentorService {
       } else {
         log("에러발생" + response.statusCode.toString());
 
+        throw Exception(
+            'Failed to patch mentor introduction: ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  /// 멘토 세부 정보 수정
+  Future<EditMentorDetailResponse> patchEditMentorDetail(
+      String mentorName, String mentorPhoneNumber, String mentorEmail) async {
+    try {
+      final response = await _apiClient.dio.patch(
+        apiVersion + Apis.mentor,
+        data: {
+          'mentor_name': mentorName,
+          'mentor_phone_number': mentorPhoneNumber,
+          'mentor_email': mentorEmail,
+        },
+        options: Options(),
+      );
+
+      log('상태코드: $response.statusCode');
+      if (response.statusCode == 200) {
+        log(response.data.toString());
+
+        final responseData = response.data;
+
+        if (responseData is Map<String, dynamic> &&
+            responseData['content'] != null) {
+          final contentJson = responseData['content'] as Map<String, dynamic>;
+          return EditMentorDetailResponse.fromJson(contentJson);
+        } else {
+          throw Exception(
+              'Unexpected response format or null content: $responseData');
+        }
+      } else {
         throw Exception(
             'Failed to patch mentor introduction: ${response.data}');
       }
