@@ -64,19 +64,11 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                               locale: 'ko-KR',
                               daysOfWeekHeight: 30,
                               focusedDay: _focusedDay,
-                              selectedDayPredicate: (day) =>
-                                  isSameDay(_selectedDay, day),
+                              selectedDayPredicate: (day) => false,
                               onDaySelected: (selectedDay, focusedDay) {
                                 setState(() {
                                   _selectedDay = selectedDay;
                                   _focusedDay = focusedDay;
-
-                                  /// 선택된 날짜를 _markedDays에 추가하거나 제거하는 동작
-                                  if (_markedDays.contains(selectedDay)) {
-                                    _markedDays.remove(selectedDay);
-                                  } else {
-                                    _markedDays.add(selectedDay);
-                                  }
 
                                   _showBottomSheet(selectedDay, viewModel);
                                 });
@@ -100,10 +92,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                               /// 캘린더 스타일
                               calendarStyle: const CalendarStyle(
                                   defaultTextStyle: CogoTextStyle.body14,
-                                  selectedDecoration: BoxDecoration(
-                                    color: CogoColor.systemGray05,
-                                    shape: BoxShape.circle,
-                                  ),
+                                  selectedDecoration: BoxDecoration(),
                                   todayTextStyle: TextStyle(
                                     color: CogoColor.systemGray05,
                                   ),
@@ -114,8 +103,12 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                               },
                               calendarBuilders: CalendarBuilders(
                                 markerBuilder: (context, day, focusedDay) {
-                                  /// 선택된 날짜에 마커를 표시
-                                  if (_markedDays.contains(day)) {
+                                  // 시간을 선택한 날짜만 마킹
+                                  final hasSelectedTime = viewModel
+                                          .selectedTimeSlots[day]?.isNotEmpty ??
+                                      false;
+
+                                  if (hasSelectedTime) {
                                     return Center(
                                       child: Container(
                                         width: 35,
