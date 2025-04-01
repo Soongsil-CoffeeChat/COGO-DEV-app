@@ -184,13 +184,47 @@ class MypageScreen extends StatelessWidget {
                                 context.go(Paths.login), //라우팅 히스토리를 다 지움
                               }),
                     ],
-                  ),
+                    ListTile(
+                        title: const Text('로그아웃', style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => {
+                              viewModel.logOut(),
+                              context.go(Paths.login), //라우팅 히스토리를 다 지움
+                            }),
+                    ListTile(
+                        title: const Text('탈퇴하기', style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => {
+                              _showMentorProfileDialog(context),
+                            }),
+                  ],
                 ),
               );
             },
           ),
         ),
       ),
+    );
+  }
+
+  void _showMentorProfileDialog(BuildContext context) {
+    final viewModel = Provider.of<MypageViewModel>(context, listen: false);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return TwoButtonDialog(
+          title: "정말 탈퇴하시겠어요?",
+          subtitle: '탈퇴가 진행시 계정은 삭제되며, 계정은 복구되지 않습니다.',
+          imagePath: 'assets/icons/3d_img/trash.png',
+          firstButtonText: '취소하기',
+          secondButtonText: '탈퇴하기',
+          firstOnPressed: () => Navigator.of(context).pop(),
+          secondOnPressed: () {
+            viewModel.signOut(context);
+          },
+        );
+      },
     );
   }
 }

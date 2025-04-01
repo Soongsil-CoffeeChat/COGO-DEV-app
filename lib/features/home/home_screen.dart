@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/icons/3d_img/3d_empty.png',
+                  'assets/icons/3d_img/empty.png',
                   height: 150,
                 ),
                 const SizedBox(height: 20),

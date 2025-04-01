@@ -1,4 +1,4 @@
-import 'package:cogo/common/navigator/view/bottom_navigation_bar.dart';
+import 'package:cogo/common/navigator/bottom_navigation_bar.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/auth/login/login_screen.dart';
 import 'package:cogo/features/auth/signup/agreement/agreement_screen.dart';
@@ -35,8 +35,6 @@ import 'package:cogo/features/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
-
 final AppRouter = GoRouter(
   initialLocation: Paths.splash,
   routes: [
@@ -47,10 +45,10 @@ final AppRouter = GoRouter(
               child: SplashScreen(),
             )),
     GoRoute(
-      path: Paths.login,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const LoginScreen(),
+        path: Paths.login,
+        pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: const LoginScreen(),
             )),
 
     ///회원가입
