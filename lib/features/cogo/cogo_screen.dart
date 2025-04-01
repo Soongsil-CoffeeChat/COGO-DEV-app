@@ -33,7 +33,7 @@ class CogoScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        viewModel.role == Role.MENTOR.name
+                        viewModel.role == Role.ROLE_MENTOR.name
                             ? 'COGO를 하면서 많은 성장을 기원해요!'
                             : '멘토와 함께 성장하는 시간을 만들어보세요!',
                         style: CogoTextStyle.body12
@@ -45,7 +45,7 @@ class CogoScreen extends StatelessWidget {
                       children: [
                         ListTile(
                           title: Text(
-                            viewModel.role == Role.MENTOR.name
+                            viewModel.role == Role.ROLE_MENTOR.name
                                 ? '받은 코고'
                                 : '신청한 코고',
                             style: CogoTextStyle.body16,

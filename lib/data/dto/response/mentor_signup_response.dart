@@ -6,9 +6,8 @@ part 'mentor_signup_response.g.dart';
 @freezed
 class MentorSignupResponse with _$MentorSignupResponse {
   const factory MentorSignupResponse({
-    required String part,
-    required String club,
-    required int introductionId,
+    @JsonKey(name: 'part') required String part,
+    @JsonKey(name: 'club') required String club,
   }) = _MentorSignupResponse;
 
   factory MentorSignupResponse.fromJson(Map<String, dynamic> json) =>

@@ -41,7 +41,7 @@ class MatchedCogoScreen extends StatelessWidget {
                       if (viewModel.items.isEmpty) {
                         return Center(
                           child: Text(
-                            viewModel.role == Role.MENTOR.name
+                            viewModel.role == Role.ROLE_MENTOR.name
                                 ? '성사된 코고 신청이 없습니다.'
                                 : '성사된 코고 신청이 없습니다.',
                             style: CogoTextStyle.body14,
@@ -73,7 +73,7 @@ class MatchedCogoScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      viewModel.role == Role.MENTOR.name
+                                      viewModel.role == Role.ROLE_MENTOR.name
                                           ? '${item.menteeName}님의 코고신청'
                                           : '${item.mentorName}님께 보낸 코고',
                                       style: CogoTextStyle.body16),

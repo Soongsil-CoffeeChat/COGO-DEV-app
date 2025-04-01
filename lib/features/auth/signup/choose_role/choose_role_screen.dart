@@ -44,7 +44,7 @@ class ChooseRoleScreen extends StatelessWidget {
                                 child: SecondaryButton(
                                   text: '멘토',
                                   onPressed: () {
-                                    viewModel.selectRole(Role.MENTOR);
+                                    viewModel.selectRole(Role.ROLE_MENTOR);
                                     context.push(
                                         '${Paths.agreement}/${Paths.interest}');
                                   },
@@ -55,7 +55,7 @@ class ChooseRoleScreen extends StatelessWidget {
                                 child: SecondaryButton(
                                   text: '멘티',
                                   onPressed: () {
-                                    viewModel.selectRole(Role.MENTEE);
+                                    viewModel.selectRole(Role.ROLE_MENTEE);
                                     context.push(
                                         '${Paths.agreement}/${Paths.interest}');
                                   },

@@ -6,10 +6,11 @@ part 'add_possible_date_response.g.dart';
 @freezed
 class AddPossibleDateResponse with _$AddPossibleDateResponse {
   const factory AddPossibleDateResponse({
-    @Default(0) int possibleDateId,
-    required String date,
-    required String startTime,
-    required String endTime,
+    @JsonKey(name: 'possibleDateId') required int possibleDateId,
+    @JsonKey(name: 'date') required String date,
+    @JsonKey(name: 'startTime') required String startTime,
+    @JsonKey(name: 'endTime') required String endTime,
+    @JsonKey(name: 'active') required bool active,
   }) = _AddPossibleDateResponse;
 
   factory AddPossibleDateResponse.fromJson(Map<String, dynamic> json) =>

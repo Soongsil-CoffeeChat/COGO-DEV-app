@@ -1,27 +1,32 @@
 enum Role {
-  MENTOR,
-  MENTEE,
-  USER;
+  ROLE_MENTOR,
+  ROLE_MENTEE,
+  ROLE_USER,
+  ROLE_ADMIN;
 
   String get getKorean {
     switch (this) {
-      case Role.MENTOR:
+      case Role.ROLE_MENTOR:
         return '멘토';
-      case Role.MENTEE:
+      case Role.ROLE_MENTEE:
         return '멘티';
-      case Role.USER:
+      case Role.ROLE_USER:
         return '유저';
+      case Role.ROLE_ADMIN:
+        return '어드민';
     }
   }
 
   String get getLowercaseString {
     switch (this) {
-      case Role.MENTOR:
+      case Role.ROLE_MENTOR:
         return 'mentor';
-      case Role.MENTEE:
+      case Role.ROLE_MENTEE:
         return 'mentee';
-      case Role.USER:
+      case Role.ROLE_USER:
         return 'user';
+      case Role.ROLE_ADMIN:
+        return 'admin';
     }
   }
 
