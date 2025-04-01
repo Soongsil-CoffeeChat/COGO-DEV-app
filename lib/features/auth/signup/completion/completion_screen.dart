@@ -54,6 +54,7 @@ class CompletionScreen extends StatelessWidget {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
+                            viewModel.refreshToken();
                             context.go(Paths.home); // 다음 페이지 경로로 변경
                           },
                           style: ElevatedButton.styleFrom(

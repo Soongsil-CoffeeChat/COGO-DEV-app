@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/refresh_token_response.dart';
 import 'package:cogo/data/dto/response/token_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:dio/dio.dart';
@@ -54,7 +55,7 @@ class RefreshService {
   }
 
   /// POST refreshToken으로 서비스 accessToken, refreshToken 재발급
-  Future<TokenResponse> reissueToken() async {
+  Future<RefreshTokenResponse> reissueToken() async {
     try {
       var refreshToken = await _secureStorage.readRefreshToken();
 
@@ -72,10 +73,10 @@ class RefreshService {
       );
       if (response.statusCode == 200) {
         // BaseResponse
-        final baseResponse = BaseResponse<TokenResponse>.fromJson(
+        final baseResponse = BaseResponse<RefreshTokenResponse>.fromJson(
           response.data as Map<String, dynamic>,
-          (contentJson) =>
-              TokenResponse.fromJson(contentJson as Map<String, dynamic>),
+          (contentJson) => RefreshTokenResponse.fromJson(
+              contentJson as Map<String, dynamic>),
         );
 
 // AccessToken 저장 로직 수정
@@ -83,7 +84,7 @@ class RefreshService {
 
         if (tokenResponse != null) {
           await _secureStorage.saveAccessToken(tokenResponse.accessToken);
-          log("accessToken ${tokenResponse.accessToken}");
+          await _secureStorage.saveRefreshToken(tokenResponse.refreshToken);
         }
 
         return tokenResponse;
