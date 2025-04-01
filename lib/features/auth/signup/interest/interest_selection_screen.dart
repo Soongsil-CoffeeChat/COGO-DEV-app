@@ -185,7 +185,7 @@ class InterestSelectionScreen extends StatelessWidget {
   }) {
     onSelectInterest(interest);
 
-    if (role == Role.MENTOR.name) {
+    if (role == Role.ROLE_MENTOR.name) {
       context.push('${Paths.agreement}/${Paths.mentorClub}');
     } else {
       onSignUpMentee(interest);

@@ -79,21 +79,21 @@ class MypageScreen extends StatelessWidget {
                       if (user?.picture != null &&
                           user!.picture!.isNotEmpty) ...[
                         GestureDetector(
-                          onTap: () {
-                            context.push(Paths.image);
-                          },
-                          child: Stack(
-                            children: [
-                              ClipRRect(
+                            onTap: () {
+                              context.push(Paths.image);
+                            },
+                            child: Stack(
+                              children: [
+                                ClipRRect(
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(20)),
                                   child: Image.network(
-                                  user.picture?.isNotEmpty == true
-                                      ? user.picture!
-                                      : '',
-                                  width: double.infinity,
-                                  height: 150,
-                                  fit: BoxFit.cover,
+                                    user.picture?.isNotEmpty == true
+                                        ? user.picture!
+                                        : '',
+                                    width: double.infinity,
+                                    height: 150,
+                                    fit: BoxFit.cover,
                                     loadingBuilder:
                                         (context, child, loadingProgress) {
                                       // 이미지를 로딩 중일 때, 아이콘을 항상 위에 놓음
@@ -105,32 +105,32 @@ class MypageScreen extends StatelessWidget {
                                       }
                                     },
                                     errorBuilder: (context, error, stackTrace) {
-                                    log("===이미지 에러===");
-                                    return Image.asset(
-                                      'assets/default_img.png', // 로컬 기본 이미지
-                                      width: double.infinity,
-                                      height: 150,
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
+                                      log("===이미지 에러===");
+                                      return Image.asset(
+                                        'assets/default_img.png', // 로컬 기본 이미지
+                                        width: double.infinity,
+                                        height: 150,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
                                 Positioned(
                                   top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: Align(
-                                  alignment: Alignment.center, // 중앙에 배치
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    size: 48,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  child: Align(
+                                    alignment: Alignment.center, // 중앙에 배치
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      size: 48,
                                       color: Colors.grey
                                           .withOpacity(0.6), // 투명도 조절
                                     ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
                             )),
                       ] else ...[
                         GestureDetector(
@@ -153,7 +153,7 @@ class MypageScreen extends StatelessWidget {
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => context.push(Paths.myInfo),
                       ),
-                      if (user.role == Role.MENTOR.name) ...[
+                      if (user.role == Role.ROLE_MENTOR.name) ...[
                         ListTile(
                           title: const Text('자기소개 관리',
                               style: CogoTextStyle.body16),
@@ -180,24 +180,11 @@ class MypageScreen extends StatelessWidget {
                               const Text('탈퇴하기', style: CogoTextStyle.body16),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () => {
-                                viewModel.signOut(),
+                                viewModel.signOut(context),
                                 context.go(Paths.login), //라우팅 히스토리를 다 지움
                               }),
                     ],
-                    ListTile(
-                        title: const Text('로그아웃', style: CogoTextStyle.body16),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () => {
-                              viewModel.logOut(),
-                              context.go(Paths.login), //라우팅 히스토리를 다 지움
-                            }),
-                    ListTile(
-                        title: const Text('탈퇴하기', style: CogoTextStyle.body16),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () => {
-                              _showMentorProfileDialog(context),
-                            }),
-                  ],
+                  ),
                 ),
               );
             },

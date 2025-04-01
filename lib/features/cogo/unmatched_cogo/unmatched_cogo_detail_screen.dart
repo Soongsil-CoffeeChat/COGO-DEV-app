@@ -40,7 +40,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(child: _buildContent(context, viewModel)),
-                  if (viewModel.role == Role.MENTOR.name)
+                  if (viewModel.role == Role.ROLE_MENTOR.name)
                     _buildMentorButtons(context, applicationId),
                 ],
               ),
@@ -88,7 +88,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: Header(
-        title: role == Role.MENTOR.name
+        title: role == Role.ROLE_MENTOR.name
             ? '${item.menteeName}님이 코고신청을 보냈어요'
             : '${item.mentorName}님께 보낸 코고입니다',
         subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
