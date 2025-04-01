@@ -60,8 +60,19 @@ class TimeSlotDto {
     // '09:00 ~ 10:00' 형식에서 분리
     final timeRange = timeSlots[index].split(' ~ ');
     return {
-      'startTime': '${timeRange[0]}:00',
-      'endTime': '${timeRange[1]}:00',
+      'startTime': timeRange[0], // ✅ 그대로 반환
+      'endTime': timeRange[1], // ✅ 그대로 반환
     };
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TimeSlotDto &&
+        other.date == date &&
+        other.startTime == startTime &&
+        other.endTime == endTime;
+  }
+
+  @override
+  int get hashCode => date.hashCode ^ startTime.hashCode ^ endTime.hashCode;
 }
