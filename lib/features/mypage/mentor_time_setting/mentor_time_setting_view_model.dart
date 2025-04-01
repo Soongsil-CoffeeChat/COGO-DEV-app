@@ -6,6 +6,7 @@ import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class MentorTimeSettingViewModel extends ChangeNotifier {
   final PossibledateService possibledateService;
@@ -45,6 +46,7 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
     // 시간대 문자열에서 시작 시간과 끝 시간을 추출
     final timeSlot = timeSlots[timeSlotIndex];
     final times = timeSlot.split(' ~ ');
+    log('$times');
 
     // 시작 시간과 끝 시간을 DateTime으로 변환
     final startDateTime = DateTime(
@@ -62,9 +64,12 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
       int.parse(times[1].split(':')[1]),
     );
 
-    // ISO 8601 형식의 시간 문자열로 변환
-    final startTime = startDateTime.toIso8601String().split('T')[1];
-    final endTime = endDateTime.toIso8601String().split('T')[1];
+    // 시간 포맷
+    final formatter = DateFormat('HH:mm');
+    final startTime = formatter.format(startDateTime);
+    final endTime = formatter.format(endDateTime);
+
+    log('start time : $startTime End time $endTime');
 
     // DTO 생성
     final timeSlotDto = TimeSlotDto(
@@ -98,8 +103,10 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
       int.parse(times[1].split(':')[1]),
     );
 
-    final startTime = startDateTime.toIso8601String().split('T')[1];
-    final endTime = endDateTime.toIso8601String().split('T')[1];
+    // 시간 포맷
+    final formatter = DateFormat('HH:mm');
+    final startTime = formatter.format(startDateTime);
+    final endTime = formatter.format(endDateTime);
 
     final timeSlotDto = TimeSlotDto(
       date: date.toIso8601String().split('T')[0],
