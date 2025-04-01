@@ -61,15 +61,12 @@ class RefreshService {
 
       final response = await _apiClient.dio.post(
         options: Options(
-          extra: {'skipAuthToken': true},
-
-          ///기존 엑세스 토큰을 해제함
+          extra: {'skipAuthToken': false},
           headers: {
-            'refreshToken': 'Bearer $refreshToken',
+            'refreshToken': refreshToken,
           },
         ),
         Apis.reissueToken,
-        queryParameters: {},
       );
       if (response.statusCode == 200) {
         // BaseResponse
@@ -80,14 +77,16 @@ class RefreshService {
         );
 
 // AccessToken 저장 로직 수정
-        final tokenResponse = baseResponse.content;
+        final refreshTokenResponse = baseResponse.content;
 
-        if (tokenResponse != null) {
-          await _secureStorage.saveAccessToken(tokenResponse.accessToken);
-          await _secureStorage.saveRefreshToken(tokenResponse.refreshToken);
+        if (refreshTokenResponse != null) {
+          await _secureStorage
+              .saveAccessToken(refreshTokenResponse.accessToken);
+          await _secureStorage
+              .saveRefreshToken(refreshTokenResponse.refreshToken);
         }
 
-        return tokenResponse;
+        return refreshTokenResponse;
       } else {
         throw Exception(
             'Failed to send verification code ${response.data.toString()}');
