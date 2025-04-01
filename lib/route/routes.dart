@@ -25,6 +25,7 @@ import 'package:cogo/features/home/profile/profile_detail_screen.dart';
 import 'package:cogo/features/home/report/report_detail_screen.dart';
 import 'package:cogo/features/home/report/report_screen.dart';
 import 'package:cogo/features/home/search/search_screen.dart';
+import 'package:cogo/features/mypage/image_uplooad_screen.dart';
 import 'package:cogo/features/mypage/mentor_introduce/my_mentor_introduce_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_checking/mentor_time_checking_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_screen.dart';
@@ -221,7 +222,7 @@ final AppRouter = GoRouter(
       path: Paths.myMentorIntroduce,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const MentorIntroductionScreen(),
+        child: const MyMentorIntroductionScreen(),
       ),
     ),
     GoRoute(
@@ -261,6 +262,13 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const ReportDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.image,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: ImageUploadScreen(),
       ),
     ),
     StatefulShellRoute.indexedStack(

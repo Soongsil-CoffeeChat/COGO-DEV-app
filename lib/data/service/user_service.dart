@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
+import 'package:cogo/data/dto/response/email_verification_response.dart';
 import 'package:cogo/data/dto/response/mentee_signup_response.dart';
 import 'package:cogo/data/dto/response/mentor_signup_response.dart';
 import 'package:cogo/data/dto/response/my_info_response.dart';
@@ -160,6 +161,35 @@ class UserService {
     }
   }
 
+  ///POST /auth/email 이메일 인증 코드
+  Future<EmailVerificationResponse> emailVerificationCode(String email) async {
+    try {
+      final response = await _apiClient.dio.get(
+        options: Options(
+          extra: {'skipAuthToken': false}, //토큰 해제
+        ),
+        Apis.sendEmail,
+        queryParameters: {
+          'email': email,
+        },
+      );
+      if (response.statusCode == 200) {
+        //base response로 받는건 여기서 뿐임.
+        final baseResponse = BaseResponse<EmailVerificationResponse>.fromJson(
+          response.data,
+          (contentJson) => EmailVerificationResponse.fromJson(contentJson),
+        );
+        return baseResponse.content;
+      } else {
+        throw Exception('Failed to send verification code ${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
   ///DELETE /api/v2/user 탈퇴하기
   Future<void> signOut() async {
     try {
@@ -174,6 +204,36 @@ class UserService {
       } else {
         throw Exception('Failed to send verification code ${response.data}');
       }
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  ///PUT /api/v2/users/picture 이미지 저장하기
+  Future<bool> saveImage(String imageUrl) async {
+    try {
+      final response =
+          await _apiClient.dio.put(apiVersion + Apis.saveImage, data: imageUrl);
+
+      //todo 여기 response가 존재하나 필요가 없어서 안받음
+      // {
+      //   "statusCode": "201",
+      //   "message": "CREATED",
+      //   "content": {
+      //   "username": "113343694546635833713",
+      //   "name": "222",
+      //   "email": "objet917@gmail.com",
+      //   "role": "ROLE_MENTOR",
+      //   "phoneNum": "123-1231-2312",
+      //   "picture": "\"https://cogo-bucket.s3.ap-northeast-2.amazonaws.com/v2/113343694546635833713\""
+      // }
+      // }
+      if (response.statusCode != 201) {
+        throw Exception('Failed to send verification code ${response.data}');
+      }
+      return true;
     } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');
     } catch (e) {
