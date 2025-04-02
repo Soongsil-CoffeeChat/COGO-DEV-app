@@ -118,7 +118,7 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> postPossibleDates() async {
+  Future<void> putPossibleDates() async {
     try {
       await possibledateService.updateMentorPossibleDates(_timeSlotDto);
       notifyListeners();

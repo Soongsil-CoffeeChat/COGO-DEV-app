@@ -13,13 +13,13 @@ class PossibledateService {
   final ApiClient _apiClient = ApiClient();
   static const apiVersion = "api/v2/";
 
-  ///  POST 멘토가 직접 커피챗 가능시간 갱신하기
+  ///  Put 멘토가 직접 커피챗 가능시간 갱신하기
   Future<AddPossibleDateResponse> updateMentorPossibleDates(
       List<TimeSlotDto> availableTimes) async {
     try {
-      final response = await _apiClient.dio.post(
+      final response = await _apiClient.dio.put(
         '$apiVersion${Apis.possibleDates}',
-        data: availableTimes, // 요청 본문 데이터
+        data: availableTimes, // time slot 리스트
         options: Options(
           extra: {'skipAuthToken': false},
         ),
@@ -31,9 +31,8 @@ class PossibledateService {
         (contentJson) => AddPossibleDateResponse.fromJson(contentJson),
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         ///추가라서 201임
-        // 성공적으로 갱신됨
         log('Mentor possible dates updated successfully');
         log(baseResponse.content.toString());
 
