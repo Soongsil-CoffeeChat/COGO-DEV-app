@@ -304,11 +304,30 @@ class MyInfoViewModel extends ChangeNotifier {
     return isValid;
   }
 
+  /* 이메일 인증 있을 시 코드
   void _onEmailChanged() {
     // 이미 인증 진행 중이라면 리셋
     if (_isVerifyingEmail) {
       _resetEmailVerificationState();
     }
+    notifyListeners();
+  }
+   */
+
+  /// 이메일 필드 변경 확인
+  void _onEmailChanged() {
+    // 인증 진행 중인 경우 초기화
+    if (_isVerifyingEmail) {
+      _resetEmailVerificationState();
+    }
+
+    // 이메일이 기존 값과 다르면 저장 가능 상태로 변경
+    if (emailController.text != _originalEmail) {
+      isEditable = true;
+    } else {
+      isEditable = false;
+    }
+
     notifyListeners();
   }
 

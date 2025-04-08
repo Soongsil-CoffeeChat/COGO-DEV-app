@@ -152,6 +152,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 ),
                               ),
                               const SizedBox(width: 10),
+                              /*
                               if (viewModel.isEmailChanged)
 
                                 /// 인증번호 받기 / 재발송 버튼
@@ -163,10 +164,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                       viewModel.canSendEmailVerification,
                                   onPressed: viewModel.onEmailSendButtonClicked,
                                 ),
+                              */
                             ],
                           ),
                           const SizedBox(height: 20),
-
+                          /*
                           /// 이메일 인증번호 받기 클릭 시 나오는 인증 번호 text field
                           if (viewModel.isClickEmailSendBtn)
                             Row(
@@ -208,6 +210,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                 ),
                               ],
                             ),
+                          */
                           const SizedBox(height: 20),
                         ],
                       );
