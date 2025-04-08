@@ -164,9 +164,12 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
             return Container(
               height: 400,
               padding: const EdgeInsets.all(15.0),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(30.0),
+                ),
+                border: Border.all(color: Colors.black, width: 1),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,25 +180,36 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: MultiSelectionTimePicker(
-                      selectedDay: selectedDay,
-                      initialSelectedTimeSlots:
-                          viewModel.selectedTimeSlots[selectedDay] ?? [],
-                      onTimeSlotSelected: (selectedTimeSlot) {
-                        viewModel.addTimeSlot(selectedDay, selectedTimeSlot);
-                        setModalState(() {
-                          _isSelected = true;
-                        });
-                      },
-                      onTimeSlotDeselected: (selectedTimeSlot) {
-                        viewModel.deleteTimeSlot(selectedDay, selectedTimeSlot);
-                        setModalState(() {
-                          _isSelected = viewModel
-                                  .selectedTimeSlots[selectedDay]?.isNotEmpty ??
-                              false;
-                        });
-                      },
-                      timeSlots: viewModel.timeSlots,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          MultiSelectionTimePicker(
+                            selectedDay: selectedDay,
+                            initialSelectedTimeSlots:
+                                viewModel.selectedTimeSlots[selectedDay] ?? [],
+                            onTimeSlotSelected: (selectedTimeSlot) {
+                              viewModel.addTimeSlot(
+                                  selectedDay, selectedTimeSlot);
+                              setModalState(() {
+                                _isSelected = true;
+                              });
+                            },
+                            onTimeSlotDeselected: (selectedTimeSlot) {
+                              viewModel.deleteTimeSlot(
+                                  selectedDay, selectedTimeSlot);
+                              setModalState(() {
+                                _isSelected = viewModel
+                                        .selectedTimeSlots[selectedDay]
+                                        ?.isNotEmpty ??
+                                    false;
+                              });
+                            },
+                            timeSlots: viewModel.timeSlots,
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
                     ),
                   ),
                 ],
