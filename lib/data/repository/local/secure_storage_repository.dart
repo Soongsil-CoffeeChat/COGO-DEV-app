@@ -33,6 +33,10 @@ class SecureStorageRepository {
     await _storage.write(key: "user_email", value: email);
   }
 
+  Future<String?> readUserEmail() async {
+    return await _storage.read(key: "user_email");
+  }
+
   Future<String?> readRole() async {
     return await _storage.read(key: "role");
   }
