@@ -1,6 +1,8 @@
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/mypage/mentor_time_checking/mentor_time_checking_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class MentorTimeCheckingScreen extends StatefulWidget {
@@ -81,7 +83,9 @@ class _MentorTimeCheckingScreenState extends State<MentorTimeCheckingScreen> {
                     alignment: Alignment.bottomCenter,
                     child: BasicButton(
                       onPressed: () {
-                        // '저장하기' 버튼 클릭 시 처리 로직
+                        /// 모든 라우트를 pop하고 첫 페이지로 이동
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
                       },
                       text: '저장하기',
                       isClickable: true,
