@@ -18,18 +18,25 @@ class MentorTimeSettingScreen extends StatefulWidget {
 class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-
-  /// 표시할 날짜들을 저장하는 Set
-  final Set<DateTime> _markedDays = {};
-
-  /// 시간 선택 여부를 추적하는 변수
   bool _isSelected = false;
+
+  late MentorTimeSettingViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = MentorTimeSettingViewModel(
+      possibledateService: PossibledateService(),
+    );
+    Future.microtask(() {
+      viewModel.loadPossibleDatesFromApi();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MentorTimeSettingViewModel(
-          possibledateService: PossibledateService()),
+    return ChangeNotifierProvider.value(
+      value: viewModel,
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true,
@@ -37,133 +44,106 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 0.0),
-                  child: Header(
-                    title: 'COGO 시간',
-                    subtitle: 'COGO를 진행하기 편한 시간 대를 알려주세요.',
-                    onBackButtonPressed: () => Navigator.of(context).pop(),
-                  ),
+                Header(
+                  title: 'COGO 시간',
+                  subtitle: 'COGO를 진행하기 편한 시간 대를 알려주세요.',
+                  onBackButtonPressed: () => Navigator.of(context).pop(),
                 ),
                 const SizedBox(height: 30),
+                Expanded(
+                  child: Consumer<MentorTimeSettingViewModel>(
+                    builder: (context, viewModel, child) {
+                      return SingleChildScrollView(
+                        child: TableCalendar(
+                          firstDay: DateTime.now(),
+                          lastDay: DateTime(2100),
+                          locale: 'ko-KR',
+                          daysOfWeekHeight: 30,
+                          focusedDay: _focusedDay,
+                          selectedDayPredicate: (day) => false,
+                          onDaySelected: (selectedDay, focusedDay) {
+                            final normalizedDay = DateTime(selectedDay.year,
+                                selectedDay.month, selectedDay.day);
+                            setState(() {
+                              _selectedDay = normalizedDay;
+                              _focusedDay = focusedDay;
+                              _showBottomSheet(normalizedDay, viewModel);
+                            });
+                          },
+                          headerStyle: const HeaderStyle(
+                            formatButtonVisible: false,
+                            titleCentered: true,
+                            leftChevronVisible: false,
+                            rightChevronVisible: false,
+                            titleTextStyle: CogoTextStyle.body16,
+                          ),
+                          daysOfWeekStyle: const DaysOfWeekStyle(
+                            weekdayStyle: CogoTextStyle.body14,
+                            weekendStyle: CogoTextStyle.body14,
+                          ),
+                          calendarStyle: const CalendarStyle(
+                            defaultTextStyle: CogoTextStyle.body14,
+                            todayTextStyle:
+                                TextStyle(color: CogoColor.systemGray05),
+                            todayDecoration:
+                                BoxDecoration(color: Colors.transparent),
+                          ),
+                          calendarBuilders: CalendarBuilders(
+                            markerBuilder: (context, day, focusedDay) {
+                              final normalizedDay =
+                                  DateTime(day.year, day.month, day.day);
+                              final hasSelectedTime = viewModel
+                                      .selectedTimeSlots[normalizedDay]
+                                      ?.isNotEmpty ??
+                                  false;
+
+                              if (hasSelectedTime) {
+                                return Center(
+                                  child: Container(
+                                    width: 35,
+                                    height: 35,
+                                    decoration: const BoxDecoration(
+                                      color: CogoColor.systemGray05,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${day.day}',
+                                        style: CogoTextStyle.body14
+                                            .copyWith(color: CogoColor.white50),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 Consumer<MentorTimeSettingViewModel>(
                   builder: (context, viewModel, child) {
-                    return Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            /// TODO : 멘토 가능 시간 불러와서 달력에 표시하기
-                            TableCalendar(
-                              firstDay: DateTime.now(),
-                              lastDay: DateTime(2100),
-                              locale: 'ko-KR',
-                              daysOfWeekHeight: 30,
-                              focusedDay: _focusedDay,
-                              selectedDayPredicate: (day) =>
-                                  isSameDay(_selectedDay, day),
-                              onDaySelected: (selectedDay, focusedDay) {
-                                setState(() {
-                                  _selectedDay = selectedDay;
-                                  _focusedDay = focusedDay;
-
-                                  /// 선택된 날짜를 _markedDays에 추가하거나 제거하는 동작
-                                  if (_markedDays.contains(selectedDay)) {
-                                    _markedDays.remove(selectedDay);
-                                  } else {
-                                    _markedDays.add(selectedDay);
-                                  }
-
-                                  _showBottomSheet(selectedDay, viewModel);
-                                });
-                              },
-
-                              /// 헤더 스타일
-                              headerStyle: const HeaderStyle(
-                                formatButtonVisible: false,
-                                titleCentered: true,
-                                leftChevronVisible: false,
-                                rightChevronVisible: false,
-                                titleTextStyle: CogoTextStyle.body16,
-                              ),
-
-                              /// 날짜 주 스타일
-                              daysOfWeekStyle: const DaysOfWeekStyle(
-                                weekdayStyle: CogoTextStyle.body14,
-                                weekendStyle: CogoTextStyle.body14,
-                              ),
-
-                              /// 캘린더 스타일
-                              calendarStyle: const CalendarStyle(
-                                  defaultTextStyle: CogoTextStyle.body14,
-                                  selectedDecoration: BoxDecoration(
-                                    color: CogoColor.systemGray05,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  todayTextStyle: TextStyle(
-                                    color: CogoColor.systemGray05,
-                                  ),
-                                  todayDecoration:
-                                      BoxDecoration(color: Colors.transparent)),
-                              onPageChanged: (focusedDay) {
-                                _focusedDay = focusedDay;
-                              },
-                              calendarBuilders: CalendarBuilders(
-                                markerBuilder: (context, day, focusedDay) {
-                                  /// 선택된 날짜에 마커를 표시
-                                  if (_markedDays.contains(day)) {
-                                    return Center(
-                                      child: Container(
-                                        width: 35,
-                                        height: 35,
-                                        decoration: const BoxDecoration(
-                                          color: CogoColor.systemGray05,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            '${day.day}',
-                                            style:
-                                                CogoTextStyle.body14.copyWith(
-                                              color: CogoColor.white50,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Consumer<MentorTimeSettingViewModel>(
-                      builder: (context, viewModel, child) {
-                        return BasicButton(
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: BasicButton(
                           onPressed: () async {
-                            await viewModel.postPossibleDates();
+                            await viewModel.putPossibleDates();
                             viewModel.navigateToMentorTimeChecking(context);
                           },
                           text: '다음',
                           isClickable: _isSelected,
                           size: BasicButtonSize.SMALL,
-                        );
-                      },
-                    ),
-                  ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -219,12 +199,10 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                               viewModel.deleteTimeSlot(
                                   selectedDay, selectedTimeSlot);
                               setModalState(() {
-                                _isSelected =
-                                    viewModel.selectedTimeSlots[selectedDay] !=
-                                            null &&
-                                        viewModel
-                                            .selectedTimeSlots[selectedDay]!
-                                            .isNotEmpty;
+                                _isSelected = viewModel
+                                        .selectedTimeSlots[selectedDay]
+                                        ?.isNotEmpty ??
+                                    false;
                               });
                             },
                             timeSlots: viewModel.timeSlots,
