@@ -10,6 +10,7 @@ class MentorPossibleDateResponse with _$MentorPossibleDateResponse {
     required String date,
     required String startTime,
     required String endTime,
+    required bool active,
   }) = _MentorPossibleDateResponse;
 
   factory MentorPossibleDateResponse.fromJson(Map<String, dynamic> json) =>

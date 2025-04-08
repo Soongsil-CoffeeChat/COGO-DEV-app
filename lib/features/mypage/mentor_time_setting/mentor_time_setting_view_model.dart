@@ -36,46 +36,19 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
   final List<TimeSlotDto> _timeSlotDto = [];
   List<TimeSlotDto> get timeSlotDto => _timeSlotDto;
 
+  // 기존 addTimeSlot, deleteTimeSlot도 수정!
   void addTimeSlot(DateTime date, int timeSlotIndex) {
-    if (_selectedTimeSlots[date] == null) {
-      _selectedTimeSlots[date] = [];
+    date = normalizeDate(date);
+    _selectedTimeSlots.putIfAbsent(date, () => []);
+    if (!_selectedTimeSlots[date]!.contains(timeSlotIndex)) {
+      _selectedTimeSlots[date]!.add(timeSlotIndex);
     }
 
-    _selectedTimeSlots[date]!.add(timeSlotIndex);
-
-    // 시간대 문자열에서 시작 시간과 끝 시간을 추출
-    final timeSlot = timeSlots[timeSlotIndex];
-    final times = timeSlot.split(' ~ ');
-    log('$times');
-
-    // 시작 시간과 끝 시간을 DateTime으로 변환
-    final startDateTime = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      int.parse(times[0].split(':')[0]),
-      int.parse(times[0].split(':')[1]),
-    );
-    final endDateTime = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      int.parse(times[1].split(':')[0]),
-      int.parse(times[1].split(':')[1]),
-    );
-
-    // 시간 포맷
-    final formatter = DateFormat('HH:mm');
-    final startTime = formatter.format(startDateTime);
-    final endTime = formatter.format(endDateTime);
-
-    log('start time : $startTime End time $endTime');
-
-    // DTO 생성
+    final times = timeSlots[timeSlotIndex].split(' ~ ');
     final timeSlotDto = TimeSlotDto(
-      date: date.toIso8601String().split('T')[0],
-      startTime: startTime,
-      endTime: endTime,
+      date: DateFormat('yyyy-MM-dd').format(date),
+      startTime: times[0],
+      endTime: times[1],
     );
 
     _timeSlotDto.add(timeSlotDto);
@@ -83,38 +56,21 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
   }
 
   void deleteTimeSlot(DateTime date, int timeSlotIndex) {
+    date = normalizeDate(date);
     _selectedTimeSlots[date]?.remove(timeSlotIndex);
 
-    final timeSlot = timeSlots[timeSlotIndex];
-    final times = timeSlot.split(' ~ ');
-
-    final startDateTime = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      int.parse(times[0].split(':')[0]),
-      int.parse(times[0].split(':')[1]),
-    );
-    final endDateTime = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      int.parse(times[1].split(':')[0]),
-      int.parse(times[1].split(':')[1]),
-    );
-
-    // 시간 포맷
-    final formatter = DateFormat('HH:mm');
-    final startTime = formatter.format(startDateTime);
-    final endTime = formatter.format(endDateTime);
-
+    final times = timeSlots[timeSlotIndex].split(' ~ ');
     final timeSlotDto = TimeSlotDto(
-      date: date.toIso8601String().split('T')[0],
-      startTime: startTime,
-      endTime: endTime,
+      date: DateFormat('yyyy-MM-dd').format(date),
+      startTime: times[0],
+      endTime: times[1],
     );
 
-    _timeSlotDto.remove(timeSlotDto);
+    _timeSlotDto.removeWhere((slot) =>
+        slot.date == timeSlotDto.date &&
+        slot.startTime == timeSlotDto.startTime &&
+        slot.endTime == timeSlotDto.endTime);
+
     notifyListeners();
   }
 
@@ -128,6 +84,54 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
         log("DioError details: ${e.response?.data}");
       }
       notifyListeners();
+    }
+  }
+
+  // 추가할 Helper 메서드
+  DateTime normalizeDate(DateTime date) {
+    return DateTime(date.year, date.month, date.day);
+  }
+
+  /// 데이터를 불러오는 메서드
+  Future<void> loadPossibleDatesFromApi() async {
+    try {
+      final response =
+          await possibledateService.getMentorPossibleDatesWithToken();
+
+      for (var data in response) {
+        DateTime date = normalizeDate(DateTime.parse(data['date']));
+
+        final startTime = data['startTime'];
+        final endTime = data['endTime'];
+
+        final slotString = '$startTime ~ $endTime';
+        final slotIndex = timeSlots.indexOf(slotString);
+
+        if (slotIndex != -1) {
+          // 선택된 슬롯 관리용 Map에 저장
+          _selectedTimeSlots.putIfAbsent(date, () => []);
+          if (!_selectedTimeSlots[date]!.contains(slotIndex)) {
+            _selectedTimeSlots[date]!.add(slotIndex);
+          }
+
+          final timeSlotDto = TimeSlotDto(
+            date: DateFormat('yyyy-MM-dd').format(date),
+            startTime: startTime,
+            endTime: endTime,
+          );
+
+          if (!_timeSlotDto.any((slot) =>
+              slot.date == timeSlotDto.date &&
+              slot.startTime == timeSlotDto.startTime &&
+              slot.endTime == timeSlotDto.endTime)) {
+            _timeSlotDto.add(timeSlotDto);
+          }
+        }
+      }
+
+      notifyListeners();
+    } catch (e) {
+      log('API 데이터 로딩 실패: $e');
     }
   }
 
