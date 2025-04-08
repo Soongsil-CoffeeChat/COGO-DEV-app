@@ -12,10 +12,11 @@ class NameInputViewModel extends ChangeNotifier {
   final UserService userService;
 
   String? _phoneNumber;
-
   String? get phoneNumber => _phoneNumber;
 
   bool isSuccess = false;
+
+  String? name;
 
   final TextEditingController nameController = TextEditingController();
   final ValueNotifier<bool> isValidName = ValueNotifier<bool>(false);
@@ -50,9 +51,12 @@ class NameInputViewModel extends ChangeNotifier {
 
   Future<void> onConfirmButtonPressed() async {
     if (isValidName.value) {
+      final email = await _secureStorage.readUserEmail();
+
       try {
         //잘 전송이 되어야 넘어감
-        await userService.setUserInfo(phoneNumber!, nameController.text);
+        await userService.patchUserInfo(
+            phoneNumber!, nameController.text, email);
         isSuccess = true;
         notifyListeners();
       } catch (e) {

@@ -46,20 +46,22 @@ class UserService {
     }
   }
 
-  ///POST /api/v2/users 기본정보 기입
-  Future<UserInfoResponse> setUserInfo(String phoneNumber, String name) async {
+  ///POST /api/v2/users 사용자 정보 수정
+  Future<UserInfoResponse> patchUserInfo(
+      String phoneNum, String name, String? email) async {
     try {
-      final response = await _apiClient.dio.post(
+      final response = await _apiClient.dio.patch(
         options: Options(
           extra: {'skipAuthToken': false},
         ),
         apiVersion + Apis.user,
         data: {
-          'phoneNum': phoneNumber,
           'name': name,
+          'email': email,
+          'phoneNum': phoneNum,
         },
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         //base response로 받는건 여기서 뿐임.
         final baseResponse = BaseResponse<UserInfoResponse>.fromJson(
           response.data,
