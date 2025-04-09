@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  bool isIntroductionComplete = false; // 자기소개 완료 여부를 저장
+  bool isIntroductionComplete = false;
   List<MentorPartEntity>? profiles;
   final MentorService mentorService = GetIt.instance<MentorService>();
   String? role;
@@ -20,6 +20,8 @@ class HomeViewModel extends ChangeNotifier {
 
   void _loadPreferences() async {
     role = await _secureStorage.readRole();
+    isIntroductionComplete = await _secureStorage.readIntroductionCompleted();
+    notifyListeners();
   }
 
   Future<void> getProfilesForPart(String part) async {

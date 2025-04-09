@@ -3,6 +3,7 @@ import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:cogo/features/home/home_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:cogo/common/enums/interest.dart'; // Interest import
 
@@ -27,20 +28,28 @@ class _HomeScreenState extends State<HomeScreen>
         length: Interest.values.length, vsync: this, initialIndex: 0);
 
     /// 초기 데이터 로드 (첫번째 탭인 FE 호출)
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-      viewModel.getProfilesForPart(Interest.FE.name);
-    });
 
-    /// 인덱스가 변화할때마다 api 재호출
-    int previousIndex = _tabController.index;
-    _tabController.addListener(() {
-      if (_tabController.index != previousIndex) {
-        previousIndex = _tabController.index;
-        final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-        final part = Interest.values[_tabController.index].name;
-        viewModel.getProfilesForPart(part);
+      // 자기소개 안 했으면 다이얼로그 띄우기
+      if (!viewModel.isIntroductionComplete) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => OneButtonDialog(
+            title: "멘토 활동을 시작하려면\n프로필 작성을 완료해주세요",
+            subtitle: "입력하신 정보는 하단의 MY에서 수정이 가능해요",
+            imagePath: "assets/icons/3d_img/heart.png",
+            buttonText: "멘토 프로필 작성하기",
+            onPressed: () {
+              context.push(Paths.mentorIntroduction);
+            },
+          ),
+        );
       }
+
+      // 기본 프로필 로드
+      viewModel.getProfilesForPart(Interest.FE.name);
     });
   }
 
