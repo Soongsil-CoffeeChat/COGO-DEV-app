@@ -17,6 +17,7 @@ class CompletionViewModel extends ChangeNotifier {
     _loadPreferences();
   }
 
+  /// 회원가입 완료 후 바로 토큰 재발급
   Future<void> refreshToken() async {
     await refreshService.reissueToken();
   }

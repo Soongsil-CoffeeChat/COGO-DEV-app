@@ -237,8 +237,8 @@ class MyInfoViewModel extends ChangeNotifier {
   /// 수정된 사용자 정보 저장하기
   Future<void> updateUserInfo() async {
     try {
-      await mentorService.patchEditMentorDetail(
-          nameController.text, phoneController.text, emailController.text);
+      await userService.patchUserInfo(
+          phoneController.text, nameController.text, emailController.text);
       isEditable = false;
     } catch (e) {
       log("Exception occurred: $e");
