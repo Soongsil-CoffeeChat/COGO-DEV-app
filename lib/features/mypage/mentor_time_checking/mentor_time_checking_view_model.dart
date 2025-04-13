@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/common/utils/routing_extension.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/dto/response/mentor_possible_date_response.dart';
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:cogo/domain/entity/mentor_possible_date_entity.dart';
 import 'package:dio/dio.dart';
@@ -14,6 +15,14 @@ class MentorTimeCheckingViewModel extends ChangeNotifier {
   Map<DateTime, List<MentorPossibleDateEntity>> groupedDates =
       {}; // 날짜별로 그룹화된 시간대 목록
   List<DateTime> sortedDates = []; // 정렬된 날짜 목록
+  final SecureStorageRepository _secureStorage = SecureStorageRepository();
+  bool isMentorIntrudutionComplete = false;
+
+  /// 자기소개 작성 여부 확인
+  Future<void> checkMentorIntrodutionComplete() async {
+    isMentorIntrudutionComplete =
+        _secureStorage.readIntroductionCompleted() as bool;
+  }
 
   Future<void> getPossibleDates() async {
     try {

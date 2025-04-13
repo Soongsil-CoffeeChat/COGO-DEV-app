@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/dto/request/time_select_request.dart';
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:intl/intl.dart';
 
 class MentorTimeSettingViewModel extends ChangeNotifier {
   final PossibledateService possibledateService;
+  final SecureStorageRepository _secureStorage = SecureStorageRepository();
+  bool isMentorIntrudutionComplete = false;
 
   MentorTimeSettingViewModel({required this.possibledateService});
 
@@ -26,6 +29,12 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
     '19:00 ~ 20:00',
     '20:00 ~ 21:00',
   ];
+
+  /// 자기소개 작성 여부 확인
+  Future<void> checkMentorIntrodutionComplete() async {
+    isMentorIntrudutionComplete =
+        _secureStorage.readIntroductionCompleted() as bool;
+  }
 
   // 날짜별 시간대 인덱스 리스트
   final Map<DateTime, List<int>> _selectedTimeSlots = {};
