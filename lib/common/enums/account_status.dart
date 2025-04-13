@@ -1,0 +1,5 @@
+enum AccountStatus {
+  NEW_ACCOUNT,
+  EXISTING_ACCOUNT,
+  RESTORED_ACCOUNT,
+}
