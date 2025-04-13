@@ -8,6 +8,8 @@ class RefreshTokenResponse with _$RefreshTokenResponse {
   const factory RefreshTokenResponse({
     required String accessToken,
     required String refreshToken,
+    required int accessTokenExpiresIn,
+    required String accountStatus,
   }) = _RefreshTokenResponse;
 
   factory RefreshTokenResponse.fromJson(Map<String, dynamic> json) =>
