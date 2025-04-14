@@ -1,4 +1,5 @@
 import 'package:cogo/common/enums/login_platform.dart';
+import 'package:cogo/common/enums/account_status.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,21 +41,24 @@ class LoginScreen extends StatelessWidget {
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center, // 가로축 가운데 정렬
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // SizedBox(height: 200),
                   SvgPicture.asset(
                     'assets/cogo_logo.svg',
-                    width: 120, // 원하는 크기 지정
+                    width: 120,
                     // height: 200,
                   ),
-                  SizedBox(height: 200),
+                  const SizedBox(height: 200),
                   SizedBox(
                     child: _loginButton(
                       platform: LoginPlatform.google,
                       onTap: () async {
                         await viewModel.signInWithGoogle();
-                        if (viewModel.isNewUser) {
+                        if (viewModel.loginStatus ==
+                                AccountStatus.NEW_ACCOUNT.name ||
+                            viewModel.loginStatus ==
+                                AccountStatus.RESTORED_ACCOUNT.name) {
                           context.push(Paths.agreement);
                         } else {
                           context.push(Paths.home);
@@ -62,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   SizedBox(
                     child: _loginButton(
                       platform: LoginPlatform.apple,

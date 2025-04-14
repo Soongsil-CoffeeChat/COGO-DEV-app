@@ -1,15 +1,16 @@
 import 'dart:developer';
 
+import 'package:cogo/common/enums/account_status.dart';
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
-import 'package:cogo/data/service/refresh_service.dart';
+import 'package:cogo/data/service/auth_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final RefreshService refreshService = GetIt.instance<RefreshService>();
+  final AuthService authService = GetIt.instance<AuthService>();
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
@@ -19,9 +20,7 @@ class LoginViewModel extends ChangeNotifier {
 
   String? get errorMessage => _errorMessage;
 
-  late bool _isNewUser;
-
-  bool get isNewUser => _isNewUser;
+  String? loginStatus;
 
   LoginViewModel();
 
@@ -42,12 +41,13 @@ class LoginViewModel extends ChangeNotifier {
       final authCode = googleSignInAuthentication.accessToken;
 
       try {
-        final response = await refreshService.getAccessToken(authCode!, name!);
+        final response = await authService.getAccessToken(authCode!, name!);
 
         await _saveUserInfo(googleUser.displayName, googleUser.email);
         _loginPlatform = LoginPlatform.google;
 
-        _isNewUser = response.newAccount;
+        loginStatus = response.accountStatus;
+        log("로그인상태: $loginStatus");
 
         notifyListeners();
       } catch (e) {

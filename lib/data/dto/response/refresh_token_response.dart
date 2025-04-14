@@ -9,7 +9,7 @@ class RefreshTokenResponse with _$RefreshTokenResponse {
     required String accessToken,
     required String refreshToken,
     required int accessTokenExpiresIn,
-    required String accountStatus,
+    required String? accountStatus,
   }) = _RefreshTokenResponse;
 
   factory RefreshTokenResponse.fromJson(Map<String, dynamic> json) =>

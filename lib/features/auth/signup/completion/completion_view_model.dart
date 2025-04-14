@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class CompletionViewModel extends ChangeNotifier {
-  final AuthService refreshService = GetIt.instance<AuthService>();
+  final AuthService authService = GetIt.instance<AuthService>();
 
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
@@ -19,7 +19,7 @@ class CompletionViewModel extends ChangeNotifier {
 
   /// 회원가입 완료 후 바로 토큰 재발급
   Future<void> refreshToken() async {
-    await refreshService.reissueToken();
+    await authService.reissueToken();
   }
 
   void _loadPreferences() async {
