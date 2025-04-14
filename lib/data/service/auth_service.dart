@@ -8,7 +8,7 @@ import 'package:cogo/data/dto/response/token_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:dio/dio.dart';
 
-class RefreshService {
+class AuthService {
   final ApiClient _apiClient = ApiClient();
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
@@ -22,7 +22,6 @@ class RefreshService {
         Apis.getAccessToken,
         queryParameters: {
           'accessToken': authCode,
-          'name': name,
         },
       );
       if (response.statusCode == 200) {
