@@ -16,12 +16,15 @@ class MentorTimeCheckingViewModel extends ChangeNotifier {
       {}; // 날짜별로 그룹화된 시간대 목록
   List<DateTime> sortedDates = []; // 정렬된 날짜 목록
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  bool isMentorIntrudutionComplete = false;
+  bool isMentorIntroductionComplete = false;
 
   /// 자기소개 작성 여부 확인
-  Future<void> checkMentorIntrodutionComplete() async {
-    isMentorIntrudutionComplete =
-        _secureStorage.readIntroductionCompleted() as bool;
+  Future<void> loadMentorIntroductionStatus() async {
+    isMentorIntroductionComplete =
+        await _secureStorage.readIntroductionCompleted();
+
+    log("완료 설정 : $isMentorIntroductionComplete");
+    notifyListeners();
   }
 
   Future<void> getPossibleDates() async {

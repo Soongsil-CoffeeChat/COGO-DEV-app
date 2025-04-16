@@ -1,4 +1,5 @@
 import 'package:cogo/common/widgets/components/header.dart';
+import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/home/mentor_detail/mentor_introduction_view_model.dart';
 import 'package:flutter/material.dart';
@@ -40,27 +41,14 @@ class MentorDetailCompletionScreen extends StatelessWidget {
                 const Spacer(),
                 Consumer<MentorIntroductionViewModel>(
                   builder: (context, viewModel, _) {
-                    return SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          viewModel.setMentorIntroductionCompletion();
-                          context.go(Paths.home);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          foregroundColor: Colors.white,
-                          textStyle: const TextStyle(
-                            fontFamily: 'PretendardMedium',
-                            fontSize: 18,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: const Text('프로필 작성 완료하기'),
-                      ),
+                    return BasicButton(
+                      text: '프로필 작성 완료하기',
+                      isClickable: true,
+                      size: BasicButtonSize.LARGE,
+                      onPressed: () async {
+                        await viewModel.setMentorIntroductionCompletion();
+                        context.go(Paths.home);
+                      },
                     );
                   },
                 ),

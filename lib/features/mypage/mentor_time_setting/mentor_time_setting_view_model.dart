@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 class MentorTimeSettingViewModel extends ChangeNotifier {
   final PossibledateService possibledateService;
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  bool isMentorIntrudutionComplete = false;
+  bool isMentorIntroductionComplete = false;
 
   MentorTimeSettingViewModel({required this.possibledateService});
 
@@ -31,9 +31,12 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
   ];
 
   /// 자기소개 작성 여부 확인
-  Future<void> checkMentorIntrodutionComplete() async {
-    isMentorIntrudutionComplete =
-        _secureStorage.readIntroductionCompleted() as bool;
+  Future<void> loadMentorIntroductionStatus() async {
+    isMentorIntroductionComplete =
+        await _secureStorage.readIntroductionCompleted();
+
+    log("완료 설정 : $isMentorIntroductionComplete");
+    notifyListeners();
   }
 
   // 날짜별 시간대 인덱스 리스트

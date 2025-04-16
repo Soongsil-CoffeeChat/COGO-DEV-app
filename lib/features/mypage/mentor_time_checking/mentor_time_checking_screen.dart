@@ -13,7 +13,7 @@ class MentorTimeCheckingScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) {
         final viewModel = MentorTimeCheckingViewModel();
-        viewModel.checkMentorIntrodutionComplete();
+        viewModel.loadMentorIntroductionStatus();
         viewModel.getPossibleDates();
         return viewModel;
       },
@@ -74,14 +74,14 @@ class MentorTimeCheckingScreen extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         child: BasicButton(
                           onPressed: () {
-                            if (viewModel.isMentorIntrudutionComplete) {
+                            if (viewModel.isMentorIntroductionComplete) {
                               Navigator.of(context)
                                   .popUntil((route) => route.isFirst);
                             } else {
                               context.push(Paths.mentorDetailCompletion);
                             }
                           },
-                          text: viewModel.isMentorIntrudutionComplete
+                          text: viewModel.isMentorIntroductionComplete
                               ? '수정하기'
                               : '완료',
                           isClickable: true,

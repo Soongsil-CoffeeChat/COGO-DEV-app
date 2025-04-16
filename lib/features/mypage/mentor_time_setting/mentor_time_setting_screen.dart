@@ -1,9 +1,11 @@
 import 'package:cogo/common/widgets/multi_selection_time_picker.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/service/possibledate_service.dart';
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -30,7 +32,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
     );
     Future.microtask(() {
       viewModel.loadPossibleDatesFromApi();
-      viewModel.checkMentorIntrodutionComplete();
+      viewModel.loadMentorIntroductionStatus();
     });
   }
 
@@ -136,10 +138,11 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                         child: BasicButton(
                           onPressed: () async {
                             await viewModel.putPossibleDates();
+                            context.push(Paths.timeChecking);
                           },
-                          text: viewModel.isMentorIntrudutionComplete
-                              ? '다음'
-                              : '저장하기',
+                          text: viewModel.isMentorIntroductionComplete
+                              ? '저장하기'
+                              : '다음',
                           isClickable: _isSelected,
                           size: BasicButtonSize.SMALL,
                         ),
