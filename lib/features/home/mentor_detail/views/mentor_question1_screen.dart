@@ -34,7 +34,7 @@ class MentorQuestion1Screen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            '어느 분야에서 멘토링 가능하신가요?',
+                            '멘토링 하실 분야에 대해 자세히 알려주세요',
                             style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),

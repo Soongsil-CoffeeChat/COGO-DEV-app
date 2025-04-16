@@ -61,11 +61,11 @@ class AuthService {
       final response = await _apiClient.dio.post(
         options: Options(
           extra: {'skipAuthToken': false},
-          headers: {
-            'refreshToken': refreshToken,
-          },
         ),
         Apis.reissueToken,
+        queryParameters: {
+          'refreshToken': refreshToken,
+        },
       );
       if (response.statusCode == 200) {
         // BaseResponse

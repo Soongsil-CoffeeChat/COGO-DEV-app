@@ -13,7 +13,7 @@ class MentorIntroductionScreen extends StatelessWidget {
       create: (_) => MentorIntroductionViewModel(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: true,  // 키보드 오버 플로우 해결
+        resizeToAvoidBottomInset: true, // 키보드 오버 플로우 해결
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -33,18 +33,29 @@ class MentorIntroductionScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // 제목 필드
-                          _buildTitleTextField(viewModel, '제목', viewModel.introController),
+                          _buildTitleTextField(
+                              viewModel, '제목', viewModel.introController),
                           const SizedBox(height: 10),
                           //자기소개 입력
-                          _buildTextFieldWithCounter(viewModel, '자기소개를 입력해주세요', viewModel.question1Controller, viewModel.question1CharCount, 200),
+                          _buildTextFieldWithCounter(
+                              viewModel,
+                              '자기소개를 입력해주세요',
+                              viewModel.question1Controller,
+                              viewModel.question1CharCount,
+                              200),
                           const SizedBox(height: 10),
                           // 첫 번째 질문
                           const Text(
-                            '어느 분야에서 멘토링 가능하신가요?',
+                            '멘토링 하실 분야에 대해 자세히 알려주세요',
                             style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),
-                          _buildTextFieldWithCounter(viewModel, '답변을 입력해주세요', viewModel.question2Controller, viewModel.question2CharCount, 200),
+                          _buildTextFieldWithCounter(
+                              viewModel,
+                              '답변을 입력해주세요',
+                              viewModel.question2Controller,
+                              viewModel.question2CharCount,
+                              200),
                           const SizedBox(height: 20),
                           // 두 번째 질문
                           const Text(
@@ -52,7 +63,12 @@ class MentorIntroductionScreen extends StatelessWidget {
                             style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),
-                          _buildTextFieldWithCounter(viewModel, '답변을 입력해주세요', viewModel.question3Controller, viewModel.question3CharCount, 200),
+                          _buildTextFieldWithCounter(
+                              viewModel,
+                              '답변을 입력해주세요',
+                              viewModel.question3Controller,
+                              viewModel.question3CharCount,
+                              200),
                         ],
                       );
                     },
@@ -100,7 +116,8 @@ class MentorIntroductionScreen extends StatelessWidget {
   }
 
   // 제목 필드를 따로 만드는 헬퍼 메서드
-  Widget _buildTitleTextField(MentorIntroductionViewModel viewModel, String hintText, TextEditingController controller) {
+  Widget _buildTitleTextField(MentorIntroductionViewModel viewModel,
+      String hintText, TextEditingController controller) {
     return Container(
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -144,7 +161,7 @@ class MentorIntroductionScreen extends StatelessWidget {
           child: TextField(
             controller: controller,
             maxLength: maxCount,
-            maxLines: 5,  // 여러 줄 입력 가능
+            maxLines: 5, // 여러 줄 입력 가능
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: CogoTextStyle.body12,

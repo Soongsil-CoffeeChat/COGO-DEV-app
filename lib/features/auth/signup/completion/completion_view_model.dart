@@ -1,9 +1,8 @@
-import 'package:cogo/constants/constants.dart';
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 class CompletionViewModel extends ChangeNotifier {
   final AuthService authService = GetIt.instance<AuthService>();
@@ -20,6 +19,15 @@ class CompletionViewModel extends ChangeNotifier {
   /// 회원가입 완료 후 바로 토큰 재발급
   Future<void> refreshToken() async {
     await authService.reissueToken();
+  }
+
+  /// 자기소개 입력 여부
+  Future<void> setIntroductionComplete() async {
+    if (role == Role.ROLE_MENTOR) {
+      await _secureStorage.saveIntroductionCompleted(false);
+    } else {
+      await _secureStorage.saveIntroductionCompleted(true);
+    }
   }
 
   void _loadPreferences() async {

@@ -46,7 +46,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                           //자기소개 입력
                           BasicTextField(
                             controller: viewModel.descriptionController,
-                            hintText: '자기소개를 입력해주세요',
+                            hintText: '내용을 입력해주세요',
                             currentCount: viewModel.descriptionCharCount,
                             maxCount: 200,
                             size: BasicTextFieldSize.LARGE,

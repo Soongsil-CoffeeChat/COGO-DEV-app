@@ -5,47 +5,43 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class MentorTimeCheckingScreen extends StatefulWidget {
+class MentorTimeCheckingScreen extends StatelessWidget {
   const MentorTimeCheckingScreen({super.key});
 
   @override
-  _MentorTimeCheckingScreenState createState() =>
-      _MentorTimeCheckingScreenState();
-}
-
-class _MentorTimeCheckingScreenState extends State<MentorTimeCheckingScreen> {
-  // 모든 날짜에 대해 동일한 selectedTimeSlot을 관리
-  int? selectedTimeSlot;
-  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MentorTimeCheckingViewModel()..getPossibleDates(),
+      create: (_) {
+        final viewModel = MentorTimeCheckingViewModel();
+        viewModel.loadMentorIntroductionStatus();
+        viewModel.getPossibleDates();
+        return viewModel;
+      },
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 0.0),
-                  child: Header(
-                    title: 'COGO 시간',
-                    subtitle: 'COGO를 진행하기 편한 시간 대를 알려주세요.',
-                    onBackButtonPressed: () => Navigator.of(context).pop(),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                Consumer<MentorTimeCheckingViewModel>(
-                  builder: (context, viewModel, child) {
-                    return Expanded(
+            child: Consumer<MentorTimeCheckingViewModel>(
+              builder: (context, viewModel, child) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0.0),
+                      child: Header(
+                        title: 'COGO 시간',
+                        subtitle: 'COGO를 진행하기 편한 시간 대를 알려주세요.',
+                        onBackButtonPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Expanded(
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            /// 날짜 선택 (DatePicker)
                             for (var date in viewModel.sortedDates)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
@@ -56,10 +52,7 @@ class _MentorTimeCheckingScreenState extends State<MentorTimeCheckingScreen> {
                                       height: 50,
                                       child: DatePicker(date: date, day: date),
                                     ),
-
                                     const SizedBox(height: 20),
-
-                                    /// 각 날짜에 대해 가능한 시간대 표시 (TimePicker)
                                     SingleSelectionTimePicker(
                                       isSelectedTimePicker: true,
                                       timeSlots: viewModel.groupedDates[date]!
@@ -73,26 +66,31 @@ class _MentorTimeCheckingScreenState extends State<MentorTimeCheckingScreen> {
                           ],
                         ),
                       ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: BasicButton(
-                      onPressed: () {
-                        /// 모든 라우트를 pop하고 첫 페이지로 이동
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
-                      },
-                      text: '저장하기',
-                      isClickable: true,
                     ),
-                  ),
-                ),
-              ],
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: BasicButton(
+                          onPressed: () {
+                            if (viewModel.isMentorIntroductionComplete) {
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
+                            } else {
+                              context.push(Paths.mentorDetailCompletion);
+                            }
+                          },
+                          text: viewModel.isMentorIntroductionComplete
+                              ? '수정하기'
+                              : '완료',
+                          isClickable: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cogo/data/service/mentor_service.dart';
@@ -7,6 +8,8 @@ import 'package:cogo/constants/paths.dart';
 import 'package:cogo/common/utils/routing_extension.dart';
 
 class MentorIntroductionViewModel extends ChangeNotifier {
+  final SecureStorageRepository _secureStorage = SecureStorageRepository();
+
   // 각 텍스트 필드의 글자 수를 계산
   int get tittleCharCount => titleController.text.length;
   int get descriptionCharCount => descriptionController.text.length;
@@ -29,6 +32,13 @@ class MentorIntroductionViewModel extends ChangeNotifier {
     answer2Controller.addListener(_validateFormQuestion3);
 
     _loadSavedValues();
+  }
+
+  Future<void> setMentorIntroductionCompletion() async {
+    _secureStorage.saveIntroductionCompleted(true);
+    Future<bool> isComplete = _secureStorage.readIntroductionCompleted();
+    log('완료 성공 ? : $isComplete');
+    notifyListeners();
   }
 
   void _validateFormIntro() {
