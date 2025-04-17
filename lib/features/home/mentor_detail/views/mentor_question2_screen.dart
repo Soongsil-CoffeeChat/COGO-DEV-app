@@ -32,7 +32,7 @@ class MentorQuestion2Screen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            '프로젝트나 근무 경험이 있으신가요?',
+                            '프로젝트나 근무 경험이 있으시다면 알려주세요',
                             style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),

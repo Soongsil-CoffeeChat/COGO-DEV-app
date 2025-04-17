@@ -1,4 +1,5 @@
 import 'package:cogo/common/enums/role.dart';
+import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
@@ -47,31 +48,24 @@ class CompletionScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            viewModel.refreshToken();
-                            viewModel.setIntroductionComplete();
-                            context.go(Paths.home); // 다음 페이지 경로로 변경
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            foregroundColor: Colors.white,
-                            textStyle: const TextStyle(
-                              fontFamily: 'PretendardMedium',
-                              fontSize: 18,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: const Text('코고 가입 완료하기'),
-                        ),
-                      ),
+                          width: double.infinity,
+                          height: 50,
+                          child: BasicButton(
+                            text: "코고 가입 완료하기",
+                            isClickable: true,
+                            onPressed: () {
+                              viewModel.refreshToken();
+                              viewModel.setIntroductionComplete();
+                              context.go(Paths.home);
+                            },
+                            size: BasicButtonSize.LARGE,
+                          )),
                     ),
                   ],
                 );

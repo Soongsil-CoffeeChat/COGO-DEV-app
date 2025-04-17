@@ -26,7 +26,7 @@ class ClubSelectionScreen extends StatelessWidget {
                   children: [
                     Header(
                       title: '소속된 동아리가 있나요?',
-                      subtitle: '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
+                      subtitle: '입력하신 정보는 하단의  MY에서 수정이 가능해요',
                       onBackButtonPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -44,9 +44,9 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'GDSC',
+                                      text: 'GDGoC',
                                       onPressed: () {
-                                        viewModel.selectClub('GDSC');
+                                        viewModel.selectClub('GDGoC');
 
                                         context.push(
                                             '${Paths.agreement}/${Paths.mentorInfo}');

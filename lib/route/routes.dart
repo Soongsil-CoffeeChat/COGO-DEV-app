@@ -2,11 +2,13 @@ import 'package:cogo/common/navigator/bottom_navigation_bar.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/auth/login/login_screen.dart';
 import 'package:cogo/features/auth/signup/agreement/agreement_screen.dart';
+import 'package:cogo/features/auth/signup/agreement/privacy_policy_screen.dart';
+import 'package:cogo/features/auth/signup/agreement/service_terms_screen.dart';
 import 'package:cogo/features/auth/signup/choose_role/choose_role_screen.dart';
 import 'package:cogo/features/auth/signup/club/club_selection_screen.dart';
 import 'package:cogo/features/auth/signup/completion/completion_screen.dart';
 import 'package:cogo/features/auth/signup/interest/interest_selection_screen.dart';
-import 'package:cogo/features/auth/signup/mento_info/mentor_info_screen.dart';
+import 'package:cogo/features/auth/signup/mentor_info/mentor_info_screen.dart';
 import 'package:cogo/features/auth/signup/name_input/name_input_screen.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
@@ -60,6 +62,20 @@ final AppRouter = GoRouter(
         child: const AgreementScreen(),
       ),
       routes: [
+        GoRoute(
+          path: Paths.termsOfService,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const TermsOfServiceScreen(),
+          ),
+        ),
+        GoRoute(
+          path: Paths.privacyPolicy,
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const PrivacyPolicyScreen(),
+          ),
+        ),
         GoRoute(
           path: Paths.phone,
           pageBuilder: (context, state) => MaterialPage(
