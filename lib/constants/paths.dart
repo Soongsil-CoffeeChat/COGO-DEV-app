@@ -5,19 +5,21 @@ abstract class Paths {
   static const String login = '/login';
 
   static const String agreement = '/agreement';
+  static const String termsOfService = '/termsOfService';
+  static const String privacyPolicy = '/privacyPolicy';
   static const String phone = 'phone';
   static const String name = 'name';
   static const String choose = 'choose';
   static const String interest = 'interest';
-  static const String mentorClub = 'mentor_club';
-  static const String mentorInfo = 'mentor_info';
+  static const String mentorClub = 'mentorClub';
+  static const String mentorInfo = 'mentorInfo';
   static const String completion = 'completion';
 
   static const String home = '/home';
   static const String cogo = '/cogo';
   static const String mypage = '/mypage';
 
-  static const String profileDetail = '/profile_detail';
+  static const String profileDetail = '/profileDetail';
   static const String search = '/search';
   static const String schedule = '/schedule';
   static const String memo = '/memo';
@@ -35,12 +37,12 @@ abstract class Paths {
   static const String mentorDetailCompletion = '/mentorDetailCompletion';
 
   static const String myInfo = '/myInfo';
-  static const String myMentorIntroduce = '/my_mentor_introduce';
-  static const String timeSetting = '/time_setting';
-  static const String timeChecking = '/time_checking';
+  static const String myMentorIntroduce = '/myMentorIntroduce';
+  static const String timeSetting = '/timeSetting';
+  static const String timeChecking = '/timeChecking';
 
   static const String report = '/report';
-  static const String reportDetail = '/report_detail';
+  static const String reportDetail = '/reportDetail';
 
   static const String image = '/image';
 }
