@@ -5,8 +5,8 @@ abstract class Paths {
   static const String login = '/login';
 
   static const String agreement = '/agreement';
-  static const String termsOfService = '/termsOfService';
-  static const String privacyPolicy = '/privacyPolicy';
+  static const String termsOfService = 'termsOfService';
+  static const String privacyPolicy = 'privacyPolicy';
   static const String phone = 'phone';
   static const String name = 'name';
   static const String choose = 'choose';

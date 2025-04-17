@@ -8,7 +8,10 @@ class TermsOfServiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: const Text('서비스 이용약관', style: CogoTextStyle.body16),
         centerTitle: true,
         elevation: 0,
@@ -18,16 +21,17 @@ class TermsOfServiceScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        child: SingleChildScrollView(
-          child: Text(
-            _termsText,
-            style: CogoTextStyle.bodyL12,
+      body: const SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: SingleChildScrollView(
+            child: Text(
+              _termsText,
+              style: CogoTextStyle.bodyL12,
+            ),
           ),
         ),
       ),
-      backgroundColor: Colors.white,
     );
   }
 }

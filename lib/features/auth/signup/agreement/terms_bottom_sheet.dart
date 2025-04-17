@@ -9,11 +9,13 @@ class _Term {
   final String title;
   final bool isRequired;
   bool agreed;
+  final String? route;
 
   _Term({
     required this.title,
     required this.isRequired,
     this.agreed = false,
+    this.route,
   });
 }
 
@@ -29,8 +31,16 @@ class _TermsBottomSheetState extends State<TermsBottomSheet> {
 
   /// 약관 목록
   final List<_Term> _terms = [
-    _Term(title: "서비스 이용약관 (필수)", isRequired: true),
-    _Term(title: "개인정보 수집 및 이용 동의 (필수)", isRequired: true),
+    _Term(
+      title: "서비스 이용약관 (필수)",
+      isRequired: true,
+      route: '${Paths.agreement}/${Paths.termsOfService}',
+    ),
+    _Term(
+      title: "개인정보 수집 및 이용 동의 (필수)",
+      isRequired: true,
+      route: '${Paths.agreement}/${Paths.privacyPolicy}',
+    ),
     _Term(title: "만 14세 이상 (필수)", isRequired: true),
     _Term(title: "서비스 알림 수신  (필수)", isRequired: true),
     _Term(title: "서비스 혜택 정보 수신 (선택)", isRequired: false),
@@ -101,7 +111,7 @@ class _TermsBottomSheetState extends State<TermsBottomSheet> {
   /// "모두 동의" 영역
   Widget _buildAllAgreeTile() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15), // ✅ 좌우 마진 추가
+      padding: const EdgeInsets.only(left: 15),
       child: ListTile(
         horizontalTitleGap: 10,
         leading: GestureDetector(
@@ -139,10 +149,14 @@ class _TermsBottomSheetState extends State<TermsBottomSheet> {
   Widget _buildTermTile(_Term term) {
     return InkWell(
       onTap: () {
-        setState(() {
-          term.agreed = !term.agreed;
-          _checkAllAgreeStatus();
-        });
+        if (term.route != null) {
+          context.push(term.route!);
+        } else {
+          setState(() {
+            term.agreed = !term.agreed;
+            _checkAllAgreeStatus();
+          });
+        }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
