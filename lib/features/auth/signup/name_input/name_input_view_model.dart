@@ -14,8 +14,6 @@ class NameInputViewModel extends ChangeNotifier {
   String? _phoneNumber;
   String? get phoneNumber => _phoneNumber;
 
-  bool isSuccess = false;
-
   String? name;
 
   final TextEditingController nameController = TextEditingController();
@@ -57,14 +55,12 @@ class NameInputViewModel extends ChangeNotifier {
         //잘 전송이 되어야 넘어감
         await userService.patchUserInfo(
             phoneNumber!, nameController.text, email);
-        isSuccess = true;
         notifyListeners();
       } catch (e) {
         log("Exception occurred: $e");
         if (e is DioException) {
           log("DioError details: ${e.response?.data}");
         }
-        isSuccess = false;
         notifyListeners();
       }
     }

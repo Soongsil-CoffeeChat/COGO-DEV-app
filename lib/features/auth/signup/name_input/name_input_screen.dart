@@ -28,7 +28,7 @@ class NameInputScreen extends StatelessWidget {
               children: [
                 Header(
                   title: '성함을 작성해 주세요',
-                  subtitle: '입력하신 정보는 홈 화면의 더보기에서 수정이 가능해요',
+                  subtitle: '성함은 실명으로 작성해주세요. 이후 수정이 불가능해요',
                   onBackButtonPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -84,10 +84,9 @@ class NameInputScreen extends StatelessWidget {
                                             viewModel
                                                 .setPhoneNumber(phoneNumber!);
                                             viewModel.onConfirmButtonPressed();
-                                            if (viewModel.isSuccess) {
-                                              context.push(
-                                                  '${Paths.agreement}/${Paths.choose}');
-                                            }
+
+                                            context.push(
+                                                '${Paths.agreement}/${Paths.choose}');
                                           }
                                         : null,
                                     isClickable: true,

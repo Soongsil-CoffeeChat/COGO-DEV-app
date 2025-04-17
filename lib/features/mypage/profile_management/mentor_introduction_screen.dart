@@ -59,7 +59,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                           const SizedBox(height: 20),
                           // 두 번째 질문
                           const Text(
-                            '질문질문.... 자기소개 유도 질문...',
+                            '프로젝트나 근무 경험이 있으시다면 알려주세요',
                             style: CogoTextStyle.body16,
                           ),
                           const SizedBox(height: 10),

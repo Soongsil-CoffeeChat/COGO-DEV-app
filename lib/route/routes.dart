@@ -8,7 +8,7 @@ import 'package:cogo/features/auth/signup/choose_role/choose_role_screen.dart';
 import 'package:cogo/features/auth/signup/club/club_selection_screen.dart';
 import 'package:cogo/features/auth/signup/completion/completion_screen.dart';
 import 'package:cogo/features/auth/signup/interest/interest_selection_screen.dart';
-import 'package:cogo/features/auth/signup/mento_info/mentor_info_screen.dart';
+import 'package:cogo/features/auth/signup/mentor_info/mentor_info_screen.dart';
 import 'package:cogo/features/auth/signup/name_input/name_input_screen.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
