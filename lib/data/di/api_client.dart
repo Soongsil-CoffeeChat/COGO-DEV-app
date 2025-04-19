@@ -10,11 +10,7 @@ class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
   late Dio _dio;
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  final AuthService authService = GetIt.instance<AuthService>();
-
-  factory ApiClient() {
-    return _instance;
-  }
+  factory ApiClient() => _instance;
 
   ApiClient._internal() {
     _dio = Dio(BaseOptions(
@@ -27,46 +23,55 @@ class ApiClient {
       },
     ));
 
-    /// Token Interceptor 추가
+    // Token Interceptor 추가
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
+        // 특정 API에서만 토큰을 제외
         if (options.extra['skipAuthToken'] != true) {
-          final token = await _secureStorage.readAccessToken();
+          var token = await _secureStorage.readAccessToken();
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
         }
+        log('요청 보내는 중: ${options.method} ${options.path}');
         return handler.next(options);
       },
-      onResponse: (response, handler) => handler.next(response),
+      onResponse: (response, handler) {
+        // 응답 처리
+        log('응답은요 : ${response.statusCode}');
+        return handler.next(response);
+      },
       onError: (DioException e, handler) async {
         // JWT_003 체크
         final errorCode = e.response?.data['error'];
         final requestOptions = e.requestOptions;
 
-        if (errorCode == 'JWT_003') {
+        if (e.response?.statusCode == 401) {
           try {
-            log('[Interceptor] JWT_003 → 토큰 재발급 시도 중...');
-            await authService.reissueToken(); // 토큰 재발급
+            log('[Interceptor] 401 → 토큰 재발급 시도 중...');
+
+            final authService = GetIt.instance<AuthService>();
+            await authService.reissueToken();
 
             // 새로운 access token 가져오기
             final newToken = await _secureStorage.readAccessToken();
 
-            // 이전 요청 복사 후 헤더만 수정
-            final newOptions = Options(
-              method: requestOptions.method,
-              headers: {
-                ...requestOptions.headers,
-                'Authorization': 'Bearer $newToken',
-              },
-            );
-
-            // 원래 요청 재시도
+            // 이전 요청 복사 후 헤더 수정 및 재시도 플래그 추가
             final clonedRequest = await _dio.request(
               requestOptions.path,
               data: requestOptions.data,
               queryParameters: requestOptions.queryParameters,
-              options: newOptions,
+              options: Options(
+                method: requestOptions.method,
+                headers: {
+                  ...requestOptions.headers,
+                  'Authorization': 'Bearer $newToken',
+                },
+                extra: {
+                  ...requestOptions.extra,
+                  'retry': true,
+                },
+              ),
             );
 
             return handler.resolve(clonedRequest); // 성공 응답으로 대체
@@ -77,6 +82,19 @@ class ApiClient {
         }
 
         return handler.next(e); // 다른 에러는 그대로
+      },
+    ));
+
+    /// Log Interceptor 추가
+    _dio.interceptors.add(LogInterceptor(
+      request: true,
+      requestHeader: true,
+      requestBody: true,
+      responseHeader: true,
+      responseBody: true,
+      error: true,
+      logPrint: (obj) {
+        log("서버통신 $obj");
       },
     ));
   }
