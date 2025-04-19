@@ -48,6 +48,17 @@ class _HomeScreenState extends State<HomeScreen>
         );
       }
 
+      /// 인덱스가 변화할때마다 api 재호출
+      int previousIndex = _tabController.index;
+      _tabController.addListener(() {
+        if (_tabController.index != previousIndex) {
+          previousIndex = _tabController.index;
+          final viewModel = Provider.of<HomeViewModel>(context, listen: false);
+          final part = Interest.values[_tabController.index].name;
+          viewModel.getProfilesForPart(part);
+        }
+      });
+
       // 기본 프로필 로드
       viewModel.getProfilesForPart(Interest.FE.name);
     });
