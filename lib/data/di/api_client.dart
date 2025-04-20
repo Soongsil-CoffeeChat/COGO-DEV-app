@@ -26,9 +26,8 @@ class ApiClient {
     // Token Interceptor 추가
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        // 특정 API에서만 토큰을 제외
         if (options.extra['skipAuthToken'] != true) {
-          var token = await _secureStorage.readAccessToken();
+          final token = await _secureStorage.readAccessToken();
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
@@ -37,14 +36,18 @@ class ApiClient {
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        // 응답 처리
         log('응답은요 : ${response.statusCode}');
         return handler.next(response);
       },
       onError: (DioException e, handler) async {
-        // JWT_003 체크
-        final errorCode = e.response?.data['error'];
         final requestOptions = e.requestOptions;
+
+        // 이미 재시도를 했거나, refresh 요청이라면 재시도 하지 않음
+        if (requestOptions.extra['retry'] == true ||
+            requestOptions.path.contains('reissue')) {
+          log('[Interceptor] 이미 토큰 재시도를 했거나 재발급 요청 자체가 실패했습니다. 재시도 중단.');
+          return handler.reject(e);
+        }
 
         if (e.response?.statusCode == 401) {
           try {
@@ -53,10 +56,9 @@ class ApiClient {
             final authService = GetIt.instance<AuthService>();
             await authService.reissueToken();
 
-            // 새로운 access token 가져오기
             final newToken = await _secureStorage.readAccessToken();
+            if (newToken == null) throw Exception('재발급된 토큰이 없습니다.');
 
-            // 이전 요청 복사 후 헤더 수정 및 재시도 플래그 추가
             final clonedRequest = await _dio.request(
               requestOptions.path,
               data: requestOptions.data,
@@ -74,16 +76,17 @@ class ApiClient {
               ),
             );
 
-            return handler.resolve(clonedRequest); // 성공 응답으로 대체
+            return handler.resolve(clonedRequest);
           } catch (refreshError) {
             log('[Interceptor] 토큰 재발급 실패: $refreshError');
-            return handler.reject(e); // 기존 에러 유지
+            return handler.reject(e); // 재발급 실패 시 기존 에러 반환
           }
         }
 
-        return handler.next(e); // 다른 에러는 그대로
+        return handler.next(e);
       },
     ));
+    ;
 
     /// Log Interceptor 추가
     _dio.interceptors.add(LogInterceptor(

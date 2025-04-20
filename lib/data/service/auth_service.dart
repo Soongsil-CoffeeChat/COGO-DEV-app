@@ -60,7 +60,7 @@ class AuthService {
 
       final response = await _apiClient.dio.post(
         options: Options(
-          extra: {'skipAuthToken': false},
+          extra: {'skipAuthToken': true},
         ),
         Apis.reissueToken,
         queryParameters: {
