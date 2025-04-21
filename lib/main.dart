@@ -4,7 +4,7 @@ import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/splash_view_model.dart';
 import 'package:cogo/route/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,7 @@ void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   FlutterNativeSplash.remove();
-  await FlutterConfig.loadEnvVariables(); // env
+  await dotenv.load(fileName: ".env"); // env
   await initializeDateFormatting('ko_KR', null);
 
   setupServiceLocator(); //get it
