@@ -230,6 +230,3 @@ fabric.properties
 android/app/google-service.json
 
 .env*
-
-*.freezed.dart
-*.g.dart
