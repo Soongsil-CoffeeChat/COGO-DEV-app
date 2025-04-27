@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 
 import 'login_view_model.dart';
 
@@ -43,11 +44,9 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // SizedBox(height: 200),
                   SvgPicture.asset(
                     'assets/cogo_logo.svg',
                     width: 120,
-                    // height: 200,
                   ),
                   const SizedBox(height: 200),
                   SizedBox(
@@ -67,18 +66,21 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  SizedBox(
-                    child: _loginButton(
-                      platform: LoginPlatform.apple,
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('애플 로그인은 준비 중입니다.'),
-                          ),
-                        );
-                      },
+
+                  /// ✅ 애플 로그인 버튼: Android에서는 숨김
+                  if (!Platform.isAndroid)
+                    SizedBox(
+                      child: _loginButton(
+                        platform: LoginPlatform.apple,
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('애플 로그인은 준비 중입니다.'),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
                 ],
               );
             }),

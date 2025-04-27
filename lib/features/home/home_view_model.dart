@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  bool isIntroductionComplete = false;
+  bool isIntroductionComplete = true; //TODO 초기 진입시 로컬에 저장된 bool 값 못받고 있음 수정요함
   List<MentorPartEntity>? profiles;
   final MentorService mentorService = GetIt.instance<MentorService>();
   String? role;

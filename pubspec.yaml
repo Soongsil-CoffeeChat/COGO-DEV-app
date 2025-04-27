@@ -3,7 +3,7 @@ description: "COGO"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -40,7 +40,7 @@ dependencies:
 
   #토큰 저장소
   flutter_secure_storage: ^8.0.0
-  flutter_config: ^2.0.2
+  flutter_dotenv: ^5.2.0
 
   #DI
   get_it: ^7.7.0
@@ -67,7 +67,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^3.0.0
-  build_runner: ^2.4.12
+  build_runner: ^2.4.11
   freezed: ^2.0.3
   json_serializable: ^6.7.0
 
@@ -75,6 +75,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/
     - assets/icons/navigator/
     - assets/icons/3d_img/

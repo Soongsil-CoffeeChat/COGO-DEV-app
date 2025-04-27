@@ -227,9 +227,6 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-android/app/google-service.json
+android/app/google-services.json
 
 .env*
-
-*.freezed.dart
-*.g.dart

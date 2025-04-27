@@ -1,4 +1,4 @@
-package com.example.cogo_dev_app
+package cogo.dev_app
 
 import io.flutter.embedding.android.FlutterActivity
 
