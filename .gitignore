@@ -228,5 +228,6 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
 
 .env*
