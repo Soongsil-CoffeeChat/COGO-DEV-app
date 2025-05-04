@@ -196,10 +196,9 @@ class UserService {
   Future<void> signOut() async {
     try {
       final response = await _apiClient.dio.delete(
-        options: Options(
-          extra: {'skipAuthToken': false}, //토큰 해제를 하지 마라
-        ),
         apiVersion + Apis.user,
+        options: Options(extra: {'skipAuthToken': false} //토큰 해제를 하지 마라
+            ),
       );
       if (response.statusCode == 200) {
         log("탈퇴 성공");

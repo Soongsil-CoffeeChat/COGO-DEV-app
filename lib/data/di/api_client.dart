@@ -26,14 +26,22 @@ class ApiClient {
     // Token Interceptor 추가
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        if (options.extra['skipAuthToken'] != true) {
-          final token = await _secureStorage.readAccessToken();
+        try {
+          final skip = options.extra['skipAuthToken'] == true;
+          final token = skip ? null : await _secureStorage.readAccessToken();
+
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
+            log('[Interceptor] Authorization header 설정됨');
+          } else {
+            log('[Interceptor] 토큰 없음');
           }
+
+          return handler.next(options);
+        } catch (e) {
+          log('[Interceptor] onRequest 예외: $e');
+          return handler.next(options);
         }
-        log('요청 보내는 중: ${options.method} ${options.path}');
-        return handler.next(options);
       },
       onResponse: (response, handler) {
         log('응답은요 : ${response.statusCode}');
