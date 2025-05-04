@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/auth_service.dart';
@@ -23,11 +25,17 @@ class CompletionViewModel extends ChangeNotifier {
 
   /// 자기소개 입력 여부
   Future<void> setIntroductionComplete() async {
-    if (role == Role.ROLE_MENTOR) {
+    if (role == Role.ROLE_MENTOR.name) {
       await _secureStorage.saveIntroductionCompleted(false);
     } else {
       await _secureStorage.saveIntroductionCompleted(true);
     }
+
+    log("롤은요 : $role");
+    final isCompletement = await _secureStorage.readIntroductionCompleted();
+    log("자기소개 완료 : $isCompletement");
+
+    notifyListeners();
   }
 
   void _loadPreferences() async {

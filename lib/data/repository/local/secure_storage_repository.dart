@@ -70,7 +70,8 @@ class SecureStorageRepository {
 
   Future<bool> readIntroductionCompleted() async {
     final result = await _storage.read(key: "introduction_completed");
-    return result?.toLowerCase() == 'true';
+    if (result == null) return false; // 저장된 값이 없으면 false
+    return result.toLowerCase() == 'true'; // 저장된 값이 'true'면 true, 아니면 false
   }
 
   ///모든 데이터 삭제

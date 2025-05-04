@@ -59,9 +59,9 @@ class CompletionScreen extends StatelessWidget {
                           child: BasicButton(
                             text: "코고 가입 완료하기",
                             isClickable: true,
-                            onPressed: () {
-                              viewModel.refreshToken();
-                              viewModel.setIntroductionComplete();
+                            onPressed: () async {
+                              await viewModel.refreshToken();
+                              await viewModel.setIntroductionComplete();
                               context.go(Paths.home);
                             },
                             size: BasicButtonSize.LARGE,

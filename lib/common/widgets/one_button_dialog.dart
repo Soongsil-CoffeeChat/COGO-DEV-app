@@ -74,7 +74,7 @@ class OneButtonDialog extends StatelessWidget {
               top: -50,
               right: 0,
               child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
+                onTap: () => Navigator.of(context, rootNavigator: true).pop(),
                 child: SvgPicture.asset(
                   'assets/icons/button/close.svg',
                   width: 30,

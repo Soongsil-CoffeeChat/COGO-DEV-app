@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/constants/colors.dart';
@@ -90,8 +91,8 @@ class ProfileDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
                           child: Image.network(
                             profile.imageUrl.isNotEmpty
                                 ? profile.imageUrl
@@ -132,14 +133,15 @@ class ProfileDetailScreen extends StatelessWidget {
                       const SizedBox(height: 8),
                       _buildProfileDescription(profile.introductionAnswer2),
                       const SizedBox(height: 30),
-                      BasicButton(
-                        text: '코고 신청하기',
-                        isClickable: true,
-                        size: BasicButtonSize.LARGE,
-                        onPressed: () {
-                          viewModel.applyForCogo(context, mentorId);
-                        },
-                      )
+                      if (viewModel.role == Role.ROLE_MENTEE.name)
+                        BasicButton(
+                          text: '코고 신청하기',
+                          isClickable: true,
+                          size: BasicButtonSize.LARGE,
+                          onPressed: () {
+                            viewModel.applyForCogo(context, mentorId);
+                          },
+                        ),
                     ],
                   );
                 },
