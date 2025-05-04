@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +33,13 @@ class _HomeScreenState extends State<HomeScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
 
+      // ViewModel 초기화 완료될 때까지 기다림
+      while (viewModel.isIntroductionComplete == null) {
+        await Future.delayed(Duration(milliseconds: 10));
+      }
+
       // 자기소개 안 했으면 다이얼로그 띄우기
-      if (!viewModel.isIntroductionComplete) {
+      if (viewModel.isIntroductionComplete == false) {
         showDialog(
           context: context,
           barrierDismissible: false,

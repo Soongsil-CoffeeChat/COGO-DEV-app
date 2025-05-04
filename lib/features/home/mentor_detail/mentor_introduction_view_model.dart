@@ -35,8 +35,8 @@ class MentorIntroductionViewModel extends ChangeNotifier {
   }
 
   Future<void> setMentorIntroductionCompletion() async {
-    _secureStorage.saveIntroductionCompleted(true);
-    Future<bool> isComplete = _secureStorage.readIntroductionCompleted();
+    await _secureStorage.saveIntroductionCompleted(true);
+    final isComplete = await _secureStorage.readIntroductionCompleted();
     log('완료 성공 ? : $isComplete');
     notifyListeners();
   }

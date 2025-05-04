@@ -1,4 +1,3 @@
-import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/mypage/profile_management/mentor_introduction_screen.dart';
@@ -30,7 +29,7 @@ class BottomNavigationViewModel extends ChangeNotifier {
 
     if (index == 1 &&
         role == 'MENTOR' &&
-        !homeViewModel.isIntroductionComplete) {
+        homeViewModel.isIntroductionComplete == false) {
       // 조건이 만족하면 다이얼로그를 띄움
       _showMentorProfileDialog(context);
     } else {
