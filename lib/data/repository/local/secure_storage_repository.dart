@@ -62,18 +62,6 @@ class SecureStorageRepository {
     await _storage.write(key: "club", value: club);
   }
 
-  /// 멘토 자기소개 입력 여부
-  Future<void> saveIntroductionCompleted(bool value) async {
-    await _storage.write(
-        key: "introduction_completed", value: value.toString());
-  }
-
-  Future<bool> readIntroductionCompleted() async {
-    final result = await _storage.read(key: "introduction_completed");
-    if (result == null) return false; // 저장된 값이 없으면 false
-    return result.toLowerCase() == 'true'; // 저장된 값이 'true'면 true, 아니면 false
-  }
-
   ///모든 데이터 삭제
   Future<void> deleteAllData() async {
     await _storage.deleteAll();

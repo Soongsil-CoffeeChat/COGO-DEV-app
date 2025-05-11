@@ -61,7 +61,6 @@ class CompletionScreen extends StatelessWidget {
                             isClickable: true,
                             onPressed: () async {
                               await viewModel.refreshToken();
-                              await viewModel.setIntroductionComplete();
                               context.go(Paths.home);
                             },
                             size: BasicButtonSize.LARGE,

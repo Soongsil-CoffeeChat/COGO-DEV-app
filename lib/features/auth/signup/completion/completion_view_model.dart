@@ -23,21 +23,6 @@ class CompletionViewModel extends ChangeNotifier {
     await authService.reissueToken();
   }
 
-  /// 자기소개 입력 여부
-  Future<void> setIntroductionComplete() async {
-    if (role == Role.ROLE_MENTOR.name) {
-      await _secureStorage.saveIntroductionCompleted(false);
-    } else {
-      await _secureStorage.saveIntroductionCompleted(true);
-    }
-
-    log("롤은요 : $role");
-    final isCompletement = await _secureStorage.readIntroductionCompleted();
-    log("자기소개 완료 : $isCompletement");
-
-    notifyListeners();
-  }
-
   void _loadPreferences() async {
     role = await _secureStorage.readRole();
     isLoading = false;
