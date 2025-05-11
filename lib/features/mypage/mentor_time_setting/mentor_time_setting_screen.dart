@@ -32,7 +32,6 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
     );
     Future.microtask(() {
       viewModel.loadPossibleDatesFromApi();
-      viewModel.loadMentorIntroductionStatus();
     });
   }
 
@@ -138,11 +137,13 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                         child: BasicButton(
                           onPressed: () async {
                             await viewModel.putPossibleDates();
-                            context.push(Paths.timeChecking);
+                            context.push(Paths.timeChecking, extra: {
+                              'isIntroductionComplete':
+                                  viewModel.isIntroductionComplete,
+                            });
                           },
-                          text: viewModel.isMentorIntroductionComplete
-                              ? '저장하기'
-                              : '다음',
+                          text:
+                              viewModel.isIntroductionComplete ? '저장하기' : '다음',
                           isClickable: _isSelected,
                           size: BasicButtonSize.SMALL,
                         ),

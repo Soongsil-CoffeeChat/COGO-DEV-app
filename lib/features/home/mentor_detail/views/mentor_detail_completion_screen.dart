@@ -47,8 +47,6 @@ class MentorDetailCompletionScreen extends StatelessWidget {
                       isClickable: true,
                       size: BasicButtonSize.LARGE,
                       onPressed: () async {
-                        await viewModel.setMentorIntroductionCompletion();
-
                         final homeViewModel =
                             Provider.of<HomeViewModel>(context, listen: false);
                         await homeViewModel.fetchIntroductionData();

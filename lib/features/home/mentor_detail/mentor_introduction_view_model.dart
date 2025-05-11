@@ -34,13 +34,6 @@ class MentorIntroductionViewModel extends ChangeNotifier {
     _loadSavedValues();
   }
 
-  Future<void> setMentorIntroductionCompletion() async {
-    await _secureStorage.saveIntroductionCompleted(true);
-    final isComplete = await _secureStorage.readIntroductionCompleted();
-    log('완료 성공 ? : $isComplete');
-    notifyListeners();
-  }
-
   void _validateFormIntro() {
     isFormValid = titleController.text.isNotEmpty &&
         descriptionController.text.isNotEmpty;
