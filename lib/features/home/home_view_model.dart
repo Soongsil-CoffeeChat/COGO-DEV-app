@@ -16,6 +16,10 @@ class HomeViewModel extends ChangeNotifier {
   final MentorService mentorService = GetIt.instance<MentorService>();
   String? role;
 
+  bool _shouldShowDialog = false;
+  bool get shouldShowDialog => _shouldShowDialog;
+  bool isInitialized = false;
+
   HomeViewModel() {
     _loadPreferences();
   }
@@ -23,10 +27,13 @@ class HomeViewModel extends ChangeNotifier {
   void _loadPreferences() async {
     role = await _secureStorage.readRole();
 
-    /// 멘토 롤일 경우 다이얼로그 띄우기
     if (role == Role.ROLE_MENTOR.name) {
       await fetchIntroductionData();
+      if (isIntroductionComplete == false) {
+        _shouldShowDialog = true;
+      }
     }
+    isInitialized = true;
     notifyListeners();
   }
 

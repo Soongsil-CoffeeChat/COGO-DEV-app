@@ -34,12 +34,12 @@ class _HomeScreenState extends State<HomeScreen>
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
 
       // ViewModel 초기화 완료될 때까지 기다림
-      while (viewModel.isIntroductionComplete == null) {
-        await Future.delayed(Duration(milliseconds: 10));
+      while (!viewModel.isInitialized) {
+        await Future.delayed(Duration(milliseconds: 50));
       }
 
       // 자기소개 안 했으면 다이얼로그 띄우기
-      if (viewModel.isIntroductionComplete == false) {
+      if (viewModel.shouldShowDialog) {
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -49,7 +49,8 @@ class _HomeScreenState extends State<HomeScreen>
             imagePath: "assets/icons/3d_img/heart.png",
             buttonText: "멘토 프로필 작성하기",
             onPressed: () {
-              context.push(Paths.mentorIntroduction);
+              Navigator.of(context).pop();
+              Future.microtask(() => context.push(Paths.mentorIntroduction));
             },
           ),
         );
