@@ -1,6 +1,7 @@
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/home/mentor_detail/mentor_introduction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -47,6 +48,10 @@ class MentorDetailCompletionScreen extends StatelessWidget {
                       size: BasicButtonSize.LARGE,
                       onPressed: () async {
                         await viewModel.setMentorIntroductionCompletion();
+
+                        final homeViewModel =
+                            Provider.of<HomeViewModel>(context, listen: false);
+                        await homeViewModel.fetchIntroductionData();
                         context.go(Paths.home);
                       },
                     );
