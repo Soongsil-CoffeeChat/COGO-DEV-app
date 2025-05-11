@@ -17,23 +17,29 @@ class BottomNavigationViewModel extends ChangeNotifier {
 
   int get selectedIndex => _selectedIndex;
 
-  BottomNavigationViewModel(this.goRouter) {
-    _loadPreferences();
+  bool shouldShowDialog = false;
+
+  BottomNavigationViewModel(this.goRouter);
+
+  void initialize(BuildContext context) {
+    _loadPreferences(context);
   }
 
-  void _loadPreferences() async {
+  void _loadPreferences(BuildContext context) async {
     role = await _secureStorage.readRole();
+
+    final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
+    homeViewModel.loadPreferences();
+    shouldShowDialog = homeViewModel.shouldShowDialog;
+
+    notifyListeners();
   }
 
   void setIndex(int index, BuildContext context) {
     // HomeViewModel에 접근해서 role과 isIntroductionComplete 값 확인
-    final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
 
-    /// 코고 탭 진입시에 멘토 자기소개 완료했는지 판단
-    homeViewModel.loadPreferences();
-    if (index == 1 &&
-        role == Role.ROLE_MENTOR.name &&
-        homeViewModel.shouldShowDialog) {
+    /// 코고 탭 진입시에 멘토 자기소개 완료했는지 판단(
+    if (index == 1 && role == Role.ROLE_MENTOR.name && shouldShowDialog) {
       _showMentorProfileDialog(context);
     } else {
       // 페이지 이동 처리
