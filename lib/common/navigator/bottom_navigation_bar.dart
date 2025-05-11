@@ -1,3 +1,5 @@
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -11,13 +13,6 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   }) : super(key: key ?? const ValueKey('ScaffoldWithNestedNavigation'));
 
   final StatefulNavigationShell navigationShell;
-
-  void _goBranch(int index) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
-  }
 
   Widget _buildIcon(String assetPath, bool isSelected) {
     return ColorFiltered(
@@ -48,14 +43,8 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
               backgroundColor: Colors.black,
               selectedItemColor: Colors.white,
               unselectedItemColor: const Color(0xFF626262),
-              selectedLabelStyle: const TextStyle(
-                fontFamily: 'PretendardRegular',
-                fontSize: 12,
-              ),
-              unselectedLabelStyle: const TextStyle(
-                fontFamily: 'PretendardRegular',
-                fontSize: 12,
-              ),
+              selectedLabelStyle: CogoTextStyle.bodyR12,
+              unselectedLabelStyle: CogoTextStyle.bodyR12,
               items: [
                 BottomNavigationBarItem(
                   icon: _buildIcon(

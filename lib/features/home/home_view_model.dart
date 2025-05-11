@@ -21,10 +21,10 @@ class HomeViewModel extends ChangeNotifier {
   bool isInitialized = false;
 
   HomeViewModel() {
-    _loadPreferences();
+    loadPreferences();
   }
 
-  void _loadPreferences() async {
+  void loadPreferences() async {
     role = await _secureStorage.readRole();
 
     if (role == Role.ROLE_MENTOR.name) {
