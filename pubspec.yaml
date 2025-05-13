@@ -38,6 +38,9 @@ dependencies:
   #구글 로그인
   google_sign_in: ^6.2.1
 
+  #애플 로그인
+  sign_in_with_apple: ^7.0.1
+
   #토큰 저장소
   flutter_secure_storage: ^8.0.0
   flutter_dotenv: ^5.2.0

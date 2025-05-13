@@ -10,6 +10,8 @@ import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:io' show Platform;
 
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
 class LoginViewModel extends ChangeNotifier {
   final AuthService authService = GetIt.instance<AuthService>();
 
@@ -49,7 +51,8 @@ class LoginViewModel extends ChangeNotifier {
       final authCode = googleSignInAuthentication.accessToken;
 
       try {
-        final response = await authService.getAccessToken(authCode!, name!);
+        final response =
+            await authService.getGoogleAccessToken(authCode!, name!);
 
         await _saveUserInfo(googleUser.displayName, googleUser.email);
         _loginPlatform = LoginPlatform.google;
@@ -70,10 +73,40 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> _saveUserInfo(String? name, String email) async {
+  Future<void> signInWithApple() async {
+    final AuthorizationCredentialAppleID credential =
+        await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    final authCode = credential.authorizationCode;
+
+    try {
+      final response = await authService.getAppleAccessToken(authCode!);
+
+      await _saveUserInfo(credential.givenName, credential.email);
+      _loginPlatform = LoginPlatform.apple;
+
+      loginStatus = response.accountStatus;
+      notifyListeners();
+    } catch (e) {
+      log("Exception occurred: $e");
+      _errorMessage = 'Apple 로그인에 실패했습니다. 다시 시도해주세요.';
+
+      if (e is DioException) {
+        log("DioError details: ${e.response?.data}");
+      }
+      notifyListeners();
+    }
+  }
+
+  Future<void> _saveUserInfo(String? name, String? email) async {
     final SecureStorageRepository secureStorage = SecureStorageRepository();
     secureStorage.saveUserName(name ?? '');
-    secureStorage.saveUserEmail(email);
+    secureStorage.saveUserEmail(email ?? '');
   }
 
   Future<void> signOut() async {

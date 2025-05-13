@@ -72,12 +72,16 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(
                       child: _loginButton(
                         platform: LoginPlatform.apple,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('애플 로그인은 준비 중입니다.'),
-                            ),
-                          );
+                        onTap: () async {
+                          await viewModel.signInWithApple();
+                          if (viewModel.loginStatus ==
+                                  AccountStatus.NEW_ACCOUNT.name ||
+                              viewModel.loginStatus ==
+                                  AccountStatus.RESTORED_ACCOUNT.name) {
+                            context.push(Paths.agreement);
+                          } else {
+                            context.push(Paths.home);
+                          }
                         },
                       ),
                     ),
