@@ -82,7 +82,7 @@ class LoginViewModel extends ChangeNotifier {
       ],
     );
 
-    final authCode = credential.authorizationCode;
+    final authCode = credential.identityToken;
 
     try {
       final response = await authService.getAppleAccessToken(authCode!);

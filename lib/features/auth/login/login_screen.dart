@@ -67,7 +67,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
 
-                  /// ✅ 애플 로그인 버튼: Android에서는 숨김
+                  /// 애플 로그인 버튼: Android에서는 숨김
                   if (!Platform.isAndroid)
                     SizedBox(
                       child: _loginButton(
