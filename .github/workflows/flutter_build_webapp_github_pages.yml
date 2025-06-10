@@ -10,10 +10,12 @@ jobs:
       my_secret: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: subosito/flutter-action@v1
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2      # v2 사용
         with:
-          channel: 'dev'
+          flutter-version: '3.29.3'         
+          channel: stable
       - run: flutter config --enable-web
       - run: flutter pub get
       - run: flutter build web --release
