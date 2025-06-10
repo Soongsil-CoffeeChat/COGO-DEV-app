@@ -21,7 +21,7 @@ jobs:
       - run: flutter build web --release
         working-directory: .
       - run: |
-          cd COGO-DEV-app/build/web
+          cd build/web
           git init
           git config --global user.email ellieella2031@gmail.com
           # 4. change your name
