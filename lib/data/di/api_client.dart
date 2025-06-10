@@ -5,6 +5,7 @@ import 'package:cogo/data/service/auth_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
@@ -13,8 +14,12 @@ class ApiClient {
   factory ApiClient() => _instance;
 
   ApiClient._internal() {
+    final baseUrl = kIsWeb
+        ? 'https://back-coffeego.com/' // 🌐 웹 전용 기본 URL 설정
+        : dotenv.get('base_url', fallback: 'https://back-coffeego.com/');
+
     _dio = Dio(BaseOptions(
-      baseUrl: dotenv.get('base_url'),
+      baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 15),
       headers: {
@@ -94,7 +99,6 @@ class ApiClient {
         return handler.next(e);
       },
     ));
-    ;
 
     /// Log Interceptor 추가
     _dio.interceptors.add(LogInterceptor(
