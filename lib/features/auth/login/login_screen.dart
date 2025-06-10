@@ -103,7 +103,7 @@ class LoginScreen extends StatelessWidget {
         case LoginPlatform.google:
           return 'assets/image/img_google_login.svg';
         case LoginPlatform.apple:
-          return 'assets/image/img_apple_login.svg'; //todo 일단 구글로
+          return 'assets/image/img_apple_login.svg';
         default:
           return '';
       }
