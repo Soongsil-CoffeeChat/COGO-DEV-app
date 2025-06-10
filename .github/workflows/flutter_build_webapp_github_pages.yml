@@ -14,12 +14,12 @@ jobs:
 
       - uses: subosito/flutter-action@v2      # v2 사용
         with:
-          flutter-version: '3.29.3'         
+          flutter-version: '3.29.3'
           channel: stable
       - run: flutter config --enable-web
       - run: flutter pub get
       - run: flutter build web --release
-        working-directory: ./COGO-DEV-app
+        working-directory: .
       - run: |
           cd COGO-DEV-app/build/web
           git init
