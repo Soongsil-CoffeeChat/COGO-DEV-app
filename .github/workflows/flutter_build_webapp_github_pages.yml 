@@ -1,0 +1,34 @@
+name: Flutter Web
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build Web
+    env:
+      my_secret: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+      - run: flutter config --enable-web
+      - run: flutter pub get
+      - run: flutter build web --release
+        working-directory: ./COGO-DEV-app
+      - run: |
+          cd COGO-DEV-app/build/web
+          git init
+          git config --global user.email ellieella2031@gmail.com
+          # 4. change your name
+          git config --global user.name Seoneui
+          git status
+          # 5. change your repository
+          git remote add origin https://github.com/Soongsil-CoffeeChat/COGO-DEV-app.git
+          git checkout -b gh-pages
+          git add --all
+          git commit -m "update"
+          git push origin gh-pages -f
+      - run: touch .nojekyll
