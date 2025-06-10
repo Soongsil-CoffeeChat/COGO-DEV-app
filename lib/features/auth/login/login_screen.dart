@@ -1,11 +1,11 @@
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/common/enums/account_status.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'dart:io' show Platform;
 
 import 'login_view_model.dart';
 
@@ -67,17 +67,21 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
 
-                  /// ✅ 애플 로그인 버튼: Android에서는 숨김
-                  if (!Platform.isAndroid)
+                  /// 애플 로그인 버튼: Android에서는 숨김, 웹은 기본적으로 숨김
+                  if (!kIsWeb)
                     SizedBox(
                       child: _loginButton(
                         platform: LoginPlatform.apple,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('애플 로그인은 준비 중입니다.'),
-                            ),
-                          );
+                        onTap: () async {
+                          await viewModel.signInWithApple();
+                          if (viewModel.loginStatus ==
+                                  AccountStatus.NEW_ACCOUNT.name ||
+                              viewModel.loginStatus ==
+                                  AccountStatus.RESTORED_ACCOUNT.name) {
+                            context.push(Paths.agreement);
+                          } else {
+                            context.push(Paths.home);
+                          }
                         },
                       ),
                     ),
@@ -99,7 +103,7 @@ class LoginScreen extends StatelessWidget {
         case LoginPlatform.google:
           return 'assets/image/img_google_login.svg';
         case LoginPlatform.apple:
-          return 'assets/image/img_apple_login.svg'; //todo 일단 구글로
+          return 'assets/image/img_apple_login.svg';
         default:
           return '';
       }

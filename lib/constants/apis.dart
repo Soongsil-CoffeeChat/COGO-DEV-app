@@ -7,7 +7,8 @@ abstract class Apis {
   /// baseUrl 끝에 /가 있어서, 여기서는 맨 앞에 /을 빼고 기입한다.
 
   /// 토큰 관련 api
-  static const String getAccessToken = "auth/login/google";
+  static const String getGoogleAccessToken = "auth/login/google";
+  static const String getAppleAccessToken = "auth/login/apple";
   static const String reissueToken = "auth/reissue";
   static const String sendEmail = "auth/email";
 
