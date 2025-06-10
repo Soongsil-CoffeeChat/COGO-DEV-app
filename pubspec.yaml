@@ -78,7 +78,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - .env
     - assets/
     - assets/icons/navigator/
     - assets/icons/3d_img/
