@@ -24,11 +24,9 @@ jobs:
           cd build/web
           git init
           git config --global user.email ellieella2031@gmail.com
-          # 4. change your name
           git config --global user.name Seoneui
           git status
-          # 5. change your repository
-          git remote add origin https://github.com/Soongsil-CoffeeChat/COGO-DEV-app.git
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Soongsil-CoffeeChat/COGO-DEV-app.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
