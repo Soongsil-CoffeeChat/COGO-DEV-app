@@ -18,6 +18,10 @@ class MatchedCogoViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get role => _role;
 
+  MatchedCogoViewModel() {
+    getRole();
+  }
+
   Future<void> getRole() async {
     try {
       _role = await _secureStorage.readRole();

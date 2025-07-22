@@ -19,6 +19,10 @@ class MatchedCogoDetailViewModel extends ChangeNotifier {
   int? get selectedTimeSlotIndex => _selectedTimeSlotIndex;
   String? get role => _role;
 
+  MatchedCogoDetailViewModel() {
+    getRole();
+  }
+
   Future<void> getRole() async {
     try {
       _role = await _secureStorage.readRole();
