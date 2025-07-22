@@ -40,8 +40,11 @@ class BasicTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          height: height,
-          padding: const EdgeInsets.all(16.0),
+          constraints: BoxConstraints(
+            minHeight: height,
+          ),
+          padding:
+              const EdgeInsets.only(top: 2.0, bottom: 2.0, left: 16, right: 16),
           decoration: BoxDecoration(
             color: CogoColor.systemGray01,
             borderRadius: BorderRadius.circular(20),
@@ -49,7 +52,9 @@ class BasicTextField extends StatelessWidget {
           child: TextField(
             controller: controller,
             maxLength: maxCount,
-            maxLines: maxLines,
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.newline,
             style: CogoTextStyle.body12,
             decoration: InputDecoration(
               hintText: hintText,
