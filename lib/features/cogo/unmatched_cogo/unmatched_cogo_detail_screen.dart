@@ -139,7 +139,10 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                 child: BasicButton(
                   text: '수락',
                   isClickable: true,
-                  onPressed: () => viewModel.accept(context, applicationId),
+                  onPressed: () async {
+                    await viewModel.accept(context, applicationId);
+                    _showAcceptDialog(context);
+                  },
                 ),
               ),
             ],
@@ -190,6 +193,23 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showAcceptDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => OneButtonDialog(
+        title: "코고를 수락하였습니다",
+        subtitle: "멘티에게도 응답이 전송되며,\n수락/거절한 코고는 [코고 → 응답한 코고함]에서 확인 가능합니다",
+        imagePath: "",
+        buttonText: "확인",
+        onPressed: () {
+          Navigator.of(context).pop();
+          Future.microtask(() => context.push(Paths.home));
+        },
       ),
     );
   }
