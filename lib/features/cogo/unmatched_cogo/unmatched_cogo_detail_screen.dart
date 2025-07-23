@@ -5,6 +5,7 @@ import 'package:cogo/domain/entity/cogo_info_entity.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class UnMatchedCogoDetailScreen extends StatelessWidget {
@@ -78,7 +79,8 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
           _buildHeader(context, viewModel.role, item),
           const SizedBox(height: 20),
           _buildMessageContainer(item),
-          _buildDateAndTimePicker(context, item),
+          const SizedBox(height: 20),
+          _placeTimeContainer(context, item),
         ],
       ),
     );
@@ -118,39 +120,6 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDateAndTimePicker(BuildContext context, CogoInfoEntity item) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: SizedBox(
-        height: 100,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            DatePicker(
-              date: item.applicationDate,
-              day: item.applicationDate,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 36.0),
-                child: Consumer<UnMatchedCogoDetailViewModel>(
-                  builder: (context, viewModel, child) {
-                    return SingleSelectionTimePicker(
-                      timeSlots: [item.formattedTimeSlot],
-                      isSelectedTimePicker: false,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildMentorButtons(BuildContext context, int applicationId) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -176,6 +145,51 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+
+  Widget _placeTimeContainer(BuildContext context, CogoInfoEntity item) {
+    final dateStr = DateFormat('yyyy-MM-dd').format(item.applicationDate);
+    final timeStr = item.formattedTimeSlot;
+    final fullText = '$dateStr / $timeStr';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Container(
+        width: double.infinity,
+        constraints: const BoxConstraints(minHeight: 90.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: CogoColor.systemGray01,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              '일정',
+              style: CogoTextStyle.body14,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              fullText,
+              style:
+                  CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              '장소',
+              style: CogoTextStyle.body14,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '커피나무 숭실대점 / 서울 동작구 상도로 61길 65 1층',
+              style:
+                  CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
+            ),
+          ],
+        ),
       ),
     );
   }
