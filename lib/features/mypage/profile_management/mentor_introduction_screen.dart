@@ -42,7 +42,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                               '자기소개를 입력해주세요',
                               viewModel.question1Controller,
                               viewModel.question1CharCount,
-                              200),
+                              100),
                           const SizedBox(height: 10),
                           // 첫 번째 질문
                           const Text(
@@ -55,7 +55,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                               '답변을 입력해주세요',
                               viewModel.question2Controller,
                               viewModel.question2CharCount,
-                              200),
+                              300),
                           const SizedBox(height: 20),
                           // 두 번째 질문
                           const Text(
@@ -68,7 +68,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                               '답변을 입력해주세요',
                               viewModel.question3Controller,
                               viewModel.question3CharCount,
-                              200),
+                              300),
                         ],
                       );
                     },

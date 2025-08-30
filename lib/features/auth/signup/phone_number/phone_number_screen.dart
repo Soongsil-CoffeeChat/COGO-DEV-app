@@ -114,44 +114,46 @@ class PhoneNumberScreen extends StatelessWidget {
                                 },
                               ),
                             ),
-                            const Spacer(), // 버튼을 아래로 밀기 위해 추가
-                            Center(
-                              child: ValueListenableBuilder<bool>(
-                                valueListenable: viewModel.isValidPhoneNumber,
-                                builder: (context, isValid, child) {
-                                  return ValueListenableBuilder<bool>(
-                                    valueListenable: viewModel.isValidCode,
-                                    builder: (context, isValidCode, child) {
-                                      return BasicButton(
-                                        text: viewModel.isPhoneNumberSubmitted
-                                            ? '확인'
-                                            : '인증 번호 받기',
-                                        isClickable: isValid &&
-                                            (!viewModel.showVerificationField
-                                                    .value ||
-                                                isValidCode),
-                                        onPressed: (isValid &&
-                                                (!viewModel
-                                                        .showVerificationField
-                                                        .value ||
-                                                    isValidCode))
-                                            ? () {
-                                                if (viewModel
-                                                    .isPhoneNumberSubmitted) {
-                                                  viewModel
-                                                      .onVerificationCodeSubmitted(
-                                                          context);
-                                                } else {
-                                                  viewModel
-                                                      .onPhoneNumberSubmitted();
+                            Padding(
+                              padding: const EdgeInsets.only(top: 34),
+                              child: Center(
+                                child: ValueListenableBuilder<bool>(
+                                  valueListenable: viewModel.isValidPhoneNumber,
+                                  builder: (context, isValid, child) {
+                                    return ValueListenableBuilder<bool>(
+                                      valueListenable: viewModel.isValidCode,
+                                      builder: (context, isValidCode, child) {
+                                        return BasicButton(
+                                          text: viewModel.isPhoneNumberSubmitted
+                                              ? '확인'
+                                              : '인증 번호 받기',
+                                          isClickable: isValid &&
+                                              (!viewModel.showVerificationField
+                                                      .value ||
+                                                  isValidCode),
+                                          onPressed: (isValid &&
+                                                  (!viewModel
+                                                          .showVerificationField
+                                                          .value ||
+                                                      isValidCode))
+                                              ? () {
+                                                  if (viewModel
+                                                      .isPhoneNumberSubmitted) {
+                                                    viewModel
+                                                        .onVerificationCodeSubmitted(
+                                                            context);
+                                                  } else {
+                                                    viewModel
+                                                        .onPhoneNumberSubmitted();
+                                                  }
                                                 }
-                                              }
-                                            : null,
-                                        size: BasicButtonSize.SMALL,
-                                      );
-                                    },
-                                  );
-                                },
+                                              : null,
+                                          size: BasicButtonSize.SMALL,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ],
