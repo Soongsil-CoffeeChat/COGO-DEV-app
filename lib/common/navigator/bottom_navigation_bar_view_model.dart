@@ -54,6 +54,9 @@ class BottomNavigationViewModel extends ChangeNotifier {
           context.go('/cogo');
           break;
         case 2:
+          context.go('/chat');
+          break;
+        case 3:
           context.go('/mypage');
           break;
       }

@@ -17,6 +17,7 @@ abstract class Paths {
 
   static const String home = '/home';
   static const String cogo = '/cogo';
+  static const String chat = '/chat';
   static const String mypage = '/mypage';
 
   static const String profileDetail = '/profileDetail';
