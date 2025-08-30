@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
-import 'package:cogo/data/dto/response/refresh_token_response.dart';
-import 'package:cogo/data/dto/response/token_response.dart';
+import 'package:cogo/data/dto/response/auth/refresh_token_response.dart';
+import 'package:cogo/data/dto/response/auth/token_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:dio/dio.dart';
 

@@ -1,4 +1,4 @@
-import 'package:cogo/data/dto/response/my_info_response.dart';
+import 'package:cogo/data/dto/response/user/my_info_response.dart';
 
 class MyPageInfo {
   final String name;

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:cogo/common/utils/routing_extension.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/data/dto/response/mentor_possible_date_response.dart';
+import 'package:cogo/data/dto/response/possible_date/mentor_possible_date_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/mentor_service.dart';
 import 'package:cogo/data/service/possibledate_service.dart';

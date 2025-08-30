@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/request/time_select_request.dart';
-import 'package:cogo/data/dto/response/add_possible_date_response.dart';
+import 'package:cogo/data/dto/response/possible_date/add_possible_date_response.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
 import 'package:dio/dio.dart';
 

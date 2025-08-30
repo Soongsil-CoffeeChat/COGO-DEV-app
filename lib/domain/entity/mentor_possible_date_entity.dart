@@ -1,4 +1,4 @@
-import 'package:cogo/data/dto/response/mentor_possible_date_response.dart';
+import 'package:cogo/data/dto/response/possible_date/mentor_possible_date_response.dart';
 
 class MentorPossibleDateEntity {
   final int possibleDateId;

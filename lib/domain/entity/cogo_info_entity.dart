@@ -1,4 +1,4 @@
-import 'package:cogo/data/dto/response/cogo_info_response.dart';
+import 'package:cogo/data/dto/response/application/cogo_info_response.dart';
 
 class CogoInfoEntity {
   final int applicationId;

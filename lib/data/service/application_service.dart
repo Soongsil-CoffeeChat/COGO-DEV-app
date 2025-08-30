@@ -1,8 +1,8 @@
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/request/cogo_decision_request.dart';
-import 'package:cogo/data/dto/response/cogo_application_response.dart';
-import 'package:cogo/data/dto/response/cogo_info_response.dart';
+import 'package:cogo/data/dto/response/application/cogo_application_response.dart';
+import 'package:cogo/data/dto/response/application/cogo_info_response.dart';
 import 'package:dio/dio.dart';
 
 class ApplicationService {

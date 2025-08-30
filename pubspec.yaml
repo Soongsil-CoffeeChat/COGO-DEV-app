@@ -50,6 +50,7 @@ dependencies:
 
   #모델 만들기
   json_annotation: ^4.9.0
+  analyzer: ^8.1.1
 
   #달력
   table_calendar: ^3.0.9

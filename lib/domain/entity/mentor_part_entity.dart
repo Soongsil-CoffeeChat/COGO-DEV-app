@@ -1,4 +1,4 @@
-import 'package:cogo/data/dto/response/mentor_part_response.dart';
+import 'package:cogo/data/dto/response/mentor/mentor_part_response.dart';
 
 class MentorPartEntity {
   final String picture;

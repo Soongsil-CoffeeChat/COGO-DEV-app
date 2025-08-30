@@ -1,7 +1,7 @@
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
-import 'package:cogo/data/dto/response/image_save_response.dart';
+import 'package:cogo/data/dto/response/user/image_save_response.dart';
 import 'package:dio/dio.dart';
 
 class S3Service {

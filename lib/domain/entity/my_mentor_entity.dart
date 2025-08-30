@@ -1,4 +1,4 @@
-import 'package:cogo/data/dto/response/mentor_introduction_response.dart';
+import 'package:cogo/data/dto/response/mentor/mentor_introduction_response.dart';
 
 class MyMentorEntity {
   final String introductionTitle;
