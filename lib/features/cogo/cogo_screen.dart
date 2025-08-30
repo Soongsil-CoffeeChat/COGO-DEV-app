@@ -33,9 +33,7 @@ class CogoScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        viewModel.role == Role.ROLE_MENTOR.name
-                            ? 'COGO를 하면서 많은 성장을 기원해요!'
-                            : '멘토와 함께 성장하는 시간을 만들어보세요!',
+                        'COGO를 하면서 많은 성장을 기원해요!',
                         style: CogoTextStyle.body12
                             .copyWith(color: CogoColor.systemGray03),
                       ),
@@ -47,7 +45,7 @@ class CogoScreen extends StatelessWidget {
                           title: Text(
                             viewModel.role == Role.ROLE_MENTOR.name
                                 ? '받은 코고'
-                                : '신청한 코고',
+                                : '보낸 코고',
                             style: CogoTextStyle.body16,
                           ),
                           trailing: const Icon(Icons.chevron_right),
@@ -60,7 +58,7 @@ class CogoScreen extends StatelessWidget {
                         const SizedBox(height: 5),
                         ListTile(
                           title: const Text(
-                            '성사된 코고',
+                            '응답된 코고',
                             style: CogoTextStyle.body16,
                           ),
                           trailing: const Icon(Icons.chevron_right),

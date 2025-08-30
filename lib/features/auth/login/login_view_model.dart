@@ -41,7 +41,7 @@ class LoginViewModel extends ChangeNotifier {
       clientId =
           '1095380753268-s8v7j2b0vh4g3dm68ct5qa2vkkc16itm.apps.googleusercontent.com'; // 웹 전용 ID
     } else {
-      clientId = dotenv.get("CLIENT_ID", fallback: null); // 모바일용 .env 설정
+      //clientId = dotenv.get("CLIENT_ID", fallback: null); // 모바일용 .env 설정
     }
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
@@ -94,15 +94,16 @@ class LoginViewModel extends ChangeNotifier {
           AppleIDAuthorizationScopes.fullName,
         ],
         webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: "cogoDevApp.example.com",
+          clientId: "com.example.cogoDevApp",
           redirectUri: Uri.parse(dotenv.get("redirect_uri")),
         ),
       );
 
       print('credential.email = ${credential.email}');
       print('credential.userIdentifier = ${credential.userIdentifier}');
+      print('authorizationCode = ${credential.authorizationCode}');
 
-      final authCode = credential.identityToken;
+      final authCode = credential.authorizationCode;
 
       final response = await authService.getAppleAccessToken(authCode!);
 

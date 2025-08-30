@@ -11,9 +11,14 @@ class CogoViewModel extends ChangeNotifier {
   String? _role;
   String? get role => _role;
 
+  CogoViewModel() {
+    getRole();
+  }
+
   Future<void> getRole() async {
     try {
       _role = await _secureStorage.readRole();
+      log(_role!);
       notifyListeners();
     } catch (e) {
       log('Error fetching role: $e');

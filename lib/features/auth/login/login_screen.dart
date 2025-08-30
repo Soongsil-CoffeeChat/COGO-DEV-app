@@ -1,7 +1,8 @@
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/common/enums/account_status.dart';
 import 'package:cogo/constants/paths.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -68,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 15),
 
                   /// 애플 로그인 버튼: Android에서는 숨김, 웹은 기본적으로 숨김
-                  if (!kIsWeb)
+                  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS)
                     SizedBox(
                       child: _loginButton(
                         platform: LoginPlatform.apple,

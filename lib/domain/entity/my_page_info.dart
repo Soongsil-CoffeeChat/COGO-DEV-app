@@ -2,8 +2,9 @@ import 'package:cogo/data/dto/response/my_info_response.dart';
 
 class MyPageInfo {
   final String name;
+
   /// part와 club을 합친 태그 리스트
-  final List<String> tags; 
+  final List<String> tags;
   final String? picture;
   final String role;
 

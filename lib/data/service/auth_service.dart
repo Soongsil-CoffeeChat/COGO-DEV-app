@@ -62,9 +62,7 @@ class AuthService {
           extra: {'skipAuthToken': true}, //토큰 해제
         ),
         Apis.getAppleAccessToken,
-        queryParameters: {
-          'accessToken': authCode,
-        },
+        queryParameters: {'code': authCode, 'state': null},
       );
       if (response.statusCode == 200) {
         // BaseResponse
