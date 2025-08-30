@@ -94,15 +94,16 @@ class LoginViewModel extends ChangeNotifier {
           AppleIDAuthorizationScopes.fullName,
         ],
         webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: "cogoDevApp.example.com",
+          clientId: "com.example.cogoDevApp",
           redirectUri: Uri.parse(dotenv.get("redirect_uri")),
         ),
       );
 
       print('credential.email = ${credential.email}');
       print('credential.userIdentifier = ${credential.userIdentifier}');
+      print('authorizationCode = ${credential.authorizationCode}');
 
-      final authCode = credential.identityToken;
+      final authCode = credential.authorizationCode;
 
       final response = await authService.getAppleAccessToken(authCode!);
 
