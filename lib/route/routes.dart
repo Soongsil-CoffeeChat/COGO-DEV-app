@@ -12,6 +12,7 @@ import 'package:cogo/features/auth/signup/mentor_info/mentor_info_screen.dart';
 import 'package:cogo/features/auth/signup/name_input/name_input_screen.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_screen.dart';
 import 'package:cogo/features/chat/chat_sreean.dart';
+import 'package:cogo/features/chat/chatting_room/chatting_room_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_screen.dart';
@@ -234,6 +235,25 @@ final AppRouter = GoRouter(
         key: state.pageKey,
         child: const MentorDetailCompletionScreen(),
       ),
+    ),
+
+    /// 채팅방
+    GoRoute(
+      path: Paths.chattingRoom,
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        final int roomId = extra['roomId'];
+        final String profileUrl = extra['profileUrl'];
+        final String title = extra['title'];
+        final String image = extra['image'];
+
+        return ChattingRoomScreen(
+          roomId: roomId,
+          profileUrl: profileUrl,
+          title: title,
+          image: image,
+        );
+      },
     ),
 
     /// my page

@@ -46,4 +46,6 @@ abstract class Paths {
   static const String reportDetail = '/reportDetail';
 
   static const String image = '/image';
+
+  static const String chattingRoom = '/chattingRoom';
 }
