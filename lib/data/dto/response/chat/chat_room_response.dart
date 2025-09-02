@@ -23,8 +23,8 @@ class ChatRoomResponse with _$ChatRoomResponse {
 class ChatRoom with _$ChatRoom {
   const factory ChatRoom({
     @JsonKey(name: 'id') required int id,
-    @JsonKey(name: 'name') required int senderId,
-    @JsonKey(name: 'lastChat') required String message,
+    @JsonKey(name: 'senderId') required int senderId,
+    @JsonKey(name: 'message') required String message,
     @JsonKey(name: 'createdAt') required DateTime createdAt,
   }) = _ChatRoom;
 
