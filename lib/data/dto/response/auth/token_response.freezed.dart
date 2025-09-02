@@ -25,8 +25,12 @@ mixin _$TokenResponse {
   int get accessTokenExpiresIn => throw _privateConstructorUsedError;
   String get accountStatus => throw _privateConstructorUsedError;
 
+  /// Serializes this TokenResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TokenResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TokenResponseCopyWith<TokenResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$TokenResponseCopyWithImpl<$Res, $Val extends TokenResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TokenResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -106,6 +112,8 @@ class __$$TokenResponseImplCopyWithImpl<$Res>
       _$TokenResponseImpl _value, $Res Function(_$TokenResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TokenResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -176,12 +184,14 @@ class _$TokenResponseImpl implements _TokenResponse {
                 other.accountStatus == accountStatus));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, accessToken, refreshToken,
       accessTokenExpiresIn, accountStatus);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TokenResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenResponseImplCopyWith<_$TokenResponseImpl> get copyWith =>
@@ -213,8 +223,11 @@ abstract class _TokenResponse implements TokenResponse {
   int get accessTokenExpiresIn;
   @override
   String get accountStatus;
+
+  /// Create a copy of TokenResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TokenResponseImplCopyWith<_$TokenResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

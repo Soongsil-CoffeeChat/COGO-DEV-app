@@ -24,8 +24,12 @@ mixin _$SmsVerificationResponse {
   @JsonKey(name: 'verificationCode')
   String get verificationCode => throw _privateConstructorUsedError;
 
+  /// Serializes this SmsVerificationResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SmsVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SmsVerificationResponseCopyWith<SmsVerificationResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$SmsVerificationResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SmsVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$SmsVerificationResponseeImplCopyWithImpl<$Res>
       $Res Function(_$SmsVerificationResponseeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SmsVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,11 +135,13 @@ class _$SmsVerificationResponseeImpl implements _SmsVerificationResponsee {
                 other.verificationCode == verificationCode));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, verificationCode);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SmsVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SmsVerificationResponseeImplCopyWith<_$SmsVerificationResponseeImpl>
@@ -157,8 +167,11 @@ abstract class _SmsVerificationResponsee implements SmsVerificationResponse {
   @override
   @JsonKey(name: 'verificationCode')
   String get verificationCode;
+
+  /// Create a copy of SmsVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SmsVerificationResponseeImplCopyWith<_$SmsVerificationResponseeImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

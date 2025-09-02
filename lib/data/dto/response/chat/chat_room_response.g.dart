@@ -33,15 +33,15 @@ Map<String, dynamic> _$$ChatRoomResponseImplToJson(
 _$ChatRoomImpl _$$ChatRoomImplFromJson(Map<String, dynamic> json) =>
     _$ChatRoomImpl(
       id: (json['id'] as num).toInt(),
-      name: json['name'] as String,
-      lastChat: json['lastChat'] as String,
+      senderId: (json['name'] as num).toInt(),
+      message: json['lastChat'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$ChatRoomImplToJson(_$ChatRoomImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'lastChat': instance.lastChat,
+      'name': instance.senderId,
+      'lastChat': instance.message,
       'createdAt': instance.createdAt.toIso8601String(),
     };

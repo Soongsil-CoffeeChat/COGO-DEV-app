@@ -314,9 +314,9 @@ mixin _$ChatRoom {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
-  String get name => throw _privateConstructorUsedError;
+  int get senderId => throw _privateConstructorUsedError;
   @JsonKey(name: 'lastChat')
-  String get lastChat => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
   @JsonKey(name: 'createdAt')
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -337,8 +337,8 @@ abstract class $ChatRoomCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'name') String name,
-      @JsonKey(name: 'lastChat') String lastChat,
+      @JsonKey(name: 'name') int senderId,
+      @JsonKey(name: 'lastChat') String message,
       @JsonKey(name: 'createdAt') DateTime createdAt});
 }
 
@@ -358,8 +358,8 @@ class _$ChatRoomCopyWithImpl<$Res, $Val extends ChatRoom>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
-    Object? lastChat = null,
+    Object? senderId = null,
+    Object? message = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -367,13 +367,13 @@ class _$ChatRoomCopyWithImpl<$Res, $Val extends ChatRoom>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastChat: null == lastChat
-          ? _value.lastChat
-          : lastChat // ignore: cast_nullable_to_non_nullable
+      senderId: null == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
+              as int,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -393,8 +393,8 @@ abstract class _$$ChatRoomImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'name') String name,
-      @JsonKey(name: 'lastChat') String lastChat,
+      @JsonKey(name: 'name') int senderId,
+      @JsonKey(name: 'lastChat') String message,
       @JsonKey(name: 'createdAt') DateTime createdAt});
 }
 
@@ -412,8 +412,8 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
-    Object? lastChat = null,
+    Object? senderId = null,
+    Object? message = null,
     Object? createdAt = null,
   }) {
     return _then(_$ChatRoomImpl(
@@ -421,13 +421,13 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastChat: null == lastChat
-          ? _value.lastChat
-          : lastChat // ignore: cast_nullable_to_non_nullable
+      senderId: null == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
+              as int,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -442,8 +442,8 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
 class _$ChatRoomImpl implements _ChatRoom {
   const _$ChatRoomImpl(
       {@JsonKey(name: 'id') required this.id,
-      @JsonKey(name: 'name') required this.name,
-      @JsonKey(name: 'lastChat') required this.lastChat,
+      @JsonKey(name: 'name') required this.senderId,
+      @JsonKey(name: 'lastChat') required this.message,
       @JsonKey(name: 'createdAt') required this.createdAt});
 
   factory _$ChatRoomImpl.fromJson(Map<String, dynamic> json) =>
@@ -454,17 +454,17 @@ class _$ChatRoomImpl implements _ChatRoom {
   final int id;
   @override
   @JsonKey(name: 'name')
-  final String name;
+  final int senderId;
   @override
   @JsonKey(name: 'lastChat')
-  final String lastChat;
+  final String message;
   @override
   @JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'ChatRoom(id: $id, name: $name, lastChat: $lastChat, createdAt: $createdAt)';
+    return 'ChatRoom(id: $id, senderId: $senderId, message: $message, createdAt: $createdAt)';
   }
 
   @override
@@ -473,16 +473,17 @@ class _$ChatRoomImpl implements _ChatRoom {
         (other.runtimeType == runtimeType &&
             other is _$ChatRoomImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.lastChat, lastChat) ||
-                other.lastChat == lastChat) &&
+            (identical(other.senderId, senderId) ||
+                other.senderId == senderId) &&
+            (identical(other.message, message) || other.message == message) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, lastChat, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, senderId, message, createdAt);
 
   /// Create a copy of ChatRoom
   /// with the given fields replaced by the non-null parameter values.
@@ -503,8 +504,8 @@ class _$ChatRoomImpl implements _ChatRoom {
 abstract class _ChatRoom implements ChatRoom {
   const factory _ChatRoom(
           {@JsonKey(name: 'id') required final int id,
-          @JsonKey(name: 'name') required final String name,
-          @JsonKey(name: 'lastChat') required final String lastChat,
+          @JsonKey(name: 'name') required final int senderId,
+          @JsonKey(name: 'lastChat') required final String message,
           @JsonKey(name: 'createdAt') required final DateTime createdAt}) =
       _$ChatRoomImpl;
 
@@ -516,10 +517,10 @@ abstract class _ChatRoom implements ChatRoom {
   int get id;
   @override
   @JsonKey(name: 'name')
-  String get name;
+  int get senderId;
   @override
   @JsonKey(name: 'lastChat')
-  String get lastChat;
+  String get message;
   @override
   @JsonKey(name: 'createdAt')
   DateTime get createdAt;

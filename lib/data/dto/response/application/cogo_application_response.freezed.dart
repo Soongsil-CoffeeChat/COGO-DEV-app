@@ -36,8 +36,12 @@ mixin _$CogoApplicationResponse {
   @JsonKey(name: 'applicationEndTime')
   String get applicationEndTime => throw _privateConstructorUsedError;
 
+  /// Serializes this CogoApplicationResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CogoApplicationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CogoApplicationResponseCopyWith<CogoApplicationResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -69,6 +73,8 @@ class _$CogoApplicationResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CogoApplicationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,6 +148,8 @@ class __$$CogoApplicationResponseImplCopyWithImpl<$Res>
       $Res Function(_$CogoApplicationResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CogoApplicationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -249,7 +257,7 @@ class _$CogoApplicationResponseImpl implements _CogoApplicationResponse {
                 other.applicationEndTime == applicationEndTime));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -261,7 +269,9 @@ class _$CogoApplicationResponseImpl implements _CogoApplicationResponse {
       applicationStartTime,
       applicationEndTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CogoApplicationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CogoApplicationResponseImplCopyWith<_$CogoApplicationResponseImpl>
@@ -313,8 +323,11 @@ abstract class _CogoApplicationResponse implements CogoApplicationResponse {
   @override
   @JsonKey(name: 'applicationEndTime')
   String get applicationEndTime;
+
+  /// Create a copy of CogoApplicationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CogoApplicationResponseImplCopyWith<_$CogoApplicationResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

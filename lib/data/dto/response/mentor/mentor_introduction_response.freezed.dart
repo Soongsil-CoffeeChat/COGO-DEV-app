@@ -30,8 +30,12 @@ mixin _$MentorIntroductionResponse {
   @JsonKey(name: 'introduction_answer2')
   String? get introductionAnswer2 => throw _privateConstructorUsedError;
 
+  /// Serializes this MentorIntroductionResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MentorIntroductionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MentorIntroductionResponseCopyWith<MentorIntroductionResponse>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$MentorIntroductionResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MentorIntroductionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,6 +124,8 @@ class __$$MentorIntroductionResponseImplCopyWithImpl<$Res>
       $Res Function(_$MentorIntroductionResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MentorIntroductionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -196,12 +204,14 @@ class _$MentorIntroductionResponseImpl implements _MentorIntroductionResponse {
                 other.introductionAnswer2 == introductionAnswer2));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, introductionTitle,
       introductionDescription, introductionAnswer1, introductionAnswer2);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MentorIntroductionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MentorIntroductionResponseImplCopyWith<_$MentorIntroductionResponseImpl>
@@ -244,8 +254,11 @@ abstract class _MentorIntroductionResponse
   @override
   @JsonKey(name: 'introduction_answer2')
   String? get introductionAnswer2;
+
+  /// Create a copy of MentorIntroductionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MentorIntroductionResponseImplCopyWith<_$MentorIntroductionResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -22,8 +22,12 @@ MenteeSignupResponse _$MenteeSignupResponseFromJson(Map<String, dynamic> json) {
 mixin _$MenteeSignupResponse {
   String get part => throw _privateConstructorUsedError;
 
+  /// Serializes this MenteeSignupResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MenteeSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MenteeSignupResponseCopyWith<MenteeSignupResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$MenteeSignupResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MenteeSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +87,8 @@ class __$$MenteeSignupResponseImplCopyWithImpl<$Res>
       $Res Function(_$MenteeSignupResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MenteeSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,11 +127,13 @@ class _$MenteeSignupResponseImpl implements _MenteeSignupResponse {
             (identical(other.part, part) || other.part == part));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, part);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MenteeSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MenteeSignupResponseImplCopyWith<_$MenteeSignupResponseImpl>
@@ -148,8 +158,11 @@ abstract class _MenteeSignupResponse implements MenteeSignupResponse {
 
   @override
   String get part;
+
+  /// Create a copy of MenteeSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MenteeSignupResponseImplCopyWith<_$MenteeSignupResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

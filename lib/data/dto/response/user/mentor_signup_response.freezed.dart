@@ -25,8 +25,12 @@ mixin _$MentorSignupResponse {
   @JsonKey(name: 'club')
   String get club => throw _privateConstructorUsedError;
 
+  /// Serializes this MentorSignupResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MentorSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MentorSignupResponseCopyWith<MentorSignupResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$MentorSignupResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MentorSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -91,6 +97,8 @@ class __$$MentorSignupResponseImplCopyWithImpl<$Res>
       $Res Function(_$MentorSignupResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MentorSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -141,11 +149,13 @@ class _$MentorSignupResponseImpl implements _MentorSignupResponse {
             (identical(other.club, club) || other.club == club));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, part, club);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MentorSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MentorSignupResponseImplCopyWith<_$MentorSignupResponseImpl>
@@ -176,8 +186,11 @@ abstract class _MentorSignupResponse implements MentorSignupResponse {
   @override
   @JsonKey(name: 'club')
   String get club;
+
+  /// Create a copy of MentorSignupResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MentorSignupResponseImplCopyWith<_$MentorSignupResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

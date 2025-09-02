@@ -22,8 +22,12 @@ ImageSaveResponse _$ImageSaveResponseFromJson(Map<String, dynamic> json) {
 mixin _$ImageSaveResponse {
   String? get savedUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this ImageSaveResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ImageSaveResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageSaveResponseCopyWith<ImageSaveResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +51,8 @@ class _$ImageSaveResponseCopyWithImpl<$Res, $Val extends ImageSaveResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ImageSaveResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +86,8 @@ class __$$ImageSaveResponseImplCopyWithImpl<$Res>
       $Res Function(_$ImageSaveResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImageSaveResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,11 +127,13 @@ class _$ImageSaveResponseImpl implements _ImageSaveResponse {
                 other.savedUrl == savedUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, savedUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageSaveResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageSaveResponseImplCopyWith<_$ImageSaveResponseImpl> get copyWith =>
@@ -147,8 +157,11 @@ abstract class _ImageSaveResponse implements ImageSaveResponse {
 
   @override
   String? get savedUrl;
+
+  /// Create a copy of ImageSaveResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageSaveResponseImplCopyWith<_$ImageSaveResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

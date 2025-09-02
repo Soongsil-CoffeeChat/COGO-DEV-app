@@ -32,8 +32,12 @@ mixin _$AddPossibleDateResponse {
   @JsonKey(name: 'active')
   bool get active => throw _privateConstructorUsedError;
 
+  /// Serializes this AddPossibleDateResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AddPossibleDateResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AddPossibleDateResponseCopyWith<AddPossibleDateResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -63,6 +67,8 @@ class _$AddPossibleDateResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AddPossibleDateResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -124,6 +130,8 @@ class __$$AddPossibleDateResponseImplCopyWithImpl<$Res>
       $Res Function(_$AddPossibleDateResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AddPossibleDateResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -206,12 +214,14 @@ class _$AddPossibleDateResponseImpl implements _AddPossibleDateResponse {
             (identical(other.active, active) || other.active == active));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, possibleDateId, date, startTime, endTime, active);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AddPossibleDateResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AddPossibleDateResponseImplCopyWith<_$AddPossibleDateResponseImpl>
@@ -253,8 +263,11 @@ abstract class _AddPossibleDateResponse implements AddPossibleDateResponse {
   @override
   @JsonKey(name: 'active')
   bool get active;
+
+  /// Create a copy of AddPossibleDateResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddPossibleDateResponseImplCopyWith<_$AddPossibleDateResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

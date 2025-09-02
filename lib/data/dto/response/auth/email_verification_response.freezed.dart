@@ -24,8 +24,12 @@ mixin _$EmailVerificationResponse {
   @JsonKey(name: 'code')
   String get code => throw _privateConstructorUsedError;
 
+  /// Serializes this EmailVerificationResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmailVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmailVerificationResponseCopyWith<EmailVerificationResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$EmailVerificationResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EmailVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$EmailVerificationResponseImplCopyWithImpl<$Res>
       $Res Function(_$EmailVerificationResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmailVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -126,11 +134,13 @@ class _$EmailVerificationResponseImpl implements _EmailVerificationResponse {
             (identical(other.code, code) || other.code == code));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmailVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmailVerificationResponseImplCopyWith<_$EmailVerificationResponseImpl>
@@ -156,8 +166,11 @@ abstract class _EmailVerificationResponse implements EmailVerificationResponse {
   @override
   @JsonKey(name: 'code')
   String get code;
+
+  /// Create a copy of EmailVerificationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmailVerificationResponseImplCopyWith<_$EmailVerificationResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -30,8 +30,12 @@ mixin _$MentorDetailResponse {
   String? get introductionAnswer2 => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this MentorDetailResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MentorDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MentorDetailResponseCopyWith<MentorDetailResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,6 +69,8 @@ class _$MentorDetailResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MentorDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -147,6 +153,8 @@ class __$$MentorDetailResponseImplCopyWithImpl<$Res>
       $Res Function(_$MentorDetailResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MentorDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -266,7 +274,7 @@ class _$MentorDetailResponseImpl implements _MentorDetailResponse {
                 other.imageUrl == imageUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -280,7 +288,9 @@ class _$MentorDetailResponseImpl implements _MentorDetailResponse {
       introductionAnswer2,
       imageUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MentorDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MentorDetailResponseImplCopyWith<_$MentorDetailResponseImpl>
@@ -329,8 +339,11 @@ abstract class _MentorDetailResponse implements MentorDetailResponse {
   String? get introductionAnswer2;
   @override
   String? get imageUrl;
+
+  /// Create a copy of MentorDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MentorDetailResponseImplCopyWith<_$MentorDetailResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

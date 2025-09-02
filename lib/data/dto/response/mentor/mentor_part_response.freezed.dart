@@ -29,8 +29,12 @@ mixin _$MentorPartResponse {
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
 
+  /// Serializes this MentorPartResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MentorPartResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MentorPartResponseCopyWith<MentorPartResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$MentorPartResponseCopyWithImpl<$Res, $Val extends MentorPartResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MentorPartResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -138,6 +144,8 @@ class __$$MentorPartResponseImplCopyWithImpl<$Res>
       $Res Function(_$MentorPartResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MentorPartResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -244,12 +252,14 @@ class _$MentorPartResponseImpl implements _MentorPartResponse {
                 other.description == description));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, picture, mentorName, part, club,
       username, mentorId, title, description);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MentorPartResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MentorPartResponseImplCopyWith<_$MentorPartResponseImpl> get copyWith =>
@@ -294,8 +304,11 @@ abstract class _MentorPartResponse implements MentorPartResponse {
   String? get title;
   @override
   String? get description;
+
+  /// Create a copy of MentorPartResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MentorPartResponseImplCopyWith<_$MentorPartResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

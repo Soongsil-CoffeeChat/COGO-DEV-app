@@ -27,8 +27,12 @@ mixin _$UserInfoResponse {
   String get phoneNum => throw _privateConstructorUsedError;
   String? get picture => throw _privateConstructorUsedError;
 
+  /// Serializes this UserInfoResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserInfoResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserInfoResponseCopyWith<UserInfoResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$UserInfoResponseCopyWithImpl<$Res, $Val extends UserInfoResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserInfoResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -122,6 +128,8 @@ class __$$UserInfoResponseImplCopyWithImpl<$Res>
       $Res Function(_$UserInfoResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserInfoResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -208,12 +216,14 @@ class _$UserInfoResponseImpl implements _UserInfoResponse {
             (identical(other.picture, picture) || other.picture == picture));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, username, name, email, role, phoneNum, picture);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserInfoResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserInfoResponseImplCopyWith<_$UserInfoResponseImpl> get copyWith =>
@@ -252,8 +262,11 @@ abstract class _UserInfoResponse implements UserInfoResponse {
   String get phoneNum;
   @override
   String? get picture;
+
+  /// Create a copy of UserInfoResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserInfoResponseImplCopyWith<_$UserInfoResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
