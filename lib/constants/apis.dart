@@ -34,4 +34,7 @@ abstract class Apis {
   static const String mentor = "mentors";
   static const String mentorPart = "mentors/list";
   static const String mentorIntroduction = "mentors/introductions";
+
+  /// 채팅 관련 api
+  static const String chat = "chat/rooms";
 }
