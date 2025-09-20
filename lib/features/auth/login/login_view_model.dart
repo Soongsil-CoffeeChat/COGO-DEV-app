@@ -86,6 +86,7 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> signInWithApple() async {
     if (!isIOS) return;
 
+    String redirectUri = dotenv.get("redirect_uri");
     try {
       final AuthorizationCredentialAppleID credential =
           await SignInWithApple.getAppleIDCredential(
@@ -105,7 +106,8 @@ class LoginViewModel extends ChangeNotifier {
 
       final authCode = credential.authorizationCode;
 
-      final response = await authService.getAppleAccessToken(authCode!);
+      final response =
+          await authService.getAppleAccessToken(authCode!, redirectUri);
 
       await _saveUserInfo(credential.givenName, credential.email);
       _loginPlatform = LoginPlatform.apple;

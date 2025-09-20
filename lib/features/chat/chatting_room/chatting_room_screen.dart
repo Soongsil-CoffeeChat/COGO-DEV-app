@@ -24,8 +24,8 @@ class ChattingRoomScreen extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => ChattingRoomViewModel(
-          roomId: roomId, profileUrl: profileUrl, title: title, image: image)
-        ..loadChatting(),
+          roomId: roomId, profileUrl: profileUrl, title: title, image: image),
+      //..loadChatting(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('채팅방'),

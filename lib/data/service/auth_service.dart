@@ -55,14 +55,15 @@ class AuthService {
   }
 
   /// POST apple 서버에서 받은 accessToken으로 서비스 accessToken 발급
-  Future<TokenResponse> getAppleAccessToken(String authCode) async {
+  Future<TokenResponse> getAppleAccessToken(
+      String authCode, String redirectUri) async {
     try {
       final response = await _apiClient.dio.post(
         options: Options(
           extra: {'skipAuthToken': true}, //토큰 해제
         ),
         Apis.getAppleAccessToken,
-        queryParameters: {'code': authCode, 'state': null},
+        queryParameters: {'code': authCode, 'redirectUri': redirectUri},
       );
       if (response.statusCode == 200) {
         // BaseResponse

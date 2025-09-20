@@ -10,7 +10,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
 
   final ChatService _service = ChatService();
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  final StompService _stompService = StompService();
+  //final StompService _stompService = StompService();
 
   List<Message> messages = [];
   bool isLoading = false;
@@ -22,7 +22,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
     required this.image,
   });
 
-  Future<void> loadChatting() async {
+  /*Future<void> loadChatting() async {
     try {
       isLoading = true;
       notifyListeners();
@@ -70,19 +70,19 @@ class ChattingRoomViewModel extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
-  }
+  }*/
 
   void sendMessage(String text) {
-    _stompService.send(roomId: roomId, message: text);
+    //_stompService.send(roomId: roomId, message: text);
   }
 
-  String _formatTime(DateTime time) {
-    return DateFormat('a h:mm', 'ko').format(time.toLocal());
-  }
+  /*String _formatTime(DateTime time) {
+    //return DateFormat('a h:mm', 'ko').format(time.toLocal());
+  }*/
 
   @override
   void dispose() {
-    _stompService.disconnect();
+    //_stompService.disconnect();
     super.dispose();
   }
 }
