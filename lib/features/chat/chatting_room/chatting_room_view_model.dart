@@ -1,6 +1,7 @@
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class ChattingRoomViewModel extends ChangeNotifier {
   final int roomId;
@@ -22,8 +23,8 @@ class ChattingRoomViewModel extends ChangeNotifier {
     required this.image,
   });
 
-  /*Future<void> loadChatting() async {
-    try {
+  Future<void> loadChatting() async {
+    /*try {
       isLoading = true;
       notifyListeners();
 
@@ -69,16 +70,16 @@ class ChattingRoomViewModel extends ChangeNotifier {
     } finally {
       isLoading = false;
       notifyListeners();
-    }
-  }*/
+    }*/
+  }
 
   void sendMessage(String text) {
     //_stompService.send(roomId: roomId, message: text);
   }
 
-  /*String _formatTime(DateTime time) {
-    //return DateFormat('a h:mm', 'ko').format(time.toLocal());
-  }*/
+  String _formatTime(DateTime time) {
+    return DateFormat('a h:mm', 'ko').format(time.toLocal());
+  }
 
   @override
   void dispose() {

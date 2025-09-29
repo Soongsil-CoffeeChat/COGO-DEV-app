@@ -2,6 +2,7 @@ import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
+import 'package:cogo/domain/entity/cogo_detail_entity.dart';
 import 'package:cogo/domain/entity/cogo_info_entity.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
       );
     }
     final applicationId = extra['applicationId'] as int;
+    final otherPartyName = extra['otherPartyName'] as String;
 
     return ChangeNotifierProvider(
       create: (_) =>
@@ -33,7 +35,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: _buildContent(context)),
+              Expanded(child: _buildContent(context, otherPartyName)), // ✅ 전달
             ],
           ),
         ),
@@ -41,7 +43,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, String otherPartyName) {
     return Consumer<MatchedCogoDetailViewModel>(
       builder: (context, viewModel, child) {
         if (viewModel.isLoading) {
@@ -66,7 +68,8 @@ class MatchedCogoDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(context, viewModel.role, item),
+              _buildHeader(
+                  context, viewModel.role, item, otherPartyName), // ✅ 전달
               const SizedBox(height: 20),
               _buildMessageContainer(item),
               _buildDateAndTimePicker(context, item),
@@ -77,20 +80,25 @@ class MatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, String? role, CogoInfoEntity item) {
+  Widget _buildHeader(
+    BuildContext context,
+    String? role,
+    CogoDetailEntity item,
+    String otherPartyName, // ✅ 추가
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: Header(
         title: role == Role.ROLE_MENTOR.name
-            ? '${item.menteeName}님이 코고신청을 보냈어요'
-            : '${item.mentorName}님께 보낸 코고입니다',
+            ? '$otherPartyName님이 코고신청을 보냈어요'
+            : '$otherPartyName님께 보낸 코고입니다',
         subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
         onBackButtonPressed: () => Navigator.of(context).pop(),
       ),
     );
   }
 
-  Widget _buildMessageContainer(CogoInfoEntity item) {
+  Widget _buildMessageContainer(CogoDetailEntity item) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Container(
@@ -111,7 +119,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDateAndTimePicker(BuildContext context, CogoInfoEntity item) {
+  Widget _buildDateAndTimePicker(BuildContext context, CogoDetailEntity item) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: SizedBox(
@@ -125,19 +133,19 @@ class MatchedCogoDetailScreen extends StatelessWidget {
               day: item.applicationDate,
             ),
             const SizedBox(width: 10),
-            Expanded(
+            /*Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 36.0),
                 child: Consumer<MatchedCogoDetailViewModel>(
                   builder: (context, viewModel, child) {
                     return SingleSelectionTimePicker(
                       timeSlots: [item.formattedTimeSlot],
-                      isSelectedTimePicker: false,
+                      isSelectedTimaePicker: false, isSelectedTimePicker: null,
                     );
                   },
                 ),
               ),
-            ),
+            ),*/
           ],
         ),
       ),

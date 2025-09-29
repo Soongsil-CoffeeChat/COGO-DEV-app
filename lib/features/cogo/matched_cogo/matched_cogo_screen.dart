@@ -74,8 +74,8 @@ class MatchedCogoScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                       viewModel.role == Role.ROLE_MENTOR.name
-                                          ? '${item.menteeName}님의 코고신청'
-                                          : '${item.mentorName}님께 보낸 코고',
+                                          ? '${item.otherPartyName}님의 코고신청'
+                                          : '${item.otherPartyName}님께 보낸 코고',
                                       style: CogoTextStyle.body16),
                                   Text(formattedDate,
                                       style: CogoTextStyle.body12.copyWith(

@@ -53,10 +53,10 @@ class ApplicationService {
   }
 
   /// 신청받은/신청한 COGO 조회
-  Future<List<CogoInfoResponse>> getRequestedCogo(String status) async {
+  Future<List<CogoInfoResponse>> getRequestedCogo() async {
     try {
       final response = await _apiClient.dio.get(
-        '$apiVersion${Apis.application}/status?status=$status',
+        '$apiVersion${Apis.application}/list',
         options: Options(
           extra: {'skipAuthToken': false},
         ),
@@ -88,7 +88,7 @@ class ApplicationService {
   }
 
   /// 특정 COGO 조회
-  Future<CogoInfoResponse> getCogoDetail(int applicationId) async {
+  Future<CogoApplicationResponse> getCogoDetail(int applicationId) async {
     try {
       final response = await _apiClient.dio.get(
         '$apiVersion${Apis.application}/$applicationId',
@@ -104,7 +104,7 @@ class ApplicationService {
             responseData.containsKey('content') &&
             responseData['content'] is Map<String, dynamic>) {
           final content = responseData['content'] as Map<String, dynamic>;
-          return CogoInfoResponse.fromJson(content);
+          return CogoApplicationResponse.fromJson(content);
         } else {
           throw Exception('Unexpected response format: $responseData');
         }

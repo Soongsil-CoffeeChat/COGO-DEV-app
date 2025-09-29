@@ -63,7 +63,11 @@ class AuthService {
           extra: {'skipAuthToken': true}, //토큰 해제
         ),
         Apis.getAppleAccessToken,
-        queryParameters: {'code': authCode, 'redirectUri': redirectUri},
+        queryParameters: {
+          'code': authCode,
+          'redirectUri': redirectUri,
+          'codeVerifier': null
+        },
       );
       if (response.statusCode == 200) {
         // BaseResponse

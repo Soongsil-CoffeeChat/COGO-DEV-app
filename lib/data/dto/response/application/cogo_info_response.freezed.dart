@@ -22,18 +22,12 @@ CogoInfoResponse _$CogoInfoResponseFromJson(Map<String, dynamic> json) {
 mixin _$CogoInfoResponse {
   @JsonKey(name: 'applicationId')
   int get applicationId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'menteeName')
-  String get menteeName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'mentorName')
-  String get mentorName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'applicationMemo')
-  String get applicationMemo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'otherPartyName')
+  String get otherPartyName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'applicationStatus')
+  String get applicationStatus => throw _privateConstructorUsedError;
   @JsonKey(name: 'applicationDate')
   String get applicationDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'applicationStartTime')
-  String get applicationStartTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'applicationEndTime')
-  String get applicationEndTime => throw _privateConstructorUsedError;
 
   /// Serializes this CogoInfoResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,12 +47,9 @@ abstract class $CogoInfoResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'applicationId') int applicationId,
-      @JsonKey(name: 'menteeName') String menteeName,
-      @JsonKey(name: 'mentorName') String mentorName,
-      @JsonKey(name: 'applicationMemo') String applicationMemo,
-      @JsonKey(name: 'applicationDate') String applicationDate,
-      @JsonKey(name: 'applicationStartTime') String applicationStartTime,
-      @JsonKey(name: 'applicationEndTime') String applicationEndTime});
+      @JsonKey(name: 'otherPartyName') String otherPartyName,
+      @JsonKey(name: 'applicationStatus') String applicationStatus,
+      @JsonKey(name: 'applicationDate') String applicationDate});
 }
 
 /// @nodoc
@@ -77,41 +68,26 @@ class _$CogoInfoResponseCopyWithImpl<$Res, $Val extends CogoInfoResponse>
   @override
   $Res call({
     Object? applicationId = null,
-    Object? menteeName = null,
-    Object? mentorName = null,
-    Object? applicationMemo = null,
+    Object? otherPartyName = null,
+    Object? applicationStatus = null,
     Object? applicationDate = null,
-    Object? applicationStartTime = null,
-    Object? applicationEndTime = null,
   }) {
     return _then(_value.copyWith(
       applicationId: null == applicationId
           ? _value.applicationId
           : applicationId // ignore: cast_nullable_to_non_nullable
               as int,
-      menteeName: null == menteeName
-          ? _value.menteeName
-          : menteeName // ignore: cast_nullable_to_non_nullable
+      otherPartyName: null == otherPartyName
+          ? _value.otherPartyName
+          : otherPartyName // ignore: cast_nullable_to_non_nullable
               as String,
-      mentorName: null == mentorName
-          ? _value.mentorName
-          : mentorName // ignore: cast_nullable_to_non_nullable
-              as String,
-      applicationMemo: null == applicationMemo
-          ? _value.applicationMemo
-          : applicationMemo // ignore: cast_nullable_to_non_nullable
+      applicationStatus: null == applicationStatus
+          ? _value.applicationStatus
+          : applicationStatus // ignore: cast_nullable_to_non_nullable
               as String,
       applicationDate: null == applicationDate
           ? _value.applicationDate
           : applicationDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      applicationStartTime: null == applicationStartTime
-          ? _value.applicationStartTime
-          : applicationStartTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      applicationEndTime: null == applicationEndTime
-          ? _value.applicationEndTime
-          : applicationEndTime // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -127,12 +103,9 @@ abstract class _$$CogoInfoResponseImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'applicationId') int applicationId,
-      @JsonKey(name: 'menteeName') String menteeName,
-      @JsonKey(name: 'mentorName') String mentorName,
-      @JsonKey(name: 'applicationMemo') String applicationMemo,
-      @JsonKey(name: 'applicationDate') String applicationDate,
-      @JsonKey(name: 'applicationStartTime') String applicationStartTime,
-      @JsonKey(name: 'applicationEndTime') String applicationEndTime});
+      @JsonKey(name: 'otherPartyName') String otherPartyName,
+      @JsonKey(name: 'applicationStatus') String applicationStatus,
+      @JsonKey(name: 'applicationDate') String applicationDate});
 }
 
 /// @nodoc
@@ -149,41 +122,26 @@ class __$$CogoInfoResponseImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? applicationId = null,
-    Object? menteeName = null,
-    Object? mentorName = null,
-    Object? applicationMemo = null,
+    Object? otherPartyName = null,
+    Object? applicationStatus = null,
     Object? applicationDate = null,
-    Object? applicationStartTime = null,
-    Object? applicationEndTime = null,
   }) {
     return _then(_$CogoInfoResponseImpl(
       applicationId: null == applicationId
           ? _value.applicationId
           : applicationId // ignore: cast_nullable_to_non_nullable
               as int,
-      menteeName: null == menteeName
-          ? _value.menteeName
-          : menteeName // ignore: cast_nullable_to_non_nullable
+      otherPartyName: null == otherPartyName
+          ? _value.otherPartyName
+          : otherPartyName // ignore: cast_nullable_to_non_nullable
               as String,
-      mentorName: null == mentorName
-          ? _value.mentorName
-          : mentorName // ignore: cast_nullable_to_non_nullable
-              as String,
-      applicationMemo: null == applicationMemo
-          ? _value.applicationMemo
-          : applicationMemo // ignore: cast_nullable_to_non_nullable
+      applicationStatus: null == applicationStatus
+          ? _value.applicationStatus
+          : applicationStatus // ignore: cast_nullable_to_non_nullable
               as String,
       applicationDate: null == applicationDate
           ? _value.applicationDate
           : applicationDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      applicationStartTime: null == applicationStartTime
-          ? _value.applicationStartTime
-          : applicationStartTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      applicationEndTime: null == applicationEndTime
-          ? _value.applicationEndTime
-          : applicationEndTime // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -194,12 +152,9 @@ class __$$CogoInfoResponseImplCopyWithImpl<$Res>
 class _$CogoInfoResponseImpl implements _CogoInfoResponse {
   const _$CogoInfoResponseImpl(
       {@JsonKey(name: 'applicationId') required this.applicationId,
-      @JsonKey(name: 'menteeName') required this.menteeName,
-      @JsonKey(name: 'mentorName') required this.mentorName,
-      @JsonKey(name: 'applicationMemo') required this.applicationMemo,
-      @JsonKey(name: 'applicationDate') required this.applicationDate,
-      @JsonKey(name: 'applicationStartTime') required this.applicationStartTime,
-      @JsonKey(name: 'applicationEndTime') required this.applicationEndTime});
+      @JsonKey(name: 'otherPartyName') required this.otherPartyName,
+      @JsonKey(name: 'applicationStatus') required this.applicationStatus,
+      @JsonKey(name: 'applicationDate') required this.applicationDate});
 
   factory _$CogoInfoResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$CogoInfoResponseImplFromJson(json);
@@ -208,27 +163,18 @@ class _$CogoInfoResponseImpl implements _CogoInfoResponse {
   @JsonKey(name: 'applicationId')
   final int applicationId;
   @override
-  @JsonKey(name: 'menteeName')
-  final String menteeName;
+  @JsonKey(name: 'otherPartyName')
+  final String otherPartyName;
   @override
-  @JsonKey(name: 'mentorName')
-  final String mentorName;
-  @override
-  @JsonKey(name: 'applicationMemo')
-  final String applicationMemo;
+  @JsonKey(name: 'applicationStatus')
+  final String applicationStatus;
   @override
   @JsonKey(name: 'applicationDate')
   final String applicationDate;
-  @override
-  @JsonKey(name: 'applicationStartTime')
-  final String applicationStartTime;
-  @override
-  @JsonKey(name: 'applicationEndTime')
-  final String applicationEndTime;
 
   @override
   String toString() {
-    return 'CogoInfoResponse(applicationId: $applicationId, menteeName: $menteeName, mentorName: $mentorName, applicationMemo: $applicationMemo, applicationDate: $applicationDate, applicationStartTime: $applicationStartTime, applicationEndTime: $applicationEndTime)';
+    return 'CogoInfoResponse(applicationId: $applicationId, otherPartyName: $otherPartyName, applicationStatus: $applicationStatus, applicationDate: $applicationDate)';
   }
 
   @override
@@ -238,31 +184,18 @@ class _$CogoInfoResponseImpl implements _CogoInfoResponse {
             other is _$CogoInfoResponseImpl &&
             (identical(other.applicationId, applicationId) ||
                 other.applicationId == applicationId) &&
-            (identical(other.menteeName, menteeName) ||
-                other.menteeName == menteeName) &&
-            (identical(other.mentorName, mentorName) ||
-                other.mentorName == mentorName) &&
-            (identical(other.applicationMemo, applicationMemo) ||
-                other.applicationMemo == applicationMemo) &&
+            (identical(other.otherPartyName, otherPartyName) ||
+                other.otherPartyName == otherPartyName) &&
+            (identical(other.applicationStatus, applicationStatus) ||
+                other.applicationStatus == applicationStatus) &&
             (identical(other.applicationDate, applicationDate) ||
-                other.applicationDate == applicationDate) &&
-            (identical(other.applicationStartTime, applicationStartTime) ||
-                other.applicationStartTime == applicationStartTime) &&
-            (identical(other.applicationEndTime, applicationEndTime) ||
-                other.applicationEndTime == applicationEndTime));
+                other.applicationDate == applicationDate));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      applicationId,
-      menteeName,
-      mentorName,
-      applicationMemo,
-      applicationDate,
-      applicationStartTime,
-      applicationEndTime);
+  int get hashCode => Object.hash(runtimeType, applicationId, otherPartyName,
+      applicationStatus, applicationDate);
 
   /// Create a copy of CogoInfoResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -284,14 +217,11 @@ class _$CogoInfoResponseImpl implements _CogoInfoResponse {
 abstract class _CogoInfoResponse implements CogoInfoResponse {
   const factory _CogoInfoResponse(
       {@JsonKey(name: 'applicationId') required final int applicationId,
-      @JsonKey(name: 'menteeName') required final String menteeName,
-      @JsonKey(name: 'mentorName') required final String mentorName,
-      @JsonKey(name: 'applicationMemo') required final String applicationMemo,
-      @JsonKey(name: 'applicationDate') required final String applicationDate,
-      @JsonKey(name: 'applicationStartTime')
-      required final String applicationStartTime,
-      @JsonKey(name: 'applicationEndTime')
-      required final String applicationEndTime}) = _$CogoInfoResponseImpl;
+      @JsonKey(name: 'otherPartyName') required final String otherPartyName,
+      @JsonKey(name: 'applicationStatus')
+      required final String applicationStatus,
+      @JsonKey(name: 'applicationDate')
+      required final String applicationDate}) = _$CogoInfoResponseImpl;
 
   factory _CogoInfoResponse.fromJson(Map<String, dynamic> json) =
       _$CogoInfoResponseImpl.fromJson;
@@ -300,23 +230,14 @@ abstract class _CogoInfoResponse implements CogoInfoResponse {
   @JsonKey(name: 'applicationId')
   int get applicationId;
   @override
-  @JsonKey(name: 'menteeName')
-  String get menteeName;
+  @JsonKey(name: 'otherPartyName')
+  String get otherPartyName;
   @override
-  @JsonKey(name: 'mentorName')
-  String get mentorName;
-  @override
-  @JsonKey(name: 'applicationMemo')
-  String get applicationMemo;
+  @JsonKey(name: 'applicationStatus')
+  String get applicationStatus;
   @override
   @JsonKey(name: 'applicationDate')
   String get applicationDate;
-  @override
-  @JsonKey(name: 'applicationStartTime')
-  String get applicationStartTime;
-  @override
-  @JsonKey(name: 'applicationEndTime')
-  String get applicationEndTime;
 
   /// Create a copy of CogoInfoResponse
   /// with the given fields replaced by the non-null parameter values.

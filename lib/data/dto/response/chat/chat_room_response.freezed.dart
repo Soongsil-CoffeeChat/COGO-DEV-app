@@ -313,9 +313,9 @@ ChatRoom _$ChatRoomFromJson(Map<String, dynamic> json) {
 mixin _$ChatRoom {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'senderId')
   int get senderId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'lastChat')
+  @JsonKey(name: 'message')
   String get message => throw _privateConstructorUsedError;
   @JsonKey(name: 'createdAt')
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -337,8 +337,8 @@ abstract class $ChatRoomCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'name') int senderId,
-      @JsonKey(name: 'lastChat') String message,
+      @JsonKey(name: 'senderId') int senderId,
+      @JsonKey(name: 'message') String message,
       @JsonKey(name: 'createdAt') DateTime createdAt});
 }
 
@@ -393,8 +393,8 @@ abstract class _$$ChatRoomImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'name') int senderId,
-      @JsonKey(name: 'lastChat') String message,
+      @JsonKey(name: 'senderId') int senderId,
+      @JsonKey(name: 'message') String message,
       @JsonKey(name: 'createdAt') DateTime createdAt});
 }
 
@@ -442,8 +442,8 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
 class _$ChatRoomImpl implements _ChatRoom {
   const _$ChatRoomImpl(
       {@JsonKey(name: 'id') required this.id,
-      @JsonKey(name: 'name') required this.senderId,
-      @JsonKey(name: 'lastChat') required this.message,
+      @JsonKey(name: 'senderId') required this.senderId,
+      @JsonKey(name: 'message') required this.message,
       @JsonKey(name: 'createdAt') required this.createdAt});
 
   factory _$ChatRoomImpl.fromJson(Map<String, dynamic> json) =>
@@ -453,10 +453,10 @@ class _$ChatRoomImpl implements _ChatRoom {
   @JsonKey(name: 'id')
   final int id;
   @override
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'senderId')
   final int senderId;
   @override
-  @JsonKey(name: 'lastChat')
+  @JsonKey(name: 'message')
   final String message;
   @override
   @JsonKey(name: 'createdAt')
@@ -504,8 +504,8 @@ class _$ChatRoomImpl implements _ChatRoom {
 abstract class _ChatRoom implements ChatRoom {
   const factory _ChatRoom(
           {@JsonKey(name: 'id') required final int id,
-          @JsonKey(name: 'name') required final int senderId,
-          @JsonKey(name: 'lastChat') required final String message,
+          @JsonKey(name: 'senderId') required final int senderId,
+          @JsonKey(name: 'message') required final String message,
           @JsonKey(name: 'createdAt') required final DateTime createdAt}) =
       _$ChatRoomImpl;
 
@@ -516,10 +516,10 @@ abstract class _ChatRoom implements ChatRoom {
   @JsonKey(name: 'id')
   int get id;
   @override
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'senderId')
   int get senderId;
   @override
-  @JsonKey(name: 'lastChat')
+  @JsonKey(name: 'message')
   String get message;
   @override
   @JsonKey(name: 'createdAt')

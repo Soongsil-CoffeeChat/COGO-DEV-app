@@ -37,7 +37,7 @@ class UnMatchedCogoViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await _applicationService.getRequestedCogo('UNMATCHED');
+      final response = await _applicationService.getRequestedCogo();
       _items = response
           .map((responseItem) => CogoInfoEntity.fromResponse(responseItem))
           .toList();
@@ -53,7 +53,10 @@ class UnMatchedCogoViewModel extends ChangeNotifier {
       BuildContext context, CogoInfoEntity item) async {
     final result = await GoRouter.of(context).push(
       Paths.unMatchedCogoDetail,
-      extra: {'applicationId': item.applicationId},
+      extra: {
+        'applicationId': item.applicationId,
+        'otherPartyName': item.otherPartyName
+      },
     );
 
     if (result == 'refresh') {

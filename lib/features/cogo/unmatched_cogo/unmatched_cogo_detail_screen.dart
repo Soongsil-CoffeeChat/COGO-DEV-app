@@ -2,7 +2,7 @@ import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/cogo_action_result_dialog.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/domain/entity/cogo_info_entity.dart';
+import 'package:cogo/domain/entity/cogo_detail_entity.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -16,11 +16,14 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
 
-    if (extra == null || !extra.containsKey('applicationId')) {
+    if (extra == null ||
+        !extra.containsKey('applicationId') ||
+        !extra.containsKey('otherPartyName')) {
       throw Exception('필요한 데이터가 전달되지 않았습니다: $extra');
     }
 
     final applicationId = extra['applicationId'] as int;
+    final otherPartyName = extra['otherPartyName'] as String;
 
     return ChangeNotifierProvider(
       create: (_) =>
@@ -41,7 +44,13 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: _buildContent(context, viewModel)),
+                  Expanded(
+                    child: _buildContent(
+                      context,
+                      viewModel,
+                      otherPartyName, // ✅ 전달
+                    ),
+                  ),
                   if (viewModel.role == Role.ROLE_MENTOR.name)
                     _buildMentorButtons(context, applicationId),
                 ],
@@ -54,7 +63,10 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
   }
 
   Widget _buildContent(
-      BuildContext context, UnMatchedCogoDetailViewModel viewModel) {
+    BuildContext context,
+    UnMatchedCogoDetailViewModel viewModel,
+    String otherPartyName, // ✅ 파라미터 추가
+  ) {
     if (viewModel.isLoading) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -77,7 +89,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(context, viewModel.role, item),
+          _buildHeader(context, viewModel.role, item, otherPartyName), // ✅ 전달
           const SizedBox(height: 20),
           _buildMessageContainer(item),
           const SizedBox(height: 20),
@@ -87,20 +99,25 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, String? role, CogoInfoEntity item) {
+  Widget _buildHeader(
+    BuildContext context,
+    String? role,
+    CogoDetailEntity item,
+    String otherPartyName, // ✅ 파라미터 추가
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: Header(
         title: role == Role.ROLE_MENTOR.name
-            ? '${item.menteeName}님이 코고신청을 보냈어요'
-            : '${item.mentorName}님께 보낸 코고입니다',
+            ? '$otherPartyName님이 코고신청을 보냈어요'
+            : '$otherPartyName님께 보낸 코고입니다',
         subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
         onBackButtonPressed: () => Navigator.of(context).pop(),
       ),
     );
   }
 
-  Widget _buildMessageContainer(CogoInfoEntity item) {
+  Widget _buildMessageContainer(CogoDetailEntity item) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Container(
@@ -152,10 +169,8 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _placeTimeContainer(BuildContext context, CogoInfoEntity item) {
+  Widget _placeTimeContainer(BuildContext context, CogoDetailEntity item) {
     final dateStr = DateFormat('yyyy-MM-dd').format(item.applicationDate);
-    final timeStr = item.formattedTimeSlot;
-    final fullText = '$dateStr / $timeStr';
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -176,7 +191,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              fullText,
+              dateStr,
               style:
                   CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
             ),
@@ -197,8 +212,11 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  void _showAcceptDialog(BuildContext context,
-      UnMatchedCogoDetailViewModel viewModel, int applicationId) {
+  void _showAcceptDialog(
+    BuildContext context,
+    UnMatchedCogoDetailViewModel viewModel,
+    int applicationId,
+  ) {
     showDialog(
       context: context,
       barrierDismissible: false,

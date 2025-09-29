@@ -36,7 +36,7 @@ class MatchedCogoViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await _applicationService.getRequestedCogo('MATCHED');
+      final response = await _applicationService.getRequestedCogo();
       _items = response
           .map((responseItem) => CogoInfoEntity.fromResponse(responseItem))
           .toList();
@@ -58,10 +58,7 @@ class MatchedCogoViewModel extends ChangeNotifier {
       Paths.matchedCogoDetail,
       extra: {
         'applicationId': item.applicationId,
-        'menteeName': item.menteeName,
-        'applicationMemo': item.applicationMemo,
-        'applicationDate': item.applicationDate.toIso8601String(),
-        'formattedTimeSlot': item.formattedTimeSlot,
+        'otherPartyName': item.otherPartyName,
       },
     );
   }
