@@ -34,52 +34,97 @@ class LoginViewModel extends ChangeNotifier {
   bool get isWeb => kIsWeb;
 
   Future<void> signInWithGoogle() async {
-    // 플랫폼별 clientId 분기
+    _errorMessage = null;
+
     String? clientId;
 
     if (kIsWeb) {
       clientId =
-          '1095380753268-s8v7j2b0vh4g3dm68ct5qa2vkkc16itm.apps.googleusercontent.com'; // 웹 전용 ID
+          '1095380753268-s8v7j2b0vh4g3dm68ct5qa2vkkc16itm.apps.googleusercontent.com';
     } else {
-      //clientId = dotenv.get("CLIENT_ID", fallback: null); // 모바일용 .env 설정
+      clientId = dotenv.get("CLIENT_ID", fallback: null);
+      log("사용 중인 CLIENT_ID: $clientId"); // 디버깅용
     }
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
-      clientId: clientId, // null이면 Android에서 자동 처리됨
+      clientId: clientId,
       scopes: ['email', 'profile'],
     );
 
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    try {
+      log("Google 로그인 시작...");
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      log("Google 로그인 결과: ${googleUser != null ? '성공' : '실패/취소'}");
 
-    if (googleUser != null) {
+      if (googleUser == null) {
+        log('사용자가 로그인을 취소했습니다');
+        _errorMessage = '로그인이 취소되었습니다.';
+        notifyListeners();
+        return;
+      }
+
       log('name = ${googleUser.displayName}');
       log('email = ${googleUser.email}');
       log('id = ${googleUser.id}');
 
       final name = googleUser.displayName;
-      final GoogleSignInAuthentication googleSignInAuthentication =
+
+      log("인증 정보 가져오는 중...");
+      final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-      log("토큰: ${googleSignInAuthentication.accessToken}");
 
-      final authCode = googleSignInAuthentication.accessToken;
+      log("accessToken: ${googleAuth.accessToken}");
+      log("idToken: ${googleAuth.idToken}");
 
-      try {
-        final response =
-            await authService.getGoogleAccessToken(authCode!, name!);
-        await _saveUserInfo(name, googleUser.email);
-        _loginPlatform = LoginPlatform.google;
-        loginStatus = response.accountStatus;
-        log("로그인상태: $loginStatus");
+      final authCode = googleAuth.accessToken;
 
-        notifyListeners();
-      } catch (e) {
-        log("Exception occurred: $e");
-        _errorMessage = 'Google 로그인에 실패했습니다. 다시 시도해주세요.';
-        if (e is DioException) {
-          log("DioError details: ${e.response?.data}");
+      if (authCode == null || authCode.isEmpty) {
+        log('❌ accessToken이 null입니다!');
+
+        // iOS에서는 idToken을 사용해야 할 수도 있음
+        final idToken = googleAuth.idToken;
+        if (idToken != null && idToken.isNotEmpty) {
+          log('✅ idToken은 있습니다. idToken 사용 시도');
+          // 서버가 idToken을 받는다면 이것을 사용
+          final response =
+              await authService.getGoogleAccessToken(idToken, name!);
+          await _saveUserInfo(name, googleUser.email);
+          _loginPlatform = LoginPlatform.google;
+          loginStatus = response.accountStatus;
+          log("로그인상태: $loginStatus");
+          notifyListeners();
+          return;
         }
+
+        _errorMessage = '인증 토큰을 받아오지 못했습니다. 다시 시도해주세요.';
         notifyListeners();
+        return;
       }
+
+      if (name == null || name.isEmpty) {
+        log('사용자 이름을 받아오지 못했습니다');
+        _errorMessage = '사용자 정보를 받아오지 못했습니다. 다시 시도해주세요.';
+        notifyListeners();
+        return;
+      }
+
+      log("서버에 토큰 전송 중...");
+      final response = await authService.getGoogleAccessToken(authCode, name);
+
+      await _saveUserInfo(name, googleUser.email);
+      _loginPlatform = LoginPlatform.google;
+      loginStatus = response.accountStatus;
+      log("✅ 로그인 성공! 상태: $loginStatus");
+
+      notifyListeners();
+    } catch (e, stackTrace) {
+      log("❌ Exception occurred: $e");
+      log("Stack trace: $stackTrace");
+      _errorMessage = 'Google 로그인에 실패했습니다. 다시 시도해주세요.';
+      if (e is DioException) {
+        log("DioError details: ${e.response?.data}");
+      }
+      notifyListeners();
     }
   }
 
