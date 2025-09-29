@@ -53,10 +53,10 @@ class ApplicationService {
   }
 
   /// 신청받은/신청한 COGO 조회
-  Future<List<CogoInfoResponse>> getRequestedCogo() async {
+  Future<List<CogoInfoResponse>> getRequestedCogo(String status) async {
     try {
       final response = await _apiClient.dio.get(
-        '$apiVersion${Apis.application}/list',
+        '$apiVersion${Apis.application}/list?status=$status',
         options: Options(
           extra: {'skipAuthToken': false},
         ),

@@ -36,7 +36,7 @@ class MatchedCogoViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await _applicationService.getRequestedCogo();
+      final response = await _applicationService.getRequestedCogo('MATCHED');
       _items = response
           .map((responseItem) => CogoInfoEntity.fromResponse(responseItem))
           .toList();

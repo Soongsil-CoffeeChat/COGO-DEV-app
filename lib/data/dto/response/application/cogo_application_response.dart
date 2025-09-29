@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'cogo_application_response.freezed.dart';
 part 'cogo_application_response.g.dart';
 
+///특정 코고 조회
 @freezed
 class CogoApplicationResponse with _$CogoApplicationResponse {
   const factory CogoApplicationResponse({
