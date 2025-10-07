@@ -59,15 +59,15 @@ class AuthService {
       String authCode, String redirectUri) async {
     try {
       final response = await _apiClient.dio.post(
-        options: Options(
-          extra: {'skipAuthToken': true}, //토큰 해제
-        ),
         Apis.getAppleAccessToken,
         queryParameters: {
           'code': authCode,
           'redirectUri': redirectUri,
           'codeVerifier': null
         },
+        options: Options(
+          extra: {'skipAuthToken': true}, //토큰 해제
+        ),
       );
       if (response.statusCode == 200) {
         // BaseResponse

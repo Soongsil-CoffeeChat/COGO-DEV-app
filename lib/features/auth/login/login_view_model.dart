@@ -125,6 +125,7 @@ class LoginViewModel extends ChangeNotifier {
         log("DioError details: ${e.response?.data}");
       }
       notifyListeners();
+      rethrow;
     }
   }
 
@@ -148,6 +149,7 @@ class LoginViewModel extends ChangeNotifier {
       print('credential.email = ${credential.email}');
       print('credential.userIdentifier = ${credential.userIdentifier}');
       print('authorizationCode = ${credential.authorizationCode}');
+      print('identityToken = ${credential.identityToken}');
 
       final authCode = credential.authorizationCode;
 

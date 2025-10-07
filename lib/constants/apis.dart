@@ -8,7 +8,7 @@ abstract class Apis {
 
   /// 토큰 관련 api
   static const String getGoogleAccessToken = "auth/login/google";
-  static const String getAppleAccessToken = "auth/login/apple";
+  static const String getAppleAccessToken = "auth/login/apple/code";
   static const String reissueToken = "auth/reissue";
   static const String sendEmail = "auth/email";
 
