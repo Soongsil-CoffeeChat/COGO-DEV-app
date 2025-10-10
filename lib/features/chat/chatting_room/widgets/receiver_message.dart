@@ -28,7 +28,7 @@ class ReceiverMessage extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.only(left: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFF338DFF),
+              color: const Color(0xFF000000),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(text, style: const TextStyle(color: Colors.white)),

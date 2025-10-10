@@ -22,6 +22,9 @@ class ProfileDetailViewModel extends ChangeNotifier {
 
   Future<void> _loadData() async {
     role = await _secureStorage.readRole();
+
+    ///TODO 롤 잘 안물림 이슈
+    log("롤은요 : $role");
     notifyListeners();
   }
 

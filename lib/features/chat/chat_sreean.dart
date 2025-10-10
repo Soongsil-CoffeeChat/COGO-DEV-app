@@ -1,4 +1,5 @@
 // chat_screen.dart
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/features/chat/chat_view_model.dart';
@@ -14,12 +15,11 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      // ✅ 여기서 직접 주입
       create: (_) => ChatViewModel(ChatService()),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('채팅'),
+          title: const Text('채팅', style: CogoTextStyle.bodySB20),
         ),
         body: Consumer<ChatViewModel>(
           builder: (context, vm, _) {
@@ -30,7 +30,22 @@ class ChatScreen extends StatelessWidget {
             final rooms = vm.rooms; // List<ChatRoom>
 
             if (rooms.isEmpty) {
-              return const Center(child: Text('채팅방이 없습니다.'));
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/icons/3d_img/empty.png',
+                      height: 150,
+                    ),
+                    const SizedBox(height: 20),
+                    Text('멘토에게 보낸 코고 신청이 수락되면\n자동으로 채팅방이 생성됩니다',
+                        textAlign: TextAlign.center,
+                        style: CogoTextStyle.body14
+                            .copyWith(color: CogoColor.systemGray03)),
+                  ],
+                ),
+              );
             }
 
             return ListView.builder(
@@ -43,7 +58,6 @@ class ChatScreen extends StatelessWidget {
                     _ChatRoomTile(room: room),
                     if (index != rooms.length - 1)
                       const Padding(
-                        // 썸네일/아바타 영역 만큼 들여쓰기
                         padding: EdgeInsets.only(left: 80, right: 16),
                         child: Divider(
                           height: 1,
@@ -72,7 +86,6 @@ class _ChatRoomTile extends StatelessWidget {
 
     return ListTile(
       onTap: () {
-        // 필요시 Paths.chattingRoom 등 상수 경로로 바꿔도 OK
         context.push(Paths.chattingRoom, extra: room);
       },
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
