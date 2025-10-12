@@ -9,7 +9,7 @@ class CogoInfoResponse with _$CogoInfoResponse {
   const factory CogoInfoResponse({
     @JsonKey(name: 'applicationId') required int applicationId,
     @JsonKey(name: 'otherPartyName') required String otherPartyName,
-    @JsonKey(name: 'applicationStatus') required String applicationStatus,
+    @JsonKey(name: 'applicationStatus') required String? applicationStatus,
     @JsonKey(name: 'applicationDate') required String applicationDate,
   }) = _CogoInfoResponse;
 

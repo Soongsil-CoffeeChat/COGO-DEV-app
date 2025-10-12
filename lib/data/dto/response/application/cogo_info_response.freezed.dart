@@ -25,7 +25,7 @@ mixin _$CogoInfoResponse {
   @JsonKey(name: 'otherPartyName')
   String get otherPartyName => throw _privateConstructorUsedError;
   @JsonKey(name: 'applicationStatus')
-  String get applicationStatus => throw _privateConstructorUsedError;
+  String? get applicationStatus => throw _privateConstructorUsedError;
   @JsonKey(name: 'applicationDate')
   String get applicationDate => throw _privateConstructorUsedError;
 
@@ -48,7 +48,7 @@ abstract class $CogoInfoResponseCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'applicationId') int applicationId,
       @JsonKey(name: 'otherPartyName') String otherPartyName,
-      @JsonKey(name: 'applicationStatus') String applicationStatus,
+      @JsonKey(name: 'applicationStatus') String? applicationStatus,
       @JsonKey(name: 'applicationDate') String applicationDate});
 }
 
@@ -69,7 +69,7 @@ class _$CogoInfoResponseCopyWithImpl<$Res, $Val extends CogoInfoResponse>
   $Res call({
     Object? applicationId = null,
     Object? otherPartyName = null,
-    Object? applicationStatus = null,
+    Object? applicationStatus = freezed,
     Object? applicationDate = null,
   }) {
     return _then(_value.copyWith(
@@ -81,10 +81,10 @@ class _$CogoInfoResponseCopyWithImpl<$Res, $Val extends CogoInfoResponse>
           ? _value.otherPartyName
           : otherPartyName // ignore: cast_nullable_to_non_nullable
               as String,
-      applicationStatus: null == applicationStatus
+      applicationStatus: freezed == applicationStatus
           ? _value.applicationStatus
           : applicationStatus // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       applicationDate: null == applicationDate
           ? _value.applicationDate
           : applicationDate // ignore: cast_nullable_to_non_nullable
@@ -104,7 +104,7 @@ abstract class _$$CogoInfoResponseImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'applicationId') int applicationId,
       @JsonKey(name: 'otherPartyName') String otherPartyName,
-      @JsonKey(name: 'applicationStatus') String applicationStatus,
+      @JsonKey(name: 'applicationStatus') String? applicationStatus,
       @JsonKey(name: 'applicationDate') String applicationDate});
 }
 
@@ -123,7 +123,7 @@ class __$$CogoInfoResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? applicationId = null,
     Object? otherPartyName = null,
-    Object? applicationStatus = null,
+    Object? applicationStatus = freezed,
     Object? applicationDate = null,
   }) {
     return _then(_$CogoInfoResponseImpl(
@@ -135,10 +135,10 @@ class __$$CogoInfoResponseImplCopyWithImpl<$Res>
           ? _value.otherPartyName
           : otherPartyName // ignore: cast_nullable_to_non_nullable
               as String,
-      applicationStatus: null == applicationStatus
+      applicationStatus: freezed == applicationStatus
           ? _value.applicationStatus
           : applicationStatus // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       applicationDate: null == applicationDate
           ? _value.applicationDate
           : applicationDate // ignore: cast_nullable_to_non_nullable
@@ -167,7 +167,7 @@ class _$CogoInfoResponseImpl implements _CogoInfoResponse {
   final String otherPartyName;
   @override
   @JsonKey(name: 'applicationStatus')
-  final String applicationStatus;
+  final String? applicationStatus;
   @override
   @JsonKey(name: 'applicationDate')
   final String applicationDate;
@@ -219,7 +219,7 @@ abstract class _CogoInfoResponse implements CogoInfoResponse {
       {@JsonKey(name: 'applicationId') required final int applicationId,
       @JsonKey(name: 'otherPartyName') required final String otherPartyName,
       @JsonKey(name: 'applicationStatus')
-      required final String applicationStatus,
+      required final String? applicationStatus,
       @JsonKey(name: 'applicationDate')
       required final String applicationDate}) = _$CogoInfoResponseImpl;
 
@@ -234,7 +234,7 @@ abstract class _CogoInfoResponse implements CogoInfoResponse {
   String get otherPartyName;
   @override
   @JsonKey(name: 'applicationStatus')
-  String get applicationStatus;
+  String? get applicationStatus;
   @override
   @JsonKey(name: 'applicationDate')
   String get applicationDate;

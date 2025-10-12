@@ -11,7 +11,7 @@ _$CogoInfoResponseImpl _$$CogoInfoResponseImplFromJson(
     _$CogoInfoResponseImpl(
       applicationId: (json['applicationId'] as num).toInt(),
       otherPartyName: json['otherPartyName'] as String,
-      applicationStatus: json['applicationStatus'] as String,
+      applicationStatus: json['applicationStatus'] as String?,
       applicationDate: json['applicationDate'] as String,
     );
 
