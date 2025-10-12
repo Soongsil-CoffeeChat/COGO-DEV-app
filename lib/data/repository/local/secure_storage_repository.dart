@@ -41,7 +41,7 @@ class SecureStorageRepository {
     return await _storage.read(key: "role");
   }
 
-  Future<void> saveRole(String role) async {
+  Future<void> saveRole(String? role) async {
     await _storage.write(key: "role", value: role);
   }
 
