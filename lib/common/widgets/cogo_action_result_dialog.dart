@@ -27,7 +27,7 @@ class CogoActionResultDialog extends StatelessWidget {
       ),
       child: SizedBox(
         width: 350,
-        height: 250,
+        height: 170,
         child: Stack(
           clipBehavior: Clip.none,
           children: [

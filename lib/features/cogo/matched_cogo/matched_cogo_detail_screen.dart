@@ -1,12 +1,11 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/domain/entity/cogo_detail_entity.dart';
-import 'package:cogo/domain/entity/cogo_info_entity.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MatchedCogoDetailScreen extends StatelessWidget {
@@ -68,11 +67,11 @@ class MatchedCogoDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(
-                  context, viewModel.role, item, otherPartyName), // ✅ 전달
+              _buildHeader(context, viewModel.role, item, otherPartyName),
               const SizedBox(height: 20),
               _buildMessageContainer(item),
-              _buildDateAndTimePicker(context, item),
+              const SizedBox(height: 20),
+              _placeTimeContainer(context, item),
             ],
           ),
         );
@@ -84,7 +83,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
     BuildContext context,
     String? role,
     CogoDetailEntity item,
-    String otherPartyName, // ✅ 추가
+    String otherPartyName,
   ) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
@@ -119,33 +118,71 @@ class MatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDateAndTimePicker(BuildContext context, CogoDetailEntity item) {
+  Widget _placeTimeContainer(BuildContext context, CogoDetailEntity item) {
+    final dateStr = DateFormat('yyyy-MM-dd').format(item.applicationDate);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: SizedBox(
-        height: 100,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      child: Container(
+        width: double.infinity,
+        constraints: const BoxConstraints(minHeight: 90.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: CogoColor.systemGray01,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DatePicker(
-              date: item.applicationDate,
-              day: item.applicationDate,
+            const Text(
+              '일정',
+              style: CogoTextStyle.body14,
             ),
-            const SizedBox(width: 10),
-            /*Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 36.0),
-                child: Consumer<MatchedCogoDetailViewModel>(
-                  builder: (context, viewModel, child) {
-                    return SingleSelectionTimePicker(
-                      timeSlots: [item.formattedTimeSlot],
-                      isSelectedTimaePicker: false, isSelectedTimePicker: null,
-                    );
-                  },
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Text(
+                  dateStr,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
                 ),
-              ),
-            ),*/
+                const SizedBox(width: 3),
+                Text(
+                  "/",
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  item.applicationStartTime,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  "~",
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  item.applicationEndTime,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              '장소',
+              style: CogoTextStyle.body14,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '커피나무 숭실대점 / 서울 동작구 상도로 61길 65 1층',
+              style:
+                  CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
+            ),
           ],
         ),
       ),

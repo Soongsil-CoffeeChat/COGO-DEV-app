@@ -59,7 +59,7 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
   Future<void> accept(BuildContext context, int applicationId) async {
     _isLoading = true;
     notifyListeners();
-    String accept = '수락';
+    String accept = 'accept';
 
     try {
       await _applicationService.patchCogoDecision(applicationId, accept);
