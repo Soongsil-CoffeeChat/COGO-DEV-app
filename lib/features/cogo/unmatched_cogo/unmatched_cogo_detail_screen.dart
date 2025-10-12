@@ -190,10 +190,38 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
               style: CogoTextStyle.body14,
             ),
             const SizedBox(height: 4),
-            Text(
-              dateStr,
-              style:
-                  CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
+            Row(
+              children: [
+                Text(
+                  dateStr,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  "/",
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  item.applicationStartTime,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  "~",
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  item.applicationEndTime,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
             const Text(
