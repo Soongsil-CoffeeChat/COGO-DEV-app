@@ -38,12 +38,11 @@ class LoginViewModel extends ChangeNotifier {
 
     String? clientId;
 
-    if (kIsWeb) {
-      clientId =
-          '1095380753268-s8v7j2b0vh4g3dm68ct5qa2vkkc16itm.apps.googleusercontent.com';
-    } else {
+    if (isIOS) {
       clientId = dotenv.get("CLIENT_ID", fallback: null);
       log("사용 중인 CLIENT_ID: $clientId"); // 디버깅용
+    } else {
+      clientId = null;
     }
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
