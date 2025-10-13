@@ -25,7 +25,7 @@ class MatchedCogoScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Header(
-                    title: '성사된 코고',
+                    title: '응답한 코고',
                     subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
                     onBackButtonPressed: () => Navigator.of(context).pop(),
                   ),
@@ -39,11 +39,9 @@ class MatchedCogoScreen extends StatelessWidget {
                       }
 
                       if (viewModel.items.isEmpty) {
-                        return Center(
+                        return const Center(
                           child: Text(
-                            viewModel.role == Role.ROLE_MENTOR.name
-                                ? '성사된 코고 신청이 없습니다.'
-                                : '성사된 코고 신청이 없습니다.',
+                            '응답된 코고 신청이 없습니다.',
                             style: CogoTextStyle.body14,
                           ),
                         );
