@@ -34,7 +34,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: _buildContent(context, otherPartyName)), // ✅ 전달
+              Expanded(child: _buildContent(context, otherPartyName)),
             ],
           ),
         ),

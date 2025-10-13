@@ -152,7 +152,9 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                 child: BasicButton(
                   text: '거절',
                   isClickable: true,
-                  onPressed: () => viewModel.reject(context, applicationId),
+                  onPressed: () {
+                    viewModel.reject(context, applicationId);
+                  },
                 ),
               ),
               const SizedBox(width: 10),

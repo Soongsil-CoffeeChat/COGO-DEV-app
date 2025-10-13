@@ -1,10 +1,15 @@
 import 'dart:developer';
 
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/application_service.dart';
 import 'package:cogo/domain/entity/cogo_detail_entity.dart';
 import 'package:cogo/domain/entity/cogo_info_entity.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/reject/cogo_reject_reason_view_model.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class UnMatchedCogoDetailViewModel extends ChangeNotifier {
   final ApplicationService _applicationService = ApplicationService();
@@ -74,18 +79,11 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
   }
 
   Future<void> reject(BuildContext context, int applicationId) async {
-    _isLoading = true;
-    notifyListeners();
-    String reject = '거절';
-    try {
-      await _applicationService.patchCogoDecision(applicationId, reject);
-    } catch (e) {
-      log('Error patch COGO decision: $e');
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-
-    Navigator.pop(context, 'refresh');
+    final result = await GoRouter.of(context).push(
+      Paths.cogoReject,
+      extra: {
+        'applicationId': applicationId,
+      },
+    );
   }
 }

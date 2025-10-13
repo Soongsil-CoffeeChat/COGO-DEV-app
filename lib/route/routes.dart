@@ -16,6 +16,7 @@ import 'package:cogo/features/chat/chatting_room/chatting_room_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_screen.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/reject/cogo_reject_reason_screen.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_screen.dart';
 import 'package:cogo/features/home/apply/matching/matching_screen.dart';
@@ -206,6 +207,13 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const MatchedCogoDetailScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.cogoReject,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const CogoRejectReasonScreen(),
       ),
     ),
     GoRoute(
