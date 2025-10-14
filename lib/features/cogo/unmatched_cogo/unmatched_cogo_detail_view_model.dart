@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/application_service.dart';
+import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/domain/entity/cogo_detail_entity.dart';
 import 'package:cogo/domain/entity/cogo_info_entity.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/reject/cogo_reject_reason_view_model.dart';
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 
 class UnMatchedCogoDetailViewModel extends ChangeNotifier {
   final ApplicationService _applicationService = ApplicationService();
+  final ChatService _chatService = ChatService();
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
   CogoDetailEntity? _item;
@@ -26,6 +28,8 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
 
   int? get selectedTimeSlotIndex => _selectedTimeSlotIndex;
   String? get role => _role;
+
+  int id = 0;
 
   UnMatchedCogoDetailViewModel() {
     getRole();
@@ -46,6 +50,7 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
 
     try {
       final response = await _applicationService.getCogoDetail(applicationId);
+      id = response.menteeId;
       _item = CogoDetailEntity.fromResponse(response);
     } catch (e) {
       log('Error fetching COGO detail: $e');
@@ -75,7 +80,14 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
       notifyListeners();
     }
 
-    Navigator.pop(context, 'refresh');
+    try {
+      await _chatService.postChattingRoom(id);
+    } catch (e) {
+      log('Error creative catting room: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> reject(BuildContext context, int applicationId) async {

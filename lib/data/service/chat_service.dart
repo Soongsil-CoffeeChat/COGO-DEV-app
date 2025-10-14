@@ -43,4 +43,34 @@ class ChatService {
       throw Exception('Unexpected error: $e');
     }
   }
+
+  /// 채팅방 생성
+  Future<void> postChattingRoom(int participantId) async {
+    try {
+      final res = await _apiClient.dio.post(
+        apiVersion + Apis.chat,
+        data: {
+          'participantId': participantId,
+        },
+        options: Options(
+          extra: {'skipAuthToken': false},
+        ),
+      );
+
+      if (res.statusCode == 200) {
+        final data = res.data;
+        if (data is Map<String, dynamic>) {
+        } else {
+          throw Exception('Unexpected response type: ${data.runtimeType}');
+        }
+      } else {
+        throw Exception(
+            'Failed to fetch chat rooms: ${res.statusCode} ${res.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Network error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
 }

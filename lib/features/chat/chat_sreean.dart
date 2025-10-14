@@ -1,4 +1,3 @@
-// chat_screen.dart
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/service/chat_service.dart';
@@ -17,7 +16,11 @@ class ChatScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ChatViewModel(ChatService()),
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          scrolledUnderElevation: 0,
           centerTitle: true,
           title: const Text('채팅', style: CogoTextStyle.bodySB20),
         ),
@@ -94,7 +97,7 @@ class _ChatRoomTile extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              room.message,
+              room.lastChat ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.titleMedium
@@ -103,7 +106,7 @@ class _ChatRoomTile extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            _formatKoreanDate(room.createdAt),
+            _formatKoreanDate(room.updatedAt),
             style: theme.textTheme.labelSmall?.copyWith(
               color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
             ),
@@ -113,7 +116,7 @@ class _ChatRoomTile extends StatelessWidget {
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: Text(
-          room.message,
+          room.lastChat ?? '',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: theme.textTheme.bodyMedium,
