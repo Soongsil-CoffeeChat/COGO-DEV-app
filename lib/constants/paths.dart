@@ -30,6 +30,7 @@ abstract class Paths {
   static const String unMatchedCogoDetail = '/unMatchedCogoDetail';
   static const String matchedCogo = '/matchedCogo';
   static const String matchedCogoDetail = '/matchedCogoDetail';
+  static const String cogoReject = '/cogoReject';
 
   static const String mentorIntroduction = '/mentor_introduction';
 
