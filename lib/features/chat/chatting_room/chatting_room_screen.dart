@@ -1,35 +1,25 @@
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/constants/colors.dart';
+import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
+import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/features/chat/chatting_room/chatting_room_view_model.dart';
+import 'package:cogo/features/chat/chatting_room/widgets/chat_input_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'widgets/sender_message.dart';
 import 'widgets/receiver_message.dart';
 
 class ChattingRoomScreen extends StatelessWidget {
-  final int roomId;
-  final String profileUrl;
-  final String title;
-  final String image;
+  const ChattingRoomScreen({super.key, required this.room});
 
-  const ChattingRoomScreen({
-    super.key,
-    required this.roomId,
-    required this.profileUrl,
-    required this.title,
-    required this.image,
-  });
+  final ChatRoom room;
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController _controller = TextEditingController();
 
     return ChangeNotifierProvider(
-      create: (_) => ChattingRoomViewModel(
-        roomId: roomId,
-        profileUrl: profileUrl,
-        title: title,
-        image: image,
-      ),
+      create: (_) => ChattingRoomViewModel(ChatService()),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -37,22 +27,21 @@ class ChattingRoomScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
             onPressed: () => Navigator.pop(context),
           ),
-          title: Column(
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+                room.otherPartyName ?? '지선의',
+                style: CogoTextStyle.bodySB20,
               ),
-              const Text(
-                '멘토님',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
+              const SizedBox(width: 5),
+              Transform.translate(
+                offset: const Offset(0, 1),
+                child: const Text(
+                  '멘토님',
+                  style: CogoTextStyle.body16,
                 ),
               ),
             ],
@@ -78,43 +67,26 @@ class ChattingRoomScreen extends StatelessWidget {
                   color: Colors.white,
                   child: Row(
                     children: [
-                      // 상품 이미지
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          viewModel.image,
-                          width: 48,
-                          height: 48,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      // 상품 정보
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              viewModel.title,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            const Text(
+                              '코고 일정',
+                              style: CogoTextStyle.body16,
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 2),
-                            const Text(
+                            Text(
                               '2025년 4월 30일 커피나무 숭실대점 9시',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
+                              style: CogoTextStyle.bodyR12
+                                  .copyWith(color: CogoColor.systemGray04),
                             ),
                           ],
                         ),
                       ),
-                      // 보러가기 버튼
+
+                      /// 보러가기 버튼
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -124,13 +96,10 @@ class ChattingRoomScreen extends StatelessWidget {
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Text(
+                        child: Text(
                           '보낸 코고 보러가기',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: CogoTextStyle.body12
+                              .copyWith(color: CogoColor.white50),
                         ),
                       ),
                     ],
@@ -140,7 +109,7 @@ class ChattingRoomScreen extends StatelessWidget {
                 const Divider(
                     height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
 
-                // 메시지 목록
+                /// 메시지 목록
                 if (viewModel.isLoading)
                   const Expanded(
                     child: Center(child: CircularProgressIndicator()),
@@ -155,12 +124,12 @@ class ChattingRoomScreen extends StatelessWidget {
                       ),
                       itemCount: viewModel.messages.length + 1, // 날짜 구분선 포함
                       itemBuilder: (context, index) {
-                        // 첫 번째 아이템은 날짜 구분선
                         if (index == 0) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child: Center(
                               child: Text(
+                                //TODO 채팅방 날짜 구현
                                 '2025년 4월 14일 월요일',
                                 style: TextStyle(
                                   fontSize: 12,
@@ -190,11 +159,11 @@ class ChattingRoomScreen extends StatelessWidget {
                     ),
                   ),
 
-                // 입력창
+                /// 입력창
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+                    horizontal: 0,
+                    vertical: 0,
                   ),
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -202,65 +171,15 @@ class ChattingRoomScreen extends StatelessWidget {
                       top: BorderSide(color: Color(0xFFEEEEEE), width: 1),
                     ),
                   ),
-                  child: SafeArea(
-                    top: false,
-                    child: Row(
-                      children: [
-                        // 추가 버튼
-                        GestureDetector(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.add_circle_outline,
-                            color: Colors.grey,
-                            size: 28,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-
-                        // 입력창
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF5F5F5),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: TextField(
-                              controller: _controller,
-                              decoration: const InputDecoration(
-                                hintText: '메시지 보내기',
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                ),
-                                border: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 10),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-
-                        // 보내기 버튼
-                        GestureDetector(
-                          onTap: () {
-                            final text = _controller.text.trim();
-                            if (text.isNotEmpty) {
-                              context
-                                  .read<ChattingRoomViewModel>()
-                                  .sendMessage(text);
-                              _controller.clear();
-                            }
-                          },
-                          child: const Icon(
-                            Icons.send,
-                            color: Colors.grey,
-                            size: 28,
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: ChatInputBar(
+                    controller: _controller,
+                    onTapPlus: () {
+                      //TODO 플러스 버튼 동작(파일 첨부, 사진 등)
+                    },
+                    onSend: (text) {
+                      //TODO send action 구현
+                      context.read<ChattingRoomViewModel>().sendMessage(text);
+                    },
                   ),
                 ),
               ],

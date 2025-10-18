@@ -32,48 +32,18 @@ Map<String, dynamic> _$$ChatRoomResponseImplToJson(
 
 _$ChatRoomImpl _$$ChatRoomImplFromJson(Map<String, dynamic> json) =>
     _$ChatRoomImpl(
-      id: (json['id'] as num).toInt(),
-      name: json['name'] as String?,
+      roomId: (json['roomId'] as num).toInt(),
       lastChat: json['lastChat'] as String?,
-      updatedAt: DateTime.parse(json['updateAt'] as String),
-      application: json['application'] == null
-          ? null
-          : Application.fromJson(json['application'] as Map<String, dynamic>),
-      participants: (json['participants'] as List<dynamic>?)
-          ?.map((e) => Participant.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      otherPartyName: json['otherPartyName'] as String?,
+      otherPartyProfileImage: json['otherPartyProfileImage'] as String?,
     );
 
 Map<String, dynamic> _$$ChatRoomImplToJson(_$ChatRoomImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
+      'roomId': instance.roomId,
       'lastChat': instance.lastChat,
-      'updateAt': instance.updatedAt.toIso8601String(),
-      'application': instance.application,
-      'participants': instance.participants,
-    };
-
-_$ApplicationImpl _$$ApplicationImplFromJson(Map<String, dynamic> json) =>
-    _$ApplicationImpl(
-      applicationId: (json['applicationId'] as num).toInt(),
-    );
-
-Map<String, dynamic> _$$ApplicationImplToJson(_$ApplicationImpl instance) =>
-    <String, dynamic>{
-      'applicationId': instance.applicationId,
-    };
-
-_$ParticipantImpl _$$ParticipantImplFromJson(Map<String, dynamic> json) =>
-    _$ParticipantImpl(
-      userId: (json['userId'] as num).toInt(),
-      username: json['username'] as String,
-      profileImage: json['profileImage'] as String,
-    );
-
-Map<String, dynamic> _$$ParticipantImplToJson(_$ParticipantImpl instance) =>
-    <String, dynamic>{
-      'userId': instance.userId,
-      'username': instance.username,
-      'profileImage': instance.profileImage,
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'otherPartyName': instance.otherPartyName,
+      'otherPartyProfileImage': instance.otherPartyProfileImage,
     };

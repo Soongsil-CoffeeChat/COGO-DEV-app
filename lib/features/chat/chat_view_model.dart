@@ -1,4 +1,6 @@
 // chat_view_model.dart
+import 'dart:developer';
+
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';

@@ -21,44 +21,14 @@ class ChatRoomResponse with _$ChatRoomResponse {
 @freezed
 class ChatRoom with _$ChatRoom {
   const factory ChatRoom({
-    @JsonKey(name: 'id') required int id,
-
-    // 서버 응답에는 name 없음 → optional
-    @JsonKey(name: 'name') String? name,
-
-    // null 가능
+    @JsonKey(name: 'roomId') required int roomId,
     @JsonKey(name: 'lastChat') String? lastChat,
-
-    // 서버는 updatedAt 아니라 updateAt 내려줌 → 키 변경
-    @JsonKey(name: 'updateAt') required DateTime updatedAt,
-
-    // 서버 응답에는 없음 → optional 처리
-    @JsonKey(name: 'application') Application? application,
-    @JsonKey(name: 'participants') List<Participant>? participants,
+    @JsonKey(name: 'updatedAt') required DateTime updatedAt,
+    @JsonKey(name: 'otherPartyName') required String? otherPartyName,
+    @JsonKey(name: 'otherPartyProfileImage')
+    required String? otherPartyProfileImage,
   }) = _ChatRoom;
 
   factory ChatRoom.fromJson(Map<String, dynamic> json) =>
       _$ChatRoomFromJson(json);
-}
-
-@freezed
-class Application with _$Application {
-  const factory Application({
-    @JsonKey(name: 'applicationId') required int applicationId,
-  }) = _Application;
-
-  factory Application.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationFromJson(json);
-}
-
-@freezed
-class Participant with _$Participant {
-  const factory Participant({
-    @JsonKey(name: 'userId') required int userId,
-    @JsonKey(name: 'username') required String username,
-    @JsonKey(name: 'profileImage') required String profileImage,
-  }) = _Participant;
-
-  factory Participant.fromJson(Map<String, dynamic> json) =>
-      _$ParticipantFromJson(json);
 }

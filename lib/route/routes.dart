@@ -1,5 +1,6 @@
 import 'package:cogo/common/navigator/bottom_navigation_bar.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 import 'package:cogo/features/auth/login/login_screen.dart';
 import 'package:cogo/features/auth/signup/agreement/agreement_screen.dart';
 import 'package:cogo/features/auth/signup/agreement/privacy_policy_screen.dart';
@@ -238,30 +239,23 @@ final AppRouter = GoRouter(
       ),
     ),
     GoRoute(
+      path: Paths.chattingRoom,
+      pageBuilder: (context, state) {
+        final room = state.extra as ChatRoom;
+        return MaterialPage(
+          key: state.pageKey,
+          child: ChattingRoomScreen(room: room),
+        );
+      },
+    ),
+
+    /// 채팅방
+    GoRoute(
       path: Paths.mentorDetailCompletion,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const MentorDetailCompletionScreen(),
       ),
-    ),
-
-    /// 채팅방
-    GoRoute(
-      path: Paths.chattingRoom,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        final int roomId = extra['roomId'];
-        final String profileUrl = extra['profileUrl'];
-        final String title = extra['title'];
-        final String image = extra['image'];
-
-        return ChattingRoomScreen(
-          roomId: roomId,
-          profileUrl: profileUrl,
-          title: title,
-          image: image,
-        );
-      },
     ),
 
     /// my page

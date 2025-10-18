@@ -4,24 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class ChattingRoomViewModel extends ChangeNotifier {
-  final int roomId;
-  final String profileUrl;
-  final String title;
-  final String image;
+  ChattingRoomViewModel(this._service) {
+    loadChatting();
+  }
 
-  final ChatService _service = ChatService();
+  final ChatService _service;
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
   //final StompService _stompService = StompService();
 
   List<Message> messages = [];
   bool isLoading = false;
-
-  ChattingRoomViewModel({
-    required this.roomId,
-    required this.profileUrl,
-    required this.title,
-    required this.image,
-  });
 
   Future<void> loadChatting() async {
     /*try {

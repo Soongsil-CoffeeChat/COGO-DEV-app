@@ -81,7 +81,7 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
     }
 
     try {
-      await _chatService.postChattingRoom(id);
+      await _chatService.postChattingRoom(applicationId, id);
     } catch (e) {
       log('Error creative catting room: $e');
     } finally {

@@ -1,3 +1,4 @@
+import 'package:cogo/common/widgets/atoms/image/network_image_with_fallback.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/service/chat_service.dart';
@@ -92,7 +93,9 @@ class _ChatRoomTile extends StatelessWidget {
         context.push(Paths.chattingRoom, extra: room);
       },
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      leading: const _CircleAvatarPlaceholder(),
+      leading: _CircleAvatarPlaceholder(
+        imageUrl: room.otherPartyProfileImage,
+      ),
       title: Row(
         children: [
           Expanded(
@@ -122,21 +125,25 @@ class _ChatRoomTile extends StatelessWidget {
           style: theme.textTheme.bodyMedium,
         ),
       ),
-      // 스샷처럼 우측 미니 썸네일/뱃지 필요하면 trailing에 추가
       trailing: const _UnreadBadge(count: 1), // 서버 unreadCount 생기면 교체
     );
   }
 }
 
 class _CircleAvatarPlaceholder extends StatelessWidget {
-  const _CircleAvatarPlaceholder();
+  const _CircleAvatarPlaceholder({required this.imageUrl});
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
-    return const CircleAvatar(
-      radius: 22,
-      backgroundColor: Colors.grey,
-      child: Icon(Icons.person, color: Colors.white),
+    return ClipOval(
+      child: NetworkImageWithFallback(
+        url: imageUrl,
+        fallbackAsset: 'assets/icons/3d_img/empty.png',
+        width: 44,
+        height: 44,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
