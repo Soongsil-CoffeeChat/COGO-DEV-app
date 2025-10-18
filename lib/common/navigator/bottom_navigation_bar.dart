@@ -27,54 +27,56 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<BottomNavigationViewModel>(
       builder: (context, controller, child) => Scaffold(
-        body: navigationShell,
-        bottomNavigationBar: SafeArea(
-          top: false,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(13),
-              topRight: Radius.circular(13),
-            ),
-            child: Container(
-              color: Colors.black,
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                showSelectedLabels: true,
-                showUnselectedLabels: true,
-                currentIndex: navigationShell.currentIndex,
-                onTap: (index) => controller.setIndex(index, context),
-                backgroundColor: Colors.transparent,
-                selectedItemColor: Colors.white,
-                unselectedItemColor: const Color(0xFF626262),
-                selectedLabelStyle: CogoTextStyle.bodyR12,
-                unselectedLabelStyle: CogoTextStyle.bodyR12,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: _buildIcon('assets/icons/navigator/home.svg',
-                        navigationShell.currentIndex == 0),
-                    label: '홈',
+          body: navigationShell,
+          bottomNavigationBar: ColoredBox(
+            color: Colors.black,
+            child: SafeArea(
+              top: false,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(13),
+                  topRight: Radius.circular(13),
+                ),
+                child: Container(
+                  color: Colors.black,
+                  child: BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    showSelectedLabels: true,
+                    showUnselectedLabels: true,
+                    currentIndex: navigationShell.currentIndex,
+                    onTap: (index) => controller.setIndex(index, context),
+                    backgroundColor: Colors.transparent,
+                    selectedItemColor: Colors.white,
+                    unselectedItemColor: const Color(0xFF626262),
+                    selectedLabelStyle: CogoTextStyle.bodyR12,
+                    unselectedLabelStyle: CogoTextStyle.bodyR12,
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: _buildIcon('assets/icons/navigator/home.svg',
+                            navigationShell.currentIndex == 0),
+                        label: '홈',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: _buildIcon('assets/icons/navigator/cogo.svg',
+                            navigationShell.currentIndex == 1),
+                        label: '코고',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: _buildIcon('assets/icons/navigator/chat.svg',
+                            navigationShell.currentIndex == 2),
+                        label: '채팅',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: _buildIcon('assets/icons/navigator/mypage.svg',
+                            navigationShell.currentIndex == 3),
+                        label: 'MY',
+                      ),
+                    ],
                   ),
-                  BottomNavigationBarItem(
-                    icon: _buildIcon('assets/icons/navigator/cogo.svg',
-                        navigationShell.currentIndex == 1),
-                    label: '코고',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: _buildIcon('assets/icons/navigator/chat.svg',
-                        navigationShell.currentIndex == 2),
-                    label: '채팅',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: _buildIcon('assets/icons/navigator/mypage.svg',
-                        navigationShell.currentIndex == 3),
-                    label: 'MY',
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
+          )),
     );
   }
 }
