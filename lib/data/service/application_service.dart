@@ -123,10 +123,10 @@ class ApplicationService {
       int applicationId, String decision) async {
     try {
       final response = await _apiClient.dio.patch(
-        '$apiVersion${Apis.application}/$applicationId/decision?decision=$decision',
+        '$apiVersion${Apis.application}/$applicationId/decision',
         data: {
-          'applicationId': applicationId,
-          'decision': decision,
+          'status': decision,
+          'reason': null,
         },
         options: Options(
           extra: {'skipAuthToken': false},
