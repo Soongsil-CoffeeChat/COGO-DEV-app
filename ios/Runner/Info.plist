@@ -4,6 +4,10 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>COGO에서 내 사진 및 영상을 공유할 수 있도록 카메라 접근 권한을 허용해주세요.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>COGO에서 내 사진 및 영상을 공유할 수 있도록 사진 접근 권한을 허용해주세요.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
