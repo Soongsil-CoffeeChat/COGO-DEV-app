@@ -1,5 +1,5 @@
 enum ApplicationRejectReason {
-  SHEDULE_ISSUE,
+  SCHEDULE_ISSUE,
   QUESTION_DIFFICULTY,
   ANOTHER_AREA,
   NO_AFFORD,
@@ -8,7 +8,7 @@ enum ApplicationRejectReason {
 
   String get getString {
     switch (this) {
-      case ApplicationRejectReason.SHEDULE_ISSUE:
+      case ApplicationRejectReason.SCHEDULE_ISSUE:
         return '시간이 맞지 않음';
       case ApplicationRejectReason.QUESTION_DIFFICULTY:
         return '멘티의 질문에 답하기 어려움';
