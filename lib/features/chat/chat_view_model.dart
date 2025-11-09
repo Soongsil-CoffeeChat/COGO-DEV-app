@@ -32,4 +32,8 @@ class ChatViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> refreshChatRooms() async {
+    await _loadChatRooms();
+  }
 }

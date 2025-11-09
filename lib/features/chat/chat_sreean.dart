@@ -9,8 +9,21 @@ import 'package:provider/provider.dart';
 
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ChatViewModel>().refreshChatRooms();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
