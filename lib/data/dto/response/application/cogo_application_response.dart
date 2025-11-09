@@ -13,6 +13,7 @@ class CogoApplicationResponse with _$CogoApplicationResponse {
     @JsonKey(name: 'applicationMemo') required String applicationMemo,
     @JsonKey(name: 'applicationRejectReason')
     required String applicationRejectReason,
+    @JsonKey(name: 'applicationStatus') required String applicationStatus,
     @JsonKey(name: 'applicationDate') required String applicationDate,
     @JsonKey(name: 'applicationStartTime') required String applicationStartTime,
     @JsonKey(name: 'applicationEndTime') required String applicationEndTime,
