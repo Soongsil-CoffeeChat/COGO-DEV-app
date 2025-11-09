@@ -212,25 +212,29 @@ class UserService {
     }
   }
 
-  ///PUT /api/v2/users/picture 이미지 저장하기
-  Future<bool> saveImage(String imageUrl) async {
+  ///POST /api/v2/users/picture 이미지 저장하기
+  Future<bool> saveImage(String imagePath) async {
     try {
-      final response =
-          await _apiClient.dio.put(apiVersion + Apis.saveImage, data: imageUrl);
+      const url = '$apiVersion${Apis.userPicture}';
 
-      //todo 여기 response가 존재하나 필요가 없어서 안받음
-      // {
-      //   "statusCode": "201",
-      //   "message": "CREATED",
-      //   "content": {
-      //   "username": "113343694546635833713",
-      //   "name": "222",
-      //   "email": "objet917@gmail.com",
-      //   "role": "ROLE_MENTOR",
-      //   "phoneNum": "123-1231-2312",
-      //   "picture": "\"https://cogo-bucket.s3.ap-northeast-2.amazonaws.com/v2/113343694546635833713\""
-      // }
-      // }
+      // FormData 생성
+      final formData = FormData.fromMap({
+        'image': await MultipartFile.fromFile(imagePath,
+            filename: imagePath.split('/').last)
+      });
+
+      // 요청 전송
+      final response = await _apiClient.dio.post(
+        url,
+        data: formData,
+        options: Options(
+          headers: {
+            'accept': '*/*',
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+
       if (response.statusCode != 201) {
         throw Exception('Failed to send verification code ${response.data}');
       }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
@@ -33,18 +32,29 @@ class ImageUploadScreen extends StatelessWidget {
               ),
               actions: [
                 TextButton(
-                  onPressed: viewModel.selectedAsset == null
+                  onPressed: viewModel.selectedAsset == null ||
+                          viewModel.isUploading
                       ? null
                       : () async {
-                          final file = await viewModel.selectedAsset!.file;
-                          if (file != null && context.mounted) {
-                            Navigator.pop(context, [file]);
+                          await viewModel.uploadImage(
+                            onSuccess: () {
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                            },
+                          );
+                          if (viewModel.errorMessage != null &&
+                              context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(viewModel.errorMessage!)),
+                            );
                           }
                         },
                   child: Text(
-                    '완료',
+                    viewModel.isUploading ? '업로드 중...' : '완료',
                     style: CogoTextStyle.body16.copyWith(
-                      color: viewModel.selectedAsset == null
+                      color: viewModel.selectedAsset == null ||
+                              viewModel.isUploading
                           ? CogoColor.systemGray03
                           : CogoColor.systemGray05,
                     ),
@@ -60,6 +70,8 @@ class ImageUploadScreen extends StatelessWidget {
               ),
               backgroundColor: Colors.white,
               elevation: 0,
+              scrolledUnderElevation: 0,
+              surfaceTintColor: Colors.white,
             ),
             body: Padding(
               padding: const EdgeInsets.all(16.0),
