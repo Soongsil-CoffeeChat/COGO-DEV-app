@@ -22,4 +22,16 @@ enum ApplicationRejectReason {
         return '기타사유 입력';
     }
   }
+
+  // 서버 문자열에서 enum으로 변환하는 메서드
+  static ApplicationRejectReason? fromString(String? value) {
+    if (value == null) return null;
+    try {
+      return ApplicationRejectReason.values.firstWhere(
+        (reason) => reason.name == value,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
 }
