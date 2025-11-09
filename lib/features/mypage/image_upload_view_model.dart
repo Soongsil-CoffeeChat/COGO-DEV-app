@@ -2,100 +2,78 @@ import 'dart:io';
 
 import 'package:cogo/data/service/s3_service.dart';
 import 'package:cogo/data/service/user_service.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class ImageUploadViewModel extends ChangeNotifier {
   final S3Service s3service = GetIt.instance<S3Service>();
   final UserService userService = GetIt.instance<UserService>();
 
-  File? _selectedImage;
-  bool _isUploading = false;
-  bool _isUpload = false;
-  String? _uploadResult;
-  String? _errorMessage;
+  final ImagePicker _picker = ImagePicker();
 
-  // 생성자
-  ImageUploadViewModel();
+  List<AssetEntity> _assets = [];
+  AssetEntity? _selectedAsset;
 
-  // Getters
-  File? get selectedImage => _selectedImage;
-  bool get isUploading => _isUploading;
+  List<AssetEntity> get assets => _assets;
+  AssetEntity? get selectedAsset => _selectedAsset;
 
-  bool get isUpload => _isUpload;
-  String? get uploadResult => _uploadResult;
-  String? get errorMessage => _errorMessage;
-
-  // 갤러리에서 이미지 선택
-  Future<void> pickImageFromGallery() async {
-    try {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-      if (pickedFile != null) {
-        _selectedImage = File(pickedFile.path);
-        _errorMessage = null;
-        notifyListeners();
-      }
-    } catch (e) {
-      _errorMessage = '이미지 선택 중 오류 발생: ${e.toString()}';
-      notifyListeners();
-    }
+  ImageUploadViewModel() {
+    _fetchAssets();
   }
 
-  // 카메라로 이미지 촬영
-  Future<void> takeImageFromCamera() async {
-    try {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: ImageSource.camera);
+  Future<void> _fetchAssets() async {
+    final PermissionState ps = await PhotoManager.requestPermissionExtend();
 
-      if (pickedFile != null) {
-        _selectedImage = File(pickedFile.path);
-        _errorMessage = null;
-        notifyListeners();
-      }
-    } catch (e) {
-      _errorMessage = '카메라 촬영 중 오류 발생: ${e.toString()}';
-      notifyListeners();
-    }
-  }
+    print('Permission state: $ps'); // 디버그 로깅
+    print('Is auth: ${ps.isAuth}');
 
-  // 이미지 업로드
-  Future<void> uploadImage() async {
-    // 이미지가 선택되지 않은 경우
-    if (_selectedImage == null) {
-      _errorMessage = '먼저 이미지를 선택해주세요.';
-      notifyListeners();
+    if (!ps.isAuth) {
+      print('Permission denied');
       return;
     }
 
-    try {
-      // 업로드 시작
-      _isUploading = true;
-      _errorMessage = null;
-      notifyListeners();
+    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+    );
 
-      // 서비스를 통해 이미지 업로드
-      _uploadResult = await s3service.uploadImage(_selectedImage!.path);
+    print('Albums count: ${albums.length}');
 
-      // 업로드 성공
-      _isUpload = await userService.saveImage(_uploadResult!);
-      _isUploading = false;
-      notifyListeners();
-    } catch (e) {
-      // 에러 처리
-      _errorMessage = e.toString();
-      _isUploading = false;
-      notifyListeners();
+    if (albums.isEmpty) {
+      print('No albums found');
+      return;
     }
+
+    final List<AssetEntity> media =
+        await albums.first.getAssetListPaged(page: 0, size: 100);
+
+    print('Media count: ${media.length}');
+
+    _assets = media;
+    notifyListeners();
   }
 
-  // 선택된 이미지 초기화
-  void clearSelectedImage() {
-    _selectedImage = null;
-    _uploadResult = null;
-    _errorMessage = null;
+  void toggleSelection(AssetEntity asset) {
+    if (_selectedAsset == asset) {
+      _selectedAsset = null;
+    } else {
+      _selectedAsset = asset;
+    }
     notifyListeners();
+  }
+
+  bool isSelected(AssetEntity asset) {
+    return _selectedAsset == asset;
+  }
+
+  /// 카메라 촬영 후 이미지 리스트에 추가
+  Future<void> pickFromCamera(BuildContext context) async {
+    final XFile? cameraImage =
+        await _picker.pickImage(source: ImageSource.camera);
+    if (cameraImage != null) {
+      Navigator.pop(context, [File(cameraImage.path)]);
+    }
   }
 }

@@ -316,7 +316,7 @@ final AppRouter = GoRouter(
       path: Paths.image,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: ImageUploadScreen(),
+        child: const ImageUploadScreen(),
       ),
     ),
     StatefulShellRoute.indexedStack(
