@@ -29,6 +29,8 @@ mixin _$CogoApplicationResponse {
   int get menteeId => throw _privateConstructorUsedError;
   @JsonKey(name: 'applicationMemo')
   String get applicationMemo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'applicationRejectReason')
+  String get applicationRejectReason => throw _privateConstructorUsedError;
   @JsonKey(name: 'applicationDate')
   String get applicationDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'applicationStartTime')
@@ -57,6 +59,7 @@ abstract class $CogoApplicationResponseCopyWith<$Res> {
       @JsonKey(name: 'mentorId') int mentorId,
       @JsonKey(name: 'menteeId') int menteeId,
       @JsonKey(name: 'applicationMemo') String applicationMemo,
+      @JsonKey(name: 'applicationRejectReason') String applicationRejectReason,
       @JsonKey(name: 'applicationDate') String applicationDate,
       @JsonKey(name: 'applicationStartTime') String applicationStartTime,
       @JsonKey(name: 'applicationEndTime') String applicationEndTime});
@@ -82,6 +85,7 @@ class _$CogoApplicationResponseCopyWithImpl<$Res,
     Object? mentorId = null,
     Object? menteeId = null,
     Object? applicationMemo = null,
+    Object? applicationRejectReason = null,
     Object? applicationDate = null,
     Object? applicationStartTime = null,
     Object? applicationEndTime = null,
@@ -102,6 +106,10 @@ class _$CogoApplicationResponseCopyWithImpl<$Res,
       applicationMemo: null == applicationMemo
           ? _value.applicationMemo
           : applicationMemo // ignore: cast_nullable_to_non_nullable
+              as String,
+      applicationRejectReason: null == applicationRejectReason
+          ? _value.applicationRejectReason
+          : applicationRejectReason // ignore: cast_nullable_to_non_nullable
               as String,
       applicationDate: null == applicationDate
           ? _value.applicationDate
@@ -133,6 +141,7 @@ abstract class _$$CogoApplicationResponseImplCopyWith<$Res>
       @JsonKey(name: 'mentorId') int mentorId,
       @JsonKey(name: 'menteeId') int menteeId,
       @JsonKey(name: 'applicationMemo') String applicationMemo,
+      @JsonKey(name: 'applicationRejectReason') String applicationRejectReason,
       @JsonKey(name: 'applicationDate') String applicationDate,
       @JsonKey(name: 'applicationStartTime') String applicationStartTime,
       @JsonKey(name: 'applicationEndTime') String applicationEndTime});
@@ -157,6 +166,7 @@ class __$$CogoApplicationResponseImplCopyWithImpl<$Res>
     Object? mentorId = null,
     Object? menteeId = null,
     Object? applicationMemo = null,
+    Object? applicationRejectReason = null,
     Object? applicationDate = null,
     Object? applicationStartTime = null,
     Object? applicationEndTime = null,
@@ -177,6 +187,10 @@ class __$$CogoApplicationResponseImplCopyWithImpl<$Res>
       applicationMemo: null == applicationMemo
           ? _value.applicationMemo
           : applicationMemo // ignore: cast_nullable_to_non_nullable
+              as String,
+      applicationRejectReason: null == applicationRejectReason
+          ? _value.applicationRejectReason
+          : applicationRejectReason // ignore: cast_nullable_to_non_nullable
               as String,
       applicationDate: null == applicationDate
           ? _value.applicationDate
@@ -202,6 +216,8 @@ class _$CogoApplicationResponseImpl implements _CogoApplicationResponse {
       @JsonKey(name: 'mentorId') required this.mentorId,
       @JsonKey(name: 'menteeId') required this.menteeId,
       @JsonKey(name: 'applicationMemo') required this.applicationMemo,
+      @JsonKey(name: 'applicationRejectReason')
+      required this.applicationRejectReason,
       @JsonKey(name: 'applicationDate') required this.applicationDate,
       @JsonKey(name: 'applicationStartTime') required this.applicationStartTime,
       @JsonKey(name: 'applicationEndTime') required this.applicationEndTime});
@@ -222,6 +238,9 @@ class _$CogoApplicationResponseImpl implements _CogoApplicationResponse {
   @JsonKey(name: 'applicationMemo')
   final String applicationMemo;
   @override
+  @JsonKey(name: 'applicationRejectReason')
+  final String applicationRejectReason;
+  @override
   @JsonKey(name: 'applicationDate')
   final String applicationDate;
   @override
@@ -233,7 +252,7 @@ class _$CogoApplicationResponseImpl implements _CogoApplicationResponse {
 
   @override
   String toString() {
-    return 'CogoApplicationResponse(applicationId: $applicationId, mentorId: $mentorId, menteeId: $menteeId, applicationMemo: $applicationMemo, applicationDate: $applicationDate, applicationStartTime: $applicationStartTime, applicationEndTime: $applicationEndTime)';
+    return 'CogoApplicationResponse(applicationId: $applicationId, mentorId: $mentorId, menteeId: $menteeId, applicationMemo: $applicationMemo, applicationRejectReason: $applicationRejectReason, applicationDate: $applicationDate, applicationStartTime: $applicationStartTime, applicationEndTime: $applicationEndTime)';
   }
 
   @override
@@ -249,6 +268,9 @@ class _$CogoApplicationResponseImpl implements _CogoApplicationResponse {
                 other.menteeId == menteeId) &&
             (identical(other.applicationMemo, applicationMemo) ||
                 other.applicationMemo == applicationMemo) &&
+            (identical(
+                    other.applicationRejectReason, applicationRejectReason) ||
+                other.applicationRejectReason == applicationRejectReason) &&
             (identical(other.applicationDate, applicationDate) ||
                 other.applicationDate == applicationDate) &&
             (identical(other.applicationStartTime, applicationStartTime) ||
@@ -265,6 +287,7 @@ class _$CogoApplicationResponseImpl implements _CogoApplicationResponse {
       mentorId,
       menteeId,
       applicationMemo,
+      applicationRejectReason,
       applicationDate,
       applicationStartTime,
       applicationEndTime);
@@ -292,6 +315,8 @@ abstract class _CogoApplicationResponse implements CogoApplicationResponse {
       @JsonKey(name: 'mentorId') required final int mentorId,
       @JsonKey(name: 'menteeId') required final int menteeId,
       @JsonKey(name: 'applicationMemo') required final String applicationMemo,
+      @JsonKey(name: 'applicationRejectReason')
+      required final String applicationRejectReason,
       @JsonKey(name: 'applicationDate') required final String applicationDate,
       @JsonKey(name: 'applicationStartTime')
       required final String applicationStartTime,
@@ -314,6 +339,9 @@ abstract class _CogoApplicationResponse implements CogoApplicationResponse {
   @override
   @JsonKey(name: 'applicationMemo')
   String get applicationMemo;
+  @override
+  @JsonKey(name: 'applicationRejectReason')
+  String get applicationRejectReason;
   @override
   @JsonKey(name: 'applicationDate')
   String get applicationDate;
