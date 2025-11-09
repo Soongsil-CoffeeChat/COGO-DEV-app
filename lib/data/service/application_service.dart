@@ -1,8 +1,8 @@
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/request/cogo_decision_request.dart';
-import 'package:cogo/data/dto/response/cogo_application_response.dart';
-import 'package:cogo/data/dto/response/cogo_info_response.dart';
+import 'package:cogo/data/dto/response/application/cogo_application_response.dart';
+import 'package:cogo/data/dto/response/application/cogo_info_response.dart';
 import 'package:dio/dio.dart';
 
 class ApplicationService {
@@ -56,7 +56,7 @@ class ApplicationService {
   Future<List<CogoInfoResponse>> getRequestedCogo(String status) async {
     try {
       final response = await _apiClient.dio.get(
-        '$apiVersion${Apis.application}/status?status=$status',
+        '$apiVersion${Apis.application}/list?status=$status',
         options: Options(
           extra: {'skipAuthToken': false},
         ),
@@ -88,7 +88,7 @@ class ApplicationService {
   }
 
   /// 특정 COGO 조회
-  Future<CogoInfoResponse> getCogoDetail(int applicationId) async {
+  Future<CogoApplicationResponse> getCogoDetail(int applicationId) async {
     try {
       final response = await _apiClient.dio.get(
         '$apiVersion${Apis.application}/$applicationId',
@@ -104,7 +104,7 @@ class ApplicationService {
             responseData.containsKey('content') &&
             responseData['content'] is Map<String, dynamic>) {
           final content = responseData['content'] as Map<String, dynamic>;
-          return CogoInfoResponse.fromJson(content);
+          return CogoApplicationResponse.fromJson(content);
         } else {
           throw Exception('Unexpected response format: $responseData');
         }
@@ -123,10 +123,10 @@ class ApplicationService {
       int applicationId, String decision) async {
     try {
       final response = await _apiClient.dio.patch(
-        '$apiVersion${Apis.application}/$applicationId/decision?decision=$decision',
+        '$apiVersion${Apis.application}/$applicationId/decision',
         data: {
-          'applicationId': applicationId,
-          'decision': decision,
+          'status': decision,
+          'reason': null,
         },
         options: Options(
           extra: {'skipAuthToken': false},

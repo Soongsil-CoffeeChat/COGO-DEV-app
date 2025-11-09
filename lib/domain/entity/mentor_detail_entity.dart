@@ -1,4 +1,4 @@
-import 'package:cogo/data/dto/response/mentor_detail_response.dart';
+import 'package:cogo/data/dto/response/mentor/mentor_detail_response.dart';
 
 class MentorDetailEntity {
   final int mentorId;

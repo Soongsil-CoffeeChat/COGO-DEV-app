@@ -55,7 +55,12 @@ class ApiClient {
       onError: (DioException e, handler) async {
         final requestOptions = e.requestOptions;
 
-        // 이미 재시도를 했거나, refresh 요청이라면 재시도 하지 않음
+        // skipAuthToken이 true라면, 토큰 재발급 로직을 타지 않도록 차단
+        if (requestOptions.extra['skipAuthToken'] == true) {
+          log('[Interceptor] skipAuthToken=true 요청은 재발급 시도 안 함');
+          return handler.next(e);
+        }
+
         if (requestOptions.extra['retry'] == true ||
             requestOptions.path.contains('reissue')) {
           log('[Interceptor] 이미 토큰 재시도를 했거나 재발급 요청 자체가 실패했습니다. 재시도 중단.');
@@ -92,7 +97,7 @@ class ApiClient {
             return handler.resolve(clonedRequest);
           } catch (refreshError) {
             log('[Interceptor] 토큰 재발급 실패: $refreshError');
-            return handler.reject(e); // 재발급 실패 시 기존 에러 반환
+            return handler.reject(e);
           }
         }
 

@@ -1,5 +1,6 @@
 import 'package:cogo/common/navigator/bottom_navigation_bar.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 import 'package:cogo/features/auth/login/login_screen.dart';
 import 'package:cogo/features/auth/signup/agreement/agreement_screen.dart';
 import 'package:cogo/features/auth/signup/agreement/privacy_policy_screen.dart';
@@ -11,9 +12,12 @@ import 'package:cogo/features/auth/signup/interest/interest_selection_screen.dar
 import 'package:cogo/features/auth/signup/mentor_info/mentor_info_screen.dart';
 import 'package:cogo/features/auth/signup/name_input/name_input_screen.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_screen.dart';
+import 'package:cogo/features/chat/chat_sreean.dart';
+import 'package:cogo/features/chat/chatting_room/chatting_room_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_screen.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/reject/cogo_reject_reason_screen.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_screen.dart';
 import 'package:cogo/features/home/apply/matching/matching_screen.dart';
@@ -143,6 +147,7 @@ final AppRouter = GoRouter(
       branches: [
         _createBranch(Paths.home, const HomeScreen()),
         _createBranch(Paths.cogo, const CogoScreen()),
+        _createBranch(Paths.chat, const ChatScreen()),
         _createBranch(Paths.mypage, MypageScreen()),
       ],
     ),
@@ -206,6 +211,13 @@ final AppRouter = GoRouter(
       ),
     ),
     GoRoute(
+      path: Paths.cogoReject,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const CogoRejectReasonScreen(),
+      ),
+    ),
+    GoRoute(
       path: Paths.mentorIntroduction,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
@@ -226,6 +238,18 @@ final AppRouter = GoRouter(
         child: const MentorQuestion2Screen(),
       ),
     ),
+    GoRoute(
+      path: Paths.chattingRoom,
+      pageBuilder: (context, state) {
+        final room = state.extra as ChatRoom;
+        return MaterialPage(
+          key: state.pageKey,
+          child: ChattingRoomScreen(room: room),
+        );
+      },
+    ),
+
+    /// 채팅방
     GoRoute(
       path: Paths.mentorDetailCompletion,
       pageBuilder: (context, state) => MaterialPage(
@@ -304,6 +328,7 @@ final AppRouter = GoRouter(
       branches: [
         _createBranch(Paths.home, const HomeScreen()),
         _createBranch(Paths.cogo, const CogoScreen()),
+        _createBranch(Paths.chat, const ChatScreen()),
         _createBranch(Paths.mypage, MypageScreen()),
       ],
     ),

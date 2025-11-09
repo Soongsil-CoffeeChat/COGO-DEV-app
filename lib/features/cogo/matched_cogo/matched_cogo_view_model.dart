@@ -36,6 +36,7 @@ class MatchedCogoViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
+      ///TODO : 응답된 코고 MATCHED UNMATCHED 둘 다 받아야함
       final response = await _applicationService.getRequestedCogo('MATCHED');
       _items = response
           .map((responseItem) => CogoInfoEntity.fromResponse(responseItem))
@@ -58,10 +59,7 @@ class MatchedCogoViewModel extends ChangeNotifier {
       Paths.matchedCogoDetail,
       extra: {
         'applicationId': item.applicationId,
-        'menteeName': item.menteeName,
-        'applicationMemo': item.applicationMemo,
-        'applicationDate': item.applicationDate.toIso8601String(),
-        'formattedTimeSlot': item.formattedTimeSlot,
+        'otherPartyName': item.otherPartyName,
       },
     );
   }

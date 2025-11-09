@@ -60,7 +60,8 @@ class LoginScreen extends StatelessWidget {
                             viewModel.loginStatus ==
                                 AccountStatus.RESTORED_ACCOUNT.name) {
                           context.push(Paths.agreement);
-                        } else {
+                        } else if (viewModel.loginStatus ==
+                            AccountStatus.EXISTING_ACCOUNT.name) {
                           context.push(Paths.home);
                         }
                       },

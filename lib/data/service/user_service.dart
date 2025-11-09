@@ -2,13 +2,13 @@ import 'dart:developer';
 
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
+import 'package:cogo/data/dto/response/auth/sms_verification_response.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
-import 'package:cogo/data/dto/response/email_verification_response.dart';
-import 'package:cogo/data/dto/response/mentee_signup_response.dart';
-import 'package:cogo/data/dto/response/mentor_signup_response.dart';
-import 'package:cogo/data/dto/response/my_info_response.dart';
-import 'package:cogo/data/dto/response/sms_verification_response.dart';
-import 'package:cogo/data/dto/response/user_info_response.dart';
+import 'package:cogo/data/dto/response/auth/email_verification_response.dart';
+import 'package:cogo/data/dto/response/user/mentee_signup_response.dart';
+import 'package:cogo/data/dto/response/user/mentor_signup_response.dart';
+import 'package:cogo/data/dto/response/user/my_info_response.dart';
+import 'package:cogo/data/dto/response/user/user_info_response.dart';
 import 'package:dio/dio.dart';
 
 class UserService {

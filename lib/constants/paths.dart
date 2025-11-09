@@ -17,6 +17,7 @@ abstract class Paths {
 
   static const String home = '/home';
   static const String cogo = '/cogo';
+  static const String chat = '/chat';
   static const String mypage = '/mypage';
 
   static const String profileDetail = '/profileDetail';
@@ -29,6 +30,7 @@ abstract class Paths {
   static const String unMatchedCogoDetail = '/unMatchedCogoDetail';
   static const String matchedCogo = '/matchedCogo';
   static const String matchedCogoDetail = '/matchedCogoDetail';
+  static const String cogoReject = '/cogoReject';
 
   static const String mentorIntroduction = '/mentor_introduction';
 
@@ -45,4 +47,6 @@ abstract class Paths {
   static const String reportDetail = '/reportDetail';
 
   static const String image = '/image';
+
+  static const String chattingRoom = '/chattingRoom';
 }

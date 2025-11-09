@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
-import 'package:cogo/data/dto/response/refresh_token_response.dart';
-import 'package:cogo/data/dto/response/token_response.dart';
+import 'package:cogo/data/dto/response/auth/refresh_token_response.dart';
+import 'package:cogo/data/dto/response/auth/token_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:dio/dio.dart';
 
@@ -55,14 +55,19 @@ class AuthService {
   }
 
   /// POST apple 서버에서 받은 accessToken으로 서비스 accessToken 발급
-  Future<TokenResponse> getAppleAccessToken(String authCode) async {
+  Future<TokenResponse> getAppleAccessToken(
+      String authCode, String redirectUri) async {
     try {
       final response = await _apiClient.dio.post(
+        Apis.getAppleAccessToken,
+        queryParameters: {
+          'code': authCode,
+          'redirectUri': redirectUri,
+          'codeVerifier': null
+        },
         options: Options(
           extra: {'skipAuthToken': true}, //토큰 해제
         ),
-        Apis.getAppleAccessToken,
-        queryParameters: {'code': authCode, 'state': null},
       );
       if (response.statusCode == 200) {
         // BaseResponse

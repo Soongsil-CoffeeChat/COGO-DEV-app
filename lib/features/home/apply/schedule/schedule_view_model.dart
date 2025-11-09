@@ -1,5 +1,5 @@
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/data/dto/response/mentor_possible_date_response.dart';
+import 'package:cogo/data/dto/response/possible_date/mentor_possible_date_response.dart';
 import 'package:cogo/domain/entity/mentor_possible_date_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:cogo/data/service/possibledate_service.dart';

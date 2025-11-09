@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
-import 'package:cogo/data/dto/response/edit_mentor_detail_response.dart';
-import 'package:cogo/data/dto/response/mentor_detail_response.dart';
-import 'package:cogo/data/dto/response/mentor_introduction_response.dart';
-import 'package:cogo/data/dto/response/mentor_part_response.dart';
+import 'package:cogo/data/dto/response/mentor/edit_mentor_detail_response.dart';
+import 'package:cogo/data/dto/response/mentor/mentor_detail_response.dart';
+import 'package:cogo/data/dto/response/mentor/mentor_introduction_response.dart';
+import 'package:cogo/data/dto/response/mentor/mentor_part_response.dart';
 import 'package:dio/dio.dart';
 
 class MentorService {

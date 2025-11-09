@@ -1,25 +1,35 @@
 import 'dart:developer';
 
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/application_service.dart';
+import 'package:cogo/data/service/chat_service.dart';
+import 'package:cogo/domain/entity/cogo_detail_entity.dart';
 import 'package:cogo/domain/entity/cogo_info_entity.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/reject/cogo_reject_reason_view_model.dart';
+import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class UnMatchedCogoDetailViewModel extends ChangeNotifier {
   final ApplicationService _applicationService = ApplicationService();
+  final ChatService _chatService = ChatService();
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
-  CogoInfoEntity? _item;
+  CogoDetailEntity? _item;
   bool _isLoading = false;
   int? _selectedTimeSlotIndex;
   String? _role;
 
-  CogoInfoEntity? get item => _item;
+  CogoDetailEntity? get item => _item;
 
   bool get isLoading => _isLoading;
 
   int? get selectedTimeSlotIndex => _selectedTimeSlotIndex;
   String? get role => _role;
+
+  int id = 0;
 
   UnMatchedCogoDetailViewModel() {
     getRole();
@@ -40,7 +50,8 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
 
     try {
       final response = await _applicationService.getCogoDetail(applicationId);
-      _item = CogoInfoEntity.fromResponse(response);
+      id = response.menteeId;
+      _item = CogoDetailEntity.fromResponse(response);
     } catch (e) {
       log('Error fetching COGO detail: $e');
       _item = null;
@@ -58,7 +69,7 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
   Future<void> accept(BuildContext context, int applicationId) async {
     _isLoading = true;
     notifyListeners();
-    String accept = 'accept';
+    String accept = 'MATCHED';
 
     try {
       await _applicationService.patchCogoDecision(applicationId, accept);
@@ -69,22 +80,22 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
       notifyListeners();
     }
 
-    Navigator.pop(context, 'refresh');
-  }
-
-  Future<void> reject(BuildContext context, int applicationId) async {
-    _isLoading = true;
-    notifyListeners();
-    String reject = 'reject';
     try {
-      await _applicationService.patchCogoDecision(applicationId, reject);
+      await _chatService.postChattingRoom(applicationId, id);
     } catch (e) {
-      log('Error patch COGO decision: $e');
+      log('Error creative catting room: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
 
-    Navigator.pop(context, 'refresh');
+  Future<void> reject(BuildContext context, int applicationId) async {
+    final result = await GoRouter.of(context).push(
+      Paths.cogoReject,
+      extra: {
+        'applicationId': applicationId,
+      },
+    );
   }
 }

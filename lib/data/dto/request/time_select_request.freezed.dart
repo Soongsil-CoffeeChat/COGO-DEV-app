@@ -27,8 +27,12 @@ mixin _$TimeSlotDto {
   @JsonKey(name: 'endTime')
   String get endTime => throw _privateConstructorUsedError;
 
+  /// Serializes this TimeSlotDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TimeSlotDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TimeSlotDtoCopyWith<TimeSlotDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$TimeSlotDtoCopyWithImpl<$Res, $Val extends TimeSlotDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TimeSlotDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +107,8 @@ class __$$TimeSlotDtoImplCopyWithImpl<$Res>
       _$TimeSlotDtoImpl _value, $Res Function(_$TimeSlotDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TimeSlotDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -162,11 +170,13 @@ class _$TimeSlotDtoImpl implements _TimeSlotDto {
             (identical(other.endTime, endTime) || other.endTime == endTime));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, date, startTime, endTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TimeSlotDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TimeSlotDtoImplCopyWith<_$TimeSlotDtoImpl> get copyWith =>
@@ -199,8 +209,11 @@ abstract class _TimeSlotDto implements TimeSlotDto {
   @override
   @JsonKey(name: 'endTime')
   String get endTime;
+
+  /// Create a copy of TimeSlotDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TimeSlotDtoImplCopyWith<_$TimeSlotDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

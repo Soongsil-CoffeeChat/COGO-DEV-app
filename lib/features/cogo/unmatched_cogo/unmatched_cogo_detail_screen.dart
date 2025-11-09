@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/cogo_action_result_dialog.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/domain/entity/cogo_info_entity.dart';
+import 'package:cogo/domain/entity/cogo_detail_entity.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -16,11 +18,14 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
 
-    if (extra == null || !extra.containsKey('applicationId')) {
+    if (extra == null ||
+        !extra.containsKey('applicationId') ||
+        !extra.containsKey('otherPartyName')) {
       throw Exception('필요한 데이터가 전달되지 않았습니다: $extra');
     }
 
     final applicationId = extra['applicationId'] as int;
+    final otherPartyName = extra['otherPartyName'] as String;
 
     return ChangeNotifierProvider(
       create: (_) =>
@@ -41,9 +46,15 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: _buildContent(context, viewModel)),
+                  Expanded(
+                    child: _buildContent(
+                      context,
+                      viewModel,
+                      otherPartyName,
+                    ),
+                  ),
                   if (viewModel.role == Role.ROLE_MENTOR.name)
-                    _buildMentorButtons(context, applicationId),
+                    _buildMentorButtons(context, applicationId, otherPartyName),
                 ],
               ),
             ),
@@ -54,7 +65,10 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
   }
 
   Widget _buildContent(
-      BuildContext context, UnMatchedCogoDetailViewModel viewModel) {
+    BuildContext context,
+    UnMatchedCogoDetailViewModel viewModel,
+    String otherPartyName,
+  ) {
     if (viewModel.isLoading) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -77,7 +91,7 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(context, viewModel.role, item),
+          _buildHeader(context, viewModel.role, item, otherPartyName),
           const SizedBox(height: 20),
           _buildMessageContainer(item),
           const SizedBox(height: 20),
@@ -87,20 +101,25 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, String? role, CogoInfoEntity item) {
+  Widget _buildHeader(
+    BuildContext context,
+    String? role,
+    CogoDetailEntity item,
+    String otherPartyName,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: Header(
         title: role == Role.ROLE_MENTOR.name
-            ? '${item.menteeName}님이 코고신청을 보냈어요'
-            : '${item.mentorName}님께 보낸 코고입니다',
+            ? '$otherPartyName님이 코고신청을 보냈어요'
+            : '$otherPartyName님께 보낸 코고입니다',
         subtitle: 'COGO를 하면서 많은 성장을 기원해요!',
         onBackButtonPressed: () => Navigator.of(context).pop(),
       ),
     );
   }
 
-  Widget _buildMessageContainer(CogoInfoEntity item) {
+  Widget _buildMessageContainer(CogoDetailEntity item) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Container(
@@ -121,7 +140,8 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMentorButtons(BuildContext context, int applicationId) {
+  Widget _buildMentorButtons(
+      BuildContext context, int applicationId, String otherPartyName) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Consumer<UnMatchedCogoDetailViewModel>(
@@ -132,7 +152,9 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                 child: BasicButton(
                   text: '거절',
                   isClickable: true,
-                  onPressed: () => viewModel.reject(context, applicationId),
+                  onPressed: () {
+                    viewModel.reject(context, applicationId);
+                  },
                 ),
               ),
               const SizedBox(width: 10),
@@ -141,7 +163,20 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                   text: '수락',
                   isClickable: true,
                   onPressed: () {
-                    _showAcceptDialog(context, viewModel, applicationId);
+                    log("누름");
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (ctx) => CogoActionResultDialog(
+                        title: '$otherPartyName님과의 채팅방이 생성되었습니다!',
+                        subtitle: '채팅방에서 멘티님과 세부적인 일정을 함께 조율해보세요',
+                        buttonText: '채팅방으로 이동하기',
+                        onPressed: () async {
+                          await viewModel.accept(context, applicationId);
+                          Navigator.of(ctx).pop();
+                        },
+                      ),
+                    );
                   },
                 ),
               ),
@@ -152,10 +187,8 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _placeTimeContainer(BuildContext context, CogoInfoEntity item) {
+  Widget _placeTimeContainer(BuildContext context, CogoDetailEntity item) {
     final dateStr = DateFormat('yyyy-MM-dd').format(item.applicationDate);
-    final timeStr = item.formattedTimeSlot;
-    final fullText = '$dateStr / $timeStr';
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -175,10 +208,38 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
               style: CogoTextStyle.body14,
             ),
             const SizedBox(height: 4),
-            Text(
-              fullText,
-              style:
-                  CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
+            Row(
+              children: [
+                Text(
+                  dateStr,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  "/",
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  item.applicationStartTime,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  "~",
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  item.applicationEndTime,
+                  style: CogoTextStyle.bodyR12
+                      .copyWith(color: CogoColor.systemGray04),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
             const Text(
@@ -193,22 +254,6 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showAcceptDialog(BuildContext context,
-      UnMatchedCogoDetailViewModel viewModel, int applicationId) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => CogoActionResultDialog(
-        title: "코고를 수락하였습니다",
-        subtitle: "멘티에게도 응답이 전송되며,\n수락/거절한 코고는 [코고 → 응답한 코고함]에서 확인 가능합니다",
-        buttonText: "확인",
-        onPressed: () {
-          viewModel.accept(context, applicationId);
-        },
       ),
     );
   }
