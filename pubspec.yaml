@@ -64,6 +64,9 @@ dependencies:
   lottie: ^2.2.0
   image_picker: ^0.8.7+5
 
+  # 디바이스 이미지 불러오기
+  photo_manager: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:

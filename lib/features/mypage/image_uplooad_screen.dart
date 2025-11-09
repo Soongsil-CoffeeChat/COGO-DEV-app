@@ -1,6 +1,10 @@
-import 'dart:developer';
+import 'dart:typed_data';
 
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:provider/provider.dart';
 
 import 'image_upload_view_model.dart';
@@ -12,60 +16,156 @@ class ImageUploadScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => ImageUploadViewModel(),
-      child: Scaffold(
-        appBar: AppBar(title: Text("Image Uploader")),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Consumer<ImageUploadViewModel>(
-            builder: (context, viewModel, child) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    if (viewModel.selectedImage != null)
-                      Image.file(
-                        viewModel.selectedImage!,
-                        height: 200,
-                        width: 200,
-                        fit: BoxFit.cover,
-                      ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            onPressed: viewModel.pickImageFromGallery,
-                            child: const Text("갤러리")),
-                        ElevatedButton(
-                            onPressed: viewModel.takeImageFromCamera,
-                            child: const Text("카메라")),
-                      ],
+      child: Consumer<ImageUploadViewModel>(
+        builder: (context, viewModel, _) {
+          return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              title: const Text(
+                '최근 항목',
+                style: CogoTextStyle.bodySB20,
+              ),
+              leading: IconButton(
+                icon: SvgPicture.asset("assets/icons/button/chevron_left.svg"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: viewModel.selectedAsset == null ||
+                          viewModel.isUploading
+                      ? null
+                      : () async {
+                          await viewModel.uploadImage(
+                            onSuccess: () {
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                            },
+                          );
+                          if (viewModel.errorMessage != null &&
+                              context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(viewModel.errorMessage!)),
+                            );
+                          }
+                        },
+                  child: Text(
+                    viewModel.isUploading ? '업로드 중...' : '완료',
+                    style: CogoTextStyle.body16.copyWith(
+                      color: viewModel.selectedAsset == null ||
+                              viewModel.isUploading
+                          ? CogoColor.systemGray03
+                          : CogoColor.systemGray05,
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () async => {
-                        log("사진을 바꿔요"),
-                        viewModel.uploadImage(),
-                        if (viewModel.isUpload) {Navigator.of(context).pop()}
-                      },
-                      child: viewModel.isUploading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text("저장하기"),
-                    ),
-                    if (viewModel.errorMessage != null)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          viewModel.errorMessage!,
-                          style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ],
+              bottom: const PreferredSize(
+                preferredSize: Size.fromHeight(1),
+                child: Divider(
+                  height: 1,
+                  color: CogoColor.systemGray03,
+                ),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              surfaceTintColor: Colors.white,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.builder(
+                itemCount: viewModel.assets.length + 1,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
+                ),
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return GestureDetector(
+                      onTap: () => viewModel.pickFromCamera(context),
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icons/button/camera_icon.svg",
+                              width: 30,
+                              height: 30,
+                            ),
+                            const SizedBox(height: 8),
+                            const Text("사진 찍기", style: CogoTextStyle.body16),
+                          ],
                         ),
                       ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
+                    );
+                  }
+
+                  final asset = viewModel.assets[index - 1];
+                  final isSelected = viewModel.isSelected(asset);
+
+                  return FutureBuilder<Uint8List?>(
+                    future: asset.thumbnailDataWithSize(
+                      const ThumbnailSize(200, 200),
+                    ) as Future<Uint8List?>?,
+                    builder: (context, snapshot) {
+                      final bytes = snapshot.data;
+                      if (bytes == null) return const SizedBox();
+
+                      return GestureDetector(
+                        onTap: () => viewModel.toggleSelection(asset),
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: ClipRRect(
+                                child: Image.memory(
+                                  bytes,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            if (isSelected)
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: CogoColor.systemGray05,
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            if (isSelected)
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: CogoColor.systemGray05,
+                                    width: 3,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            backgroundColor: Colors.white,
+          );
+        },
       ),
     );
   }
