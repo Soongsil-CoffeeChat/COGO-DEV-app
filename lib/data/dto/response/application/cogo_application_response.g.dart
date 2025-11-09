@@ -13,7 +13,7 @@ _$CogoApplicationResponseImpl _$$CogoApplicationResponseImplFromJson(
       mentorId: (json['mentorId'] as num).toInt(),
       menteeId: (json['menteeId'] as num).toInt(),
       applicationMemo: json['applicationMemo'] as String,
-      applicationRejectReason: json['applicationRejectReason'] as String,
+      applicationRejectReason: json['applicationRejectReason'] as String?,
       applicationStatus: json['applicationStatus'] as String,
       applicationDate: json['applicationDate'] as String,
       applicationStartTime: json['applicationStartTime'] as String,
