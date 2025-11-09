@@ -10,7 +10,7 @@ class S3Service {
 
   Future<String?> uploadImage(String imagePath) async {
     try {
-      const url = '$apiVersion${Apis.s3}/v2';
+      const url = '$apiVersion${Apis.userPicture}';
 
       // FormData 생성
       final formData = FormData.fromMap({

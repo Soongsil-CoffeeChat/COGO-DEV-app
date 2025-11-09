@@ -27,8 +27,8 @@ abstract class Apis {
   /// 커피챗 시간 관련 api
   static const String possibleDates = "possibleDates";
 
-  /// S3 관련 api
-  static const String s3 = "s3";
+  /// 유저 사진 관련 api
+  static const String userPicture = "users/picture";
 
   /// 멘토 관련 api
   static const String mentor = "mentors";
