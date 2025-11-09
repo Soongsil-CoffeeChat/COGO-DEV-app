@@ -1,3 +1,4 @@
+import 'package:cogo/common/navigator/bottom_navigation_bar_view_model.dart';
 import 'package:cogo/common/widgets/atoms/image/network_image_with_fallback.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/constants.dart';
@@ -17,79 +18,98 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  late ChatViewModel _chatViewModel;
+  int _lastSelectedIndex = -1;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ChatViewModel>().refreshChatRooms();
-    });
+    _chatViewModel = ChatViewModel(ChatService());
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ChatViewModel(ChatService()),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          centerTitle: true,
-          title: const Text('채팅', style: CogoTextStyle.bodySB20),
-        ),
-        body: Consumer<ChatViewModel>(
-          builder: (context, vm, _) {
-            if (vm.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      create: (_) => _chatViewModel,
+      child: Consumer<BottomNavigationViewModel>(
+        builder: (context, bottomVM, _) {
+          // 채팅 탭(index 2)이 선택되었는지 감시
+          if (bottomVM.selectedIndex == 2 && _lastSelectedIndex != 2) {
+            _lastSelectedIndex = 2;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _chatViewModel.refreshChatRooms();
+            });
+          }
 
-            final rooms = vm.rooms; // List<ChatRoom>
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              centerTitle: true,
+              title: const Text('채팅', style: CogoTextStyle.bodySB20),
+            ),
+            body: Consumer<ChatViewModel>(
+              builder: (context, vm, _) {
+                if (vm.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-            if (rooms.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/icons/3d_img/empty.png',
-                      height: 150,
-                    ),
-                    const SizedBox(height: 20),
-                    Text('멘토에게 보낸 코고 신청이 수락되면\n자동으로 채팅방이 생성됩니다',
-                        textAlign: TextAlign.center,
-                        style: CogoTextStyle.body14
-                            .copyWith(color: CogoColor.systemGray03)),
-                  ],
-                ),
-              );
-            }
+                final rooms = vm.rooms;
 
-            return ListView.builder(
-              itemCount: rooms.length,
-              itemBuilder: (context, index) {
-                final room = rooms[index];
-
-                return Column(
-                  children: [
-                    _ChatRoomTile(room: room),
-                    if (index != rooms.length - 1)
-                      const Padding(
-                        padding: EdgeInsets.only(left: 80, right: 16),
-                        child: Divider(
-                          height: 1,
-                          thickness: 1,
-                          color: Color(0xFFEEEEEE),
+                if (rooms.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/icons/3d_img/empty.png',
+                          height: 150,
                         ),
-                      ),
-                  ],
+                        const SizedBox(height: 20),
+                        Text('멘토에게 보낸 코고 신청이 수락되면\n자동으로 채팅방이 생성됩니다',
+                            textAlign: TextAlign.center,
+                            style: CogoTextStyle.body14
+                                .copyWith(color: CogoColor.systemGray03)),
+                      ],
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: rooms.length,
+                  itemBuilder: (context, index) {
+                    final room = rooms[index];
+
+                    return Column(
+                      children: [
+                        _ChatRoomTile(room: room),
+                        if (index != rooms.length - 1)
+                          const Padding(
+                            padding: EdgeInsets.only(left: 80, right: 16),
+                            child: Divider(
+                              height: 1,
+                              thickness: 1,
+                              color: Color(0xFFEEEEEE),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 );
               },
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _chatViewModel.dispose();
+    super.dispose();
   }
 }
 

@@ -2,7 +2,9 @@ import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/features/home/home_view_model.dart';
-import 'package:cogo/features/mypage/profile_management/mentor_introduction_screen.dart';
+import 'package:cogo/features/cogo/cogo_view_model.dart'; // 추가
+import 'package:cogo/features/chat/chat_view_model.dart'; // 추가
+import 'package:cogo/features/mypage/mypage_view_model.dart'; // 추가
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -36,15 +38,11 @@ class BottomNavigationViewModel extends ChangeNotifier {
   }
 
   void setIndex(int index, BuildContext context) {
-    // HomeViewModel에 접근해서 role과 isIntroductionComplete 값 확인
-
-    /// 코고 탭 진입시에 멘토 자기소개 완료했는지 판단(
     if (index == 1 && role == Role.ROLE_MENTOR.name && shouldShowDialog) {
       _showMentorProfileDialog(context);
     } else {
-      // 페이지 이동 처리
       _selectedIndex = index;
-      notifyListeners();
+      notifyListeners(); // 인덱스 변경 알림
 
       switch (index) {
         case 0:
@@ -63,7 +61,6 @@ class BottomNavigationViewModel extends ChangeNotifier {
     }
   }
 
-  /// 다이얼로그를 띄우는 함수
   void _showMentorProfileDialog(BuildContext context) {
     showDialog(
       context: context,
