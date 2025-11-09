@@ -72,8 +72,7 @@ class UnMatchedCogoDetailViewModel extends ChangeNotifier {
     String accept = 'MATCHED';
 
     try {
-      await _applicationService.patchCogoDecision(
-          applicationId, accept, 'MATCHED');
+      await _applicationService.patchCogoDecision(applicationId, accept, null);
     } catch (e) {
       log('Error patch COGO decision: $e');
     } finally {
