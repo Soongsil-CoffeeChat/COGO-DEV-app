@@ -23,8 +23,21 @@ enum ApplicationRejectReason {
     }
   }
 
-  // 서버 문자열에서 enum으로 변환하는 메서드
-  static ApplicationRejectReason? fromString(String? value) {
+  // 한글 문자열에서 enum으로 변환 (뷰에서 받은 한글 텍스트용)
+  static ApplicationRejectReason? fromDisplayString(String? displayText) {
+    if (displayText == null) return null;
+    try {
+      return ApplicationRejectReason.values.firstWhere(
+        (reason) => reason.getString == displayText,
+      );
+    } catch (e) {
+      print('Error converting displayText: $displayText');
+      return null;
+    }
+  }
+
+  // 서버에서 받은 enum name 문자열로 변환
+  static ApplicationRejectReason? fromServerValue(String? value) {
     if (value == null) return null;
     try {
       return ApplicationRejectReason.values.firstWhere(

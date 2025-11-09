@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cogo/common/enums/application_reject_reason.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/application_service.dart';
 import 'package:cogo/domain/entity/cogo_detail_entity.dart';
@@ -19,18 +20,34 @@ class CogoRejectReasonViewModel extends ChangeNotifier {
     rejectReasonController.addListener(_validateForm);
   }
 
-  // 텍스트가 변경될 때마다 유효성 검사 수행
   void _validateForm() {
     isFormValid = rejectReasonController.text.isNotEmpty;
     notifyListeners();
   }
 
   Future<void> rejectWithReason(
-      BuildContext context, int applicationId, String reason) async {
+    BuildContext context,
+    int applicationId,
+    String displayText,
+  ) async {
     notifyListeners();
-    String reject = 'reject';
+
     try {
-      await _applicationService.patchCogoDecision(applicationId, reject);
+      final rejectionReason =
+          ApplicationRejectReason.fromDisplayString(displayText);
+
+      if (rejectionReason == null) {
+        log('Error: Invalid rejection reason - $displayText');
+        return;
+      }
+
+      await _applicationService.patchCogoDecision(
+        applicationId,
+        'REJECTED',
+        rejectionReason.name,
+      );
+
+      log('Reject reason sent: ${rejectionReason.name}');
     } catch (e) {
       log('Error patch COGO decision: $e');
     } finally {

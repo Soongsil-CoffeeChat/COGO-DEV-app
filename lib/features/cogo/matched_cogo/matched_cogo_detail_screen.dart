@@ -196,7 +196,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
   }
 
   Widget _buildRejectionReasonContainer(CogoDetailEntity item) {
-    final rejectionReason = ApplicationRejectReason.fromString(
+    final rejectionReason = ApplicationRejectReason.fromServerValue(
       item.applicationRejectReason,
     );
 

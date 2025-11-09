@@ -118,13 +118,13 @@ class ApplicationService {
 
   /// 코고 수락/거절 api
   Future<CogoDecisionRequest> patchCogoDecision(
-      int applicationId, String decision) async {
+      int applicationId, String decision, String rejectionReason) async {
     try {
       final response = await _apiClient.dio.patch(
         '$apiVersion${Apis.application}/$applicationId/decision',
         data: {
           'status': decision,
-          'reason': null,
+          'reason': rejectionReason,
         },
         options: Options(
           extra: {'skipAuthToken': false},
