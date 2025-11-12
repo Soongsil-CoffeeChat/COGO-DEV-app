@@ -19,12 +19,29 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   late ChatViewModel _chatViewModel;
+  late BottomNavigationViewModel _bottomVM;
   int _lastSelectedIndex = -1;
 
   @override
   void initState() {
     super.initState();
     _chatViewModel = ChatViewModel(ChatService());
+
+    _bottomVM = context.read<BottomNavigationViewModel>();
+    _bottomVM.addListener(_onBottomNavChange);
+  }
+
+  void _onBottomNavChange() {
+    if (_bottomVM.selectedIndex == 2) {
+      _chatViewModel.refreshChatRooms();
+    }
+  }
+
+  @override
+  void dispose() {
+    _bottomVM.removeListener(_onBottomNavChange);
+    _chatViewModel.dispose();
+    super.dispose();
   }
 
   @override
@@ -33,7 +50,6 @@ class _ChatScreenState extends State<ChatScreen> {
       create: (_) => _chatViewModel,
       child: Consumer<BottomNavigationViewModel>(
         builder: (context, bottomVM, _) {
-          // 채팅 탭(index 2)이 선택되었는지 감시
           if (bottomVM.selectedIndex == 2 && _lastSelectedIndex != 2) {
             _lastSelectedIndex = 2;
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -104,12 +120,6 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _chatViewModel.dispose();
-    super.dispose();
   }
 }
 

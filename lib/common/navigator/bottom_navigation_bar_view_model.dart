@@ -27,7 +27,7 @@ class BottomNavigationViewModel extends ChangeNotifier {
     _loadPreferences(context);
   }
 
-  void _loadPreferences(BuildContext context) async {
+  Future<void> _loadPreferences(BuildContext context) async {
     role = await _secureStorage.readRole();
 
     final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
