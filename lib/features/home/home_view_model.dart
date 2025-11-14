@@ -27,7 +27,7 @@ class HomeViewModel extends ChangeNotifier {
     loadPreferences();
   }
 
-  void loadPreferences() async {
+  Future<void> loadPreferences() async {
     role = await _secureStorage.readRole();
 
     if (role == Role.ROLE_MENTOR.name) {
@@ -80,5 +80,9 @@ class HomeViewModel extends ChangeNotifier {
 
   void onSearchPressed(BuildContext context) {
     context.push(Paths.search);
+  }
+
+  Future<void> refreshHome() async {
+    await loadPreferences();
   }
 }

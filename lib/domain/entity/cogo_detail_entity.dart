@@ -5,6 +5,8 @@ class CogoDetailEntity {
   final int menteeId;
   final int mentorId;
   final String applicationMemo;
+  final String applicationStatus;
+  final String? applicationRejectReason;
   final DateTime applicationDate;
   final String applicationStartTime;
   final String applicationEndTime;
@@ -14,6 +16,8 @@ class CogoDetailEntity {
     required this.menteeId,
     required this.mentorId,
     required this.applicationMemo,
+    required this.applicationStatus,
+    required this.applicationRejectReason,
     required this.applicationDate,
     required this.applicationStartTime,
     required this.applicationEndTime,
@@ -25,6 +29,8 @@ class CogoDetailEntity {
       menteeId: response.menteeId,
       mentorId: response.mentorId,
       applicationMemo: response.applicationMemo,
+      applicationStatus: response.applicationStatus,
+      applicationRejectReason: response.applicationRejectReason,
       applicationDate: DateTime.parse(response.applicationDate),
       applicationStartTime: _formatTime(response.applicationStartTime),
       applicationEndTime: _formatTime(response.applicationEndTime),
@@ -37,6 +43,8 @@ class CogoDetailEntity {
       'mentee_id': menteeId,
       'mentor_id': mentorId,
       'application_memo': applicationMemo,
+      'application_memo': applicationStatus,
+      'application_memo': applicationRejectReason,
       'application_date': applicationDate,
       'application_start_time': applicationStartTime,
       'application_end_time': applicationEndTime,

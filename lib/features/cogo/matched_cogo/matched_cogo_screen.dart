@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:cogo/common/enums/application_status.dart';
 import 'package:cogo/common/enums/role.dart';
+import 'package:cogo/common/widgets/components/status_tag.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_view_model.dart';
@@ -71,13 +75,22 @@ class MatchedCogoScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      viewModel.role == Role.ROLE_MENTOR.name
-                                          ? '${item.otherPartyName}님의 코고신청'
-                                          : '${item.otherPartyName}님께 보낸 코고',
-                                      style: CogoTextStyle.body16),
-                                  Text(formattedDate,
-                                      style: CogoTextStyle.body12.copyWith(
-                                          color: CogoColor.systemGray03)),
+                                    viewModel.role == Role.ROLE_MENTOR.name
+                                        ? '${item.otherPartyName}님의 코고신청'
+                                        : '${item.otherPartyName}님께 보낸 코고',
+                                    style: CogoTextStyle.body16,
+                                  ),
+                                  const SizedBox(width: 0),
+                                  StatusTag(
+                                    status: item.applicationStatus ==
+                                        ApplicationStatus.MATCHED.getString,
+                                  ),
+                                  Text(
+                                    formattedDate,
+                                    style: CogoTextStyle.body12.copyWith(
+                                      color: CogoColor.systemGray03,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

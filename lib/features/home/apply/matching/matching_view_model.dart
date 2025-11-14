@@ -20,7 +20,6 @@ class MatchingViewModel extends ChangeNotifier {
         possibleDateId,
         memo,
       );
-      log("Cogo 신청 성공: ${response.toString()}");
 
       await _showSuccessDialog(context);
       context.go(Paths.home);
