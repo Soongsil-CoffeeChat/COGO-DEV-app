@@ -10,8 +10,7 @@ class ApplicationService {
   static const apiVersion = "api/v2/";
 
   /// Cogo 신청
-  Future<CogoApplicationResponse> postCogo(
-      int mentorId, int possibleDateId, String memo) async {
+  Future<void> postCogo(int mentorId, int possibleDateId, String memo) async {
     try {
       final response = await _apiClient.dio.post(
         apiVersion + Apis.application,
@@ -31,7 +30,6 @@ class ApplicationService {
         if (responseData is Map<String, dynamic> &&
             responseData['content'] != null) {
           final contentJson = responseData['content'] as Map<String, dynamic>;
-          return CogoApplicationResponse.fromJson(contentJson);
         } else {
           throw Exception('Unexpected response format: $responseData');
         }
@@ -120,13 +118,13 @@ class ApplicationService {
 
   /// 코고 수락/거절 api
   Future<CogoDecisionRequest> patchCogoDecision(
-      int applicationId, String decision) async {
+      int applicationId, String decision, String? rejectionReason) async {
     try {
       final response = await _apiClient.dio.patch(
         '$apiVersion${Apis.application}/$applicationId/decision',
         data: {
           'status': decision,
-          'reason': null,
+          'reason': rejectionReason,
         },
         options: Options(
           extra: {'skipAuthToken': false},

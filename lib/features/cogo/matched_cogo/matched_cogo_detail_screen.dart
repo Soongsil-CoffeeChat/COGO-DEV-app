@@ -1,3 +1,5 @@
+import 'package:cogo/common/enums/application_reject_reason.dart';
+import 'package:cogo/common/enums/application_status.dart';
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
@@ -72,6 +74,10 @@ class MatchedCogoDetailScreen extends StatelessWidget {
               _buildMessageContainer(item),
               const SizedBox(height: 20),
               _placeTimeContainer(context, item),
+              const SizedBox(height: 20),
+              if (item.applicationStatus ==
+                  ApplicationStatus.REJECTED.getString)
+                _buildRejectionReasonContainer(item),
             ],
           ),
         );
@@ -180,6 +186,42 @@ class MatchedCogoDetailScreen extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               '커피나무 숭실대점 / 서울 동작구 상도로 61길 65 1층',
+              style:
+                  CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRejectionReasonContainer(CogoDetailEntity item) {
+    final rejectionReason = ApplicationRejectReason.fromServerValue(
+      item.applicationRejectReason,
+    );
+
+    final displayText = rejectionReason?.getString ?? '거절 사유가 없습니다.';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Container(
+        width: double.infinity,
+        constraints: const BoxConstraints(minHeight: 90.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: CogoColor.systemGray01,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              '거절 사유',
+              style: CogoTextStyle.body14,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              displayText,
               style:
                   CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
             ),

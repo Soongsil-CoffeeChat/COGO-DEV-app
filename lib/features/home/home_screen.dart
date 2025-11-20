@@ -20,20 +20,19 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late HomeViewModel viewModel;
+  int _lastSelectedIndex = -1;
 
   @override
   void initState() {
     super.initState();
 
-    /// 컨트롤러 초기화
     _tabController = TabController(
         length: Interest.values.length, vsync: this, initialIndex: 0);
 
-    /// 초기 데이터 로드 (첫번째 탭인 FE 호출)
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final viewModel = Provider.of<HomeViewModel>(context, listen: false);
 
-      // ViewModel 초기화 완료될 때까지 기다림
+      // 뷰모델 초기화 완료될떄까지 기다림
       while (!viewModel.isInitialized) {
         await Future.delayed(Duration(milliseconds: 50));
       }
@@ -64,6 +63,17 @@ class _HomeScreenState extends State<HomeScreen>
           final viewModel = Provider.of<HomeViewModel>(context, listen: false);
           final part = Interest.values[_tabController.index].name;
           viewModel.getProfilesForPart(part);
+        }
+      });
+
+      /// 인덱스 0번일 때만 refreshHome 호출
+      _tabController.addListener(() {
+        if (_tabController.index == 0 && _lastSelectedIndex != 0) {
+          _lastSelectedIndex = 0;
+          final viewModel = Provider.of<HomeViewModel>(context, listen: false);
+          viewModel.refreshHome();
+        } else if (_tabController.index != 0) {
+          _lastSelectedIndex = -1;
         }
       });
 
