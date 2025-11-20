@@ -137,7 +137,7 @@ class _ChatRoomTile extends StatelessWidget {
       },
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       leading: _CircleAvatarPlaceholder(
-        imageUrl: room.otherPartyProfileImage,
+        imageUrl: room.participants.first.profileImage,
       ),
       title: Row(
         children: [

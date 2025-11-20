@@ -317,10 +317,8 @@ mixin _$ChatRoom {
   String? get lastChat => throw _privateConstructorUsedError;
   @JsonKey(name: 'updatedAt')
   DateTime get updatedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'otherPartyName')
-  String? get otherPartyName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'otherPartyProfileImage')
-  String? get otherPartyProfileImage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'participants')
+  List<Participant> get participants => throw _privateConstructorUsedError;
 
   /// Serializes this ChatRoom to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -341,8 +339,7 @@ abstract class $ChatRoomCopyWith<$Res> {
       {@JsonKey(name: 'roomId') int roomId,
       @JsonKey(name: 'lastChat') String? lastChat,
       @JsonKey(name: 'updatedAt') DateTime updatedAt,
-      @JsonKey(name: 'otherPartyName') String? otherPartyName,
-      @JsonKey(name: 'otherPartyProfileImage') String? otherPartyProfileImage});
+      @JsonKey(name: 'participants') List<Participant> participants});
 }
 
 /// @nodoc
@@ -363,8 +360,7 @@ class _$ChatRoomCopyWithImpl<$Res, $Val extends ChatRoom>
     Object? roomId = null,
     Object? lastChat = freezed,
     Object? updatedAt = null,
-    Object? otherPartyName = freezed,
-    Object? otherPartyProfileImage = freezed,
+    Object? participants = null,
   }) {
     return _then(_value.copyWith(
       roomId: null == roomId
@@ -379,14 +375,10 @@ class _$ChatRoomCopyWithImpl<$Res, $Val extends ChatRoom>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      otherPartyName: freezed == otherPartyName
-          ? _value.otherPartyName
-          : otherPartyName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      otherPartyProfileImage: freezed == otherPartyProfileImage
-          ? _value.otherPartyProfileImage
-          : otherPartyProfileImage // ignore: cast_nullable_to_non_nullable
-              as String?,
+      participants: null == participants
+          ? _value.participants
+          : participants // ignore: cast_nullable_to_non_nullable
+              as List<Participant>,
     ) as $Val);
   }
 }
@@ -403,8 +395,7 @@ abstract class _$$ChatRoomImplCopyWith<$Res>
       {@JsonKey(name: 'roomId') int roomId,
       @JsonKey(name: 'lastChat') String? lastChat,
       @JsonKey(name: 'updatedAt') DateTime updatedAt,
-      @JsonKey(name: 'otherPartyName') String? otherPartyName,
-      @JsonKey(name: 'otherPartyProfileImage') String? otherPartyProfileImage});
+      @JsonKey(name: 'participants') List<Participant> participants});
 }
 
 /// @nodoc
@@ -423,8 +414,7 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
     Object? roomId = null,
     Object? lastChat = freezed,
     Object? updatedAt = null,
-    Object? otherPartyName = freezed,
-    Object? otherPartyProfileImage = freezed,
+    Object? participants = null,
   }) {
     return _then(_$ChatRoomImpl(
       roomId: null == roomId
@@ -439,14 +429,10 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      otherPartyName: freezed == otherPartyName
-          ? _value.otherPartyName
-          : otherPartyName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      otherPartyProfileImage: freezed == otherPartyProfileImage
-          ? _value.otherPartyProfileImage
-          : otherPartyProfileImage // ignore: cast_nullable_to_non_nullable
-              as String?,
+      participants: null == participants
+          ? _value._participants
+          : participants // ignore: cast_nullable_to_non_nullable
+              as List<Participant>,
     ));
   }
 }
@@ -458,9 +444,9 @@ class _$ChatRoomImpl implements _ChatRoom {
       {@JsonKey(name: 'roomId') required this.roomId,
       @JsonKey(name: 'lastChat') this.lastChat,
       @JsonKey(name: 'updatedAt') required this.updatedAt,
-      @JsonKey(name: 'otherPartyName') required this.otherPartyName,
-      @JsonKey(name: 'otherPartyProfileImage')
-      required this.otherPartyProfileImage});
+      @JsonKey(name: 'participants')
+      required final List<Participant> participants})
+      : _participants = participants;
 
   factory _$ChatRoomImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatRoomImplFromJson(json);
@@ -474,16 +460,18 @@ class _$ChatRoomImpl implements _ChatRoom {
   @override
   @JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
+  final List<Participant> _participants;
   @override
-  @JsonKey(name: 'otherPartyName')
-  final String? otherPartyName;
-  @override
-  @JsonKey(name: 'otherPartyProfileImage')
-  final String? otherPartyProfileImage;
+  @JsonKey(name: 'participants')
+  List<Participant> get participants {
+    if (_participants is EqualUnmodifiableListView) return _participants;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_participants);
+  }
 
   @override
   String toString() {
-    return 'ChatRoom(roomId: $roomId, lastChat: $lastChat, updatedAt: $updatedAt, otherPartyName: $otherPartyName, otherPartyProfileImage: $otherPartyProfileImage)';
+    return 'ChatRoom(roomId: $roomId, lastChat: $lastChat, updatedAt: $updatedAt, participants: $participants)';
   }
 
   @override
@@ -496,16 +484,14 @@ class _$ChatRoomImpl implements _ChatRoom {
                 other.lastChat == lastChat) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.otherPartyName, otherPartyName) ||
-                other.otherPartyName == otherPartyName) &&
-            (identical(other.otherPartyProfileImage, otherPartyProfileImage) ||
-                other.otherPartyProfileImage == otherPartyProfileImage));
+            const DeepCollectionEquality()
+                .equals(other._participants, _participants));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, roomId, lastChat, updatedAt,
-      otherPartyName, otherPartyProfileImage);
+      const DeepCollectionEquality().hash(_participants));
 
   /// Create a copy of ChatRoom
   /// with the given fields replaced by the non-null parameter values.
@@ -528,9 +514,8 @@ abstract class _ChatRoom implements ChatRoom {
       {@JsonKey(name: 'roomId') required final int roomId,
       @JsonKey(name: 'lastChat') final String? lastChat,
       @JsonKey(name: 'updatedAt') required final DateTime updatedAt,
-      @JsonKey(name: 'otherPartyName') required final String? otherPartyName,
-      @JsonKey(name: 'otherPartyProfileImage')
-      required final String? otherPartyProfileImage}) = _$ChatRoomImpl;
+      @JsonKey(name: 'participants')
+      required final List<Participant> participants}) = _$ChatRoomImpl;
 
   factory _ChatRoom.fromJson(Map<String, dynamic> json) =
       _$ChatRoomImpl.fromJson;
@@ -545,16 +530,242 @@ abstract class _ChatRoom implements ChatRoom {
   @JsonKey(name: 'updatedAt')
   DateTime get updatedAt;
   @override
-  @JsonKey(name: 'otherPartyName')
-  String? get otherPartyName;
-  @override
-  @JsonKey(name: 'otherPartyProfileImage')
-  String? get otherPartyProfileImage;
+  @JsonKey(name: 'participants')
+  List<Participant> get participants;
 
   /// Create a copy of ChatRoom
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatRoomImplCopyWith<_$ChatRoomImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Participant _$ParticipantFromJson(Map<String, dynamic> json) {
+  return _Participant.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Participant {
+  @JsonKey(name: 'userId')
+  int get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'username')
+  String get username => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profileImage')
+  String? get profileImage => throw _privateConstructorUsedError;
+
+  /// Serializes this Participant to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Participant
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ParticipantCopyWith<Participant> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ParticipantCopyWith<$Res> {
+  factory $ParticipantCopyWith(
+          Participant value, $Res Function(Participant) then) =
+      _$ParticipantCopyWithImpl<$Res, Participant>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'userId') int userId,
+      @JsonKey(name: 'username') String username,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'profileImage') String? profileImage});
+}
+
+/// @nodoc
+class _$ParticipantCopyWithImpl<$Res, $Val extends Participant>
+    implements $ParticipantCopyWith<$Res> {
+  _$ParticipantCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Participant
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? username = null,
+    Object? name = null,
+    Object? profileImage = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ParticipantImplCopyWith<$Res>
+    implements $ParticipantCopyWith<$Res> {
+  factory _$$ParticipantImplCopyWith(
+          _$ParticipantImpl value, $Res Function(_$ParticipantImpl) then) =
+      __$$ParticipantImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'userId') int userId,
+      @JsonKey(name: 'username') String username,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'profileImage') String? profileImage});
+}
+
+/// @nodoc
+class __$$ParticipantImplCopyWithImpl<$Res>
+    extends _$ParticipantCopyWithImpl<$Res, _$ParticipantImpl>
+    implements _$$ParticipantImplCopyWith<$Res> {
+  __$$ParticipantImplCopyWithImpl(
+      _$ParticipantImpl _value, $Res Function(_$ParticipantImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Participant
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? username = null,
+    Object? name = null,
+    Object? profileImage = freezed,
+  }) {
+    return _then(_$ParticipantImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ParticipantImpl implements _Participant {
+  const _$ParticipantImpl(
+      {@JsonKey(name: 'userId') required this.userId,
+      @JsonKey(name: 'username') required this.username,
+      @JsonKey(name: 'name') required this.name,
+      @JsonKey(name: 'profileImage') required this.profileImage});
+
+  factory _$ParticipantImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParticipantImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'userId')
+  final int userId;
+  @override
+  @JsonKey(name: 'username')
+  final String username;
+  @override
+  @JsonKey(name: 'name')
+  final String name;
+  @override
+  @JsonKey(name: 'profileImage')
+  final String? profileImage;
+
+  @override
+  String toString() {
+    return 'Participant(userId: $userId, username: $username, name: $name, profileImage: $profileImage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ParticipantImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.profileImage, profileImage) ||
+                other.profileImage == profileImage));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, userId, username, name, profileImage);
+
+  /// Create a copy of Participant
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ParticipantImplCopyWith<_$ParticipantImpl> get copyWith =>
+      __$$ParticipantImplCopyWithImpl<_$ParticipantImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ParticipantImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Participant implements Participant {
+  const factory _Participant(
+          {@JsonKey(name: 'userId') required final int userId,
+          @JsonKey(name: 'username') required final String username,
+          @JsonKey(name: 'name') required final String name,
+          @JsonKey(name: 'profileImage') required final String? profileImage}) =
+      _$ParticipantImpl;
+
+  factory _Participant.fromJson(Map<String, dynamic> json) =
+      _$ParticipantImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'userId')
+  int get userId;
+  @override
+  @JsonKey(name: 'username')
+  String get username;
+  @override
+  @JsonKey(name: 'name')
+  String get name;
+  @override
+  @JsonKey(name: 'profileImage')
+  String? get profileImage;
+
+  /// Create a copy of Participant
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ParticipantImplCopyWith<_$ParticipantImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -33,7 +33,7 @@ class ChattingRoomScreen extends StatelessWidget {
             textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
-                room.otherPartyName ?? '지선의',
+                room.participants.first.username ?? '지선의',
                 style: CogoTextStyle.bodySB20,
               ),
               const SizedBox(width: 5),

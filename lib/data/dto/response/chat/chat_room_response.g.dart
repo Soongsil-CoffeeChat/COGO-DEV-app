@@ -35,8 +35,9 @@ _$ChatRoomImpl _$$ChatRoomImplFromJson(Map<String, dynamic> json) =>
       roomId: (json['roomId'] as num).toInt(),
       lastChat: json['lastChat'] as String?,
       updatedAt: DateTime.parse(json['updatedAt'] as String),
-      otherPartyName: json['otherPartyName'] as String?,
-      otherPartyProfileImage: json['otherPartyProfileImage'] as String?,
+      participants: (json['participants'] as List<dynamic>)
+          .map((e) => Participant.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$ChatRoomImplToJson(_$ChatRoomImpl instance) =>
@@ -44,6 +45,21 @@ Map<String, dynamic> _$$ChatRoomImplToJson(_$ChatRoomImpl instance) =>
       'roomId': instance.roomId,
       'lastChat': instance.lastChat,
       'updatedAt': instance.updatedAt.toIso8601String(),
-      'otherPartyName': instance.otherPartyName,
-      'otherPartyProfileImage': instance.otherPartyProfileImage,
+      'participants': instance.participants,
+    };
+
+_$ParticipantImpl _$$ParticipantImplFromJson(Map<String, dynamic> json) =>
+    _$ParticipantImpl(
+      userId: (json['userId'] as num).toInt(),
+      username: json['username'] as String,
+      name: json['name'] as String,
+      profileImage: json['profileImage'] as String?,
+    );
+
+Map<String, dynamic> _$$ParticipantImplToJson(_$ParticipantImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'username': instance.username,
+      'name': instance.name,
+      'profileImage': instance.profileImage,
     };
