@@ -45,13 +45,14 @@ class ChatService {
   }
 
   /// 채팅방 생성
-  Future<void> postChattingRoom(int applicationId, int participantId) async {
+  Future<void> postChattingRoom(
+      int applicationId, int participantUserId) async {
     try {
       final res = await _apiClient.dio.post(
         apiVersion + Apis.chat,
         data: {
           'applicationId': applicationId,
-          'participantId': participantId,
+          'participantUserId': participantUserId,
         },
         options: Options(
           extra: {'skipAuthToken': false},
