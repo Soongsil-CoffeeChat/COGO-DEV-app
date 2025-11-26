@@ -143,7 +143,7 @@ class _ChatRoomTile extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              room.lastChat ?? '',
+              room.participants.first.name ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.titleMedium
@@ -182,7 +182,7 @@ class _CircleAvatarPlaceholder extends StatelessWidget {
     return ClipOval(
       child: NetworkImageWithFallback(
         url: imageUrl,
-        fallbackAsset: 'assets/icons/3d_img/empty.png',
+        fallbackAsset: 'assets/image/empty_chat_img.svg',
         width: 44,
         height: 44,
         fit: BoxFit.cover,
