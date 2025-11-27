@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
@@ -27,24 +28,28 @@ class ChattingRoomScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
             onPressed: () => Navigator.pop(context),
           ),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Text(
-                room.participants.first.username ?? '지선의',
-                style: CogoTextStyle.bodySB20,
-              ),
-              const SizedBox(width: 5),
-              Transform.translate(
-                offset: const Offset(0, 1),
-                child: const Text(
-                  '멘토님',
-                  style: CogoTextStyle.body16,
-                ),
-              ),
-            ],
+          title: Consumer<ChattingRoomViewModel>(
+            builder: (context, viewModel, child) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text(
+                    room.participants.first.name,
+                    style: CogoTextStyle.bodySB20,
+                  ),
+                  const SizedBox(width: 5),
+                  Transform.translate(
+                    offset: const Offset(0, 1),
+                    child: Text(
+                      viewModel.role == Role.ROLE_MENTOR.name ? '멘토님' : '멘티님',
+                      style: CogoTextStyle.body16,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           centerTitle: true,
           backgroundColor: Colors.white,

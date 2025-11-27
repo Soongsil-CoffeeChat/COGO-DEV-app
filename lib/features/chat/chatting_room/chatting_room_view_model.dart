@@ -1,11 +1,27 @@
+import 'dart:developer';
+
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class ChattingRoomViewModel extends ChangeNotifier {
+  String? _role;
+  String? get role => _role;
+
   ChattingRoomViewModel(this._service) {
+    getRole();
     loadChatting();
+  }
+
+  Future<void> getRole() async {
+    try {
+      _role = await _secureStorage.readRole();
+      log(_role!);
+      notifyListeners();
+    } catch (e) {
+      log('Error fetching role: $e');
+    }
   }
 
   final ChatService _service;
