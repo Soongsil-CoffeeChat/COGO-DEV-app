@@ -20,11 +20,21 @@ UserInfoResponse _$UserInfoResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserInfoResponse {
-  String get username => throw _privateConstructorUsedError;
+  @JsonKey(name: 'userId')
+  int get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get role => throw _privateConstructorUsedError;
+  @JsonKey(name: 'email')
+  String? get email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'phoneNum')
   String get phoneNum => throw _privateConstructorUsedError;
+  @JsonKey(name: 'role')
+  String get role => throw _privateConstructorUsedError;
+  @JsonKey(name: 'part')
+  String get part => throw _privateConstructorUsedError;
+  @JsonKey(name: 'club')
+  String? get club => throw _privateConstructorUsedError;
+  @JsonKey(name: 'picture')
   String? get picture => throw _privateConstructorUsedError;
 
   /// Serializes this UserInfoResponse to a JSON map.
@@ -44,12 +54,14 @@ abstract class $UserInfoResponseCopyWith<$Res> {
       _$UserInfoResponseCopyWithImpl<$Res, UserInfoResponse>;
   @useResult
   $Res call(
-      {String username,
-      String name,
-      String email,
-      String role,
-      String phoneNum,
-      String? picture});
+      {@JsonKey(name: 'userId') int userId,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'email') String? email,
+      @JsonKey(name: 'phoneNum') String phoneNum,
+      @JsonKey(name: 'role') String role,
+      @JsonKey(name: 'part') String part,
+      @JsonKey(name: 'club') String? club,
+      @JsonKey(name: 'picture') String? picture});
 }
 
 /// @nodoc
@@ -67,34 +79,44 @@ class _$UserInfoResponseCopyWithImpl<$Res, $Val extends UserInfoResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? username = null,
+    Object? userId = null,
     Object? name = null,
-    Object? email = null,
-    Object? role = null,
+    Object? email = freezed,
     Object? phoneNum = null,
+    Object? role = null,
+    Object? part = null,
+    Object? club = freezed,
     Object? picture = freezed,
   }) {
     return _then(_value.copyWith(
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNum: null == phoneNum
+          ? _value.phoneNum
+          : phoneNum // ignore: cast_nullable_to_non_nullable
               as String,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as String,
-      phoneNum: null == phoneNum
-          ? _value.phoneNum
-          : phoneNum // ignore: cast_nullable_to_non_nullable
+      part: null == part
+          ? _value.part
+          : part // ignore: cast_nullable_to_non_nullable
               as String,
+      club: freezed == club
+          ? _value.club
+          : club // ignore: cast_nullable_to_non_nullable
+              as String?,
       picture: freezed == picture
           ? _value.picture
           : picture // ignore: cast_nullable_to_non_nullable
@@ -112,12 +134,14 @@ abstract class _$$UserInfoResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String username,
-      String name,
-      String email,
-      String role,
-      String phoneNum,
-      String? picture});
+      {@JsonKey(name: 'userId') int userId,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'email') String? email,
+      @JsonKey(name: 'phoneNum') String phoneNum,
+      @JsonKey(name: 'role') String role,
+      @JsonKey(name: 'part') String part,
+      @JsonKey(name: 'club') String? club,
+      @JsonKey(name: 'picture') String? picture});
 }
 
 /// @nodoc
@@ -133,34 +157,44 @@ class __$$UserInfoResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? username = null,
+    Object? userId = null,
     Object? name = null,
-    Object? email = null,
-    Object? role = null,
+    Object? email = freezed,
     Object? phoneNum = null,
+    Object? role = null,
+    Object? part = null,
+    Object? club = freezed,
     Object? picture = freezed,
   }) {
     return _then(_$UserInfoResponseImpl(
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNum: null == phoneNum
+          ? _value.phoneNum
+          : phoneNum // ignore: cast_nullable_to_non_nullable
               as String,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as String,
-      phoneNum: null == phoneNum
-          ? _value.phoneNum
-          : phoneNum // ignore: cast_nullable_to_non_nullable
+      part: null == part
+          ? _value.part
+          : part // ignore: cast_nullable_to_non_nullable
               as String,
+      club: freezed == club
+          ? _value.club
+          : club // ignore: cast_nullable_to_non_nullable
+              as String?,
       picture: freezed == picture
           ? _value.picture
           : picture // ignore: cast_nullable_to_non_nullable
@@ -173,32 +207,46 @@ class __$$UserInfoResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserInfoResponseImpl implements _UserInfoResponse {
   const _$UserInfoResponseImpl(
-      {required this.username,
-      required this.name,
-      required this.email,
-      required this.role,
-      required this.phoneNum,
-      this.picture});
+      {@JsonKey(name: 'userId') required this.userId,
+      @JsonKey(name: 'name') required this.name,
+      @JsonKey(name: 'email') required this.email,
+      @JsonKey(name: 'phoneNum') required this.phoneNum,
+      @JsonKey(name: 'role') required this.role,
+      @JsonKey(name: 'part') required this.part,
+      @JsonKey(name: 'club') required this.club,
+      @JsonKey(name: 'picture') required this.picture});
 
   factory _$UserInfoResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserInfoResponseImplFromJson(json);
 
   @override
-  final String username;
+  @JsonKey(name: 'userId')
+  final int userId;
   @override
+  @JsonKey(name: 'name')
   final String name;
   @override
-  final String email;
+  @JsonKey(name: 'email')
+  final String? email;
   @override
-  final String role;
-  @override
+  @JsonKey(name: 'phoneNum')
   final String phoneNum;
   @override
+  @JsonKey(name: 'role')
+  final String role;
+  @override
+  @JsonKey(name: 'part')
+  final String part;
+  @override
+  @JsonKey(name: 'club')
+  final String? club;
+  @override
+  @JsonKey(name: 'picture')
   final String? picture;
 
   @override
   String toString() {
-    return 'UserInfoResponse(username: $username, name: $name, email: $email, role: $role, phoneNum: $phoneNum, picture: $picture)';
+    return 'UserInfoResponse(userId: $userId, name: $name, email: $email, phoneNum: $phoneNum, role: $role, part: $part, club: $club, picture: $picture)';
   }
 
   @override
@@ -206,20 +254,21 @@ class _$UserInfoResponseImpl implements _UserInfoResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserInfoResponseImpl &&
-            (identical(other.username, username) ||
-                other.username == username) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.role, role) || other.role == role) &&
             (identical(other.phoneNum, phoneNum) ||
                 other.phoneNum == phoneNum) &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.part, part) || other.part == part) &&
+            (identical(other.club, club) || other.club == club) &&
             (identical(other.picture, picture) || other.picture == picture));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, username, name, email, role, phoneNum, picture);
+  int get hashCode => Object.hash(
+      runtimeType, userId, name, email, phoneNum, role, part, club, picture);
 
   /// Create a copy of UserInfoResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -240,27 +289,42 @@ class _$UserInfoResponseImpl implements _UserInfoResponse {
 
 abstract class _UserInfoResponse implements UserInfoResponse {
   const factory _UserInfoResponse(
-      {required final String username,
-      required final String name,
-      required final String email,
-      required final String role,
-      required final String phoneNum,
-      final String? picture}) = _$UserInfoResponseImpl;
+          {@JsonKey(name: 'userId') required final int userId,
+          @JsonKey(name: 'name') required final String name,
+          @JsonKey(name: 'email') required final String? email,
+          @JsonKey(name: 'phoneNum') required final String phoneNum,
+          @JsonKey(name: 'role') required final String role,
+          @JsonKey(name: 'part') required final String part,
+          @JsonKey(name: 'club') required final String? club,
+          @JsonKey(name: 'picture') required final String? picture}) =
+      _$UserInfoResponseImpl;
 
   factory _UserInfoResponse.fromJson(Map<String, dynamic> json) =
       _$UserInfoResponseImpl.fromJson;
 
   @override
-  String get username;
+  @JsonKey(name: 'userId')
+  int get userId;
   @override
+  @JsonKey(name: 'name')
   String get name;
   @override
-  String get email;
+  @JsonKey(name: 'email')
+  String? get email;
   @override
-  String get role;
-  @override
+  @JsonKey(name: 'phoneNum')
   String get phoneNum;
   @override
+  @JsonKey(name: 'role')
+  String get role;
+  @override
+  @JsonKey(name: 'part')
+  String get part;
+  @override
+  @JsonKey(name: 'club')
+  String? get club;
+  @override
+  @JsonKey(name: 'picture')
   String? get picture;
 
   /// Create a copy of UserInfoResponse

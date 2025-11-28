@@ -7,7 +7,6 @@ import 'package:cogo/data/dto/response/base_response.dart';
 import 'package:cogo/data/dto/response/auth/email_verification_response.dart';
 import 'package:cogo/data/dto/response/user/mentee_signup_response.dart';
 import 'package:cogo/data/dto/response/user/mentor_signup_response.dart';
-import 'package:cogo/data/dto/response/user/my_info_response.dart';
 import 'package:cogo/data/dto/response/user/user_info_response.dart';
 import 'package:dio/dio.dart';
 
@@ -79,7 +78,7 @@ class UserService {
   }
 
   ///GET /api/v2/users 기본정보 조회
-  Future<MyInfoResponse> getUserInfo() async {
+  Future<UserInfoResponse> getUserInfo() async {
     try {
       final response = await _apiClient.dio.get(
         options: Options(
@@ -89,9 +88,9 @@ class UserService {
       );
       if (response.statusCode == 200) {
         //base response로 받는건 여기서 뿐임.
-        final baseResponse = BaseResponse<MyInfoResponse>.fromJson(
+        final baseResponse = BaseResponse<UserInfoResponse>.fromJson(
           response.data,
-          (contentJson) => MyInfoResponse.fromJson(contentJson),
+          (contentJson) => UserInfoResponse.fromJson(contentJson),
         );
         return baseResponse.content;
       } else {

@@ -9,21 +9,25 @@ part of 'user_info_response.dart';
 _$UserInfoResponseImpl _$$UserInfoResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$UserInfoResponseImpl(
-      username: json['username'] as String,
+      userId: (json['userId'] as num).toInt(),
       name: json['name'] as String,
-      email: json['email'] as String,
-      role: json['role'] as String,
+      email: json['email'] as String?,
       phoneNum: json['phoneNum'] as String,
+      role: json['role'] as String,
+      part: json['part'] as String,
+      club: json['club'] as String?,
       picture: json['picture'] as String?,
     );
 
 Map<String, dynamic> _$$UserInfoResponseImplToJson(
         _$UserInfoResponseImpl instance) =>
     <String, dynamic>{
-      'username': instance.username,
+      'userId': instance.userId,
       'name': instance.name,
       'email': instance.email,
-      'role': instance.role,
       'phoneNum': instance.phoneNum,
+      'role': instance.role,
+      'part': instance.part,
+      'club': instance.club,
       'picture': instance.picture,
     };
