@@ -20,7 +20,7 @@ class ChattingRoomScreen extends StatelessWidget {
     final TextEditingController _controller = TextEditingController();
 
     return ChangeNotifierProvider(
-      create: (_) => ChattingRoomViewModel(ChatService()),
+      create: (_) => ChattingRoomViewModel(ChatService(), room),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

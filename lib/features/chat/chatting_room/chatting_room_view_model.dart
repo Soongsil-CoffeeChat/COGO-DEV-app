@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/data/service/stomp_service.dart';
@@ -9,10 +10,11 @@ import 'package:intl/intl.dart';
 class ChattingRoomViewModel extends ChangeNotifier {
   String? _role;
   String? get role => _role;
+  final ChatRoom room;
 
-  ChattingRoomViewModel(this._service) {
+  ChattingRoomViewModel(this._service, this.room) {
     getRole();
-    loadChatting();
+    loadChatting(room);
   }
 
   Future<void> getRole() async {
@@ -32,7 +34,10 @@ class ChattingRoomViewModel extends ChangeNotifier {
   List<Message> messages = [];
   bool isLoading = false;
 
-  Future<void> loadChatting() async {
+  Future<void> loadChatting(ChatRoom room) async {
+    int roomId = room.roomId;
+    String? profileUrl = room.participants.first.profileImage;
+
     try {
       isLoading = true;
       notifyListeners();
