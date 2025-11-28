@@ -26,6 +26,7 @@ class HomeViewModel extends ChangeNotifier {
 
   HomeViewModel() {
     loadPreferences();
+    fetchUserData();
   }
 
   Future<void> loadPreferences() async {
@@ -60,11 +61,10 @@ class HomeViewModel extends ChangeNotifier {
   Future<void> fetchUserData() async {
     try {
       final response = await userService.getUserInfo();
-      final data = MyPageInfo.fromResponse(response);
 
       try {
-        // await _secureStorage.saveUserId(data.); // ✅ 내부 필드만 저장
-        //log("✅ userId 저장 완료: ${userInfo.userId}");
+        await _secureStorage.saveUserId(response.userId);
+        log("✅ userId 저장 완료: ${response.userId}");
       } catch (e) {
         log("❌ userId 가져오기 실패: $e");
       }
