@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/chat_service.dart';
+import 'package:cogo/data/service/stomp_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -26,13 +27,13 @@ class ChattingRoomViewModel extends ChangeNotifier {
 
   final ChatService _service;
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
-  //final StompService _stompService = StompService();
+  final StompService _stompService = StompService();
 
   List<Message> messages = [];
   bool isLoading = false;
 
   Future<void> loadChatting() async {
-    /*try {
+    try {
       isLoading = true;
       notifyListeners();
 
@@ -78,7 +79,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
     } finally {
       isLoading = false;
       notifyListeners();
-    }*/
+    }
   }
 
   void sendMessage(String text) {

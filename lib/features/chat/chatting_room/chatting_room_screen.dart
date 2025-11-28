@@ -65,7 +65,7 @@ class ChattingRoomScreen extends StatelessWidget {
           builder: (context, viewModel, _) {
             return Column(
               children: [
-                // 상품 정보 영역
+                // 코고 정보
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
