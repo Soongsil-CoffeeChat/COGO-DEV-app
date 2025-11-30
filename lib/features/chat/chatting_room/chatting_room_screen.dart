@@ -1,11 +1,13 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/features/chat/chatting_room/chatting_room_view_model.dart';
 import 'package:cogo/features/chat/chatting_room/widgets/chat_input_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'widgets/sender_message.dart';
 import 'widgets/receiver_message.dart';
@@ -92,21 +94,34 @@ class ChattingRoomScreen extends StatelessWidget {
                       ),
 
                       /// 보러가기 버튼
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
+                      GestureDetector(
+                        onTap: () {
+                          context.push(
+                            Paths.matchedCogoDetail,
+                            extra: {
+                              'applicationId': viewModel.applicationId,
+                              'otherPartyName': room.participants.first.name,
+                            },
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            viewModel.role == Role.ROLE_MENTOR.name
+                                ? '받은 코고 보러가기'
+                                : '보낸 코고 보러가기',
+                            style: CogoTextStyle.body12
+                                .copyWith(color: CogoColor.white50),
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          '보낸 코고 보러가기',
-                          style: CogoTextStyle.body12
-                              .copyWith(color: CogoColor.white50),
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ),

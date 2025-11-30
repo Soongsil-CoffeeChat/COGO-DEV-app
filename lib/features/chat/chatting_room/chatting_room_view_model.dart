@@ -25,6 +25,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
 
   String? cogoDate;
   String? cogoTime;
+  int? applicationId;
 
   // ===========================================================================
   // 2. Constructor & Initialization
@@ -127,6 +128,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
       final linkedCogo = await _service.getConnectedApplication(room.roomId);
       cogoDate = linkedCogo.date;
       cogoTime = linkedCogo.startTime;
+      applicationId = linkedCogo.applicationId;
     } catch (e) {
       log('연동된 코고 조회 실패: $e');
       // 에러 발생 시 UI에 영향을 주지 않도록 조용히 처리하거나 에러 상태 변수 추가
