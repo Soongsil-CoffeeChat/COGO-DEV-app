@@ -38,57 +38,57 @@ class ChattingRoomViewModel extends ChangeNotifier {
     int roomId = room.roomId;
     String? profileUrl = room.participants.first.profileImage;
 
-    // try {
-    //   isLoading = true;
-    //   notifyListeners();
-    //
-    //   final myId = await _secureStorage.getUserId();
-    //
-    //   final page = await _service.getChattingMessages(
-    //     roomId: roomId,
-    //     page: 0,
-    //     size: 100,
-    //     sort: ['timestamp,asc'],
-    //   );
-    //
-    //   messages = page.content.map((msg) {
-    //     return Message(
-    //       text: msg.message,
-    //       time: _formatTime(msg.timestamp),
-    //       isMe: msg.senderId == myId,
-    //       profileUrl: profileUrl,
-    //     );
-    //   }).toList();
-    //
-    //   // ✅ STOMP 연결
-    //   _stompService.connect(
-    //     accessToken: await _secureStorage.readAccessToken() ?? '',
-    //     roomId: roomId,
-    //     onMessage: (json) {
-    //       final senderId = json['writer'];
-    //       final isMine = senderId == myId; // ✅ 정확한 비교
-    //
-    //       messages.add(
-    //         Message(
-    //           text: json['message'],
-    //           time: _formatTime(DateTime.now()),
-    //           isMe: isMine,
-    //           profileUrl: profileUrl,
-    //         ),
-    //       );
-    //       notifyListeners();
-    //     },
-    //   );
-    // } catch (e) {
-    //   print('채팅 메시지 불러오기 오류: $e');
-    // } finally {
-    //   isLoading = false;
-    //   notifyListeners();
-    // }
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final myId = await _secureStorage.getUserId();
+
+      final page = await _service.getChattingMessages(
+        roomId: roomId,
+        page: 0,
+        size: 100,
+      );
+
+      messages = page.content.map((msg) {
+        return Message(
+          text: msg.message,
+          time: _formatTime(msg.createdAt),
+          isMe: msg.senderId == myId,
+          profileUrl: profileUrl,
+        );
+      }).toList();
+
+      // ✅ STOMP 연결
+      _stompService.connect(
+        accessToken: await _secureStorage.readAccessToken() ?? '',
+        roomId: roomId,
+        onMessage: (json) {
+          final senderId = json['writer'];
+          final isMine = senderId == myId;
+
+          messages.add(
+            Message(
+              text: json['message'],
+              time: _formatTime(DateTime.now()),
+              isMe: isMine,
+              profileUrl: profileUrl,
+            ),
+          );
+          notifyListeners();
+        },
+      );
+    } catch (e) {
+      print('채팅 메시지 불러오기 오류: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 
   void sendMessage(String text) {
-    //_stompService.send(roomId: roomId, message: text);
+    print('==== [전송 시도] 메시지: $text ===='); // 1. 함수가 호출되는지 확인
+    _stompService.send(roomId: room.roomId, message: text);
   }
 
   String _formatTime(DateTime time) {
@@ -97,7 +97,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    //_stompService.disconnect();
+    _stompService.disconnect();
     super.dispose();
   }
 }
