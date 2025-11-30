@@ -3,6 +3,7 @@ import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/base_response.dart';
 import 'package:cogo/data/dto/response/chat/chat_message_response.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
+import 'package:cogo/data/dto/response/chat/linked_cogo_response.dart';
 import 'package:dio/dio.dart';
 
 class ChatService {
@@ -118,13 +119,10 @@ class ChatService {
   }
 
   ///채팅방과 연결된 코고 조회
-  Future<ChatRoomResponse> getConnectedApplication(int chatRoomId) async {
+  Future<LinkedCogoResponse> getConnectedApplication(int chatRoomId) async {
     try {
       final res = await _apiClient.dio.get(
-        apiVersion + Apis.connectedApplication,
-        queryParameters: {
-          'chatRoomId': chatRoomId,
-        },
+        '$apiVersion${Apis.connectedApplication}/$chatRoomId',
         options: Options(
           extra: {'skipAuthToken': false},
         ),
@@ -132,12 +130,7 @@ class ChatService {
 
       if (res.statusCode == 200) {
         final data = res.data;
-        if (data is Map<String, dynamic>) {
-          // 응답 전체를 그대로 역직렬화
-          return ChatRoomResponse.fromJson(data);
-        } else {
-          throw Exception('Unexpected response type: ${data.runtimeType}');
-        }
+        return LinkedCogoResponse.fromJson(data);
       } else {
         throw Exception(
             'Failed to fetch chat rooms: ${res.statusCode} ${res.data}');

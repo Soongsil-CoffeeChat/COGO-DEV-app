@@ -65,7 +65,7 @@ class ChattingRoomScreen extends StatelessWidget {
           builder: (context, viewModel, _) {
             return Column(
               children: [
-                // 코고 정보
+                /// 코고 정보
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -83,7 +83,7 @@ class ChattingRoomScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              '2025년 4월 30일 커피나무 숭실대점 9시',
+                              '${viewModel.formattedDate} 커피나무 숭실대점 ${viewModel.formattedTime}',
                               style: CogoTextStyle.bodyR12
                                   .copyWith(color: CogoColor.systemGray04),
                             ),
