@@ -207,6 +207,32 @@ class ChattingRoomViewModel extends ChangeNotifier {
     return DateFormat('a h:mm', 'ko').format(time.toLocal());
   }
 
+  /// 두 날짜가 같은 날인지 확인하는 헬퍼 함수
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+
+  /// 특정 인덱스의 메시지가 새로운 날짜의 시작인지 판단
+  bool isNewDate(int index) {
+    // 1. 첫 번째 메시지는 무조건 날짜 표시
+    if (index == 0) return true;
+
+    // 2. 이전 메시지와 날짜 비교
+    final prevDate = messages[index - 1].createdAt;
+    final currDate = messages[index].createdAt;
+
+    // 날짜가 다르면 true (새로운 날짜임)
+    return !_isSameDay(prevDate, currDate);
+  }
+
+  /// 날짜 헤더용 포맷터 (예: 2025년 4월 14일 월요일)
+  String getDateHeader(int index) {
+    final date = messages[index].createdAt;
+    return DateFormat('yyyy년 M월 d일 EEEE', 'ko').format(date);
+  }
+
   // ===========================================================================
   // 5. Cleanup
   // ===========================================================================

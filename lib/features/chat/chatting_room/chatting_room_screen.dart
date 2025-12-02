@@ -144,8 +144,9 @@ class ChattingRoomScreen extends StatelessWidget {
                         horizontal: 10,
                         vertical: 16,
                       ),
-                      itemCount: viewModel.messages.length + 2,
+                      itemCount: viewModel.messages.length + 1,
                       itemBuilder: (context, index) {
+                        /// 최상단 경고 문구
                         if (index == 0) {
                           return Container(
                             width: double.infinity,
@@ -165,37 +166,43 @@ class ChattingRoomScreen extends StatelessWidget {
                           );
                         }
 
-                        // [수정 2] 날짜 구분선 (Index 1로 밀림)
-                        if (index == 1) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: Center(
-                              child: Text(
-                                //TODO 채팅방 날짜 구현
-                                '2025년 4월 14일 월요일',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[400],
+                        /// 메시지 로직
+                        final msgIndex = index - 1;
+                        final msg = viewModel.messages[msgIndex];
+
+                        // 이 메시지가 새 날짜의 시작인지 확인
+                        final bool showDateHeader =
+                            viewModel.isNewDate(msgIndex);
+
+                        return Column(
+                          children: [
+                            if (showDateHeader)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 16, top: 8),
+                                child: Center(
+                                  child: Text(
+                                    viewModel.getDateHeader(msgIndex),
+                                    style: CogoTextStyle.body12.copyWith(
+                                        color: CogoColor.systemGray03),
+                                  ),
                                 ),
                               ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: msg.isMe
+                                  ? ReceiverMessage(
+                                      text: msg.text,
+                                      time: msg.time,
+                                      isRead: msg.isRead,
+                                    )
+                                  : SenderMessage(
+                                      text: msg.text,
+                                      time: msg.time,
+                                      profileUrl: msg.profileUrl ?? '',
+                                    ),
                             ),
-                          );
-                        }
-
-                        final msg = viewModel.messages[index - 2];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: msg.isMe
-                              ? ReceiverMessage(
-                                  text: msg.text,
-                                  time: msg.time,
-                                  isRead: msg.isRead,
-                                )
-                              : SenderMessage(
-                                  text: msg.text,
-                                  time: msg.time,
-                                  profileUrl: msg.profileUrl ?? '',
-                                ),
+                          ],
                         );
                       },
                     ),
