@@ -199,7 +199,6 @@ class ChattingRoomScreen extends StatelessWidget {
                       //TODO 플러스 버튼 동작(파일 첨부, 사진 등)
                     },
                     onSend: (text) {
-                      //TODO send action 구현
                       context.read<ChattingRoomViewModel>().sendMessage(text);
                     },
                   ),
