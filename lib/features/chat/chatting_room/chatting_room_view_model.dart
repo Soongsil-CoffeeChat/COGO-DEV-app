@@ -93,28 +93,38 @@ class ChattingRoomViewModel extends ChangeNotifier {
         return Message(
           text: msg.message,
           time: _formatTime(msg.createdAt),
+          createdAt: msg.createdAt,
           isMe: msg.senderId == myId,
           profileUrl: profileUrl,
         );
       }).toList();
+
+      messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
       // 2. 실시간 소켓 연결 (STOMP)
       _stompService.connect(
         accessToken: await _secureStorage.readAccessToken() ?? '',
         roomId: roomId,
         onMessage: (json) {
-          final senderId = json['writer'];
-          final isMine = senderId == myId;
+          final senderId = json['senderId'];
 
+          final isMine = senderId.toString() == myId.toString();
+
+          if (isMine) {
+            return;
+          }
+
+          final now = DateTime.now();
           messages.add(
             Message(
               text: json['message'],
-              time: _formatTime(DateTime.now()),
+              time: _formatTime(now),
+              createdAt: now,
               isMe: isMine,
               profileUrl: profileUrl,
             ),
           );
-          notifyListeners(); // 새 메시지 도착 시 UI 갱신
+          notifyListeners();
         },
       );
     } catch (e) {
@@ -131,20 +141,38 @@ class ChattingRoomViewModel extends ChangeNotifier {
       applicationId = linkedCogo.applicationId;
     } catch (e) {
       log('연동된 코고 조회 실패: $e');
-      // 에러 발생 시 UI에 영향을 주지 않도록 조용히 처리하거나 에러 상태 변수 추가
     }
   }
 
   /// 메시지 전송
-  void sendMessage(String text) {
-    if (text.trim().isEmpty) return; // 빈 메시지 방지
+  void sendMessage(String text) async {
+    if (text.trim().isEmpty) return;
+
+    // 1. 내 화면에 먼저 메시지 추가
+    final myId = await _secureStorage.getUserId();
+    String? myProfileUrl;
+    if (room.participants.isNotEmpty) {}
+
+    final now = DateTime.now();
+    final newMessage = Message(
+      text: text,
+      time: _formatTime(now),
+      createdAt: now,
+      isMe: true,
+      profileUrl: myProfileUrl,
+    );
+    messages.add(newMessage);
+    notifyListeners();
 
     print('==== [전송 시도] 메시지: $text ====');
-    // 연결 상태 체크 로직을 추가하면 더 좋습니다 (isConnected 등)
+
+    // 2. 서버로 전송
     try {
       _stompService.send(roomId: room.roomId, message: text);
     } catch (e) {
       log('메시지 전송 실패: $e');
+      messages.remove(newMessage);
+      notifyListeners();
     }
   }
 
@@ -195,6 +223,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
 class Message {
   final String text;
   final String time;
+  final DateTime createdAt;
   final bool isMe;
   final bool isRead;
   final String? profileUrl;
@@ -202,6 +231,7 @@ class Message {
   Message({
     required this.text,
     required this.time,
+    required this.createdAt,
     required this.isMe,
     this.isRead = false,
     this.profileUrl,

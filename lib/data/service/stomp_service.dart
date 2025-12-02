@@ -67,7 +67,7 @@ class StompService {
     });
 
     _client?.send(
-      destination: '/topic/room.$roomId',
+      destination: '/app/chat.sendMessage',
       body: body,
     );
   }
