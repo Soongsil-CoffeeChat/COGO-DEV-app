@@ -141,12 +141,32 @@ class ChattingRoomScreen extends StatelessWidget {
                     child: ListView.builder(
                       reverse: false,
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
+                        horizontal: 10,
                         vertical: 16,
                       ),
-                      itemCount: viewModel.messages.length + 1, // 날짜 구분선 포함
+                      itemCount: viewModel.messages.length + 2,
                       itemBuilder: (context, index) {
                         if (index == 0) {
+                          return Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(bottom: 16),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 7),
+                            decoration: BoxDecoration(
+                              color: CogoColor.systemGray01,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              '부적절한 표현이나 비속어 사용 시 신고 및 이용 제한이 있을 수 있습니다.',
+                              style: CogoTextStyle.body12
+                                  .copyWith(color: CogoColor.systemGray03),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }
+
+                        // [수정 2] 날짜 구분선 (Index 1로 밀림)
+                        if (index == 1) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child: Center(
@@ -162,7 +182,7 @@ class ChattingRoomScreen extends StatelessWidget {
                           );
                         }
 
-                        final msg = viewModel.messages[index - 1];
+                        final msg = viewModel.messages[index - 2];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: msg.isMe
