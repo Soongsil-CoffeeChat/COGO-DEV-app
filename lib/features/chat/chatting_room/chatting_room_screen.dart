@@ -26,6 +26,8 @@ class ChattingRoomScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          scrolledUnderElevation: 0,
+          surfaceTintColor: Colors.transparent,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
             onPressed: () => Navigator.pop(context),
