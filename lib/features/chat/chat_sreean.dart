@@ -168,7 +168,7 @@ class _ChatRoomTile extends StatelessWidget {
           style: theme.textTheme.bodyMedium,
         ),
       ),
-      trailing: const _UnreadBadge(count: 1), // 서버 unreadCount 생기면 교체
+      //trailing: const _UnreadBadge(count: 1), // 서버 unreadCount 생기면 교체
     );
   }
 }
@@ -190,7 +190,7 @@ class _CircleAvatarPlaceholder extends StatelessWidget {
     );
   }
 }
-
+/*
 class _UnreadBadge extends StatelessWidget {
   const _UnreadBadge({required this.count});
   final int count;
@@ -214,5 +214,6 @@ class _UnreadBadge extends StatelessWidget {
     );
   }
 }
+*/
 
 String _formatKoreanDate(DateTime dt) => '${dt.month}월 ${dt.day}일';
