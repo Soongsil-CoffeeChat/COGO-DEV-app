@@ -53,6 +53,15 @@ class SecureStorageRepository {
     await _storage.write(key: "interest", value: interest);
   }
 
+  Future<void> saveUserId(int userId) async {
+    await _storage.write(key: 'userId', value: userId.toString());
+  }
+
+  Future<int?> getUserId() async {
+    final value = await _storage.read(key: 'userId');
+    return value != null ? int.tryParse(value) : null;
+  }
+
   ///동아리
   Future<String?> readClub() async {
     return await _storage.read(key: "club");

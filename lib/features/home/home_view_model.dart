@@ -6,6 +6,7 @@ import 'package:cogo/data/service/mentor_service.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/domain/entity/mentor_part_entity.dart';
 import 'package:cogo/domain/entity/my_mentor_entity.dart';
+import 'package:cogo/domain/entity/my_page_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -25,6 +26,7 @@ class HomeViewModel extends ChangeNotifier {
 
   HomeViewModel() {
     loadPreferences();
+    fetchUserData();
   }
 
   Future<void> loadPreferences() async {
@@ -54,6 +56,23 @@ class HomeViewModel extends ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> fetchUserData() async {
+    try {
+      final response = await userService.getUserInfo();
+
+      try {
+        await _secureStorage.saveUserId(response.userId);
+        log("✅ userId 저장 완료: ${response.userId}");
+      } catch (e) {
+        log("❌ userId 가져오기 실패: $e");
+      }
+
+      log('내 정보 조회 성공');
+    } catch (e) {
+      log('Error fetching user data: $e');
+    } finally {}
   }
 
   /// 토큰으로 멘토 자기소개 4개 호출 (멘토 자기소개 다이얼로그 관리 용)

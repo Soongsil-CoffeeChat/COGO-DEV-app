@@ -24,11 +24,22 @@ class ChatRoom with _$ChatRoom {
     @JsonKey(name: 'roomId') required int roomId,
     @JsonKey(name: 'lastChat') String? lastChat,
     @JsonKey(name: 'updatedAt') required DateTime updatedAt,
-    @JsonKey(name: 'otherPartyName') required String? otherPartyName,
-    @JsonKey(name: 'otherPartyProfileImage')
-    required String? otherPartyProfileImage,
+    @JsonKey(name: 'participants') required List<Participant> participants,
   }) = _ChatRoom;
 
   factory ChatRoom.fromJson(Map<String, dynamic> json) =>
       _$ChatRoomFromJson(json);
+}
+
+@freezed
+class Participant with _$Participant {
+  const factory Participant({
+    @JsonKey(name: 'userId') required int userId,
+    @JsonKey(name: 'username') required String username,
+    @JsonKey(name: 'name') required String name,
+    @JsonKey(name: 'profileImage') required String? profileImage,
+  }) = _Participant;
+
+  factory Participant.fromJson(Map<String, dynamic> json) =>
+      _$ParticipantFromJson(json);
 }

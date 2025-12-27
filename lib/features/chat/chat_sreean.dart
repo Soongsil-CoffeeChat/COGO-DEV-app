@@ -137,13 +137,13 @@ class _ChatRoomTile extends StatelessWidget {
       },
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       leading: _CircleAvatarPlaceholder(
-        imageUrl: room.otherPartyProfileImage,
+        imageUrl: room.participants.first.profileImage,
       ),
       title: Row(
         children: [
           Expanded(
             child: Text(
-              room.lastChat ?? '',
+              room.participants.first.name ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.titleMedium
@@ -168,7 +168,7 @@ class _ChatRoomTile extends StatelessWidget {
           style: theme.textTheme.bodyMedium,
         ),
       ),
-      trailing: const _UnreadBadge(count: 1), // 서버 unreadCount 생기면 교체
+      //trailing: const _UnreadBadge(count: 1), // 서버 unreadCount 생기면 교체
     );
   }
 }
@@ -182,7 +182,7 @@ class _CircleAvatarPlaceholder extends StatelessWidget {
     return ClipOval(
       child: NetworkImageWithFallback(
         url: imageUrl,
-        fallbackAsset: 'assets/icons/3d_img/empty.png',
+        fallbackAsset: 'assets/image/empty_chat_img.svg',
         width: 44,
         height: 44,
         fit: BoxFit.cover,
@@ -190,7 +190,7 @@ class _CircleAvatarPlaceholder extends StatelessWidget {
     );
   }
 }
-
+/*
 class _UnreadBadge extends StatelessWidget {
   const _UnreadBadge({required this.count});
   final int count;
@@ -214,5 +214,6 @@ class _UnreadBadge extends StatelessWidget {
     );
   }
 }
+*/
 
 String _formatKoreanDate(DateTime dt) => '${dt.month}월 ${dt.day}일';

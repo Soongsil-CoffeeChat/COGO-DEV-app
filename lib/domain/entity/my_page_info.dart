@@ -1,4 +1,4 @@
-import 'package:cogo/data/dto/response/user/my_info_response.dart';
+import 'package:cogo/data/dto/response/user/user_info_response.dart';
 
 class MyPageInfo {
   final String name;
@@ -15,7 +15,7 @@ class MyPageInfo {
     required this.role,
   });
 
-  factory MyPageInfo.fromResponse(MyInfoResponse response) {
+  factory MyPageInfo.fromResponse(UserInfoResponse response) {
     List<String> tags = [];
     if (response.part?.isNotEmpty ?? false) {
       tags.add(response.part!);
