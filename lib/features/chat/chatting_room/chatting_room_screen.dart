@@ -61,7 +61,9 @@ class ChattingRoomScreen extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.more_vert, color: Colors.black),
-              onPressed: () {},
+              onPressed: () {
+                context.push(Paths.report);
+              },
             ),
           ],
         ),
