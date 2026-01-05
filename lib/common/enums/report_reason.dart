@@ -14,9 +14,9 @@ enum ApplicationRejectReason {
       case ApplicationRejectReason.FALSE_INFORMATION:
         return '멘토의 소속 및 인적사항이 거짓인 것 같아요';
       case ApplicationRejectReason.ABUSIVE_LANGUAGE:
-        return '기타 부적절한 행위가 있었어요';
+        return '심한 욕설이나 비속어를 사용했어요';
       case ApplicationRejectReason.OTHER:
-        return '신고 세부 내용';
+        return '기타 부적절한 행위가 있었어요';
     }
   }
 
