@@ -39,7 +39,7 @@ class ReportScreen extends StatelessWidget {
                   children: [
                     ListTile(
                       title: const Text(
-                        '멘토링의 목적을 가지고 멘토가 만난것 같지 않아요',
+                        '멘토링이 아닌 다른 목적이 있는 것 같아요',
                         style: CogoTextStyle.body16,
                       ),
                       trailing: const Icon(Icons.chevron_right),
@@ -69,6 +69,14 @@ class ReportScreen extends StatelessWidget {
                         context.push(Paths.reportDetail);
                       },
                     ),
+                    const Divider(height: 1, color: CogoColor.systemGray02),
+                    ListTile(
+                        title: const Text('심한 욕설이나 비속어를 사용했어요',
+                            style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () {
+                          context.push(Paths.reportDetail);
+                        }),
                     const Divider(height: 1, color: CogoColor.systemGray02),
                     ListTile(
                         title: const Text('기타 부적절한 행위가 있었어요',
