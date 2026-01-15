@@ -23,220 +23,265 @@ class ChattingRoomScreen extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => ChattingRoomViewModel(ChatService(), room),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-          surfaceTintColor: Colors.transparent,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
-          ),
-          title: Consumer<ChattingRoomViewModel>(
-            builder: (context, viewModel, child) {
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Text(
-                    room.participants.first.name,
-                    style: CogoTextStyle.bodySB20,
-                  ),
-                  const SizedBox(width: 5),
-                  Transform.translate(
-                    offset: const Offset(0, 1),
-                    child: Text(
-                      viewModel.role == Role.ROLE_MENTOR.name ? '멘토님' : '멘티님',
-                      style: CogoTextStyle.body16,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.more_vert, color: Colors.black),
-              onPressed: () {
-                context.push(Paths.report);
-              },
-            ),
-          ],
-        ),
-        body: Consumer<ChattingRoomViewModel>(
-          builder: (context, viewModel, _) {
-            return Column(
-              children: [
-                /// 코고 정보
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  color: Colors.white,
-                  child: Row(
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              scrolledUnderElevation: 0,
+              surfaceTintColor: Colors.transparent,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+                onPressed: () => Navigator.pop(context),
+              ),
+              title: Consumer<ChattingRoomViewModel>(
+                builder: (context, viewModel, child) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '코고 일정',
-                              style: CogoTextStyle.body16,
-                              maxLines: 1,
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              '${viewModel.formattedDate} 커피나무 숭실대점 ${viewModel.formattedTime}',
-                              style: CogoTextStyle.bodyR12
-                                  .copyWith(color: CogoColor.systemGray04),
-                            ),
-                          ],
+                      Text(
+                        room.participants.first.name,
+                        style: CogoTextStyle.bodySB20,
+                      ),
+                      const SizedBox(width: 5),
+                      Transform.translate(
+                        offset: const Offset(0, 1),
+                        child: Text(
+                          viewModel.role == Role.ROLE_MENTOR.name ? '멘토님' : '멘티님',
+                          style: CogoTextStyle.body16,
                         ),
                       ),
-
-                      /// 보러가기 버튼
-                      GestureDetector(
-                        onTap: () {
-                          context.push(
-                            Paths.matchedCogoDetail,
-                            extra: {
-                              'applicationId': viewModel.applicationId,
-                              'otherPartyName': room.participants.first.name,
-                            },
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            viewModel.role == Role.ROLE_MENTOR.name
-                                ? '받은 코고 보러가기'
-                                : '보낸 코고 보러가기',
-                            style: CogoTextStyle.body12
-                                .copyWith(color: CogoColor.white50),
-                          ),
-                        ),
-                      )
                     ],
-                  ),
-                ),
+                  );
+                },
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.more_vert, color: Colors.black),
+                  onPressed: () {
+                    // [수정] 이제 Builder의 context를 사용하므로 Provider를 찾을 수 있습니다.
+                    final viewModel = context.read<ChattingRoomViewModel>();
 
-                const Divider(
-                    height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
-
-                /// 메시지 목록
-                if (viewModel.isLoading)
-                  const Expanded(
-                    child: Center(child: CircularProgressIndicator()),
-                  )
-                else
-                  Expanded(
-                    child: ListView.builder(
-                      reverse: false,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 16,
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: CogoColor.white50,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
                       ),
-                      itemCount: viewModel.messages.length + 1,
-                      itemBuilder: (context, index) {
-                        /// 최상단 경고 문구
-                        if (index == 0) {
-                          return Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(bottom: 16),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 7),
-                            decoration: BoxDecoration(
-                              color: CogoColor.systemGray01,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              '부적절한 표현이나 비속어 사용 시 신고 및 이용 제한이 있을 수 있습니다.',
-                              style: CogoTextStyle.body12
-                                  .copyWith(color: CogoColor.systemGray03),
-                              textAlign: TextAlign.center,
-                            ),
-                          );
-                        }
-
-                        /// 메시지 로직
-                        final msgIndex = index - 1;
-                        final msg = viewModel.messages[msgIndex];
-
-                        // 이 메시지가 새 날짜의 시작인지 확인
-                        final bool showDateHeader =
-                            viewModel.isNewDate(msgIndex);
-
-                        return Column(
-                          children: [
-                            if (showDateHeader)
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(bottom: 16, top: 8),
-                                child: Center(
-                                  child: Text(
-                                    viewModel.getDateHeader(msgIndex),
-                                    style: CogoTextStyle.body12.copyWith(
-                                        color: CogoColor.systemGray03),
-                                  ),
-                                ),
-                              ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: msg.isMe
-                                  ? ReceiverMessage(
-                                      text: msg.text,
-                                      time: msg.time,
-                                      isRead: msg.isRead,
-                                    )
-                                  : SenderMessage(
-                                      text: msg.text,
-                                      time: msg.time,
-                                      profileUrl: msg.profileUrl ?? '',
-                                    ),
-                            ),
-                          ],
-                        );
+                      builder: (BuildContext context) {
+                        return _buildBottomSheetContent(context, viewModel);
                       },
-                    ),
-                  ),
-
-                /// 입력창
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 0,
-                    vertical: 0,
-                  ),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      top: BorderSide(color: Color(0xFFEEEEEE), width: 1),
-                    ),
-                  ),
-                  child: ChatInputBar(
-                    controller: _controller,
-                    onTapPlus: () {
-                      //TODO 플러스 버튼 동작(파일 첨부, 사진 등)
-                    },
-                    onSend: (text) {
-                      context.read<ChattingRoomViewModel>().sendMessage(text);
-                    },
-                  ),
+                    );
+                  },
                 ),
               ],
-            );
-          },
-        ),
+            ),
+            body: Consumer<ChattingRoomViewModel>(
+              builder: (context, viewModel, _) {
+                return Column(
+                  children: [
+                    /// 코고 정보
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  '코고 일정',
+                                  style: CogoTextStyle.body16,
+                                  maxLines: 1,
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  '${viewModel.formattedDate} 커피나무 숭실대점 ${viewModel.formattedTime}',
+                                  style: CogoTextStyle.bodyR12
+                                      .copyWith(color: CogoColor.systemGray04),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          /// 보러가기 버튼
+                          GestureDetector(
+                            onTap: () {
+                              context.push(
+                                Paths.matchedCogoDetail,
+                                extra: {
+                                  'applicationId': viewModel.applicationId,
+                                  'otherPartyName':
+                                  room.participants.first.name,
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                viewModel.role == Role.ROLE_MENTOR.name
+                                    ? '받은 코고 보러가기'
+                                    : '보낸 코고 보러가기',
+                                style: CogoTextStyle.body12
+                                    .copyWith(color: CogoColor.white50),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+
+                    const Divider(
+                        height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+
+                    /// 메시지 목록
+                    if (viewModel.isLoading)
+                      const Expanded(
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    else
+                      Expanded(
+                        child: ListView.builder(
+                          reverse: false,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 16,
+                          ),
+                          itemCount: viewModel.messages.length + 1,
+                          itemBuilder: (context, index) {
+                            /// 최상단 경고 문구
+                            if (index == 0) {
+                              return Container(
+                                width: double.infinity,
+                                margin: const EdgeInsets.only(bottom: 16),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 7),
+                                decoration: BoxDecoration(
+                                  color: CogoColor.systemGray01,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  '부적절한 표현이나 비속어 사용 시 신고 및 이용 제한이 있을 수 있습니다.',
+                                  style: CogoTextStyle.body12
+                                      .copyWith(color: CogoColor.systemGray03),
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            }
+
+                            /// 메시지 로직
+                            final msgIndex = index - 1;
+                            final msg = viewModel.messages[msgIndex];
+
+                            // 이 메시지가 새 날짜의 시작인지 확인
+                            final bool showDateHeader =
+                            viewModel.isNewDate(msgIndex);
+
+                            return Column(
+                              children: [
+                                if (showDateHeader)
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 16, top: 8),
+                                    child: Center(
+                                      child: Text(
+                                        viewModel.getDateHeader(msgIndex),
+                                        style: CogoTextStyle.body12.copyWith(
+                                            color: CogoColor.systemGray03),
+                                      ),
+                                    ),
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: msg.isMe
+                                      ? ReceiverMessage(
+                                    text: msg.text,
+                                    time: msg.time,
+                                    isRead: msg.isRead,
+                                  )
+                                      : SenderMessage(
+                                    text: msg.text,
+                                    time: msg.time,
+                                    profileUrl: msg.profileUrl ?? '',
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+
+                    /// 입력창
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 0,
+                        vertical: 0,
+                      ),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          top: BorderSide(color: Color(0xFFEEEEEE), width: 1),
+                        ),
+                      ),
+                      child: ChatInputBar(
+                        controller: _controller,
+                        onTapPlus: () {
+                          //TODO 플러스 버튼 동작(파일 첨부, 사진 등)
+                        },
+                        onSend: (text) {
+                          // 여기는 Builder 내부이므로 context.read 가능
+                          context
+                              .read<ChattingRoomViewModel>()
+                              .sendMessage(text);
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }
+
+  Widget _buildBottomSheetContent(BuildContext context, ChattingRoomViewModel viewModel) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.flag),
+            title: const Text(
+              '신고하기',
+              style: CogoTextStyle.body16,
+            ),
+            onTap: () {
+              viewModel.report(context);
+              // 설정 메뉴 선택
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+
 }
