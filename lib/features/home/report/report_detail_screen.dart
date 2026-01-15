@@ -10,9 +10,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ReportDetailScreen extends StatelessWidget {
+  final int reporterId;
+  final int reportedUserId;
   final ReportReason reason;
+
   const ReportDetailScreen({
     super.key,
+    required this.reporterId,
+    required this.reportedUserId,
     required this.reason,
   });
   @override

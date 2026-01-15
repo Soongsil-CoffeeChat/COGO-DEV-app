@@ -15,6 +15,9 @@ class ProfileDetailViewModel extends ChangeNotifier {
   final MentorService _mentorService = MentorService();
   String? role;
 
+  int? currentUserId;
+  int? reportedUserId;
+
   ProfileDetailViewModel(int mentorId) {
     _loadData();
     fetchMentorDetail(mentorId);
@@ -22,6 +25,7 @@ class ProfileDetailViewModel extends ChangeNotifier {
 
   Future<void> _loadData() async {
     role = await _secureStorage.readRole();
+    currentUserId = await _secureStorage.getUserId();
 
     ///TODO 롤 잘 안물림 이슈
     log("롤은요 : $role");
@@ -31,6 +35,8 @@ class ProfileDetailViewModel extends ChangeNotifier {
   Future<void> fetchMentorDetail(int mentorId) async {
     try {
       final response = await _mentorService.getMentorDetail(mentorId);
+      //TODO 실제 멘토의 유저 아이디로 변경
+      reportedUserId = response.mentorId;
 
       profile = MentorDetailEntity.fromResponse(response);
     } catch (error) {
@@ -45,6 +51,16 @@ class ProfileDetailViewModel extends ChangeNotifier {
     context.push(
       Paths.schedule,
       extra: {'mentorId': mentorId},
+    );
+  }
+
+  void report(BuildContext context){
+    context.push(
+      Paths.report,
+      extra: {
+      'reporterId': currentUserId,
+      'reportedUserId': reportedUserId,
+    },
     );
   }
 }

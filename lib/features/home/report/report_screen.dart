@@ -7,7 +7,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class ReportScreen extends StatelessWidget {
-  const ReportScreen({super.key});
+  final int reporterId;
+  final int reportedUserId;
+
+  const ReportScreen({
+    super.key,
+    required this.reporterId,
+    required this.reportedUserId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +49,11 @@ class ReportScreen extends StatelessWidget {
               onTap: () {
                 context.push(
                   Paths.reportDetail,
-                  extra: reason,
+                  extra: {
+                    'reason': reason,
+                    'reporterId': reporterId,
+                    'reportedUserId': reportedUserId,
+                  },
                 );
               },
             );

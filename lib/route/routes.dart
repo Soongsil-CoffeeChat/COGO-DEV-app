@@ -301,18 +301,22 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.report,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ReportScreen(),
-      ),
+      builder: (context, state) {
+        final args = state.extra as Map<String, dynamic>;
+        return ReportScreen(
+          reporterId: args['reporterId'],
+          reportedUserId: args['reportedUserId'],
+        );
+      },
     ),
     GoRoute(
       path: Paths.reportDetail,
-      pageBuilder: (context, state) {
-        final reason = state.extra as ReportReason;
-        return MaterialPage(
-          key: state.pageKey,
-          child: ReportDetailScreen(reason: reason),
+      builder: (context, state) {
+        final args = state.extra as Map<String, dynamic>;
+        return ReportDetailScreen(
+          reporterId: args['reporterId'],
+          reportedUserId: args['reportedUserId'],
+          reason: args['reason'],
         );
       },
     ),
