@@ -56,11 +56,21 @@ android {
         versionName = flutterVersionName
     }
 
+    configurations.all {
+        resolutionStrategy {
+            eachDependency { details ->
+                // 문제가 되는 activity 라이브러리를 안전한 버전(1.9.3)으로 강제 고정
+                if (details.requested.group == 'androidx.activity') {
+                    details.useVersion "1.9.3"
+                }
+            }
+        }
+    }
+
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
+            keyAlias keystoreProperties['keyAlias']/            keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }

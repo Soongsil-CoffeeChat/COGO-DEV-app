@@ -1,3 +1,11 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -30,11 +38,20 @@ android {
         versionName = flutter.versionName
     }
 
-    buildTypes {
+    signingConfigs {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            create("release"){
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
+    buildType{
+        getByName("release") { // "release" buildType을 가져옴
+            signingConfig = signingConfigs.getByName("release") // 위에서 정의한 signingConfig를 연결
         }
     }
 }
