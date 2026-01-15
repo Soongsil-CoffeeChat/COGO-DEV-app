@@ -9,8 +9,7 @@ class ReportService {
   static const apiVersion = "api/v2/";
 
   /// 사용자 리포트 등록하기
-  Future<bool> postReportUser(int reporterId, int reportedUserId, String reason,
-      String introductionAnswer2, String additionalDetails) async {
+  Future<bool> postReportUser(int reporterId, int reportedUserId, String reason, String additionalDetails) async {
     try {
       final response = await _apiClient.dio.post(
         apiVersion + Apis.report,
@@ -18,6 +17,7 @@ class ReportService {
           'reporterId': reporterId,
           'reportedUserId': reportedUserId,
           'reason': reason,
+          "otherReason": "string",
           'additionalDetails': additionalDetails,
         },
         options: Options(),

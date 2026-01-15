@@ -23,7 +23,7 @@ class ReportDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ReportViewModel(reason: reason),
+      create: (context) => ReportViewModel(reporterId: reporterId, reportedUserId: reportedUserId, reason: reason),
       child: Scaffold(
         backgroundColor: CogoColor.white50,
         resizeToAvoidBottomInset: true,
@@ -86,10 +86,30 @@ class ReportDetailScreen extends StatelessWidget {
                               BasicButton(
                                   text: '신고',
                                   isClickable: true,
-                                  onPressed: () => {
-                                        viewModel.postReport,
-                                        Navigator.of(context).pop(),
-                                      }),
+                                onPressed: () async {
+                                  final isSuccess = await viewModel.postReport();
+
+                                  if (!context.mounted) return;
+
+                                  if (isSuccess) {
+                                    // 성공 시 토스트(SnackBar) 출력
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('신고가 접수되었습니다.'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                    Navigator.of(context).pop();
+                                  } else {
+                                    // 실패 시 안내 
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('신고 접수에 실패했습니다. 다시 시도해주세요.'),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
                             ],
                           ),
                         ),
