@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/report_reason.dart';
 import 'package:cogo/common/navigator/bottom_navigation_bar.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
@@ -307,10 +308,13 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.reportDetail,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ReportDetailScreen(),
-      ),
+      pageBuilder: (context, state) {
+        final reason = state.extra as ReportReason;
+        return MaterialPage(
+          key: state.pageKey,
+          child: ReportDetailScreen(reason: reason),
+        );
+      },
     ),
     GoRoute(
       path: Paths.image,

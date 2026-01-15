@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/report_reason.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/basic_textfield.dart';
@@ -9,12 +10,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ReportDetailScreen extends StatelessWidget {
-  const ReportDetailScreen({super.key});
-
+  final ReportReason reason;
+  const ReportDetailScreen({
+    super.key,
+    required this.reason,
+  });
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ReportViewModel(),
+      create: (context) => ReportViewModel(reason: reason),
       child: Scaffold(
         backgroundColor: CogoColor.white50,
         resizeToAvoidBottomInset: true,
@@ -73,7 +77,7 @@ class ReportDetailScreen extends StatelessWidget {
                                 text: '취소',
                                 onPressed: () => Navigator.of(context).pop(),
                               ),
-                              const SizedBox(width: 16), // 버튼들 사이에 간격 추가
+                              const SizedBox(width: 16),
                               BasicButton(
                                   text: '신고',
                                   isClickable: true,
