@@ -38,7 +38,6 @@ class ProfileDetailScreen extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    // [수정] Builder 덕분에 context.read로 ViewModel 접근 가능
                     final viewModel = context.read<ProfileDetailViewModel>();
 
                     showModalBottomSheet(

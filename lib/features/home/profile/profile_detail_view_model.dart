@@ -35,8 +35,7 @@ class ProfileDetailViewModel extends ChangeNotifier {
   Future<void> fetchMentorDetail(int mentorId) async {
     try {
       final response = await _mentorService.getMentorDetail(mentorId);
-      //TODO 실제 멘토의 유저 아이디로 변경
-      reportedUserId = response.mentorId;
+      reportedUserId = response.userId;
 
       profile = MentorDetailEntity.fromResponse(response);
     } catch (error) {
