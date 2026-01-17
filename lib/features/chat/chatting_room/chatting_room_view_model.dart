@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/data/service/stomp_service.dart';
 import 'package:flutter/material.dart'; // Cupertino보다 Material 권장 (ViewModel에서는 Foundation이나 Material)
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class ChattingRoomViewModel extends ChangeNotifier {
@@ -26,6 +28,9 @@ class ChattingRoomViewModel extends ChangeNotifier {
   String? cogoDate;
   String? cogoTime;
   int? applicationId;
+
+  int? myId;
+  int? reportedUserId;
 
   // ===========================================================================
   // 2. Constructor & Initialization
@@ -76,11 +81,24 @@ class ChattingRoomViewModel extends ChangeNotifier {
       int roomId = room.roomId;
       String? profileUrl;
 
+      myId = await _secureStorage.getUserId();
+
+      if (room.participants.isNotEmpty && myId != null) {
+        try {
+          final otherParticipant = room.participants.firstWhere(
+                  (p) => p.userId != myId,
+              orElse: () => room.participants.first
+          );
+          reportedUserId = otherParticipant.userId;
+          log("상대방 ID(reportedUserId) 설정 완료: $reportedUserId");
+        } catch (e) {
+          log("상대방 ID 설정 실패: $e");
+        }
+      }
+
       if (room.participants.isNotEmpty) {
         profileUrl = room.participants.first.profileImage;
       }
-
-      final myId = await _secureStorage.getUserId();
 
       // 1. 이전 메시지 로드 (API)
       final page = await _service.getChattingMessages(
@@ -174,6 +192,16 @@ class ChattingRoomViewModel extends ChangeNotifier {
       messages.remove(newMessage);
       notifyListeners();
     }
+  }
+
+  void report(BuildContext context){
+    context.push(
+      Paths.report,
+      extra: {
+        'reporterId': myId,
+        'reportedUserId': reportedUserId,
+      },
+    );
   }
 
   // ===========================================================================

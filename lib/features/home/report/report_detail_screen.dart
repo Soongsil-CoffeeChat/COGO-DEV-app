@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/report_reason.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/basic_textfield.dart';
@@ -9,12 +10,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ReportDetailScreen extends StatelessWidget {
-  const ReportDetailScreen({super.key});
+  final int reporterId;
+  final int reportedUserId;
+  final ReportReason reason;
 
+  const ReportDetailScreen({
+    super.key,
+    required this.reporterId,
+    required this.reportedUserId,
+    required this.reason,
+  });
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ReportViewModel(),
+      create: (context) => ReportViewModel(reporterId: reporterId, reportedUserId: reportedUserId, reason: reason),
       child: Scaffold(
         backgroundColor: CogoColor.white50,
         resizeToAvoidBottomInset: true,
@@ -73,14 +82,34 @@ class ReportDetailScreen extends StatelessWidget {
                                 text: '취소',
                                 onPressed: () => Navigator.of(context).pop(),
                               ),
-                              const SizedBox(width: 16), // 버튼들 사이에 간격 추가
+                              const SizedBox(width: 16),
                               BasicButton(
                                   text: '신고',
                                   isClickable: true,
-                                  onPressed: () => {
-                                        viewModel.postReport,
-                                        Navigator.of(context).pop(),
-                                      }),
+                                onPressed: () async {
+                                  final isSuccess = await viewModel.postReport();
+
+                                  if (!context.mounted) return;
+
+                                  if (isSuccess) {
+                                    // 성공 시 토스트(SnackBar) 출력
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('신고가 접수되었습니다.'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                    Navigator.of(context).pop();
+                                  } else {
+                                    // 실패 시 안내
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('신고 접수에 실패했습니다. 다시 시도해주세요.'),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
                             ],
                           ),
                         ),

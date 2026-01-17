@@ -38,4 +38,7 @@ abstract class Apis {
   /// 채팅 관련 api
   static const String chat = "chat/rooms";
   static const String connectedApplication = "chat/chatRoom/application/";
+
+  /// 신고 관련 api
+  static const String report = "report";
 }
