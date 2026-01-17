@@ -9,6 +9,7 @@ part of 'mentor_detail_response.dart';
 _$MentorDetailResponseImpl _$$MentorDetailResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$MentorDetailResponseImpl(
+      userId: (json['userId'] as num).toInt(),
       mentorId: (json['mentorId'] as num).toInt(),
       mentorName: json['mentorName'] as String?,
       part: json['part'] as String?,
@@ -23,6 +24,7 @@ _$MentorDetailResponseImpl _$$MentorDetailResponseImplFromJson(
 Map<String, dynamic> _$$MentorDetailResponseImplToJson(
         _$MentorDetailResponseImpl instance) =>
     <String, dynamic>{
+      'userId': instance.userId,
       'mentorId': instance.mentorId,
       'mentorName': instance.mentorName,
       'part': instance.part,

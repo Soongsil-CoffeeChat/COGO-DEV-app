@@ -6,6 +6,7 @@ part 'mentor_detail_response.g.dart';
 @freezed
 class MentorDetailResponse with _$MentorDetailResponse {
   const factory MentorDetailResponse({
+    required int userId,
     required int mentorId,
     String? mentorName,
     String? part,

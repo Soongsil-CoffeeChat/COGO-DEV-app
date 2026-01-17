@@ -20,6 +20,7 @@ MentorDetailResponse _$MentorDetailResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MentorDetailResponse {
+  int get userId => throw _privateConstructorUsedError;
   int get mentorId => throw _privateConstructorUsedError;
   String? get mentorName => throw _privateConstructorUsedError;
   String? get part => throw _privateConstructorUsedError;
@@ -47,7 +48,8 @@ abstract class $MentorDetailResponseCopyWith<$Res> {
       _$MentorDetailResponseCopyWithImpl<$Res, MentorDetailResponse>;
   @useResult
   $Res call(
-      {int mentorId,
+      {int userId,
+      int mentorId,
       String? mentorName,
       String? part,
       String? club,
@@ -74,6 +76,7 @@ class _$MentorDetailResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userId = null,
     Object? mentorId = null,
     Object? mentorName = freezed,
     Object? part = freezed,
@@ -85,6 +88,10 @@ class _$MentorDetailResponseCopyWithImpl<$Res,
     Object? imageUrl = freezed,
   }) {
     return _then(_value.copyWith(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
       mentorId: null == mentorId
           ? _value.mentorId
           : mentorId // ignore: cast_nullable_to_non_nullable
@@ -134,7 +141,8 @@ abstract class _$$MentorDetailResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int mentorId,
+      {int userId,
+      int mentorId,
       String? mentorName,
       String? part,
       String? club,
@@ -158,6 +166,7 @@ class __$$MentorDetailResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userId = null,
     Object? mentorId = null,
     Object? mentorName = freezed,
     Object? part = freezed,
@@ -169,6 +178,10 @@ class __$$MentorDetailResponseImplCopyWithImpl<$Res>
     Object? imageUrl = freezed,
   }) {
     return _then(_$MentorDetailResponseImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
       mentorId: null == mentorId
           ? _value.mentorId
           : mentorId // ignore: cast_nullable_to_non_nullable
@@ -213,7 +226,8 @@ class __$$MentorDetailResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MentorDetailResponseImpl implements _MentorDetailResponse {
   const _$MentorDetailResponseImpl(
-      {required this.mentorId,
+      {required this.userId,
+      required this.mentorId,
       this.mentorName,
       this.part,
       this.club,
@@ -226,6 +240,8 @@ class _$MentorDetailResponseImpl implements _MentorDetailResponse {
   factory _$MentorDetailResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$MentorDetailResponseImplFromJson(json);
 
+  @override
+  final int userId;
   @override
   final int mentorId;
   @override
@@ -247,7 +263,7 @@ class _$MentorDetailResponseImpl implements _MentorDetailResponse {
 
   @override
   String toString() {
-    return 'MentorDetailResponse(mentorId: $mentorId, mentorName: $mentorName, part: $part, club: $club, introductionTitle: $introductionTitle, introductionDescription: $introductionDescription, introductionAnswer1: $introductionAnswer1, introductionAnswer2: $introductionAnswer2, imageUrl: $imageUrl)';
+    return 'MentorDetailResponse(userId: $userId, mentorId: $mentorId, mentorName: $mentorName, part: $part, club: $club, introductionTitle: $introductionTitle, introductionDescription: $introductionDescription, introductionAnswer1: $introductionAnswer1, introductionAnswer2: $introductionAnswer2, imageUrl: $imageUrl)';
   }
 
   @override
@@ -255,6 +271,7 @@ class _$MentorDetailResponseImpl implements _MentorDetailResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MentorDetailResponseImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.mentorId, mentorId) ||
                 other.mentorId == mentorId) &&
             (identical(other.mentorName, mentorName) ||
@@ -278,6 +295,7 @@ class _$MentorDetailResponseImpl implements _MentorDetailResponse {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      userId,
       mentorId,
       mentorName,
       part,
@@ -308,7 +326,8 @@ class _$MentorDetailResponseImpl implements _MentorDetailResponse {
 
 abstract class _MentorDetailResponse implements MentorDetailResponse {
   const factory _MentorDetailResponse(
-      {required final int mentorId,
+      {required final int userId,
+      required final int mentorId,
       final String? mentorName,
       final String? part,
       final String? club,
@@ -321,6 +340,8 @@ abstract class _MentorDetailResponse implements MentorDetailResponse {
   factory _MentorDetailResponse.fromJson(Map<String, dynamic> json) =
       _$MentorDetailResponseImpl.fromJson;
 
+  @override
+  int get userId;
   @override
   int get mentorId;
   @override
