@@ -101,7 +101,7 @@ class ReportDetailScreen extends StatelessWidget {
                                     );
                                     Navigator.of(context).pop();
                                   } else {
-                                    // 실패 시 안내 
+                                    // 실패 시 안내
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text('신고 접수에 실패했습니다. 다시 시도해주세요.'),

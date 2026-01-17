@@ -17,7 +17,6 @@ class ReportService {
           'reporterId': reporterId,
           'reportedUserId': reportedUserId,
           'reason': reason,
-          "otherReason": "string",
           'additionalDetails': additionalDetails,
         },
         options: Options(),
