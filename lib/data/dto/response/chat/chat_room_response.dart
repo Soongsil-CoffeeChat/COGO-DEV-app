@@ -34,6 +34,7 @@ class ChatRoom with _$ChatRoom {
 @freezed
 class Participant with _$Participant {
   const factory Participant({
+    @JsonKey(name: 'isDeleted') required bool isDeleted,
     @JsonKey(name: 'userId') required int userId,
     @JsonKey(name: 'username') required String username,
     @JsonKey(name: 'name') required String name,

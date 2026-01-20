@@ -50,6 +50,7 @@ Map<String, dynamic> _$$ChatRoomImplToJson(_$ChatRoomImpl instance) =>
 
 _$ParticipantImpl _$$ParticipantImplFromJson(Map<String, dynamic> json) =>
     _$ParticipantImpl(
+      isDeleted: json['isDeleted'] as bool,
       userId: (json['userId'] as num).toInt(),
       username: json['username'] as String,
       name: json['name'] as String,
@@ -58,6 +59,7 @@ _$ParticipantImpl _$$ParticipantImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ParticipantImplToJson(_$ParticipantImpl instance) =>
     <String, dynamic>{
+      'isDeleted': instance.isDeleted,
       'userId': instance.userId,
       'username': instance.username,
       'name': instance.name,

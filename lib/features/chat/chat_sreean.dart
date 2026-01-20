@@ -143,7 +143,9 @@ class _ChatRoomTile extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              room.participants.first.name ?? '',
+              room.participants.first.isDeleted
+                  ? (room.participants.first.name ?? '')
+                  : '(알 수 없음)',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.titleMedium

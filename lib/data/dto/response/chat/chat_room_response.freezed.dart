@@ -547,6 +547,8 @@ Participant _$ParticipantFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Participant {
+  @JsonKey(name: 'isDeleted')
+  bool get isDeleted => throw _privateConstructorUsedError;
   @JsonKey(name: 'userId')
   int get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'username')
@@ -573,7 +575,8 @@ abstract class $ParticipantCopyWith<$Res> {
       _$ParticipantCopyWithImpl<$Res, Participant>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'userId') int userId,
+      {@JsonKey(name: 'isDeleted') bool isDeleted,
+      @JsonKey(name: 'userId') int userId,
       @JsonKey(name: 'username') String username,
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'profileImage') String? profileImage});
@@ -594,12 +597,17 @@ class _$ParticipantCopyWithImpl<$Res, $Val extends Participant>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isDeleted = null,
     Object? userId = null,
     Object? username = null,
     Object? name = null,
     Object? profileImage = freezed,
   }) {
     return _then(_value.copyWith(
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -629,7 +637,8 @@ abstract class _$$ParticipantImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'userId') int userId,
+      {@JsonKey(name: 'isDeleted') bool isDeleted,
+      @JsonKey(name: 'userId') int userId,
       @JsonKey(name: 'username') String username,
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'profileImage') String? profileImage});
@@ -648,12 +657,17 @@ class __$$ParticipantImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isDeleted = null,
     Object? userId = null,
     Object? username = null,
     Object? name = null,
     Object? profileImage = freezed,
   }) {
     return _then(_$ParticipantImpl(
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -678,7 +692,8 @@ class __$$ParticipantImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ParticipantImpl implements _Participant {
   const _$ParticipantImpl(
-      {@JsonKey(name: 'userId') required this.userId,
+      {@JsonKey(name: 'isDeleted') required this.isDeleted,
+      @JsonKey(name: 'userId') required this.userId,
       @JsonKey(name: 'username') required this.username,
       @JsonKey(name: 'name') required this.name,
       @JsonKey(name: 'profileImage') required this.profileImage});
@@ -686,6 +701,9 @@ class _$ParticipantImpl implements _Participant {
   factory _$ParticipantImpl.fromJson(Map<String, dynamic> json) =>
       _$$ParticipantImplFromJson(json);
 
+  @override
+  @JsonKey(name: 'isDeleted')
+  final bool isDeleted;
   @override
   @JsonKey(name: 'userId')
   final int userId;
@@ -701,7 +719,7 @@ class _$ParticipantImpl implements _Participant {
 
   @override
   String toString() {
-    return 'Participant(userId: $userId, username: $username, name: $name, profileImage: $profileImage)';
+    return 'Participant(isDeleted: $isDeleted, userId: $userId, username: $username, name: $name, profileImage: $profileImage)';
   }
 
   @override
@@ -709,6 +727,8 @@ class _$ParticipantImpl implements _Participant {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParticipantImpl &&
+            (identical(other.isDeleted, isDeleted) ||
+                other.isDeleted == isDeleted) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.username, username) ||
                 other.username == username) &&
@@ -720,7 +740,7 @@ class _$ParticipantImpl implements _Participant {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, userId, username, name, profileImage);
+      Object.hash(runtimeType, isDeleted, userId, username, name, profileImage);
 
   /// Create a copy of Participant
   /// with the given fields replaced by the non-null parameter values.
@@ -740,7 +760,8 @@ class _$ParticipantImpl implements _Participant {
 
 abstract class _Participant implements Participant {
   const factory _Participant(
-          {@JsonKey(name: 'userId') required final int userId,
+          {@JsonKey(name: 'isDeleted') required final bool isDeleted,
+          @JsonKey(name: 'userId') required final int userId,
           @JsonKey(name: 'username') required final String username,
           @JsonKey(name: 'name') required final String name,
           @JsonKey(name: 'profileImage') required final String? profileImage}) =
@@ -749,6 +770,9 @@ abstract class _Participant implements Participant {
   factory _Participant.fromJson(Map<String, dynamic> json) =
       _$ParticipantImpl.fromJson;
 
+  @override
+  @JsonKey(name: 'isDeleted')
+  bool get isDeleted;
   @override
   @JsonKey(name: 'userId')
   int get userId;
