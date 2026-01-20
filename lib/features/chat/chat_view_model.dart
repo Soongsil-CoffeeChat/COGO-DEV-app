@@ -4,13 +4,14 @@ import 'dart:developer';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
+import 'package:get_it/get_it.dart';
 
 class ChatViewModel extends ChangeNotifier {
-  ChatViewModel(this._service) {
-    _loadChatRooms();
+  ChatViewModel() {
+    loadChatRooms();
   }
 
-  final ChatService _service;
+  final ChatService _service = GetIt.instance<ChatService>() ;
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -18,7 +19,7 @@ class ChatViewModel extends ChangeNotifier {
   List<ChatRoom> _rooms = [];
   List<ChatRoom> get rooms => _rooms;
 
-  Future<void> _loadChatRooms() async {
+  Future<void> loadChatRooms() async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -34,6 +35,6 @@ class ChatViewModel extends ChangeNotifier {
   }
 
   Future<void> refreshChatRooms() async {
-    await _loadChatRooms();
+    await loadChatRooms();
   }
 }

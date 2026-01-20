@@ -40,6 +40,10 @@ class BottomNavigationViewModel extends ChangeNotifier {
   void setIndex(int index, BuildContext context) {
     if (index == 1 && role == Role.ROLE_MENTOR.name && shouldShowDialog) {
       _showMentorProfileDialog(context);
+      return;
+    }
+    if (_selectedIndex == index) {
+      _refreshTab(index, context);
     } else {
       _selectedIndex = index;
       notifyListeners(); // 인덱스 변경 알림
@@ -58,6 +62,25 @@ class BottomNavigationViewModel extends ChangeNotifier {
           context.go('/mypage');
           break;
       }
+    }
+  }
+
+  /// 각 탭의 ViewModel을 찾아 데이터를 새로고침하는 함수
+  void _refreshTab(int index, BuildContext context) {
+    switch (index) {
+      case 0:
+        Provider.of<HomeViewModel>(context, listen: false).loadPreferences();
+        Provider.of<HomeViewModel>(context, listen: false).fetchUserData();
+        break;
+      case 1:
+        Provider.of<CogoViewModel>(context, listen: false).getRole();
+        break;
+      case 2:
+        Provider.of<ChatViewModel>(context, listen: false).loadChatRooms();
+        break;
+      case 3:
+        Provider.of<MypageViewModel>(context, listen: false).initialize();
+        break;
     }
   }
 

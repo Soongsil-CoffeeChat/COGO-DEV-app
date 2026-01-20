@@ -11,6 +11,10 @@ import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/splash_view_model.dart';
 import 'package:cogo/route/routes.dart';
 
+import 'features/chat/chat_view_model.dart';
+import 'features/cogo/cogo_view_model.dart';
+import 'features/mypage/mypage_view_model.dart';
+
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
@@ -30,10 +34,15 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        // 앱 전역에서 사용할 뷰모델들을 여기서 생성합니다.
+        ChangeNotifierProvider(create: (_) => HomeViewModel()),
+        ChangeNotifierProvider(create: (_) => CogoViewModel()),
+        ChangeNotifierProvider(create: (_) => ChatViewModel()),
+        ChangeNotifierProvider(create: (_) => MypageViewModel()),
+
         ChangeNotifierProvider(
             create: (_) => BottomNavigationViewModel(AppRouter)),
         ChangeNotifierProvider(create: (_) => SplashViewModel()),
-        ChangeNotifierProvider(create: (_) => HomeViewModel()),
       ],
       child: const MyApp(),
     ),
