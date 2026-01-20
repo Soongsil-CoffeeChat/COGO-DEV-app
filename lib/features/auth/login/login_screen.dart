@@ -56,12 +56,12 @@ class LoginScreen extends StatelessWidget {
                       onTap: () async {
                         await viewModel.signInWithGoogle();
                         if (viewModel.loginStatus ==
-                                AccountStatus.NEW_ACCOUNT.name ||
-                            viewModel.loginStatus ==
-                                AccountStatus.RESTORED_ACCOUNT.name) {
+                                AccountStatus.NEW_ACCOUNT.name) {
                           context.push(Paths.agreement);
                         } else if (viewModel.loginStatus ==
-                            AccountStatus.EXISTING_ACCOUNT.name) {
+                            AccountStatus.EXISTING_ACCOUNT.name ||
+                            viewModel.loginStatus ==
+                                AccountStatus.RESTORED_ACCOUNT.name) {
                           context.push(Paths.home);
                         }
                       },
