@@ -69,8 +69,7 @@ class BottomNavigationViewModel extends ChangeNotifier {
   void _refreshTab(int index, BuildContext context) {
     switch (index) {
       case 0:
-        Provider.of<HomeViewModel>(context, listen: false).loadPreferences();
-        Provider.of<HomeViewModel>(context, listen: false).fetchUserData();
+        Provider.of<HomeViewModel>(context, listen: false).refreshHome();
         break;
       case 1:
         Provider.of<CogoViewModel>(context, listen: false).getRole();
