@@ -6,21 +6,21 @@ class CogoDecisionRequest {
   CogoDecisionRequest({
     required this.applicationId,
     required this.applicationStatus,
-    required this.reason,
+    this.reason,
   });
 
   factory CogoDecisionRequest.fromJson(Map<String, dynamic> json) {
     return CogoDecisionRequest(
-      applicationId: json['application_id'],
-      applicationStatus: json['application_status'],
+      applicationId: json['applicationId'],
+      applicationStatus: json['applicationStatus'],
       reason: json['reason'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'application_id': applicationId,
-      'application_status': applicationStatus,
+      'applicationId': applicationId,
+      'applicationStatus': applicationStatus,
       'reason': reason,
     };
   }

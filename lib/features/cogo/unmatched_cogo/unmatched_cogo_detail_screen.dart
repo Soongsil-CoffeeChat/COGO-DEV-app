@@ -164,6 +164,8 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                   isClickable: true,
                   onPressed: () {
                     log("누름");
+                    final router = GoRouter.of(context);
+
                     showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -173,7 +175,18 @@ class UnMatchedCogoDetailScreen extends StatelessWidget {
                         buttonText: '채팅방으로 이동하기',
                         onPressed: () async {
                           await viewModel.accept(context, applicationId);
-                          Navigator.of(ctx).pop();
+
+                          if (ctx.mounted) {
+                            Navigator.of(ctx).pop();
+                          }
+
+                          try {
+                            await viewModel.accept(context, applicationId);
+                          } catch (e) {
+                            log("API 에러 발생 (무시): $e");
+                          }
+                          log("채팅 탭으로 이동 시도");
+                          router.go(Paths.chat);
                         },
                       ),
                     );
