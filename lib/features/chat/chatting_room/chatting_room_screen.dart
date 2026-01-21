@@ -42,7 +42,8 @@ class ChattingRoomScreen extends StatelessWidget {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        room.participants.first.name,
+                        room.participants.first.isDeleted
+                            ? '(알 수 없음)' : (room.participants.first.name ?? ''),
                         style: CogoTextStyle.bodySB20,
                       ),
                       const SizedBox(width: 5),

@@ -25,7 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    _chatViewModel = ChatViewModel(ChatService());
+    _chatViewModel = ChatViewModel();
 
     _bottomVM = context.read<BottomNavigationViewModel>();
     _bottomVM.addListener(_onBottomNavChange);
@@ -144,8 +144,7 @@ class _ChatRoomTile extends StatelessWidget {
           Expanded(
             child: Text(
               room.participants.first.isDeleted
-                  ? (room.participants.first.name ?? '')
-                  : '(알 수 없음)',
+                  ? '(알 수 없음)' : (room.participants.first.name ?? ''),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.titleMedium
