@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -134,30 +135,37 @@ class LoginViewModel extends ChangeNotifier {
     String redirectUri = dotenv.get("redirect_uri");
     try {
       final AuthorizationCredentialAppleID credential =
-          await SignInWithApple.getAppleIDCredential(
+      await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
-        webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: "com.example.cogoDevApp",
-          redirectUri: Uri.parse(dotenv.get("redirect_uri")),
-        ),
       );
 
-      print('credential.email = ${credential.email}');
-      print('credential.userIdentifier = ${credential.userIdentifier}');
-      print('authorizationCode = ${credential.authorizationCode}');
-      print('identityToken = ${credential.identityToken}');
+      // 1. 기본적으로 credential에서 이메일을 가져옵니다. (첫 로그인 시에만 값 있음)
+      String? email = credential.email;
+      String? givenName = credential.givenName;
+
+      // 2. 만약 이메일이 null이고 identityToken이 있다면, 토큰을 디코딩해서 이메일을 추출합니다.
+      if (email == null && credential.identityToken != null) {
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(credential.identityToken!);
+        email = decodedToken['email'];
+        log("identityToken에서 추출한 이메일: $email");
+      }
+
+      log('최종 이메일 = $email');
+      log('authorizationCode = ${credential.authorizationCode}');
 
       final authCode = credential.authorizationCode;
 
+      // 서버로 전송
       final response =
-          await authService.getAppleAccessToken(authCode!, redirectUri);
+      await authService.getAppleAccessToken(authCode!, redirectUri);
 
-      await _saveUserInfo(credential.givenName, credential.email);
+      // 추출한 이메일로 저장
+      await _saveUserInfo(givenName, email);
+
       _loginPlatform = LoginPlatform.apple;
-
       loginStatus = response.accountStatus;
       notifyListeners();
     } catch (e) {

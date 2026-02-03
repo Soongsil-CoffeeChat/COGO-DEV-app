@@ -1,6 +1,8 @@
 import 'package:cogo/common/enums/role.dart';
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
-import 'package:cogo/common/widgets/components/header.dart';
+// import 'package:cogo/common/widgets/components/header.dart'; // Header 사용 안 함
+import 'package:cogo/constants/constants.dart'; // CogoTextStyle, CogoColor 접근을 위해 필요
 import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +24,6 @@ class CompletionScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Consumer<CompletionViewModel>(
               builder: (context, viewModel, child) {
-                // role이 "멘토"인지 "멘티"인지에 따라 다른 텍스트를 출력
                 String greetingText = viewModel.role == Role.ROLE_MENTOR.name
                     ? "멘토님! 반갑습니다."
                     : "멘티님! 반갑습니다.";
@@ -30,14 +31,19 @@ class CompletionScreen extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Header(
-                      title: greetingText,
-                      subtitle:
-                          'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
-                      onBackButtonPressed: () {
-                        Navigator.of(context).pop();
-                      },
+                    const SizedBox(height: 45),
+                    Text(
+                        greetingText,
+                        style: CogoTextStyle.body18
                     ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'COGO와 함께 커뮤니티 활성화에 동참해주셔서 고마워요\n앞으로 열혈한 활동 기대할게요!',
+                      style: CogoTextStyle.body12.copyWith(
+                        color: CogoColor.systemGray03,
+                      ),
+                    ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Center(
@@ -51,6 +57,7 @@ class CompletionScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: SizedBox(
@@ -61,6 +68,8 @@ class CompletionScreen extends StatelessWidget {
                             isClickable: true,
                             onPressed: () async {
                               await viewModel.refreshToken();
+                              // context.mounted 체크(비동기 처리 안전성)
+                              if (!context.mounted) return;
                               context.go(Paths.home);
                             },
                             size: BasicButtonSize.LARGE,

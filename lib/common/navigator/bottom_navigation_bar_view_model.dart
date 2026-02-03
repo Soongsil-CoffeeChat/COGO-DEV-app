@@ -72,13 +72,13 @@ class BottomNavigationViewModel extends ChangeNotifier {
         Provider.of<HomeViewModel>(context, listen: false).refreshHome();
         break;
       case 1:
-        Provider.of<CogoViewModel>(context, listen: false).getRole();
+        Provider.of<CogoViewModel>(context, listen: false).refreshCogo();
         break;
       case 2:
-        Provider.of<ChatViewModel>(context, listen: false).loadChatRooms();
+        Provider.of<ChatViewModel>(context, listen: false).refreshChatRooms();
         break;
       case 3:
-        Provider.of<MypageViewModel>(context, listen: false).initialize();
+        Provider.of<MypageViewModel>(context, listen: false).refreshMyPage();
         break;
     }
   }
