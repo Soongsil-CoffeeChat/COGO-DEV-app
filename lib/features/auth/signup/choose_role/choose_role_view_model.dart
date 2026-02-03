@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 class ChooseRoleViewModel extends ChangeNotifier {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
 
-  void selectRole(Role role) async {
+  Future<void> selectRole(Role role) async {
     await _secureStorage.saveRole(role.name);
     notifyListeners();
   }
-
 }
