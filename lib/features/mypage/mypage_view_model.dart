@@ -1,49 +1,55 @@
 import 'dart:developer';
 
-import 'package:cogo/common/widgets/two_button_dialog.dart';
-import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/domain/entity/my_page_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 class MypageViewModel extends ChangeNotifier {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
   final UserService userService = GetIt.instance<UserService>();
 
   MypageUiState _state = const MypageUiState();
-
   MypageUiState get state => _state;
 
   MypageViewModel() {
     initialize();
   }
 
-  void initialize() async {
+  void initialize() {
+    fetchUserData();
+  }
+
+  /// 바텀 네비게이션 탭 재클릭 시 호출 (강제 새로고침)
+  Future<void> refreshMyPage() async {
+    log("Mypage Tab Refreshed (재빌드 요청)");
     await fetchUserData();
   }
 
   Future<void> fetchUserData() async {
+    // 1. 로딩 시작: UI를 로딩 상태로 변경하여 화면 갱신 유도
     _updateState(isLoading: true, hasError: false);
 
     try {
+      log("내 정보 불러오는 중...");
       final response = await userService.getUserInfo();
-      final data = MyPageInfo.fromResponse(response); // 변환하여 UserData에 저장
+      final data = MyPageInfo.fromResponse(response);
 
+      // 데이터 업데이트
       _updateState(myPageInfo: data);
-      log('내 정보 조회 성공');
+      log('내 정보 조회 성공: ${data.name}');
     } catch (e) {
       log('Error fetching user data: $e');
       _updateState(hasError: true);
     } finally {
+      // 2. 로딩 종료: UI를 데이터 표시 상태로 변경
       _updateState(isLoading: false);
     }
   }
 
   Future<void> logOut() async {
-    _secureStorage.deleteAllData();
+    await _secureStorage.deleteAllData();
   }
 
   Future<void> signOut(BuildContext context) async {
