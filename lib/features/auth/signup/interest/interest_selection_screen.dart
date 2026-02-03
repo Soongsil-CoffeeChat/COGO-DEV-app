@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'interest_selection_view_model.dart';
 
 class InterestSelectionScreen extends StatelessWidget {
-  const InterestSelectionScreen({super.key, Role? role});
+  const InterestSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,6 @@ class InterestSelectionScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
-          // SafeArea로 전체 화면을 감쌌습니다.
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Consumer<InterestSelectionViewModel>(
@@ -34,133 +33,44 @@ class InterestSelectionScreen extends StatelessWidget {
                         Navigator.of(context).pop();
                       },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 32.0),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: SecondaryButton(
-                                      text: 'FE',
-                                      onPressed: () {
-                                        handleButtonPress(
-                                          context: context,
-                                          role: viewModel.role,
-                                          interest: Interest.FE,
-                                          isSignSuccess:
-                                              viewModel.isMenteeSignSuccess,
-                                          onSelectInterest: (interest) =>
-                                              viewModel
-                                                  .selectInterest(interest),
-                                          onSignUpMentee: (interest) =>
-                                              viewModel.signUpMentee(interest),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  Expanded(
-                                    child: SecondaryButton(
-                                      text: 'BE',
-                                      // viewModel.selectedInterest == 'BE',
-                                      onPressed: () {
-                                        handleButtonPress(
-                                          context: context,
-                                          role: viewModel.role,
-                                          interest: Interest.BE,
-                                          isSignSuccess:
-                                              viewModel.isMenteeSignSuccess,
-                                          onSelectInterest: (interest) =>
-                                              viewModel
-                                                  .selectInterest(interest),
-                                          onSignUpMentee: (interest) =>
-                                              viewModel.signUpMentee(interest),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: SecondaryButton(
-                                      text: 'PM',
-                                      onPressed: () {
-                                        handleButtonPress(
-                                          context: context,
-                                          role: viewModel.role,
-                                          interest: Interest.PM,
-                                          isSignSuccess:
-                                              viewModel.isMenteeSignSuccess,
-                                          onSelectInterest: (interest) =>
-                                              viewModel
-                                                  .selectInterest(interest),
-                                          onSignUpMentee: (interest) =>
-                                              viewModel.signUpMentee(interest),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  Expanded(
-                                    child: SecondaryButton(
-                                      text: 'DESIGN',
-                                      // viewModel.selectedInterest == '디자인',
-                                      onPressed: () {
-                                        handleButtonPress(
-                                          context: context,
-                                          role: viewModel.role,
-                                          interest: Interest.DESIGN,
-                                          isSignSuccess:
-                                              viewModel.isMenteeSignSuccess,
-                                          onSelectInterest: (interest) =>
-                                              viewModel
-                                                  .selectInterest(interest),
-                                          onSignUpMentee: (interest) =>
-                                              viewModel.signUpMentee(interest),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: SecondaryButton(
-                                      text: 'MOBILE',
-                                      // viewModel.selectedInterest == '디자인',
-                                      onPressed: () {
-                                        handleButtonPress(
-                                          context: context,
-                                          role: viewModel.role,
-                                          interest: Interest.MOBILE,
-                                          isSignSuccess:
-                                              viewModel.isMenteeSignSuccess,
-                                          onSelectInterest: (interest) =>
-                                              viewModel
-                                                  .selectInterest(interest),
-                                          onSignUpMentee: (interest) =>
-                                              viewModel.signUpMentee(interest),
-                                        );
-                                      },
-                                      size: SBSize.LARGE,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                    const SizedBox(height: 32.0),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                const double spacing = 15.0;
+                                final double buttonWidth = (constraints.maxWidth - spacing) / 2;
+
+                                return Wrap(
+                                  runSpacing: 16.0,
+                                  spacing: spacing,
+                                  alignment: WrapAlignment.start,
+                                  children: Interest.values.map((interest) {
+                                    // MOBILE은 크게, 나머지는 반반
+                                    final bool isMobile = interest == Interest.MOBILE;
+
+                                    return SizedBox(
+                                      // MOBILE이면 전체 너비, 아니면 절반 너비
+                                      width: isMobile ? constraints.maxWidth : buttonWidth,
+                                      child: SecondaryButton(
+                                        text: interest.name, // Enum 이름 그대로 사용 (필요시 매핑)
+                                        size: isMobile ? SBSize.LARGE : SBSize.SMALL, // 기존 로직 반영
+                                        onPressed: () async {
+                                          await _handleInterestSelection(
+                                            context: context,
+                                            viewModel: viewModel,
+                                            interest: interest,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -175,23 +85,34 @@ class InterestSelectionScreen extends StatelessWidget {
     );
   }
 
-  void handleButtonPress({
+  Future<void> _handleInterestSelection({
     required BuildContext context,
-    required String? role,
+    required InterestSelectionViewModel viewModel,
     required Interest interest,
-    required bool isSignSuccess,
-    required void Function(Interest) onSelectInterest,
-    required void Function(Interest) onSignUpMentee,
-  }) {
-    onSelectInterest(interest);
+  }) async {
+    // 1. 관심사 로컬 저장
+    await viewModel.selectInterest(interest);
 
-    if (role == Role.ROLE_MENTOR.name) {
+    // Context 유효성 체크
+    if (!context.mounted) return;
+
+    // 2. 역할에 따른 분기
+    if (viewModel.role == Role.ROLE_MENTOR.name) {
+      // 멘토: 즉시 이동
       context.push('${Paths.agreement}/${Paths.mentorClub}');
     } else {
-      onSignUpMentee(interest);
+      // 멘티: 회원가입 API 호출 후 성공 시 이동
+      final bool isSuccess = await viewModel.signUpMentee(interest);
 
-      if (isSignSuccess) {
+      if (!context.mounted) return;
+
+      if (isSuccess) {
         context.push('${Paths.agreement}/${Paths.completion}');
+      } else {
+        // 실패 시 사용자에게 알림
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.')),
+        );
       }
     }
   }
