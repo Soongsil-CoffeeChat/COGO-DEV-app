@@ -5,7 +5,6 @@ import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:photo_manager/photo_manager.dart';
 
 class ImageUploadViewModel extends ChangeNotifier {
   final S3Service s3service = GetIt.instance<S3Service>();
@@ -13,72 +12,57 @@ class ImageUploadViewModel extends ChangeNotifier {
 
   final ImagePicker _picker = ImagePicker();
 
-  List<AssetEntity> _assets = [];
-  AssetEntity? _selectedAsset;
+  File? _selectedFile;
 
   bool _isUploading = false;
   String? _errorMessage;
-  String? _uploadResult;
-  bool _isUpload = false;
 
-  List<AssetEntity> get assets => _assets;
-  AssetEntity? get selectedAsset => _selectedAsset;
+  // Getters
+  File? get selectedFile => _selectedFile;
   bool get isUploading => _isUploading;
   String? get errorMessage => _errorMessage;
-  bool get isUpload => _isUpload;
 
-  ImageUploadViewModel() {
-    _fetchAssets();
+  ImageUploadViewModel();
+
+  /// 갤러리에서 사진 선택 (권한 필요 없음 - Photo Picker 사용)
+  Future<void> pickImage() async {
+    try {
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        _selectedFile = File(image.path);
+        _errorMessage = null;
+        notifyListeners();
+      }
+    } catch (e) {
+      _errorMessage = "사진을 불러오지 못했습니다.";
+      notifyListeners();
+    }
   }
 
-  Future<void> _fetchAssets() async {
-    final PermissionState ps = await PhotoManager.requestPermissionExtend();
-
-    print('Permission state: $ps');
-    print('Is auth: ${ps.isAuth}');
-
-    if (!ps.isAuth) {
-      print('Permission denied');
-      return;
+  /// 카메라로 사진 촬영
+  Future<void> pickFromCamera() async {
+    try {
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      if (photo != null) {
+        _selectedFile = File(photo.path);
+        _errorMessage = null;
+        notifyListeners();
+      }
+    } catch (e) {
+      _errorMessage = "카메라를 실행하지 못했습니다.";
+      notifyListeners();
     }
+  }
 
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
-    );
-
-    print('Albums count: ${albums.length}');
-
-    if (albums.isEmpty) {
-      print('No albums found');
-      return;
-    }
-
-    final List<AssetEntity> media =
-        await albums.first.getAssetListPaged(page: 0, size: 100);
-
-    print('Media count: ${media.length}');
-
-    _assets = media;
+  /// 이미지 선택 취소 (X 버튼 기능 등)
+  void clearImage() {
+    _selectedFile = null;
     notifyListeners();
   }
 
-  void toggleSelection(AssetEntity asset) {
-    if (_selectedAsset == asset) {
-      _selectedAsset = null;
-    } else {
-      _selectedAsset = asset;
-    }
-    notifyListeners();
-  }
-
-  bool isSelected(AssetEntity asset) {
-    return _selectedAsset == asset;
-  }
-
-  /// 이미지 업로드
+  /// 이미지 업로드 실행
   Future<void> uploadImage({VoidCallback? onSuccess}) async {
-    if (_selectedAsset == null) {
+    if (_selectedFile == null) {
       _errorMessage = '먼저 이미지를 선택해주세요.';
       notifyListeners();
       return;
@@ -89,37 +73,24 @@ class ImageUploadViewModel extends ChangeNotifier {
       _errorMessage = null;
       notifyListeners();
 
-      final imageFile = await _selectedAsset!.file;
-
-      if (imageFile == null) {
-        _errorMessage = '이미지 파일을 불러올 수 없습니다.';
-        _isUploading = false;
-        notifyListeners();
-        return;
-      }
-
-      _isUpload = await userService.saveImage(imageFile.path);
+      // UserService를 통해 업로드 요청
+      final bool isSuccess = await userService.saveImage(_selectedFile!.path);
 
       _isUploading = false;
       notifyListeners();
 
-      // 성공 콜백 실행
-      if (_isUpload && onSuccess != null) {
-        onSuccess();
+      if (isSuccess) {
+        if (onSuccess != null) {
+          onSuccess();
+        }
+      } else {
+        _errorMessage = '업로드에 실패했습니다.';
+        notifyListeners();
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = '오류가 발생했습니다: $e';
       _isUploading = false;
       notifyListeners();
-    }
-  }
-
-  /// 카메라 촬영 후 이미지 리스트에 추가
-  Future<void> pickFromCamera(BuildContext context) async {
-    final XFile? cameraImage =
-        await _picker.pickImage(source: ImageSource.camera);
-    if (cameraImage != null) {
-      Navigator.pop(context, [File(cameraImage.path)]);
     }
   }
 }

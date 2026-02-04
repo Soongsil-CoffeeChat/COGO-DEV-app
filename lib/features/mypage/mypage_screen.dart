@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/tag_list.dart';
-import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/common/widgets/widgets.dart'; // BasicButton, TwoButtonDialog, CogoTextStyle 등
+import 'package:cogo/constants/constants.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
@@ -15,24 +16,24 @@ class MypageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MypageViewModel()..initialize,
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Consumer<MypageViewModel>(
             builder: (context, viewModel, child) {
               final state = viewModel.state;
 
+              // 1. 로딩 상태
               if (state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
 
+              // 2. 에러 상태
               if (state.hasError) {
                 return Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center, // 수직 중앙 정렬
-                    crossAxisAlignment: CrossAxisAlignment.center, // 가로 중앙 정렬
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
                         '데이터를 불러오는 중 오류가 발생했습니다.',
@@ -63,6 +64,7 @@ class MypageScreen extends StatelessWidget {
 
               final user = state.myPageInfo;
 
+              // 3. 정상 데이터 표시
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -76,84 +78,26 @@ class MypageScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 13),
-                      if (user?.picture != null &&
-                          user!.picture!.isNotEmpty) ...[
-                        GestureDetector(
-                            onTap: () {
-                              context.push(Paths.image);
-                            },
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
-                                  child: Image.network(
-                                    user.picture?.isNotEmpty == true
-                                        ? user.picture!
-                                        : '',
-                                    width: double.infinity,
-                                    height: 150,
-                                    fit: BoxFit.cover,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      // 이미지를 로딩 중일 때, 아이콘을 항상 위에 놓음
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      } else {
-                                        return const Center(
-                                            child: CircularProgressIndicator());
-                                      }
-                                    },
-                                    errorBuilder: (context, error, stackTrace) {
-                                      log("===이미지 에러===");
-                                      return Image.asset(
-                                        'assets/default_img.png', // 로컬 기본 이미지
-                                        width: double.infinity,
-                                        height: 150,
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Align(
-                                    alignment: Alignment.center, // 중앙에 배치
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      size: 48,
-                                      color: Colors.grey
-                                          .withOpacity(0.6), // 투명도 조절
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ] else ...[
-                        GestureDetector(
-                          onTap: () {
-                            context.push(Paths.image);
-                          },
-                          child: SvgPicture.asset(
-                            'assets/image/img_image.svg', // 기본 로컬 이미지
-                          ),
-                        ),
-                      ],
+
+                      // 프로필 이미지 위젯
+                      _buildProfileImage(
+                        context,
+                        imageUrl: user?.picture,
+                        viewModel: viewModel,
+                      ),
+
                       const SizedBox(height: 13),
                       Center(
-                        child: TagList(tags: user!.tags),
+                        child: TagList(tags: user?.tags ?? []),
                       ),
                       const SizedBox(height: 20),
                       ListTile(
                         title:
-                            const Text('내 정보 관리', style: CogoTextStyle.body16),
+                        const Text('내 정보 관리', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => context.push(Paths.myInfo),
                       ),
-                      if (user.role == Role.ROLE_MENTOR.name) ...[
+                      if (user?.role == Role.ROLE_MENTOR.name) ...[
                         ListTile(
                           title: const Text('자기소개 관리',
                               style: CogoTextStyle.body16),
@@ -162,24 +106,25 @@ class MypageScreen extends StatelessWidget {
                         ),
                         ListTile(
                           title:
-                              const Text('시간 설정', style: CogoTextStyle.body16),
+                          const Text('시간 설정', style: CogoTextStyle.body16),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () => context.push(Paths.timeSetting),
                         ),
                       ],
                       ListTile(
-                          title:
-                              const Text('로그아웃', style: CogoTextStyle.body16),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () => {
-                                viewModel.logOut(),
-                                context.go(Paths.login), //라우팅 히스토리를 다 지움
-                              }),
+                        title: const Text('로그아웃', style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () async {
+                          await viewModel.logOut();
+                          if (context.mounted) {
+                            context.go(Paths.login);
+                          }
+                        },
+                      ),
                       ListTile(
-                          title:
-                              const Text('탈퇴하기', style: CogoTextStyle.body16),
-                          trailing: const Icon(Icons.chevron_right),
-                        onTap: () => _showMentorProfileDialog(context),
+                        title: const Text('탈퇴하기', style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => _showMentorProfileDialog(context, viewModel),
                       ),
                     ],
                   ),
@@ -188,13 +133,81 @@ class MypageScreen extends StatelessWidget {
             },
           ),
         ),
+    );
+  }
+
+  /// 프로필 이미지를 그리는 공통 메서드 (이미지 유무 상관없이 Stack 구조 유지)
+  Widget _buildProfileImage(
+      BuildContext context, {
+        String? imageUrl,
+        required MypageViewModel viewModel,
+      }) {
+    final bool hasImage = imageUrl != null && imageUrl.isNotEmpty;
+
+    return GestureDetector(
+      onTap: () async {
+        // 이미지 수정 페이지로 이동
+        await context.push(Paths.image);
+
+        // 돌아왔을 때 데이터 갱신 (사진 변경 반영)
+        if (context.mounted) {
+          log("이미지 화면에서 복귀 -> 데이터 갱신 요청");
+          await viewModel.refreshMyPage();
+        }
+      },
+      child: Stack(
+        children: [
+          // 1층: 이미지 (네트워크 이미지 or 기본 SVG)
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            child: SizedBox(
+              width: double.infinity,
+              height: 150,
+              child: hasImage
+                  ? Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  log("이미지 로드 실패: $imageUrl");
+                  // 로드 실패 시 기본 이미지
+                  return SvgPicture.asset(
+                    'assets/image/empty_profile_img.svg',
+                    fit: BoxFit.cover,
+                  );
+                },
+              )
+                  : SvgPicture.asset(
+                // URL이 없을 때 기본 이미지
+                'assets/image/empty_profile_img.svg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          // 2층: 카메라 아이콘 (항상 위에 표시)
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: const Icon(
+                  Icons.camera_alt,
+                  size: 40,
+                  color: CogoColor.systemGray03,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  void _showMentorProfileDialog(BuildContext context) {
-    final viewModel = Provider.of<MypageViewModel>(context, listen: false);
-
+  void _showMentorProfileDialog(BuildContext context, MypageViewModel viewModel) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
