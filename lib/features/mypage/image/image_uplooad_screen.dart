@@ -2,12 +2,12 @@ import 'dart:typed_data';
 
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/features/mypage/image/image_upload_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:provider/provider.dart';
 
-import 'image_upload_view_model.dart';
 
 class ImageUploadScreen extends StatelessWidget {
   const ImageUploadScreen({super.key});
