@@ -1,12 +1,15 @@
 import 'package:cogo/common/enums/report_reason.dart';
+import 'package:cogo/common/utils/routing_extension.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/common/widgets/components/basic_button.dart';
 import 'package:cogo/common/widgets/components/basic_textfield.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/home/report/report_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ReportDetailScreen extends StatelessWidget {
@@ -102,7 +105,12 @@ class ReportDetailScreen extends StatelessWidget {
                                       const SnackBar(
                                           content: Text('신고가 접수되었습니다.')),
                                     );
-                                    Navigator.of(context).pop();
+                                    if (context.canPop())
+                                      context.pop(); // 신고 상세 -> 사유 선택
+                                    if (context.canPop())
+                                      context.pop(); // 사유 선택 -> 프로필 상세 바텀시트
+                                    if (context.canPop())
+                                      context.pop(); // 프로필 상세 바텀시트 -> 프로필 상세
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
