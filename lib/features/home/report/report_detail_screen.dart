@@ -25,17 +25,20 @@ class ReportDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ReportViewModel(
-          reporterId: reporterId,
-          reportedUserId: reportedUserId,
-          reason: reason),
+        reporterId: reporterId,
+        reportedUserId: reportedUserId,
+        reason: reason,
+      ),
       child: GestureDetector(
+        // 키보드 외부 영역 터치 시 키보드 미포커스(내리기)
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           backgroundColor: CogoColor.white50,
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
-            surfaceTintColor: CogoColor.white50,
             backgroundColor: CogoColor.white50,
+            scrolledUnderElevation: 0,
+            elevation: 0,
             title: const Text("신고하기", style: CogoTextStyle.body20),
             centerTitle: true,
             leading: IconButton(
@@ -47,7 +50,7 @@ class ReportDetailScreen extends StatelessWidget {
             child: Consumer<ReportViewModel>(
               builder: (context, viewModel, child) {
                 return SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(), // 스크롤 바운스 조절
+                  physics: const ClampingScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -61,7 +64,7 @@ class ReportDetailScreen extends StatelessWidget {
                           currentCount: viewModel.reportCharCount,
                           maxCount: 200,
                           size: BasicTextFieldSize.LARGE,
-                          maxLines: 5, // 여러 줄 입력 가능
+                          maxLines: 5,
                         ),
                         const SizedBox(height: 20),
                         const Text('유의사항', style: CogoTextStyle.bodySB14),
@@ -74,45 +77,42 @@ class ReportDetailScreen extends StatelessWidget {
                           style: CogoTextStyle.body9,
                         ),
                         const SizedBox(height: 40),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                              // 취소 버튼이 왼쪽 절반을 차지하도록 Expanded 적용
-                              Expanded(
-                                child: SecondaryButton(
-                                  text: '취소',
-                                  onPressed: () => Navigator.of(context).pop(),
-                                ),
+                        // 버튼 레이아웃: Row + Expanded로 가로 오버플로우 방지
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SecondaryButton(
+                                text: '취소',
+                                onPressed: () => Navigator.of(context).pop(),
                               ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: BasicButton(
-                                  text: '신고',
-                                  isClickable: true,
-                                  onPressed: () async {
-                                    final isSuccess =
-                                        await viewModel.postReport();
-                                    if (!context.mounted) return;
-                                    if (isSuccess) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content: Text('신고가 접수되었습니다.')),
-                                      );
-                                      Navigator.of(context).pop();
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content: Text('신고 접수에 실패했습니다.')),
-                                      );
-                                    }
-                                  },
-                                ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: BasicButton(
+                                text: '신고',
+                                isClickable: true,
+                                onPressed: () async {
+                                  final isSuccess =
+                                      await viewModel.postReport();
+
+                                  if (!context.mounted) return;
+
+                                  if (isSuccess) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text('신고가 접수되었습니다.')),
+                                    );
+                                    Navigator.of(context).pop();
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text('신고 접수에 실패했습니다.')),
+                                    );
+                                  }
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 20),
                       ],
