@@ -81,14 +81,17 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               /// 인증번호 받기 / 재발송 버튼
                               if (viewModel.isPhoneChanged)
                                 ThirdButton(
-                                  text: viewModel.isVerifyingPhone
-                                      ? "재발송"
-                                      : "인증번호 받기",
-                                  isClickable:
-                                      viewModel.validatePhoneNumber() &&
-                                          viewModel.canSendPhoneVerification,
-                                  onPressed: viewModel.onPhoneNumberSubmitted,
-                                ),
+                                    text: viewModel.isVerifyingPhone
+                                        ? "재발송"
+                                        : "인증번호 받기",
+                                    isClickable:
+                                        viewModel.validatePhoneNumber() &&
+                                            viewModel.canSendPhoneVerification,
+                                    onPressed: () {
+                                      FocusScope.of(context)
+                                          .unfocus(); // 포커스 해제
+                                      viewModel.checkPhoneVerificationCode();
+                                    }),
                             ],
                           ),
                           const SizedBox(height: 20),
