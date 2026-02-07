@@ -34,6 +34,7 @@ class ReportDetailScreen extends StatelessWidget {
           backgroundColor: CogoColor.white50,
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
+            surfaceTintColor: CogoColor.white50,
             backgroundColor: CogoColor.white50,
             title: const Text("신고하기", style: CogoTextStyle.body20),
             centerTitle: true,
@@ -73,35 +74,45 @@ class ReportDetailScreen extends StatelessWidget {
                           style: CogoTextStyle.body9,
                         ),
                         const SizedBox(height: 40),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SecondaryButton(
-                              text: '취소',
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
-                            const SizedBox(width: 16),
-                            BasicButton(
-                              text: '신고',
-                              isClickable: true,
-                              onPressed: () async {
-                                final isSuccess = await viewModel.postReport();
-                                if (!context.mounted) return;
-                                if (isSuccess) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('신고가 접수되었습니다.')),
-                                  );
-                                  Navigator.of(context).pop();
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('신고 접수에 실패했습니다.')),
-                                  );
-                                }
-                              },
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                              // 취소 버튼이 왼쪽 절반을 차지하도록 Expanded 적용
+                              Expanded(
+                                child: SecondaryButton(
+                                  text: '취소',
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: BasicButton(
+                                  text: '신고',
+                                  isClickable: true,
+                                  onPressed: () async {
+                                    final isSuccess =
+                                        await viewModel.postReport();
+                                    if (!context.mounted) return;
+                                    if (isSuccess) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text('신고가 접수되었습니다.')),
+                                      );
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text('신고 접수에 실패했습니다.')),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 20),
                       ],
