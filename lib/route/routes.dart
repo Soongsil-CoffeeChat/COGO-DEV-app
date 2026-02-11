@@ -49,15 +49,15 @@ final AppRouter = GoRouter(
     GoRoute(
         path: Paths.splash,
         pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: SplashScreen(),
-            )),
+          key: state.pageKey,
+          child: SplashScreen(),
+        )),
     GoRoute(
         path: Paths.login,
         pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const LoginScreen(),
-            )),
+          key: state.pageKey,
+          child: const LoginScreen(),
+        )),
 
     ///회원가입
     GoRoute(
@@ -138,7 +138,6 @@ final AppRouter = GoRouter(
       ],
     ),
 
-    ///app bar
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(
@@ -326,19 +325,6 @@ final AppRouter = GoRouter(
         key: state.pageKey,
         child: const ImageUploadScreen(),
       ),
-    ),
-    StatefulShellRoute.indexedStack(
-      builder: (context, state, navigationShell) {
-        return ScaffoldWithNestedNavigation(
-          navigationShell: navigationShell,
-        );
-      },
-      branches: [
-        _createBranch(Paths.home, const HomeScreen()),
-        _createBranch(Paths.cogo, const CogoScreen()),
-        _createBranch(Paths.chat, const ChatScreen()),
-        _createBranch(Paths.mypage, MypageScreen()),
-      ],
     ),
   ],
 );
