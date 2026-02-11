@@ -180,27 +180,36 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> signInTest() async {
+  /// 관리자용 테스트 로그인 (코드 검증 포함)
+  Future<bool> signInTest(String inputCode) async {
     _errorMessage = null;
 
     try {
       log("테스트 로그인 시작...");
 
-      // dotenv에서 테스트용 토큰 추출
+      // dotenv에서 관리자 코드 및 토큰 추출
+      final adminCode = dotenv.get("ADMIN_CODE", fallback: null);
       final testAccessToken = dotenv.get("TEST_ACCESS_TOKEN", fallback: null);
       final testRefreshToken = dotenv.get("TEST_REFRESH_TOKEN", fallback: null);
       final testUserName = dotenv.get("TEST_USER_NAME", fallback: "관리자");
-      final testUserEmail = dotenv.get(
-          "TEST_USER_EMAIL", fallback: "admin@test.com");
+      final testUserEmail = dotenv.get("TEST_USER_EMAIL", fallback: "admin@test.com");
+
+      // 코드 검증
+      if (adminCode == null || adminCode != inputCode) {
+        log('❌ 잘못된 관리자 코드');
+        _errorMessage = '잘못된 관리자 코드입니다.';
+        notifyListeners();
+        return false;
+      }
 
       if (testAccessToken == null || testAccessToken.isEmpty) {
         log('❌ TEST_ACCESS_TOKEN이 .env 파일에 없습니다!');
         _errorMessage = '테스트 토큰이 설정되지 않았습니다.';
         notifyListeners();
-        return;
+        return false;
       }
 
-      log("테스트 토큰 확인 완료");
+      log("관리자 코드 검증 완료");
 
       // SecureStorage에 토큰 저장
       final SecureStorageRepository secureStorage = SecureStorageRepository();
@@ -214,18 +223,19 @@ class LoginViewModel extends ChangeNotifier {
       // 사용자 정보 저장
       await _saveUserInfo(testUserName, testUserEmail);
 
-      _loginPlatform =
-          LoginPlatform.none; // 또는 새로운 enum 값 추가 (예: LoginPlatform.test)
-      loginStatus = "EXISTING_ACCOUNT"; // 또는 적절한 상태값
+      _loginPlatform = LoginPlatform.none;
+      loginStatus = "EXISTING_ACCOUNT";
 
       log("✅ 테스트 로그인 성공!");
       notifyListeners();
+      return true;
+
     } catch (e, stackTrace) {
       log("❌ 테스트 로그인 실패: $e");
       log("Stack trace: $stackTrace");
       _errorMessage = '테스트 로그인에 실패했습니다.';
       notifyListeners();
-      rethrow;
+      return false;
     }
   }
 
