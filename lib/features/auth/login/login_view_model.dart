@@ -180,6 +180,56 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> signInTest() async {
+    _errorMessage = null;
+
+    try {
+      log("테스트 로그인 시작...");
+
+      // dotenv에서 테스트용 토큰 추출
+      final testAccessToken = dotenv.get("TEST_ACCESS_TOKEN", fallback: null);
+      final testRefreshToken = dotenv.get("TEST_REFRESH_TOKEN", fallback: null);
+      final testUserName = dotenv.get("TEST_USER_NAME", fallback: "관리자");
+      final testUserEmail = dotenv.get(
+          "TEST_USER_EMAIL", fallback: "admin@test.com");
+
+      if (testAccessToken == null || testAccessToken.isEmpty) {
+        log('❌ TEST_ACCESS_TOKEN이 .env 파일에 없습니다!');
+        _errorMessage = '테스트 토큰이 설정되지 않았습니다.';
+        notifyListeners();
+        return;
+      }
+
+      log("테스트 토큰 확인 완료");
+
+      // SecureStorage에 토큰 저장
+      final SecureStorageRepository secureStorage = SecureStorageRepository();
+      await secureStorage.saveAccessToken(testAccessToken);
+
+      if (testRefreshToken != null && testRefreshToken.isNotEmpty) {
+        await secureStorage.saveRefreshToken(testRefreshToken);
+        log("Refresh Token 저장 완료");
+      }
+
+      // 사용자 정보 저장
+      await _saveUserInfo(testUserName, testUserEmail);
+
+      _loginPlatform =
+          LoginPlatform.none; // 또는 새로운 enum 값 추가 (예: LoginPlatform.test)
+      loginStatus = "EXISTING_ACCOUNT"; // 또는 적절한 상태값
+
+      log("✅ 테스트 로그인 성공!");
+      notifyListeners();
+    } catch (e, stackTrace) {
+      log("❌ 테스트 로그인 실패: $e");
+      log("Stack trace: $stackTrace");
+      _errorMessage = '테스트 로그인에 실패했습니다.';
+      notifyListeners();
+      rethrow;
+    }
+  }
+
+
   Future<void> _saveUserInfo(String? name, String? email) async {
     final SecureStorageRepository secureStorage = SecureStorageRepository();
     secureStorage.saveUserName(name ?? '');

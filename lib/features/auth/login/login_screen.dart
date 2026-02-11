@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child:
-                Consumer<LoginViewModel>(builder: (context, viewModel, child) {
+            Consumer<LoginViewModel>(builder: (context, viewModel, child) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (viewModel.errorMessage != null) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                       onTap: () async {
                         await viewModel.signInWithGoogle();
                         if (viewModel.loginStatus ==
-                                AccountStatus.NEW_ACCOUNT.name) {
+                            AccountStatus.NEW_ACCOUNT.name) {
                           context.push(Paths.agreement);
                         } else if (viewModel.loginStatus ==
                             AccountStatus.EXISTING_ACCOUNT.name ||
@@ -77,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                         onTap: () async {
                           await viewModel.signInWithApple();
                           if (viewModel.loginStatus ==
-                                  AccountStatus.NEW_ACCOUNT.name ||
+                              AccountStatus.NEW_ACCOUNT.name ||
                               viewModel.loginStatus ==
                                   AccountStatus.RESTORED_ACCOUNT.name) {
                             context.push(Paths.agreement);
@@ -87,6 +87,24 @@ class LoginScreen extends StatelessWidget {
                         },
                       ),
                     ),
+
+
+                  /// 관리자용 로그인 버튼
+                  TextButton(
+                    onPressed: () async {
+                      await viewModel.signInTest();
+                      context.push(Paths.home);
+                      print('관리자용 로그인 클릭됨');
+                    },
+                    child: const Text(
+                      '관리자용 로그인',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
                 ],
               );
             }),
