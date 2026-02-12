@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child:
-                Consumer<LoginViewModel>(builder: (context, viewModel, child) {
+            Consumer<LoginViewModel>(builder: (context, viewModel, child) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (viewModel.errorMessage != null) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                       onTap: () async {
                         await viewModel.signInWithGoogle();
                         if (viewModel.loginStatus ==
-                                AccountStatus.NEW_ACCOUNT.name) {
+                            AccountStatus.NEW_ACCOUNT.name) {
                           context.push(Paths.agreement);
                         } else if (viewModel.loginStatus ==
                             AccountStatus.EXISTING_ACCOUNT.name ||
@@ -77,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                         onTap: () async {
                           await viewModel.signInWithApple();
                           if (viewModel.loginStatus ==
-                                  AccountStatus.NEW_ACCOUNT.name ||
+                              AccountStatus.NEW_ACCOUNT.name ||
                               viewModel.loginStatus ==
                                   AccountStatus.RESTORED_ACCOUNT.name) {
                             context.push(Paths.agreement);
@@ -87,12 +87,105 @@ class LoginScreen extends StatelessWidget {
                         },
                       ),
                     ),
+
+                  const SizedBox(height: 30),
+
+                  /// 관리자용 로그인 버튼
+                  TextButton(
+                    onPressed: () {
+                      _showAdminCodeDialog(context, viewModel);
+                    },
+                    child: const Text(
+                      '관리자용 로그인',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
                 ],
               );
             }),
           ),
         ),
       ),
+    );
+  }
+
+  /// 관리자 코드 입력 다이얼로그
+  void _showAdminCodeDialog(BuildContext context, LoginViewModel viewModel) {
+    final TextEditingController codeController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('관리자 인증'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                '관리자 코드를 입력하세요',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: codeController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '코드',
+                  hintText: '관리자 코드 입력',
+                ),
+                autofocus: true,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+              child: const Text('취소'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final code = codeController.text.trim();
+
+                if (code.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('코드를 입력해주세요')),
+                  );
+                  return;
+                }
+
+                // 다이얼로그 닫기
+                Navigator.of(dialogContext).pop();
+
+                // 코드 검증 및 로그인
+                final isValid = await viewModel.signInTest(code);
+
+                if (isValid) {
+                  // 로그인 성공 시 홈으로 이동
+                  if (context.mounted) {
+                    context.push(Paths.home);
+                  }
+                } else {
+                  // 로그인 실패 시 에러 메시지
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('잘못된 관리자 코드입니다')),
+                    );
+                  }
+                }
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        );
+      },
     );
   }
 
