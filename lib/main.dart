@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,9 +15,14 @@ import 'package:cogo/route/routes.dart';
 import 'features/chat/chat_view_model.dart';
 import 'features/cogo/cogo_view_model.dart';
 import 'features/mypage/mypage_view_model.dart';
+import 'firebase_options.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Splash는 모바일에서만
   if (!kIsWeb) {
