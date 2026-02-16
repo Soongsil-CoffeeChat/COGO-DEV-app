@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -17,12 +18,20 @@ import 'features/cogo/cogo_view_model.dart';
 import 'features/mypage/mypage_view_model.dart';
 import 'firebase_options.dart';
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print("Handling a background message: ${message.messageId}");
+}
+
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await _setupFCM();
 
   // Splash는 모바일에서만
   if (!kIsWeb) {
@@ -56,6 +65,32 @@ void main() async {
 
   if (!kIsWeb) {
     FlutterNativeSplash.remove();
+  }
+}
+
+Future<void> _setupFCM() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  // 알림 권한 요청 (iOS/Web 필수)
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  if (kDebugMode) {
+    print('User granted permission: ${settings.authorizationStatus}');
+  }
+
+  // 백그라운드 핸들러 등록
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // 토큰 확인 (콘솔 테스트용)
+  String? token = await messaging.getToken();
+  if (kDebugMode) {
+    print("==============================================");
+    print("FCM Token: $token");
+    print("==============================================");
   }
 }
 
