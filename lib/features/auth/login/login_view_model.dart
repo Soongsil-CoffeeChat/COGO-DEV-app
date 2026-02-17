@@ -2,7 +2,9 @@ import 'dart:developer';
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/auth_service.dart';
+import 'package:cogo/data/service/fcm_service.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart'
     show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final AuthService authService = GetIt.instance<AuthService>();
+  final FcmService fcmService = GetIt.instance<FcmService>();
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
   String? _errorMessage;
@@ -89,6 +92,7 @@ class LoginViewModel extends ChangeNotifier {
           final response =
               await authService.getGoogleAccessToken(idToken, name!);
           await _saveUserInfo(name, googleUser.email);
+          await _registerFcmToken();
           _loginPlatform = LoginPlatform.google;
           loginStatus = response.accountStatus;
           log("로그인상태: $loginStatus");
@@ -112,6 +116,7 @@ class LoginViewModel extends ChangeNotifier {
       final response = await authService.getGoogleAccessToken(authCode, name);
 
       await _saveUserInfo(name, googleUser.email);
+      await _registerFcmToken();
       _loginPlatform = LoginPlatform.google;
       loginStatus = response.accountStatus;
       log("✅ 로그인 성공! 상태: $loginStatus");
@@ -164,6 +169,7 @@ class LoginViewModel extends ChangeNotifier {
 
       // 추출한 이메일로 저장
       await _saveUserInfo(givenName, email);
+      await _registerFcmToken();
 
       _loginPlatform = LoginPlatform.apple;
       loginStatus = response.accountStatus;
@@ -222,6 +228,7 @@ class LoginViewModel extends ChangeNotifier {
 
       // 사용자 정보 저장
       await _saveUserInfo(testUserName, testUserEmail);
+      await _registerFcmToken();
 
       _loginPlatform = LoginPlatform.none;
       loginStatus = "EXISTING_ACCOUNT";
@@ -239,6 +246,19 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
+
+  /// 로그인 성공 후 FCM 토큰을 서버에 등록
+  Future<void> _registerFcmToken() async {
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        await fcmService.registerFcmToken(token);
+        log('[FCM] 토큰 서버 등록 완료');
+      }
+    } catch (e) {
+      log('[FCM] 토큰 등록 실패 (로그인은 정상): $e');
+    }
+  }
 
   Future<void> _saveUserInfo(String? name, String? email) async {
     final SecureStorageRepository secureStorage = SecureStorageRepository();
