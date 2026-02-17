@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -141,6 +141,9 @@ Future<void> _setupFCM() async {
     if (roomId != null && int.tryParse(roomId.toString()) == activeChatRoomId) {
       return;
     }
+
+    // iOS는 setForegroundNotificationPresentationOptions로 시스템이 자동 표시하므로 스킵
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) return;
 
     final notification = message.notification;
     if (notification != null) {
