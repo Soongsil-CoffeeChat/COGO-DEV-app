@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -68,6 +69,18 @@ void main() async {
   }
 }
 
+// 로컬 알림 플러그인 인스턴스
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+// Android 알림 채널 설정
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'cogo_notification', // 채널 ID
+  'COGO 알림', // 채널 이름
+  description: 'COGO 앱 푸시 알림',
+  importance: Importance.high,
+);
+
 Future<void> _setupFCM() async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -82,10 +95,32 @@ Future<void> _setupFCM() async {
     print('User granted permission: ${settings.authorizationStatus}');
   }
 
+  // 로컬 알림 초기화
+  const AndroidInitializationSettings androidSettings =
+      AndroidInitializationSettings('@mipmap/ic_logo');
+  const InitializationSettings initSettings =
+      InitializationSettings(android: androidSettings);
+  await flutterLocalNotificationsPlugin.initialize(
+    settings: initSettings,
+  );
+
+  // Android 알림 채널 생성
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  // 포그라운드에서도 헤드업 알림 표시 (Android)
+  await messaging.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
   // 백그라운드 핸들러 등록
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  // 포그라운드 메시지 수신 처리
+  // 포그라운드 메시지 수신 → 로컬 알림으로 표시
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     if (kDebugMode) {
       print("==============================================");
