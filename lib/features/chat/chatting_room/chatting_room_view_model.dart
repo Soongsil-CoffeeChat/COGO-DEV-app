@@ -5,6 +5,7 @@ import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/data/service/stomp_service.dart';
+import 'package:cogo/main.dart' show activeChatRoomId;
 import 'package:flutter/material.dart'; // Cupertino보다 Material 권장 (ViewModel에서는 Foundation이나 Material)
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -36,6 +37,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
   // 2. Constructor & Initialization
   // ===========================================================================
   ChattingRoomViewModel(this._service, this.room) {
+    activeChatRoomId = room.roomId;
     _initialize();
   }
 
@@ -266,6 +268,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
   // ===========================================================================
   @override
   void dispose() {
+    activeChatRoomId = null;
     _stompService.disconnect();
     super.dispose();
   }

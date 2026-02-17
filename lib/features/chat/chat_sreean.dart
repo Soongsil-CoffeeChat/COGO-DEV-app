@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cogo/common/navigator/bottom_navigation_bar_view_model.dart';
 import 'package:cogo/common/widgets/atoms/image/network_image_with_fallback.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/features/chat/chat_view_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
   late ChatViewModel _chatViewModel;
   late BottomNavigationViewModel _bottomVM;
   int _lastSelectedIndex = -1;
+  StreamSubscription<RemoteMessage>? _fcmSubscription;
 
   @override
   void initState() {
@@ -29,6 +33,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _bottomVM = context.read<BottomNavigationViewModel>();
     _bottomVM.addListener(_onBottomNavChange);
+
+    // FCM 메시지 수신 시 채팅 목록 자동 새로고침
+    _fcmSubscription = FirebaseMessaging.onMessage.listen((_) {
+      _chatViewModel.refreshChatRooms();
+    });
   }
 
   void _onBottomNavChange() {
@@ -39,6 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
+    _fcmSubscription?.cancel();
     _bottomVM.removeListener(_onBottomNavChange);
     _chatViewModel.dispose();
     super.dispose();
@@ -132,8 +142,11 @@ class _ChatRoomTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ListTile(
-      onTap: () {
-        context.push(Paths.chattingRoom, extra: room);
+      onTap: () async {
+        await context.push(Paths.chattingRoom, extra: room);
+        if (context.mounted) {
+          context.read<ChatViewModel>().refreshChatRooms();
+        }
       },
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       leading: _CircleAvatarPlaceholder(

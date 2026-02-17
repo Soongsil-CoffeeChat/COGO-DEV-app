@@ -39,6 +39,9 @@ abstract class Apis {
   static const String chat = "chat/rooms";
   static const String connectedApplication = "chat/chatRoom/application/";
 
+  /// 푸시 알림 관련 api
+  static const String pushToken = "push/tokens";
+
   /// 신고 관련 api
   static const String report = "report";
 }
