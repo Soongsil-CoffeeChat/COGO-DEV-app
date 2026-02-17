@@ -132,8 +132,11 @@ class _ChatRoomTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ListTile(
-      onTap: () {
-        context.push(Paths.chattingRoom, extra: room);
+      onTap: () async {
+        await context.push(Paths.chattingRoom, extra: room);
+        if (context.mounted) {
+          context.read<ChatViewModel>().refreshChatRooms();
+        }
       },
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       leading: _CircleAvatarPlaceholder(
