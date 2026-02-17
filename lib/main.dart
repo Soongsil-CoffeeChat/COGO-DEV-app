@@ -85,6 +85,25 @@ Future<void> _setupFCM() async {
   // 백그라운드 핸들러 등록
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
+  // 포그라운드 메시지 수신 처리
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    if (kDebugMode) {
+      print("==============================================");
+      print("포그라운드 메시지 수신!");
+      print("Title: ${message.notification?.title}");
+      print("Body: ${message.notification?.body}");
+      print("Data: ${message.data}");
+      print("==============================================");
+    }
+  });
+
+  // 알림 탭해서 앱 열었을 때 처리
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    if (kDebugMode) {
+      print("알림 탭으로 앱 열림: ${message.notification?.title}");
+    }
+  });
+
   // 토큰 확인 (콘솔 테스트용)
   String? token = await messaging.getToken();
   if (kDebugMode) {
