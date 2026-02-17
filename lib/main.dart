@@ -101,8 +101,10 @@ Future<void> _setupFCM() async {
   // 로컬 알림 초기화
   const AndroidInitializationSettings androidSettings =
       AndroidInitializationSettings('@mipmap/ic_logo');
+  const DarwinInitializationSettings iosSettings =
+      DarwinInitializationSettings();
   const InitializationSettings initSettings =
-      InitializationSettings(android: androidSettings);
+      InitializationSettings(android: androidSettings, iOS: iosSettings);
   await flutterLocalNotificationsPlugin.initialize(
     settings: initSettings,
   );
