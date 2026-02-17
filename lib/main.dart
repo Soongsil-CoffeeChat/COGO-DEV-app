@@ -130,6 +130,25 @@ Future<void> _setupFCM() async {
       print("Data: ${message.data}");
       print("==============================================");
     }
+
+    final notification = message.notification;
+    if (notification != null) {
+      flutterLocalNotificationsPlugin.show(
+        id: notification.hashCode,
+        title: notification.title,
+        body: notification.body,
+        notificationDetails: NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelDescription: channel.description,
+            icon: '@mipmap/ic_logo',
+            importance: Importance.high,
+            priority: Priority.high,
+          ),
+        ),
+      );
+    }
   });
 
   // 알림 탭해서 앱 열었을 때 처리
