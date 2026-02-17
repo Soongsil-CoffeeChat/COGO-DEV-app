@@ -12,17 +12,42 @@ import 'package:provider/provider.dart';
 import 'widgets/sender_message.dart';
 import 'widgets/receiver_message.dart';
 
-class ChattingRoomScreen extends StatelessWidget {
+class ChattingRoomScreen extends StatefulWidget {
   const ChattingRoomScreen({super.key, required this.room});
 
   final ChatRoom room;
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
+  State<ChattingRoomScreen> createState() => _ChattingRoomScreenState();
+}
 
+class _ChattingRoomScreenState extends State<ChattingRoomScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ChattingRoomViewModel(ChatService(), room),
+      create: (_) => ChattingRoomViewModel(ChatService(), widget.room),
       child: Builder(
         builder: (context) {
           return Scaffold(
@@ -42,8 +67,8 @@ class ChattingRoomScreen extends StatelessWidget {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        room.participants.first.isDeleted
-                            ? '(알 수 없음)' : (room.participants.first.name ?? ''),
+                        widget.room.participants.first.isDeleted
+                            ? '(알 수 없음)' : (widget.room.participants.first.name ?? ''),
                         style: CogoTextStyle.bodySB20,
                       ),
                       const SizedBox(width: 5),
@@ -85,6 +110,8 @@ class ChattingRoomScreen extends StatelessWidget {
             ),
             body: Consumer<ChattingRoomViewModel>(
               builder: (context, viewModel, _) {
+                // 메시지가 변경될 때마다 자동 스크롤
+                _scrollToBottom();
                 return Column(
                   children: [
                     /// 코고 정보
@@ -121,7 +148,7 @@ class ChattingRoomScreen extends StatelessWidget {
                                 extra: {
                                   'applicationId': viewModel.applicationId,
                                   'otherPartyName':
-                                  room.participants.first.name,
+                                  widget.room.participants.first.name,
                                 },
                               );
                             },
@@ -158,6 +185,7 @@ class ChattingRoomScreen extends StatelessWidget {
                     else
                       Expanded(
                         child: ListView.builder(
+                          controller: _scrollController,
                           reverse: false,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10,
