@@ -69,6 +69,9 @@ void main() async {
   }
 }
 
+// 현재 열려있는 채팅방 ID (null이면 채팅방에 없는 상태)
+int? activeChatRoomId;
+
 // 로컬 알림 플러그인 인스턴스
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -129,6 +132,12 @@ Future<void> _setupFCM() async {
       print("Body: ${message.notification?.body}");
       print("Data: ${message.data}");
       print("==============================================");
+    }
+
+    // 현재 열려있는 채팅방의 알림은 표시하지 않음
+    final roomId = message.data['roomId'];
+    if (roomId != null && int.tryParse(roomId.toString()) == activeChatRoomId) {
+      return;
     }
 
     final notification = message.notification;
