@@ -22,6 +22,27 @@ class _HomeScreenState extends State<HomeScreen>
   late HomeViewModel viewModel;
   int _lastSelectedIndex = -1;
 
+  void _onViewModelChanged() {
+    if (viewModel.showReportSuccessDialog) {
+      viewModel.clearReportSuccess();
+      viewModel.refreshHome();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => OneButtonDialog(
+            title: "신고가 완료되었습니다",
+            subtitle: "유저 차단이 완료되었습니다.\n신고 내역에 따라 해당 유저에게 안내가 이루어질 예정입니다.",
+            imagePath: "assets/icons/3d_img/caution.png",
+            buttonText: "확인",
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        );
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -30,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen>
         length: Interest.values.length, vsync: this, initialIndex: 0);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final viewModel = Provider.of<HomeViewModel>(context, listen: false);
+      viewModel = Provider.of<HomeViewModel>(context, listen: false);
+      viewModel.addListener(_onViewModelChanged);
 
       // 뷰모델 초기화 완료될떄까지 기다림
       while (!viewModel.isInitialized) {
@@ -85,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen>
   /// TabController 메모리 해제
   @override
   void dispose() {
+    Provider.of<HomeViewModel>(context, listen: false).removeListener(_onViewModelChanged);
     _tabController.dispose();
     super.dispose();
   }
