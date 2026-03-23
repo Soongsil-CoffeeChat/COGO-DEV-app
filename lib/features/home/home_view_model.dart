@@ -25,6 +25,18 @@ class HomeViewModel extends ChangeNotifier {
   bool get shouldShowDialog => _shouldShowDialog;
   bool isInitialized = false;
 
+  bool _showReportSuccessDialog = false;
+  bool get showReportSuccessDialog => _showReportSuccessDialog;
+
+  void setReportSuccess() {
+    _showReportSuccessDialog = true;
+    notifyListeners();
+  }
+
+  void clearReportSuccess() {
+    _showReportSuccessDialog = false;
+  }
+
   String _currentPart = Interest.FE.name;
 
   HomeViewModel() {

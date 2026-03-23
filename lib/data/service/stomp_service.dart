@@ -42,9 +42,6 @@ class StompService {
         stompConnectHeaders: {
           'Authorization': 'Bearer $accessToken',
         },
-        webSocketConnectHeaders: {
-          'Authorization': 'Bearer $accessToken',
-        },
         reconnectDelay: const Duration(seconds: 5),
       ),
     );

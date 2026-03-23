@@ -6,6 +6,7 @@ import 'package:cogo/common/widgets/components/basic_textfield.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/home/report/report_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -101,16 +102,8 @@ class ReportDetailScreen extends StatelessWidget {
                                   if (!context.mounted) return;
 
                                   if (isSuccess) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('신고가 접수되었습니다.')),
-                                    );
-                                    if (context.canPop())
-                                      context.pop(); // 신고 상세 -> 사유 선택
-                                    if (context.canPop())
-                                      context.pop(); // 사유 선택 -> 프로필 상세 바텀시트
-                                    if (context.canPop())
-                                      context.pop(); // 프로필 상세 바텀시트 -> 프로필 상세
+                                    context.read<HomeViewModel>().setReportSuccess();
+                                    context.go(Paths.home);
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
