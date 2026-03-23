@@ -36,24 +36,30 @@ class ProfileDetailScreen extends StatelessWidget {
                 onPressed: () => Navigator.of(context).pop(),
               ),
               actions: [
-                IconButton(
-                  onPressed: () {
-                    final viewModel = context.read<ProfileDetailViewModel>();
-
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: CogoColor.white50,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16)),
-                      ),
-                      builder: (BuildContext context) {
-                        return _buildBottomSheetContent(context, viewModel);
+                Consumer<ProfileDetailViewModel>(
+                  builder: (context, viewModel, child) {
+                    final isSelf = viewModel.currentUserId != null &&
+                        viewModel.reportedUserId != null &&
+                        viewModel.currentUserId == viewModel.reportedUserId;
+                    if (isSelf) return const SizedBox.shrink();
+                    return IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: CogoColor.white50,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16)),
+                          ),
+                          builder: (BuildContext context) {
+                            return _buildBottomSheetContent(context, viewModel);
+                          },
+                        );
                       },
+                      icon: const Icon(Icons.more_vert),
                     );
                   },
-                  icon: const Icon(Icons.more_vert),
-                )
+                ),
               ],
               title: Consumer<ProfileDetailViewModel>(
                 builder: (context, viewModel, child) {

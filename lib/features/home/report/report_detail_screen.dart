@@ -105,12 +105,7 @@ class ReportDetailScreen extends StatelessWidget {
                                       const SnackBar(
                                           content: Text('신고가 접수되었습니다.')),
                                     );
-                                    if (context.canPop())
-                                      context.pop(); // 신고 상세 -> 사유 선택
-                                    if (context.canPop())
-                                      context.pop(); // 사유 선택 -> 프로필 상세 바텀시트
-                                    if (context.canPop())
-                                      context.pop(); // 프로필 상세 바텀시트 -> 프로필 상세
+                                    context.go(Paths.home);
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
