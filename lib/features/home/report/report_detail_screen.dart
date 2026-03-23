@@ -103,7 +103,7 @@ class ReportDetailScreen extends StatelessWidget {
 
                                   if (isSuccess) {
                                     context.read<HomeViewModel>().setReportSuccess();
-                                    context.go(Paths.home);
+                                    context.popUntil(Paths.home);
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(

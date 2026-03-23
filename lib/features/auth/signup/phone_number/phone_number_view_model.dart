@@ -10,10 +10,10 @@ import 'package:go_router/go_router.dart';
 class PhoneNumberViewModel extends ChangeNotifier {
   final UserService userService;
 
-  String? _verificationCode;
+  int? _verificationCode;
   String? _message;
 
-  String? get verificationCode => _verificationCode;
+  int? get verificationCode => _verificationCode;
   String? get message => _message;
 
   final TextEditingController phoneController = TextEditingController();
@@ -82,7 +82,7 @@ class PhoneNumberViewModel extends ChangeNotifier {
     if (isValidCode.value) {
       log("verificationCode: $_verificationCode, codeController.text ${codeController.text}");
 
-      if (_verificationCode == codeController.text) {
+      if (_verificationCode?.toString() == codeController.text) {
         TextInput.finishAutofillContext();
 
         context.push("${Paths.agreement}/${Paths.name}",

@@ -6,7 +6,7 @@ part 'sms_verification_response.g.dart';
 @freezed
 class SmsVerificationResponse with _$SmsVerificationResponse {
   const factory SmsVerificationResponse({
-    @JsonKey(name: 'verificationCode') required String verificationCode,
+    @JsonKey(name: 'verificationCode') required int verificationCode,
   }) = _SmsVerificationResponsee;
 
   factory SmsVerificationResponse.fromJson(Map<String, dynamic> json) =>

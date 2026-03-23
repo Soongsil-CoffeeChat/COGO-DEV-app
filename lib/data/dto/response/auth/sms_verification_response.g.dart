@@ -9,7 +9,7 @@ part of 'sms_verification_response.dart';
 _$SmsVerificationResponseeImpl _$$SmsVerificationResponseeImplFromJson(
         Map<String, dynamic> json) =>
     _$SmsVerificationResponseeImpl(
-      verificationCode: json['verificationCode'] as String,
+      verificationCode: (json['verificationCode'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$SmsVerificationResponseeImplToJson(

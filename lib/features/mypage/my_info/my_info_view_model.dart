@@ -37,12 +37,12 @@ class MyInfoViewModel extends ChangeNotifier {
   bool successEmailVerificationCode = false;
 
   /// 인증 번호를 담는 변수
-  String? _phoneVerificationCode;
+  int? _phoneVerificationCode;
   String? _emailVerificationCode;
 
   String? _message;
 
-  String? get phoneVerificationCode => _phoneVerificationCode;
+  int? get phoneVerificationCode => _phoneVerificationCode;
   String? get message => _message;
 
   /// 서버에서 받은 사용자 정보(이름, 폰번호, 이메일)
@@ -154,7 +154,7 @@ class MyInfoViewModel extends ChangeNotifier {
 
   /// 휴대폰 "확인" 버튼 → 입력한 인증코드 검증
   void checkPhoneVerificationCode() {
-    if (_phoneVerificationCode == phoneVerificationCodeController.text) {
+    if (_phoneVerificationCode?.toString() == phoneVerificationCodeController.text) {
       // 인증 성공
       successPhoneVerificationCode = true;
 

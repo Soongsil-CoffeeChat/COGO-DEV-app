@@ -22,7 +22,7 @@ SmsVerificationResponse _$SmsVerificationResponseFromJson(
 /// @nodoc
 mixin _$SmsVerificationResponse {
   @JsonKey(name: 'verificationCode')
-  String get verificationCode => throw _privateConstructorUsedError;
+  int get verificationCode => throw _privateConstructorUsedError;
 
   /// Serializes this SmsVerificationResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $SmsVerificationResponseCopyWith<$Res> {
           $Res Function(SmsVerificationResponse) then) =
       _$SmsVerificationResponseCopyWithImpl<$Res, SmsVerificationResponse>;
   @useResult
-  $Res call({@JsonKey(name: 'verificationCode') String verificationCode});
+  $Res call({@JsonKey(name: 'verificationCode') int verificationCode});
 }
 
 /// @nodoc
@@ -65,7 +65,7 @@ class _$SmsVerificationResponseCopyWithImpl<$Res,
       verificationCode: null == verificationCode
           ? _value.verificationCode
           : verificationCode // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ) as $Val);
   }
 }
@@ -79,7 +79,7 @@ abstract class _$$SmsVerificationResponseeImplCopyWith<$Res>
       __$$SmsVerificationResponseeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'verificationCode') String verificationCode});
+  $Res call({@JsonKey(name: 'verificationCode') int verificationCode});
 }
 
 /// @nodoc
@@ -103,7 +103,7 @@ class __$$SmsVerificationResponseeImplCopyWithImpl<$Res>
       verificationCode: null == verificationCode
           ? _value.verificationCode
           : verificationCode // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ));
   }
 }
@@ -119,7 +119,7 @@ class _$SmsVerificationResponseeImpl implements _SmsVerificationResponsee {
 
   @override
   @JsonKey(name: 'verificationCode')
-  final String verificationCode;
+  final int verificationCode;
 
   @override
   String toString() {
@@ -159,14 +159,14 @@ class _$SmsVerificationResponseeImpl implements _SmsVerificationResponsee {
 abstract class _SmsVerificationResponsee implements SmsVerificationResponse {
   const factory _SmsVerificationResponsee(
       {@JsonKey(name: 'verificationCode')
-      required final String verificationCode}) = _$SmsVerificationResponseeImpl;
+      required final int verificationCode}) = _$SmsVerificationResponseeImpl;
 
   factory _SmsVerificationResponsee.fromJson(Map<String, dynamic> json) =
       _$SmsVerificationResponseeImpl.fromJson;
 
   @override
   @JsonKey(name: 'verificationCode')
-  String get verificationCode;
+  int get verificationCode;
 
   /// Create a copy of SmsVerificationResponse
   /// with the given fields replaced by the non-null parameter values.
