@@ -50,4 +50,5 @@ abstract class Paths {
   static const String image = '/image';
 
   static const String chattingRoom = '/chattingRoom';
+  static const String qr = '/qr';
 }

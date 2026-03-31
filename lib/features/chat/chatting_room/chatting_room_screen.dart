@@ -1,6 +1,7 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/features/chat/chatting_room/chatting_room_view_model.dart';
@@ -8,6 +9,7 @@ import 'package:cogo/features/chat/chatting_room/widgets/attachment_panel.dart';
 import 'package:cogo/features/chat/chatting_room/widgets/chat_input_bar.dart';
 import 'package:cogo/features/chat/chatting_room/widgets/cogo_schedule_header.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'widgets/sender_message.dart';
 import 'widgets/receiver_message.dart';
@@ -111,7 +113,12 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
                           },
                           onCouponTap: () {
                             _closePanel();
-                            // TODO: 커피쿠폰 발급 동작
+                            final role = context.read<ChattingRoomViewModel>().role;
+                            if (role == Role.ROLE_MENTOR.name) {
+                              context.push(Paths.qr);
+                            } else {
+                              // TODO: 멘티 쿠폰 동작
+                            }
                           },
                         ),
                       ),
