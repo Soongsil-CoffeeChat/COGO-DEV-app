@@ -108,7 +108,7 @@ class ProfileCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     description,
-                    style: CogoTextStyle.body12,
+                    style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
                   ),
                 ],
               ),
