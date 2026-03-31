@@ -1,6 +1,14 @@
+import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 
 class CouponViewModel extends ChangeNotifier {
+  CouponViewModel({required this.userService}) {
+    pinController.addListener(_onPinChanged);
+  }
+
+  final UserService userService;
+
+  // ── QR ───────────────────────────────────────────────────────
   bool _isLoading = false;
   String? _qrImageUrl;
 
@@ -12,10 +20,33 @@ class CouponViewModel extends ChangeNotifier {
     notifyListeners();
 
     // TODO: API 연결 후 아래 주석 해제
-    // final response = await _couponService.getQrCode();
+    // final response = await couponService.getQrCode();
     // _qrImageUrl = response.qrImageUrl;
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  // ── PIN ──────────────────────────────────────────────────────
+  final TextEditingController pinController = TextEditingController();
+  final ValueNotifier<bool> isValidPin = ValueNotifier(false);
+
+  void _onPinChanged() {
+    isValidPin.value = pinController.text.trim().isNotEmpty;
+  }
+
+  Future<void> verifyPin(BuildContext context) async {
+    final pin = pinController.text.trim();
+
+    // TODO: API 연결 후 아래 주석 해제
+    // await couponService.verifyPin(pin);
+  }
+
+  @override
+  void dispose() {
+    pinController.removeListener(_onPinChanged);
+    pinController.dispose();
+    isValidPin.dispose();
+    super.dispose();
   }
 }

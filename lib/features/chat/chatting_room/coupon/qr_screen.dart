@@ -1,5 +1,6 @@
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
 import 'package:cogo/constants/colors.dart';
+import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/coupon_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ class QrScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => CouponViewModel()..fetchQrCode(),
+      create: (_) => CouponViewModel(userService: UserService())..fetchQrCode(),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
