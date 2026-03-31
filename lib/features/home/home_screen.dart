@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen>
   /// TabController 메모리 해제
   @override
   void dispose() {
-    Provider.of<HomeViewModel>(context, listen: false).removeListener(_onViewModelChanged);
+    viewModel.removeListener(_onViewModelChanged);
     _tabController.dispose();
     super.dispose();
   }

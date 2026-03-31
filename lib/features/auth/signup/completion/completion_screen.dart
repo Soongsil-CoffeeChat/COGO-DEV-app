@@ -70,7 +70,7 @@ class CompletionScreen extends StatelessWidget {
                               await viewModel.refreshToken();
                               // context.mounted 체크(비동기 처리 안전성)
                               if (!context.mounted) return;
-                              context.go(Paths.home);
+                              Future.microtask(() => context.go(Paths.home));
                             },
                             size: BasicButtonSize.LARGE,
                           )),

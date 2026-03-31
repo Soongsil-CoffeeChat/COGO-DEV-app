@@ -117,7 +117,7 @@ class MypageScreen extends StatelessWidget {
                         onTap: () async {
                           await viewModel.logOut();
                           if (context.mounted) {
-                            context.go(Paths.login);
+                            Future.microtask(() => context.go(Paths.login));
                           }
                         },
                       ),
@@ -207,21 +207,24 @@ class MypageScreen extends StatelessWidget {
     );
   }
 
-  void _showMentorProfileDialog(BuildContext context, MypageViewModel viewModel) {
+  void _showMentorProfileDialog(BuildContext outerContext, MypageViewModel viewModel) {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
+      context: outerContext,
+      builder: (BuildContext dialogContext) {
         return TwoButtonDialog(
           title: "정말 탈퇴하시겠어요?",
           subtitle: '탈퇴 후 계정은 삭제되지만, 7일 이내 재가입 시 복구할 수 있습니다.',
           imagePath: 'assets/icons/3d_img/trash.png',
           firstButtonText: '취소하기',
           secondButtonText: '탈퇴하기',
-          firstOnPressed: () => Navigator.of(context).pop(),
+          firstOnPressed: () => Navigator.of(dialogContext).pop(),
           secondOnPressed: () async {
-            await viewModel.signOut(context);
-            if (context.mounted) {
-              context.go(Paths.login);
+            await viewModel.signOut(dialogContext);
+            if (dialogContext.mounted) {
+              Navigator.of(dialogContext).pop();
+            }
+            if (outerContext.mounted) {
+              Future.microtask(() => outerContext.go(Paths.login));
             }
           },
         );

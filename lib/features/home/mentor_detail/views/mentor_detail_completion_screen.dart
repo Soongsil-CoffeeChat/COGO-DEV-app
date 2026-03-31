@@ -50,7 +50,8 @@ class MentorDetailCompletionScreen extends StatelessWidget {
                         final homeViewModel =
                             Provider.of<HomeViewModel>(context, listen: false);
                         await homeViewModel.fetchIntroductionData();
-                        context.go(Paths.home);
+                        if (!context.mounted) return;
+                        Future.microtask(() => context.go(Paths.home));
                       },
                     );
                   },
