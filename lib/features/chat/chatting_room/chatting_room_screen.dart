@@ -117,6 +117,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
                             if (role == Role.ROLE_MENTOR.name) {
                               context.push(Paths.qr);
                             } else {
+                              context.push(Paths.qrScanner);
                               // TODO: 멘티 쿠폰 동작
                             }
                           },

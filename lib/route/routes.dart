@@ -15,6 +15,7 @@ import 'package:cogo/features/auth/signup/name_input/name_input_screen.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_screen.dart';
 import 'package:cogo/features/chat/chat_sreean.dart';
 import 'package:cogo/features/chat/chatting_room/chatting_room_screen.dart';
+import 'package:cogo/features/chat/chatting_room/coupon/qr_scanner_screen.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/qr_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_screen.dart';
@@ -341,6 +342,13 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const QrScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.qrScanner,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const QrScannerScreen(),
       ),
     ),
   ],

@@ -51,4 +51,5 @@ abstract class Paths {
 
   static const String chattingRoom = '/chattingRoom';
   static const String qr = '/qr';
+  static const String qrScanner = '/qrScanner';
 }
