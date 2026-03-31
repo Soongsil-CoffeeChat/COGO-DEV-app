@@ -1,3 +1,4 @@
+import 'package:cogo/common/widgets/profile_card.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,25 @@ class PlaceDetailScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Expanded(
-                child: SizedBox(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    child: ProfileCard(
+                      picture: '',
+                      assetPicture: 'assets/image/coffee_namu_img.png',
+                      showMentorSuffix: false,
+                      mentorName: '커피나무 숭실대점',
+                      username: '',
+                      mentorId: '',
+                      tags: const [],
+                      title: '서울 동작구 상도로 61길 65 1층',
+                      description: '서울 동작구 상도동 506-9',
+                      width: double.infinity,
+                      onTap: () {},
+                    ),
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
