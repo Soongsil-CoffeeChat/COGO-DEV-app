@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PlaceDetailScreen extends StatelessWidget {
-  final int mentorId;
+  final int? mentorId;
 
-  const PlaceDetailScreen({super.key, required this.mentorId});
+  const PlaceDetailScreen({super.key, this.mentorId});
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +55,12 @@ class PlaceDetailScreen extends StatelessWidget {
                   child: BasicButton(
                     text: '다음',
                     isClickable: true,
-                    onPressed: () => context.push(
-                      Paths.schedule,
-                      extra: {'mentorId': mentorId},
-                    ),
+                    onPressed: () => mentorId != null
+                        ? context.push(
+                            Paths.schedule,
+                            extra: {'mentorId': mentorId},
+                          )
+                        : context.push(Paths.timeSetting),
                   ),
                 ),
               ),

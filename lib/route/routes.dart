@@ -23,7 +23,7 @@ import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_detail_screen.d
 import 'package:cogo/features/cogo/unmatched_cogo/unmatched_cogo_screen.dart';
 import 'package:cogo/features/home/apply/matching/matching_screen.dart';
 import 'package:cogo/features/home/apply/memo/memo_screen.dart';
-import 'package:cogo/features/home/apply/place_detail_screen.dart';
+import 'package:cogo/features/home/place_detail_screen.dart';
 import 'package:cogo/features/home/apply/schedule/schedule_screen.dart';
 import 'package:cogo/features/home/home_screen.dart';
 import 'package:cogo/features/home/mentor_detail/views/mentor_detail_completion_screen.dart';
@@ -163,8 +163,8 @@ final AppRouter = GoRouter(
     GoRoute(
       path: Paths.placeDetail,
       builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        final mentorId = extra['mentorId'] as int;
+        final extra = state.extra as Map<String, dynamic>?;
+        final mentorId = extra?['mentorId'] as int?;
         return PlaceDetailScreen(mentorId: mentorId);
       },
     ),
