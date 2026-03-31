@@ -167,16 +167,18 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
-            return Container(
-              height: 400,
-              padding: const EdgeInsets.all(15.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(30.0),
+            return SafeArea(
+              top: false,
+              child: Container(
+                height: 400,
+                padding: const EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(30.0),
+                  ),
+                  border: Border.all(color: Colors.black, width: 1),
                 ),
-                border: Border.all(color: Colors.black, width: 1),
-              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -220,6 +222,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                   ),
                 ],
               ),
+            ),
             );
           },
         );

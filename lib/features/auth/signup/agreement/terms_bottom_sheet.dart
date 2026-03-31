@@ -93,13 +93,16 @@ class _TermsBottomSheetState extends State<TermsBottomSheet> {
             ),
 
             /// 시작하기 버튼
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: BasicButton(
-                size: BasicButtonSize.LARGE,
-                text: '시작하기',
-                isClickable: isAllRequiredAgreed,
-                onPressed: _onStartPressed,
+            SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: BasicButton(
+                  size: BasicButtonSize.LARGE,
+                  text: '시작하기',
+                  isClickable: isAllRequiredAgreed,
+                  onPressed: _onStartPressed,
+                ),
               ),
             ),
           ],

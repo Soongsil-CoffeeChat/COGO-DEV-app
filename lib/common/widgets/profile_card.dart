@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
   final String picture;
+  final String? assetPicture;
+  final bool showMentorSuffix;
   final String mentorName;
   final String username;
   final String mentorId;
@@ -18,6 +20,8 @@ class ProfileCard extends StatelessWidget {
   const ProfileCard({
     super.key,
     required this.picture,
+    this.assetPicture,
+    this.showMentorSuffix = true,
     required this.mentorName,
     required this.tags,
     required this.username,
@@ -58,20 +62,27 @@ class ProfileCard extends StatelessWidget {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
-                    child: Image.network(
-                      picture.isNotEmpty ? picture : '', // 빈 문자열로 설정해 에러를 유도
-                      width: double.infinity,
-                      height: 150,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          'assets/default_img.png', // 로컬 기본 이미지
-                          width: double.infinity,
-                          height: 150,
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    )),
+                    child: assetPicture != null
+                        ? Image.asset(
+                            assetPicture!,
+                            width: double.infinity,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            picture.isNotEmpty ? picture : '', // 빈 문자열로 설정해 에러를 유도
+                            width: double.infinity,
+                            height: 150,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'assets/default_img.png', // 로컬 기본 이미지
+                                width: double.infinity,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          )),
                 Positioned(
                   top: 15,
                   left: 15,
@@ -86,7 +97,7 @@ class ProfileCard extends StatelessWidget {
                 children: [
                   const SizedBox(height: 8),
                   Text(
-                    '$mentorName 멘토님',
+                    showMentorSuffix ? '$mentorName 멘토님' : mentorName,
                     style: CogoTextStyle.body20,
                   ),
                   const SizedBox(height: 8),
@@ -97,7 +108,7 @@ class ProfileCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     description,
-                    style: CogoTextStyle.body12,
+                    style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
                   ),
                 ],
               ),

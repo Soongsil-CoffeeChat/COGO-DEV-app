@@ -48,7 +48,7 @@ class ProfileDetailViewModel extends ChangeNotifier {
 
   void applyForCogo(BuildContext context, int mentorId) {
     context.push(
-      Paths.schedule,
+      Paths.placeDetail,
       extra: {'mentorId': mentorId},
     );
   }
