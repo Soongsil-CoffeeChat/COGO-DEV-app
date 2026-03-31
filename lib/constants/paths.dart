@@ -21,6 +21,7 @@ abstract class Paths {
   static const String mypage = '/mypage';
 
   static const String profileDetail = '/profileDetail';
+  static const String placeDetail = '/placeDetail';
   static const String search = '/search';
   static const String schedule = '/schedule';
   static const String memo = '/memo';
