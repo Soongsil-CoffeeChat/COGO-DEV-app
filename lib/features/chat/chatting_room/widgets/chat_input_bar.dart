@@ -9,6 +9,7 @@ class ChatInputBar extends StatelessWidget {
     required this.controller,
     required this.onSend,
     this.onTapPlus,
+    this.isPanelOpen = false,
     this.hintText = '메시지 보내기',
     this.enabled = true,
     this.backgroundColor = const Color(0xFFF5F5F5),
@@ -20,6 +21,9 @@ class ChatInputBar extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback? onTapPlus;
   final ValueChanged<String> onSend;
+
+  /// true이면 × 아이콘, false이면 + 아이콘 표시
+  final bool isPanelOpen;
 
   final String hintText;
   final bool enabled;
@@ -43,11 +47,22 @@ class ChatInputBar extends StatelessWidget {
         top: false,
         child: Row(
           children: [
-            // 추가 버튼
+            // 추가 / 닫기 토글 버튼
             GestureDetector(
               onTap: onTapPlus,
               behavior: HitTestBehavior.opaque,
-              child: SvgPicture.asset('assets/icons/button/plus.svg'),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: isPanelOpen
+                    ? SvgPicture.asset(
+                  'assets/icons/button/x.svg',
+                  key: const ValueKey('close'),
+                )
+                    : SvgPicture.asset(
+                  'assets/icons/button/plus.svg',
+                  key: const ValueKey('plus'),
+                ),
+              ),
             ),
             SizedBox(width: spacing),
 
