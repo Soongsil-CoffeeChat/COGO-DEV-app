@@ -32,7 +32,7 @@ class CogoScheduleHeader extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${viewModel.formattedDate} 커피나무 숭실대점 ${viewModel.formattedTime}',
+                      '${viewModel.formattedDate} eea cafe ${viewModel.formattedTime}',
                       style: CogoTextStyle.bodyR12
                           .copyWith(color: CogoColor.systemGray04),
                     ),

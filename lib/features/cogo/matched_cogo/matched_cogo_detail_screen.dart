@@ -185,7 +185,7 @@ class MatchedCogoDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '커피나무 숭실대점 / 서울 동작구 상도로 61길 65 1층',
+              'eea cafe / 서울 동작구 상도로61가길 6 1층',
               style:
                   CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
             ),
