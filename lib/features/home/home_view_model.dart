@@ -50,9 +50,8 @@ class HomeViewModel extends ChangeNotifier {
   final CouponService _couponService = CouponService();
 
   HomeViewModel() {
-    loadPreferences();
+    loadPreferences().then((_) => fetchEventStatus());
     fetchUserData();
-    fetchEventStatus();
   }
 
   Future<void> loadPreferences() async {
@@ -141,7 +140,7 @@ class HomeViewModel extends ChangeNotifier {
   Future<void> fetchEventStatus() async {
     try {
       final response = await _couponService.getEventStatus();
-      if (response.status == 'IN_PROGRESS') {
+      if (response.status == 'IN_PROGRESS' && role == Role.ROLE_MENTEE.name) {
         _showEventDialog = true;
         notifyListeners();
       }
