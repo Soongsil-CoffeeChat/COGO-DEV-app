@@ -3,6 +3,7 @@ import 'package:cogo/common/enums/interest.dart';
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
+import 'package:cogo/data/service/coupon_service.dart';
 import 'package:cogo/data/service/mentor_service.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/domain/entity/mentor_part_entity.dart';
@@ -37,11 +38,21 @@ class HomeViewModel extends ChangeNotifier {
     _showReportSuccessDialog = false;
   }
 
+  bool _showEventDialog = false;
+  bool get showEventDialog => _showEventDialog;
+
+  void clearEventDialog() {
+    _showEventDialog = false;
+  }
+
   String _currentPart = Interest.FE.name;
+
+  final CouponService _couponService = CouponService();
 
   HomeViewModel() {
     loadPreferences();
     fetchUserData();
+    fetchEventStatus();
   }
 
   Future<void> loadPreferences() async {
@@ -124,6 +135,18 @@ class HomeViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       log('Failed to loading introduction: $e');
+    }
+  }
+
+  Future<void> fetchEventStatus() async {
+    try {
+      final response = await _couponService.getEventStatus();
+      if (response.status == 'IN_PROGRESS') {
+        _showEventDialog = true;
+        notifyListeners();
+      }
+    } catch (e) {
+      log('이벤트 상태 조회 실패: $e');
     }
   }
 
