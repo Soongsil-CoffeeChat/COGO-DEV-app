@@ -31,17 +31,18 @@ class PlaceDetailScreen extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16.0),
                     child: ProfileCard(
                       picture: '',
-                      assetPicture: 'assets/image/coffee_namu_img.png',
+                      assetPicture: 'assets/image/eea_img.png',
                       showMentorSuffix: false,
-                      mentorName: '커피나무 숭실대점',
+                      mentorName: 'eea cafe',
                       username: '',
                       mentorId: '',
                       tags: const [],
-                      title: '서울 동작구 상도로 61길 65 1층',
-                      description: '서울 동작구 상도동 506-9',
+                      title: '서울 동작구 상도로61가길 6 1층',
+                      description: '서울 동작구 상도동 507-24',
                       width: double.infinity,
                       onTap: () {},
                     ),
