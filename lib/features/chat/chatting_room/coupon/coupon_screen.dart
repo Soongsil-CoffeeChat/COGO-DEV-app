@@ -59,7 +59,7 @@ class _CouponView extends StatelessWidget {
 
                     // 쿠폰 이미지 (PNG)
                     Image.asset(
-                      'assets/image/coupon.png',
+                      'assets/image/eea_coupon.png',
                       width: double.infinity,
                       fit: BoxFit.fitWidth,
                     ),
@@ -109,7 +109,7 @@ class _CouponView extends StatelessWidget {
                     // 브랜드 라벨 (SVG)
                     Center(
                       child: SvgPicture.asset(
-                        'assets/image/coffee_namu_label.svg',
+                        'assets/image/eea_label.svg',
                         height: 24,
                         fit: BoxFit.contain,
                       ),
