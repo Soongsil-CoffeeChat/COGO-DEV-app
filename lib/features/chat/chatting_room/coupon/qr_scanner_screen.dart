@@ -24,10 +24,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     if (barcode?.rawValue == null) return;
 
     _hasScanned = true;
-    final String code = barcode!.rawValue!;
-
-    // 스캔 결과를 이전 화면으로 반환
-    Navigator.pop(context, code);
+    Navigator.pop(context, barcode!.rawValue!);
   }
 
   @override
@@ -85,23 +82,6 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
               ),
             ),
           ),
-
-          // ── 하단 버튼 영역 ──────────────────────────────────
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 32),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // 촬영(캡처) 버튼 — 가운데
-                    _CaptureButton(onTap: () {}),
-                  ],
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -153,13 +133,9 @@ class _OverlayPainter extends CustomPainter {
     const cl = _ScanOverlay.cornerLength;
     const cr = cornerRadius;
 
-    // 좌상
     canvas.drawPath(_cornerPath(scanRect.topLeft, cr, cl, _Corner.topLeft), cornerPaint);
-    // 우상
     canvas.drawPath(_cornerPath(scanRect.topRight, cr, cl, _Corner.topRight), cornerPaint);
-    // 좌하
     canvas.drawPath(_cornerPath(scanRect.bottomLeft, cr, cl, _Corner.bottomLeft), cornerPaint);
-    // 우하
     canvas.drawPath(_cornerPath(scanRect.bottomRight, cr, cl, _Corner.bottomRight), cornerPaint);
   }
 
@@ -199,32 +175,3 @@ class _OverlayPainter extends CustomPainter {
 }
 
 enum _Corner { topLeft, topRight, bottomLeft, bottomRight }
-
-// ── 하단 버튼 위젯들 ─────────────────────────────────────────────
-
-class _CaptureButton extends StatelessWidget {
-  const _CaptureButton({required this.onTap});
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 70,
-        height: 70,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 3),
-        ),
-        padding: const EdgeInsets.all(5),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-          ),
-        ),
-      ),
-    );
-  }
-}
