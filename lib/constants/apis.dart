@@ -49,4 +49,5 @@ abstract class Apis {
   static const String getQrCode = "events/qr";
   static const String getEventStatus = "events/status";
   static const String checkEligibility = "events/check-eligibility";
+  static const String verifyQrToken = "events/verify-qr";
 }

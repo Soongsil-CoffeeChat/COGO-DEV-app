@@ -1,8 +1,13 @@
+import 'package:cogo/constants/paths.dart';
+import 'package:cogo/data/service/coupon_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class QrScannerScreen extends StatefulWidget {
-  const QrScannerScreen({super.key});
+  const QrScannerScreen({super.key, required this.applicationId});
+
+  final int applicationId;
 
   @override
   State<QrScannerScreen> createState() => _QrScannerScreenState();
@@ -10,6 +15,7 @@ class QrScannerScreen extends StatefulWidget {
 
 class _QrScannerScreenState extends State<QrScannerScreen> {
   final MobileScannerController _controller = MobileScannerController();
+  final CouponService _couponService = CouponService();
   bool _hasScanned = false;
 
   @override
@@ -24,7 +30,23 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     if (barcode?.rawValue == null) return;
 
     _hasScanned = true;
-    Navigator.pop(context, barcode!.rawValue!);
+    _verifyAndNavigate(barcode!.rawValue!);
+  }
+
+  Future<void> _verifyAndNavigate(String qrToken) async {
+    try {
+      await _couponService.verifyQrToken(qrToken);
+
+      if (!mounted) return;
+      context.pushReplacement(Paths.coupon, extra: widget.applicationId);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('유효하지 않은 QR 코드입니다.')),
+      );
+      // 재스캔 가능하도록 플래그 초기화
+      setState(() => _hasScanned = false);
+    }
   }
 
   @override
@@ -129,7 +151,6 @@ class _OverlayPainter extends CustomPainter {
       ..strokeWidth = _ScanOverlay.cornerWidth
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-
 
     const cl = _ScanOverlay.cornerLength;
     const cr = cornerRadius;

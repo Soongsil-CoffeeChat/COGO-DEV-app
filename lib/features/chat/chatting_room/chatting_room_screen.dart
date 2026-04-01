@@ -82,7 +82,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
       if (viewModel.role == Role.ROLE_MENTOR.name) {
         context.push(Paths.qr, extra: applicationId);
       } else {
-        context.push(Paths.qrScanner);
+        context.push(Paths.qrScanner, extra: applicationId);
       }
     } catch (e) {
       if (!mounted) return;

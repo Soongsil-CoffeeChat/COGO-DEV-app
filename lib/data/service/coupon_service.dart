@@ -48,6 +48,24 @@ class CouponService {
     }
   }
 
+  /// GET /api/v2/events/verify-qr - QR 토큰 유효성 1차 검증
+  /// 성공(200) 시 void 반환, 실패 시 예외 throw
+  Future<void> verifyQrToken(String qrToken) async {
+    try {
+      final response = await _apiClient.dio.get(
+        _apiVersion + Apis.verifyQrToken,
+        queryParameters: {'qrToken': qrToken},
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('QR 토큰 검증 실패: ${response.statusCode}');
+      }
+    } catch (e) {
+      log('QR 토큰 검증 오류: $e');
+      rethrow;
+    }
+  }
+
   /// GET /api/v2/events/qr - 멘토 인증용 QR 코드 이미지(PNG) 발급
   Future<Uint8List> getQrCode(int applicationId) async {
     try {

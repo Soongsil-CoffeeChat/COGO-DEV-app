@@ -351,10 +351,13 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.qrScanner,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const QrScannerScreen(),
-      ),
+      pageBuilder: (context, state) {
+        final applicationId = state.extra as int? ?? 0;
+        return MaterialPage(
+          key: state.pageKey,
+          child: QrScannerScreen(applicationId: applicationId),
+        );
+      },
     ),
     GoRoute(
       path: Paths.staffPinEntry,
