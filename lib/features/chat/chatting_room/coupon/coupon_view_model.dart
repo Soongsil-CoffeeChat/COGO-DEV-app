@@ -30,16 +30,24 @@ class CouponViewModel extends ChangeNotifier {
   // ── PIN ──────────────────────────────────────────────────────
   final TextEditingController pinController = TextEditingController();
   final ValueNotifier<bool> isValidPin = ValueNotifier(false);
+  final ValueNotifier<String?> errorMessage = ValueNotifier(null);
 
   void _onPinChanged() {
     isValidPin.value = pinController.text.trim().isNotEmpty;
+    errorMessage.value = null;
   }
 
   Future<void> verifyPin(BuildContext context) async {
     final pin = pinController.text.trim();
 
-    // TODO: API 연결 후 아래 주석 해제
-    // await couponService.verifyPin(pin);
+    try {
+      // TODO: API 연결 후 아래 주석 해제
+      // await couponService.verifyPin(pin);
+
+      errorMessage.value = null;
+    } catch (e) {
+      errorMessage.value = '코드가 일치하지 않습니다. 코드를 확인해주세요.';
+    }
   }
 
   @override
@@ -47,6 +55,7 @@ class CouponViewModel extends ChangeNotifier {
     pinController.removeListener(_onPinChanged);
     pinController.dispose();
     isValidPin.dispose();
+    errorMessage.dispose();
     super.dispose();
   }
 }
