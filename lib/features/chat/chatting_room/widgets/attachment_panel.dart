@@ -23,13 +23,13 @@ class AttachmentPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AttachmentItem(
-            assetPath: 'assets/icons/button/close.svg',
+            assetPath: 'assets/icons/button/img.svg',
             label: '이미지',
             onTap: onImageTap,
           ),
           const SizedBox(width: 20),
           AttachmentItem(
-            assetPath: 'assets/icons/button/close.svg',
+            assetPath: 'assets/icons/button/slot.svg',
             label: '커피쿠폰\n발급 받기',
             onTap: onCouponTap,
           ),
@@ -59,17 +59,17 @@ class AttachmentItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 60,
-            height: 60,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
-              color: const Color(0xFFF2F2F2),
-              borderRadius: BorderRadius.circular(16),
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
               child: SvgPicture.asset(
                 assetPath,
-                width: 28,
-                height: 28,
+                width: 24,
+                height: 24,
               ),
             ),
           ),

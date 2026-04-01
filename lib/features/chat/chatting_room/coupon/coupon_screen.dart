@@ -85,7 +85,7 @@ class _CouponView extends StatelessWidget {
                           _InfoRow(
                             label: '쿠폰번호',
                             value: viewModel.couponNumber.isEmpty
-                                ? '-'
+                                ? '직원 확인이 완료되면 쿠폰 번호가 발급됩니다.'
                                 : viewModel.couponNumber,
                           ),
                           const SizedBox(height: 16),
@@ -102,7 +102,7 @@ class _CouponView extends StatelessWidget {
                           const _InfoRow(
                             label: '주의 사항',
                             value:
-                            '*본 쿠폰은 이벤트로 제공되는 1회성 쿠폰으로, 해당 쿠폰을 제시하면\n3,800원 상당의 아메리카노 2잔을 드립니다.',
+                                '*본 쿠폰은 이벤트로 제공되는 1회성 쿠폰으로, 해당 쿠폰을 제시하면\n4,000원 상당의 아메리카노 2잔을 드립니다.',
                           ),
                         ],
                       ),
@@ -171,10 +171,9 @@ class _InfoRow extends StatelessWidget {
           style: CogoTextStyle.body14,
         ),
         const SizedBox(height: 4),
-        Text(
-          value,
-          style: CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04)
-        ),
+        Text(value,
+            style:
+                CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04)),
       ],
     );
   }
