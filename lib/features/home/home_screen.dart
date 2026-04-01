@@ -41,6 +41,25 @@ class _HomeScreenState extends State<HomeScreen>
         );
       });
     }
+
+    if (viewModel.showEventDialog) {
+      viewModel.clearEventDialog();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => OneButtonDialog(
+            title: "멘토에게 코고 커피챗 신청하고,\n무료 커피 받아가요!",
+            subtitle:
+                "코고 신청 후 생성된 코고 메세지 > ‘+‘ 버튼 > 커피쿠폰 발급 받기에서 받아보실 수 있습니다.\n*준비된 소량이 소진될 경우, 이벤트가 조기 마감될 수 있습니다.",
+            imagePath: "assets/image/coffee_img.png",
+            buttonText: "멘토 프로필 둘러보기",
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        );
+      });
+    }
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:cogo/common/widgets/widgets.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -49,7 +50,8 @@ class OneButtonDialog extends StatelessWidget {
                   ),
                   Text(
                     subtitle,
-                    style: CogoTextStyle.body12,
+                    style: CogoTextStyle.body12
+                        .copyWith(color: CogoColor.systemGray03),
                   ),
                   Center(
                     child: Padding(

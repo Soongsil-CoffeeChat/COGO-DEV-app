@@ -18,7 +18,7 @@ class AttachmentPanel extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -27,7 +27,7 @@ class AttachmentPanel extends StatelessWidget {
             label: '이미지',
             onTap: onImageTap,
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 30),
           AttachmentItem(
             assetPath: 'assets/icons/button/slot.svg',
             label: '커피쿠폰\n발급 받기',
