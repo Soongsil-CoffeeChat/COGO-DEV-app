@@ -64,11 +64,11 @@ class StaffPinEntryScreen extends StatelessWidget {
                                   return BasicButton(
                                     onPressed: isValid
                                         ? () async {
-                                            await viewModel.issueCoupon(
+                                            final couponNumber = await viewModel.issueCoupon(
                                               qrToken: qrToken,
                                               storePin: viewModel.pinController.text.trim(),
                                             );
-                                            if (context.mounted) context.pop(true);
+                                            if (context.mounted) context.pop(couponNumber);
                                           }
                                         : null,
                                     isClickable: true,

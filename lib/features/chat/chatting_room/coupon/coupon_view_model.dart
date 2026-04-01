@@ -68,13 +68,13 @@ class CouponViewModel extends ChangeNotifier {
   bool _isCouponUsed = false;
   bool get isCouponUsed => _isCouponUsed;
 
-  void markCouponUsed() {
-    _isCouponUsed = true;
-    notifyListeners();
+Future<String> issueCoupon({required String qrToken, required String storePin}) async {
+    final couponNumber = await _couponService.issueCoupon(qrToken: qrToken, storePin: storePin);
+    return couponNumber;
   }
 
-  Future<void> issueCoupon({required String qrToken, required String storePin}) async {
-    await _couponService.issueCoupon(qrToken: qrToken, storePin: storePin);
+  void setCouponUsed(String couponNumber) {
+    _couponNumber = couponNumber;
     _isCouponUsed = true;
     notifyListeners();
   }

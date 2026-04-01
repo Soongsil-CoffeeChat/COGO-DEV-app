@@ -137,11 +137,13 @@ class _CouponView extends StatelessWidget {
                   onPressed: viewModel.isCouponUsed
                       ? null
                       : () async {
-                          final used = await context.push<bool>(
+                          final couponNumber = await context.push<String>(
                             Paths.staffPinEntry,
                             extra: qrToken,
                           );
-                          if (used == true) viewModel.markCouponUsed();
+                          if (couponNumber != null && couponNumber.isNotEmpty) {
+                            viewModel.setCouponUsed(couponNumber);
+                          }
                         },
                 ),
               ),

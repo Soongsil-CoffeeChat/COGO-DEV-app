@@ -72,18 +72,25 @@ class CouponService {
   }
 
   /// POST /api/v2/events/coupons - 최종 쿠폰 발급 (PIN 인증)
-  Future<void> issueCoupon({
+  /// 성공 시 쿠폰 번호(String) 반환
+  Future<String> issueCoupon({
     required String qrToken,
     required String storePin,
   }) async {
     try {
-      await _apiClient.dio.post(
+      final response = await _apiClient.dio.post(
         _apiVersion + Apis.issueCoupon,
         queryParameters: {
           'qrToken': qrToken,
           'storePin': storePin,
         },
       );
+      debugPrint('[issueCoupon] 응답 전체: ${response.data}');
+      final content = response.data['content'] as Map<String, dynamic>;
+      debugPrint('[issueCoupon] content: $content');
+      final couponNumber = content.values.first.toString();
+      debugPrint('[issueCoupon] 추출된 쿠폰 번호: $couponNumber');
+      return couponNumber;
     } catch (e) {
       log('쿠폰 발급 오류: $e');
       rethrow;
