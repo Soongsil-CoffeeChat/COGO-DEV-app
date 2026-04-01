@@ -361,18 +361,23 @@ final AppRouter = GoRouter(
     ),
     GoRoute(
       path: Paths.staffPinEntry,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const StaffPinEntryScreen(),
-      ),
+      pageBuilder: (context, state) {
+        final qrToken = state.extra as String? ?? '';
+        return MaterialPage(
+          key: state.pageKey,
+          child: StaffPinEntryScreen(qrToken: qrToken),
+        );
+      },
     ),
     GoRoute(
       path: Paths.coupon,
       pageBuilder: (context, state) {
-        final applicationId = state.extra as int? ?? 0;
+        final extra = state.extra as Map<String, dynamic>? ?? {};
+        final applicationId = extra['applicationId'] as int? ?? 0;
+        final qrToken = extra['qrToken'] as String? ?? '';
         return MaterialPage(
           key: state.pageKey,
-          child: CouponScreen(applicationId: applicationId),
+          child: CouponScreen(applicationId: applicationId, qrToken: qrToken),
         );
       },
     ),

@@ -44,7 +44,10 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
       debugPrint('[QRScanner] QR 검증 성공');
 
       if (!mounted) return;
-      context.pushReplacement(Paths.coupon, extra: widget.applicationId);
+      context.pushReplacement(Paths.coupon, extra: {
+        'applicationId': widget.applicationId,
+        'qrToken': qrToken,
+      });
     } catch (e) {
       debugPrint('[QRScanner] QR 검증 실패 — error: $e');
       if (!mounted) return;

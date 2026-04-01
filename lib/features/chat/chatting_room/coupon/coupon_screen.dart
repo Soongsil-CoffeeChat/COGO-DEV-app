@@ -12,9 +12,11 @@ class CouponScreen extends StatelessWidget {
   const CouponScreen({
     super.key,
     required this.applicationId,
+    required this.qrToken,
   });
 
   final int applicationId;
+  final String qrToken;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +25,15 @@ class CouponScreen extends StatelessWidget {
         userService: UserService(),
         applicationId: applicationId,
       ),
-      child: const _CouponView(),
+      child: _CouponView(qrToken: qrToken),
     );
   }
 }
 
 class _CouponView extends StatelessWidget {
-  const _CouponView();
+  const _CouponView({required this.qrToken});
+
+  final String qrToken;
 
   @override
   Widget build(BuildContext context) {
@@ -127,11 +131,18 @@ class _CouponView extends StatelessWidget {
               child: SafeArea(
                 top: false,
                 child: BasicButton(
-                  text: '직원 확인하기',
-                  isClickable: true,
+                  text: viewModel.isCouponUsed ? '쿠폰 사용 완료' : '직원 확인하기',
+                  isClickable: !viewModel.isCouponUsed,
                   size: BasicButtonSize.LARGE,
-                  onPressed: () =>
-                      context.push(Paths.staffPinEntry),
+                  onPressed: viewModel.isCouponUsed
+                      ? null
+                      : () async {
+                          final used = await context.push<bool>(
+                            Paths.staffPinEntry,
+                            extra: qrToken,
+                          );
+                          if (used == true) viewModel.markCouponUsed();
+                        },
                 ),
               ),
             ),

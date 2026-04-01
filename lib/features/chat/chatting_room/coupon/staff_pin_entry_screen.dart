@@ -8,9 +8,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class StaffPinEntryScreen extends StatelessWidget {
-  final String? phoneNumber;
+  final String qrToken;
 
-  const StaffPinEntryScreen({super.key, this.phoneNumber});
+  const StaffPinEntryScreen({super.key, required this.qrToken});
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +63,17 @@ class StaffPinEntryScreen extends StatelessWidget {
                                 builder: (context, isValid, child) {
                                   return BasicButton(
                                     onPressed: isValid
-                                        ? () {
-
-                                    }
+                                        ? () async {
+                                            await viewModel.issueCoupon(
+                                              qrToken: qrToken,
+                                              storePin: viewModel.pinController.text.trim(),
+                                            );
+                                            if (context.mounted) context.pop(true);
+                                          }
                                         : null,
                                     isClickable: true,
                                     text: '확인',
+                                    size: BasicButtonSize.SMALL,
                                   );
                                 },
                               ),

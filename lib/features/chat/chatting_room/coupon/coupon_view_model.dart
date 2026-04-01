@@ -64,6 +64,21 @@ class CouponViewModel extends ChangeNotifier {
     }
   }
 
+  // ── 쿠폰 사용 완료 ───────────────────────────────────────────
+  bool _isCouponUsed = false;
+  bool get isCouponUsed => _isCouponUsed;
+
+  void markCouponUsed() {
+    _isCouponUsed = true;
+    notifyListeners();
+  }
+
+  Future<void> issueCoupon({required String qrToken, required String storePin}) async {
+    await _couponService.issueCoupon(qrToken: qrToken, storePin: storePin);
+    _isCouponUsed = true;
+    notifyListeners();
+  }
+
   // ── PIN ──────────────────────────────────────────────────────
   final TextEditingController pinController = TextEditingController();
   final ValueNotifier<bool> isValidPin = ValueNotifier(false);
