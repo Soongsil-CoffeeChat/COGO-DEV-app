@@ -27,19 +27,26 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
   void _onDetect(BarcodeCapture capture) {
     if (_hasScanned) return;
     final barcode = capture.barcodes.firstOrNull;
-    if (barcode?.rawValue == null) return;
+    debugPrint('[QRScanner] 바코드 감지: count=${capture.barcodes.length}, rawValue=${barcode?.rawValue}');
+    if (barcode?.rawValue == null) {
+      debugPrint('[QRScanner] rawValue가 null이므로 무시');
+      return;
+    }
 
     _hasScanned = true;
     _verifyAndNavigate(barcode!.rawValue!);
   }
 
   Future<void> _verifyAndNavigate(String qrToken) async {
+    debugPrint('[QRScanner] QR 검증 시작 — rawValue: $qrToken');
     try {
       await _couponService.verifyQrToken(qrToken);
+      debugPrint('[QRScanner] QR 검증 성공');
 
       if (!mounted) return;
       context.pushReplacement(Paths.coupon, extra: widget.applicationId);
     } catch (e) {
+      debugPrint('[QRScanner] QR 검증 실패 — error: $e');
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('유효하지 않은 QR 코드입니다.')),
