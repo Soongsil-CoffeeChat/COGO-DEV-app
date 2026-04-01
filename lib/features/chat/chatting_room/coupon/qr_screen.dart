@@ -1,17 +1,21 @@
+import 'dart:typed_data';
+
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
-import 'package:cogo/constants/colors.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/coupon_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class QrScreen extends StatelessWidget {
-  const QrScreen({super.key});
+  const QrScreen({super.key, required this.applicationId});
+
+  final int applicationId;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => CouponViewModel(userService: UserService())..fetchQrCode(),
+      create: (_) =>
+          CouponViewModel(userService: UserService())..fetchQrCode(applicationId),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -33,7 +37,7 @@ class QrScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildQrImage(viewModel.qrImageUrl),
+                  _buildQrImage(viewModel.qrImageBytes),
                   const SizedBox(height: 80),
                   const Text(
                     '상대방의 스캐너로\n위의 QR code를 스캔해주세요.',
@@ -49,8 +53,8 @@ class QrScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQrImage(String? url) {
-    if (url == null) {
+  Widget _buildQrImage(Uint8List? bytes) {
+    if (bytes == null) {
       return Container(
         width: 240,
         height: 240,
@@ -64,19 +68,11 @@ class QrScreen extends StatelessWidget {
       );
     }
 
-    return Image.network(
-      url,
+    return Image.memory(
+      bytes,
       width: 240,
       height: 240,
       fit: BoxFit.contain,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-        return const SizedBox(
-          width: 240,
-          height: 240,
-          child: Center(child: CircularProgressIndicator()),
-        );
-      },
       errorBuilder: (context, error, stackTrace) {
         return const SizedBox(
           width: 240,

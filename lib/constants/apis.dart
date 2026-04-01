@@ -44,4 +44,7 @@ abstract class Apis {
 
   /// 신고 관련 api
   static const String report = "report";
+
+  /// 쿠폰/이벤트 관련 api
+  static const String getQrCode = "events/qr";
 }

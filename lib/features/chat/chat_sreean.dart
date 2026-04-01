@@ -50,7 +50,6 @@ class _ChatScreenState extends State<ChatScreen> {
   void dispose() {
     _fcmSubscription?.cancel();
     _bottomVM.removeListener(_onBottomNavChange);
-    _chatViewModel.dispose();
     super.dispose();
   }
 

@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:cogo/data/service/coupon_service.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 
@@ -7,24 +10,27 @@ class CouponViewModel extends ChangeNotifier {
   }
 
   final UserService userService;
+  final CouponService _couponService = CouponService();
 
   // ── QR ───────────────────────────────────────────────────────
   bool _isLoading = false;
-  String? _qrImageUrl;
+  Uint8List? _qrImageBytes;
 
   bool get isLoading => _isLoading;
-  String? get qrImageUrl => _qrImageUrl;
+  Uint8List? get qrImageBytes => _qrImageBytes;
 
-  Future<void> fetchQrCode() async {
+  Future<void> fetchQrCode(int applicationId) async {
     _isLoading = true;
     notifyListeners();
 
-    // TODO: API 연결 후 아래 주석 해제
-    // final response = await couponService.getQrCode();
-    // _qrImageUrl = response.qrImageUrl;
-
-    _isLoading = false;
-    notifyListeners();
+    try {
+      _qrImageBytes = await _couponService.getQrCode(applicationId);
+    } catch (e) {
+      _qrImageBytes = null;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   // ── PIN ──────────────────────────────────────────────────────
@@ -42,7 +48,7 @@ class CouponViewModel extends ChangeNotifier {
 
     try {
       // TODO: API 연결 후 아래 주석 해제
-      // await couponService.verifyPin(pin);
+      // await _couponService.verifyPin(pin);
 
       errorMessage.value = null;
     } catch (e) {

@@ -83,6 +83,7 @@ class ApiClient {
               queryParameters: requestOptions.queryParameters,
               options: Options(
                 method: requestOptions.method,
+                responseType: requestOptions.responseType,
                 headers: {
                   ...requestOptions.headers,
                   'Authorization': 'Bearer $newToken',
@@ -90,6 +91,7 @@ class ApiClient {
                 extra: {
                   ...requestOptions.extra,
                   'retry': true,
+                  'skipAuthToken': true,
                 },
               ),
             );

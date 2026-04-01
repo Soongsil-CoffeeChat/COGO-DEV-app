@@ -113,11 +113,12 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
                           },
                           onCouponTap: () {
                             _closePanel();
-                            final role = context.read<ChattingRoomViewModel>().role;
-                            if (role == Role.ROLE_MENTOR.name) {
-                              context.push(Paths.qr);
+                            final viewModel = context.read<ChattingRoomViewModel>();
+                            if (viewModel.role == Role.ROLE_MENTOR.name) {
+                              final applicationId = viewModel.applicationId;
+                              Future.microtask(() => context.push(Paths.qr, extra: applicationId));
                             } else {
-                              context.push(Paths.qrScanner);
+                              Future.microtask(() => context.push(Paths.qrScanner));
                               // TODO: 멘티 쿠폰 동작
                             }
                           },
