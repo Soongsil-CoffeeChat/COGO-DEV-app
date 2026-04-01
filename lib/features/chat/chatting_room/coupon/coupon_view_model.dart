@@ -5,12 +5,39 @@ import 'package:cogo/data/service/user_service.dart';
 import 'package:flutter/material.dart';
 
 class CouponViewModel extends ChangeNotifier {
-  CouponViewModel({required this.userService}) {
+  CouponViewModel({required this.userService, this.applicationId}) {
     pinController.addListener(_onPinChanged);
+    _initIssuedDate();
+    if (applicationId != null) fetchQrCode(applicationId!);
   }
 
   final UserService userService;
+  final int? applicationId;
   final CouponService _couponService = CouponService();
+
+  // ── 쿠폰 정보 ────────────────────────────────────────────────
+  String _couponNumber = '';
+  late final String issuedDate; // 최초 진입일 — 이후 불변
+
+  String get couponNumber => _couponNumber;
+
+  void _initIssuedDate() {
+    final now = DateTime.now();
+    issuedDate =
+    '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> fetchCouponInfo() async {
+    try {
+      // TODO: API 연결 후 실제 서비스 호출로 교체
+      // final info = await _couponService.getCouponInfo(applicationId);
+      // _couponNumber = info.couponNumber;
+      notifyListeners();
+    } catch (e) {
+      _couponNumber = '';
+      notifyListeners();
+    }
+  }
 
   // ── QR ───────────────────────────────────────────────────────
   bool _isLoading = false;

@@ -17,6 +17,7 @@ import 'package:cogo/features/chat/chat_sreean.dart';
 import 'package:cogo/features/chat/chatting_room/chatting_room_screen.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/qr_scanner_screen.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/qr_screen.dart';
+import 'package:cogo/features/chat/chatting_room/coupon/coupon_screen.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/staff_pin_entry_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_screen.dart';
@@ -361,6 +362,16 @@ final AppRouter = GoRouter(
         key: state.pageKey,
         child: const StaffPinEntryScreen(),
       ),
+    ),
+    GoRoute(
+      path: Paths.coupon,
+      pageBuilder: (context, state) {
+        final applicationId = state.extra as int? ?? 0;
+        return MaterialPage(
+          key: state.pageKey,
+          child: CouponScreen(applicationId: applicationId),
+        );
+      },
     ),
   ],
 );

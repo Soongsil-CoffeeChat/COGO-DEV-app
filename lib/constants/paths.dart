@@ -53,4 +53,5 @@ abstract class Paths {
   static const String qr = '/qr';
   static const String qrScanner = '/qrScanner';
   static const String staffPinEntry = '/staffPinEntry';
+  static const String coupon = '/coupon';
 }

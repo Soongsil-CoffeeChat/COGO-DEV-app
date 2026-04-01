@@ -15,7 +15,7 @@ class QrScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) =>
-          CouponViewModel(userService: UserService())..fetchQrCode(applicationId),
+          CouponViewModel(userService: UserService(), applicationId: applicationId),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
