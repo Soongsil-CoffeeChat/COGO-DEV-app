@@ -3,7 +3,7 @@ description: "COGO"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2.0.0+8
+version: 2.0.1+1
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -66,6 +66,8 @@ dependencies:
 
   # 디바이스 이미지 불러오기
   photo_manager: ^3.0.0
+
+  mobile_scanner: ^6.0.0
 
   #stomp
   stomp_dart_client: ^2.1.3

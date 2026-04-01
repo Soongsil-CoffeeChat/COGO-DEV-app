@@ -15,6 +15,10 @@ import 'package:cogo/features/auth/signup/name_input/name_input_screen.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_screen.dart';
 import 'package:cogo/features/chat/chat_sreean.dart';
 import 'package:cogo/features/chat/chatting_room/chatting_room_screen.dart';
+import 'package:cogo/features/chat/chatting_room/coupon/qr_scanner_screen.dart';
+import 'package:cogo/features/chat/chatting_room/coupon/qr_screen.dart';
+import 'package:cogo/features/chat/chatting_room/coupon/coupon_screen.dart';
+import 'package:cogo/features/chat/chatting_room/coupon/staff_pin_entry_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_detail_screen.dart';
 import 'package:cogo/features/cogo/matched_cogo/matched_cogo_screen.dart';
@@ -334,6 +338,48 @@ final AppRouter = GoRouter(
         key: state.pageKey,
         child: const ImageUploadScreen(),
       ),
+    ),
+    GoRoute(
+      path: Paths.qr,
+      pageBuilder: (context, state) {
+        final applicationId = state.extra as int? ?? 0;
+        return MaterialPage(
+          key: state.pageKey,
+          child: QrScreen(applicationId: applicationId),
+        );
+      },
+    ),
+    GoRoute(
+      path: Paths.qrScanner,
+      pageBuilder: (context, state) {
+        final applicationId = state.extra as int? ?? 0;
+        return MaterialPage(
+          key: state.pageKey,
+          child: QrScannerScreen(applicationId: applicationId),
+        );
+      },
+    ),
+    GoRoute(
+      path: Paths.staffPinEntry,
+      pageBuilder: (context, state) {
+        final qrToken = state.extra as String? ?? '';
+        return MaterialPage(
+          key: state.pageKey,
+          child: StaffPinEntryScreen(qrToken: qrToken),
+        );
+      },
+    ),
+    GoRoute(
+      path: Paths.coupon,
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>? ?? {};
+        final applicationId = extra['applicationId'] as int? ?? 0;
+        final qrToken = extra['qrToken'] as String? ?? '';
+        return MaterialPage(
+          key: state.pageKey,
+          child: CouponScreen(applicationId: applicationId, qrToken: qrToken),
+        );
+      },
     ),
   ],
 );
