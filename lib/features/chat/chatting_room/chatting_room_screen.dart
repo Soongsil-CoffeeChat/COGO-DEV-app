@@ -55,7 +55,8 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
     }
   }
 
-  Future<void> _onCouponTap(BuildContext context, ChattingRoomViewModel viewModel) async {
+  Future<void> _onCouponTap(
+      BuildContext context, ChattingRoomViewModel viewModel) async {
     _closePanel();
 
     final applicationId = viewModel.applicationId;
@@ -189,7 +190,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
               Transform.translate(
                 offset: const Offset(0, 1),
                 child: Text(
-                  viewModel.role == Role.ROLE_MENTOR.name ? '멘토님' : '멘티님',
+                  viewModel.role == Role.ROLE_MENTOR.name ? '멘티님' : '멘토님',
                   style: CogoTextStyle.body16,
                 ),
               ),
