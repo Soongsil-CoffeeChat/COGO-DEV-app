@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
+import 'package:cogo/data/dto/response/coupon/check_eligibility_response.dart';
 import 'package:cogo/data/dto/response/coupon/event_status_response.dart';
 import 'package:dio/dio.dart';
 
@@ -24,6 +25,25 @@ class CouponService {
       throw Exception('이벤트 상태 조회 실패: ${response.statusCode}');
     } catch (e) {
       log('이벤트 상태 조회 오류: $e');
+      rethrow;
+    }
+  }
+
+  /// GET /api/v2/events/check-eligibility - 쿠폰 발급 자격 확인
+  Future<CheckEligibilityResponse> checkEligibility(int applicationId) async {
+    try {
+      final response = await _apiClient.dio.get(
+        _apiVersion + Apis.checkEligibility,
+        queryParameters: {'applicationId': applicationId},
+      );
+
+      if (response.statusCode == 200) {
+        final content = response.data['content'] as Map<String, dynamic>;
+        return CheckEligibilityResponse.fromJson(content);
+      }
+      throw Exception('쿠폰 발급 자격 확인 실패: ${response.statusCode}');
+    } catch (e) {
+      log('쿠폰 발급 자격 확인 오류: $e');
       rethrow;
     }
   }

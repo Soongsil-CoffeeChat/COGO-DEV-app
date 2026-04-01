@@ -4,6 +4,7 @@ import 'package:cogo/constants/colors.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
 import 'package:cogo/data/service/chat_service.dart';
+import 'package:cogo/data/service/coupon_service.dart';
 import 'package:cogo/features/chat/chatting_room/chatting_room_view_model.dart';
 import 'package:cogo/features/chat/chatting_room/widgets/attachment_panel.dart';
 import 'package:cogo/features/chat/chatting_room/widgets/chat_input_bar.dart';
@@ -27,6 +28,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
     with SingleTickerProviderStateMixin {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final CouponService _couponService = CouponService();
 
   // ── 패널 애니메이션 ──────────────────────────────────────────
   bool _isPanelOpen = false;
@@ -50,6 +52,43 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
       FocusScope.of(context).unfocus();
     } else {
       _panelController.reverse();
+    }
+  }
+
+  Future<void> _onCouponTap(BuildContext context, ChattingRoomViewModel viewModel) async {
+    _closePanel();
+
+    final applicationId = viewModel.applicationId;
+    if (applicationId == null) return;
+
+    try {
+      final eligibility = await _couponService.checkEligibility(applicationId);
+
+      if (!mounted) return;
+
+      if (!eligibility.canIssue) {
+        final message = eligibility.alreadyIssued
+            ? '이미 발급된 쿠폰입니다.'
+            : eligibility.limitExceeded
+                ? '쿠폰 발급 횟수를 초과했습니다.'
+                : '쿠폰을 발급할 수 없습니다.';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+        return;
+      }
+
+      // canIssue == true
+      if (viewModel.role == Role.ROLE_MENTOR.name) {
+        context.push(Paths.qr, extra: applicationId);
+      } else {
+        context.push(Paths.qrScanner);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('쿠폰 발급 자격 확인 중 오류가 발생했습니다.')),
+      );
     }
   }
 
@@ -111,17 +150,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
                             _closePanel();
                             // TODO: 이미지 첨부 동작
                           },
-                          onCouponTap: () {
-                            _closePanel();
-                            final viewModel = context.read<ChattingRoomViewModel>();
-                            if (viewModel.role == Role.ROLE_MENTOR.name) {
-                              final applicationId = viewModel.applicationId;
-                              Future.microtask(() => context.push(Paths.qr, extra: applicationId));
-                            } else {
-                              Future.microtask(() => context.push(Paths.qrScanner));
-                              // TODO: 멘티 쿠폰 동작
-                            }
-                          },
+                          onCouponTap: () => _onCouponTap(context, viewModel),
                         ),
                       ),
                     ),

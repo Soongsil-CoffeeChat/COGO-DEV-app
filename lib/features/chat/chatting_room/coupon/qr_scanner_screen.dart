@@ -130,6 +130,7 @@ class _OverlayPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
+
     const cl = _ScanOverlay.cornerLength;
     const cr = cornerRadius;
 

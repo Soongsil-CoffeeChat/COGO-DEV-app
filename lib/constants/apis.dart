@@ -48,4 +48,5 @@ abstract class Apis {
   /// 쿠폰/이벤트 관련 api
   static const String getQrCode = "events/qr";
   static const String getEventStatus = "events/status";
+  static const String checkEligibility = "events/check-eligibility";
 }
