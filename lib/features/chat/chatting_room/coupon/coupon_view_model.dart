@@ -42,18 +42,22 @@ class CouponViewModel extends ChangeNotifier {
   // ── QR ───────────────────────────────────────────────────────
   bool _isLoading = false;
   Uint8List? _qrImageBytes;
+  String? _qrErrorMessage;
 
   bool get isLoading => _isLoading;
   Uint8List? get qrImageBytes => _qrImageBytes;
+  String? get qrErrorMessage => _qrErrorMessage;
 
   Future<void> fetchQrCode(int applicationId) async {
     _isLoading = true;
+    _qrErrorMessage = null;
     notifyListeners();
 
     try {
       _qrImageBytes = await _couponService.getQrCode(applicationId);
     } catch (e) {
       _qrImageBytes = null;
+      _qrErrorMessage = e.toString().replaceFirst('Exception: ', '');
     } finally {
       _isLoading = false;
       notifyListeners();

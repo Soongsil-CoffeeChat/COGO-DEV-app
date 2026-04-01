@@ -37,7 +37,7 @@ class QrScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildQrImage(viewModel.qrImageBytes),
+                  _buildQrImage(viewModel.qrImageBytes, errorMessage: viewModel.qrErrorMessage),
                   const SizedBox(height: 80),
                   const Text(
                     '상대방의 스캐너로\n위의 QR code를 스캔해주세요.',
@@ -53,18 +53,31 @@ class QrScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQrImage(Uint8List? bytes) {
+  Widget _buildQrImage(Uint8List? bytes, {String? errorMessage}) {
     if (bytes == null) {
-      return Container(
-        width: 240,
-        height: 240,
-        decoration: BoxDecoration(
-          color: const Color(0xFFF2F2F2),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Center(
-          child: Icon(Icons.qr_code, size: 80, color: Colors.black38),
-        ),
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 240,
+            height: 240,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF2F2F2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Center(
+              child: Icon(Icons.qr_code, size: 80, color: Colors.black38),
+            ),
+          ),
+          if (errorMessage != null) ...[
+            const SizedBox(height: 16),
+            Text(
+              errorMessage,
+              textAlign: TextAlign.center,
+              style: CogoTextStyle.body14.copyWith(color: Colors.red),
+            ),
+          ],
+        ],
       );
     }
 

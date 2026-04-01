@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
@@ -66,6 +67,25 @@ class CouponService {
     }
   }
 
+  /// POST /api/v2/events/coupons - 최종 쿠폰 발급 (PIN 인증)
+  Future<void> issueCoupon({
+    required String qrToken,
+    required String storePin,
+  }) async {
+    try {
+      await _apiClient.dio.post(
+        _apiVersion + Apis.issueCoupon,
+        queryParameters: {
+          'qrToken': qrToken,
+          'storePin': storePin,
+        },
+      );
+    } catch (e) {
+      log('쿠폰 발급 오류: $e');
+      rethrow;
+    }
+  }
+
   /// GET /api/v2/events/qr - 멘토 인증용 QR 코드 이미지(PNG) 발급
   Future<Uint8List> getQrCode(int applicationId) async {
     try {
@@ -75,13 +95,19 @@ class CouponService {
         options: Options(
           responseType: ResponseType.bytes,
           headers: {'Accept': '*/*'},
+          validateStatus: (status) => status != null && status < 500,
         ),
       );
 
       if (response.statusCode == 200) {
         return Uint8List.fromList(List<int>.from(response.data));
       }
-      throw Exception('QR 코드 조회 실패: ${response.statusCode}');
+
+      // 에러 응답 바이트를 디코딩해서 서버 메시지 추출
+      final errorBody = utf8.decode(List<int>.from(response.data));
+      final errorJson = jsonDecode(errorBody) as Map<String, dynamic>;
+      final message = errorJson['message'] as String? ?? 'QR 코드를 발급할 수 없습니다.';
+      throw Exception(message);
     } catch (e) {
       log('QR 코드 조회 오류: $e');
       rethrow;
