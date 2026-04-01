@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart' show debugPrint;
+
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
 import 'package:cogo/data/dto/response/coupon/check_eligibility_response.dart';
@@ -52,10 +54,12 @@ class CouponService {
   /// GET /api/v2/events/verify-qr - QR 토큰 유효성 1차 검증
   /// 성공(200) 시 void 반환, 실패 시 예외 throw
   Future<void> verifyQrToken(String qrToken) async {
+    debugPrint('[verifyQr] qrToken 값: $qrToken');
     try {
-      final response = await _apiClient.dio.get(
+      final response = await _apiClient.dio.post(
         _apiVersion + Apis.verifyQrToken,
         queryParameters: {'qrToken': qrToken},
+        options: Options(extra: {'skipAuthToken': false}),
       );
 
       if (response.statusCode != 200) {
