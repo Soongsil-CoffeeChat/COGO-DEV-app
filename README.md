@@ -1,3 +1,7 @@
+
+<img width="1024" height="500" alt="Frame 1707482387" src="https://github.com/user-attachments/assets/c2f885da-4435-4fa0-8b40-b9900e2618c3" />
+
+
 # COGO
 <p align="center">
   <img src="https://img.shields.io/badge/Framework-Flutter-3cc6fd?logo=flutter" alt="Flutter"/>
@@ -14,58 +18,6 @@
 - **JSON 직렬화/역직렬**화: freezed + json_serializable
 - **Communication**: STOMP WebSocket
 
-
-
-## Diagram
-```mermaid
-graph TD
-    MAIN["📱 main.dart"]
-    ROUTES["🔀 route/routes.dart (GoRouter)"]
-    FIREBASE["🔥 firebase_options.dart"]
-
-    MAIN --> ROUTES
-    MAIN --> FIREBASE
-    ROUTES -->|navigates to| FEATURES
-
-    subgraph CONSTANTS["📌 constants/"]
-        C1["apis · colors · paths · constants"]
-    end
-
-    subgraph COMMON["🔧 common/"]
-        C_ENUM["enums/ role · interest · application_status · login_platform"]
-        C_NAV["navigator/ bottom_navigation_bar"]
-        C_WIDGET["widgets/ button · textfield · dialog · date_picker · profile_card"]
-    end
-
-    subgraph DATA["🗄️ data/"]
-        D_DI["di/ Dio + 401 Interceptor · GetIt DI"]
-        D_DTO["dto/ Freezed DTO (request / response)"]
-        D_REPO["repository/ SecureStorage"]
-        D_SVC["service/ auth · chat · stomp · fcm · mentor · application · user · s3"]
-    end
-
-    subgraph DOMAIN["🏛️ domain/entity/"]
-        DO["cogo · mentor · possible_date · mypage entities"]
-    end
-
-    subgraph FEATURES["🖼️ features/"]
-        F_AUTH["auth/ login · signup (8단계)"]
-        F_HOME["home/ 멘토목록 · 검색 · 신청 · 신고"]
-        F_COGO["cogo/ 코고함 · 수락 · 거절"]
-        F_CHAT["chat/ 채팅목록 · 채팅방"]
-        F_MY["mypage/ 내정보 · 이미지 · 멘토설정"]
-        F_SPLASH["splash/ 자동로그인 분기"]
-    end
-
-    FEATURES -->|uses| DATA
-    FEATURES -->|uses| DOMAIN
-    FEATURES -->|uses| COMMON
-    FEATURES -->|uses| CONSTANTS
-    DATA -->|calls| D_SVC
-    D_SVC -->|uses| D_DI
-    D_SVC -->|uses| D_DTO
-    DOMAIN -->|mapped from| D_DTO
-```
 
 ## 레이어 요약
 ```
