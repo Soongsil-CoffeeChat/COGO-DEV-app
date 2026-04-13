@@ -44,7 +44,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
                     showSelectedLabels: true,
                     showUnselectedLabels: true,
                     currentIndex: navigationShell.currentIndex,
-                    onTap: (index) => controller.setIndex(index, context),
+                    onTap: (index) => controller.setIndex(index, context, navigationShell),
                     backgroundColor: Colors.transparent,
                     selectedItemColor: Colors.white,
                     unselectedItemColor: const Color(0xFF626262),

@@ -57,11 +57,11 @@ class PlaceDetailScreen extends StatelessWidget {
                     text: '다음',
                     isClickable: true,
                     onPressed: () => mentorId != null
-                        ? context.push(
+                        ? context.safePush(
                             Paths.schedule,
                             extra: {'mentorId': mentorId},
                           )
-                        : context.push(Paths.timeSetting),
+                        : context.safePush(Paths.timeSetting),
                   ),
                 ),
               ),

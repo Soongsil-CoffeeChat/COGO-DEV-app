@@ -21,6 +21,9 @@ class BottomNavigationViewModel extends ChangeNotifier {
 
   bool shouldShowDialog = false;
 
+  // 연속 탭 방지 플래그 — goBranch() 후 다음 frame 완료 전까지 추가 전환 차단
+  bool _isSwitching = false;
+
   BottomNavigationViewModel(this.goRouter);
 
   void initialize(BuildContext context) {
@@ -37,32 +40,28 @@ class BottomNavigationViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setIndex(int index, BuildContext context) {
+  void setIndex(int index, BuildContext context, StatefulNavigationShell navigationShell) {
     if (index == 1 && role == Role.ROLE_MENTOR.name && shouldShowDialog) {
       _showMentorProfileDialog(context);
       return;
     }
-    if (_selectedIndex == index) {
+    // 같은 탭 재탭: 새로고침
+    if (navigationShell.currentIndex == index) {
       _refreshTab(index, context);
-    } else {
-      _selectedIndex = index;
-      notifyListeners(); // 인덱스 변경 알림
-
-      switch (index) {
-        case 0:
-          context.go('/home');
-          break;
-        case 1:
-          context.go('/cogo');
-          break;
-        case 2:
-          context.go('/chat');
-          break;
-        case 3:
-          context.go('/mypage');
-          break;
-      }
+      return;
     }
+    // 전환 중에는 추가 goBranch 호출 차단 (rapid-tap → duplicate key 방지)
+    if (_isSwitching) return;
+    _isSwitching = true;
+
+    _selectedIndex = index;
+    notifyListeners();
+    navigationShell.goBranch(index);
+
+    // 다음 frame 완료 후 가드 해제
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isSwitching = false;
+    });
   }
 
   /// 각 탭의 ViewModel을 찾아 데이터를 새로고침하는 함수
@@ -94,7 +93,7 @@ class BottomNavigationViewModel extends ChangeNotifier {
         buttonText: "멘토 프로필 작성하기",
         onPressed: () {
           Navigator.of(context).pop();
-          Future.microtask(() => context.push(Paths.mentorIntroduction));
+          Future.microtask(() => context.safePush(Paths.mentorIntroduction));
         },
       ),
     );

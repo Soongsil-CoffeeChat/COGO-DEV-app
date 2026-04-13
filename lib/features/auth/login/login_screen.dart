@@ -60,13 +60,13 @@ class LoginScreen extends StatelessWidget {
                         if (!context.mounted) return;
                         if (viewModel.loginStatus ==
                             AccountStatus.NEW_ACCOUNT.name) {
-                          context.push(Paths.agreement);
+                          context.safePush(Paths.agreement);
                         } else if (viewModel.loginStatus ==
                                 AccountStatus.EXISTING_ACCOUNT.name ||
                             viewModel.loginStatus ==
                                 AccountStatus.RESTORED_ACCOUNT.name) {
                           _refreshViewModelsOnLogin(context);
-                          context.push(Paths.home);
+                          context.go(Paths.home);
                         }
                       },
                     ),
@@ -85,10 +85,10 @@ class LoginScreen extends StatelessWidget {
                                   AccountStatus.NEW_ACCOUNT.name ||
                               viewModel.loginStatus ==
                                   AccountStatus.RESTORED_ACCOUNT.name) {
-                            context.push(Paths.agreement);
+                            context.safePush(Paths.agreement);
                           } else {
                             _refreshViewModelsOnLogin(context);
-                            context.push(Paths.home);
+                            context.go(Paths.home);
                           }
                         },
                       ),
@@ -176,7 +176,7 @@ class LoginScreen extends StatelessWidget {
   //               if (isValid) {
   //                 // 로그인 성공 시 홈으로 이동
   //                 if (context.mounted) {
-  //                   context.push(Paths.home);
+  //                   context.safePush(Paths.home);
   //                 }
   //               } else {
   //                 // 로그인 실패 시 에러 메시지

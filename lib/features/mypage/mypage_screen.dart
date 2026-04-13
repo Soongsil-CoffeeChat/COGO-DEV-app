@@ -46,7 +46,7 @@ class MypageScreen extends StatelessWidget {
                         text: "로그인 화면으로 돌아가기",
                         isClickable: true,
                         onPressed: () {
-                          context.push(Paths.login);
+                          context.go(Paths.login);
                         },
                         size: BasicButtonSize.SMALL,
                       ),
@@ -97,20 +97,20 @@ class MypageScreen extends StatelessWidget {
                         title:
                         const Text('내 정보 관리', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () => context.push(Paths.myInfo),
+                        onTap: () => context.safePush(Paths.myInfo),
                       ),
                       if (user?.role == Role.ROLE_MENTOR.name) ...[
                         ListTile(
                           title: const Text('자기소개 관리',
                               style: CogoTextStyle.body16),
                           trailing: const Icon(Icons.chevron_right),
-                          onTap: () => context.push(Paths.myMentorIntroduce),
+                          onTap: () => context.safePush(Paths.myMentorIntroduce),
                         ),
                         ListTile(
                           title:
                           const Text('시간 설정', style: CogoTextStyle.body16),
                           trailing: const Icon(Icons.chevron_right),
-                          onTap: () => context.push(Paths.timeSetting),
+                          onTap: () => context.safePush(Paths.timeSetting),
                         ),
                       ],
                       ListTile(
@@ -152,7 +152,7 @@ class MypageScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         // 이미지 수정 페이지로 이동
-        await context.push(Paths.image);
+        await context.safePush(Paths.image);
 
         // 돌아왔을 때 데이터 갱신 (사진 변경 반영)
         if (context.mounted) {

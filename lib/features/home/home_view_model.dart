@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cogo/common/enums/interest.dart';
 import 'package:cogo/common/enums/role.dart';
+import 'package:cogo/common/utils/navigation_guard.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/coupon_service.dart';
@@ -160,11 +161,11 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void onProfileCardTapped(BuildContext context, String mentorId) {
-    context.push('${Paths.profileDetail}?mentorId=$mentorId');
+    context.safePush('${Paths.profileDetail}?mentorId=$mentorId');
   }
 
   void onSearchPressed(BuildContext context) {
-    context.push(Paths.search);
+    context.safePush(Paths.search);
   }
 
 }

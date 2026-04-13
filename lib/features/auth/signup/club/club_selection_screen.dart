@@ -48,7 +48,7 @@ class ClubSelectionScreen extends StatelessWidget {
                                       onPressed: () {
                                         viewModel.selectClub('GDGoC');
 
-                                        context.push(
+                                        context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
@@ -59,7 +59,7 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'YOURSSU',
                                       onPressed: () {
                                         viewModel.selectClub('YOURSSU');
-                                        context.push(
+                                        context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
@@ -76,7 +76,7 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'UMC',
                                       onPressed: () {
                                         viewModel.selectClub('UMC');
-                                        context.push(
+                                        context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
@@ -87,7 +87,7 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'LIKELION',
                                       onPressed: () {
                                         viewModel.selectClub('LIKELION');
-                                        context.push(
+                                        context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
@@ -102,7 +102,7 @@ class ClubSelectionScreen extends StatelessWidget {
                                       text: 'NO CLUB',
                                       onPressed: () {
                                         viewModel.selectClub('NO CLUB');
-                                        context.push(
+                                        context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                       size: SBSize.LARGE,

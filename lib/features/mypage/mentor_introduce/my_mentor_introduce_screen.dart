@@ -43,7 +43,7 @@ class MyMentorIntroductionScreen extends StatelessWidget {
                           BasicButton(
                             text: "로그인 화면으로 돌아가기",
                             isClickable: true,
-                            onPressed: () => context.push(Paths.login),
+                            onPressed: () => context.go(Paths.login),
                             size: BasicButtonSize.SMALL,
                           ),
                           const SizedBox(height: 10),

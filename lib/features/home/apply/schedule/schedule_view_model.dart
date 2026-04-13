@@ -95,6 +95,6 @@ class ScheduleViewModel extends ChangeNotifier {
       'mentorId': mentorId,
     };
 
-    context.push(Paths.memo, extra: extraData);
+    context.safePush(Paths.memo, extra: extraData);
   }
 }

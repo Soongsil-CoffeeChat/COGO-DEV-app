@@ -50,10 +50,10 @@ class CogoViewModel extends ChangeNotifier {
   }
 
   void navigateToReceivedCogo(BuildContext context) {
-    context.push(Paths.unMatchedCogo);
+    context.safePush(Paths.unMatchedCogo);
   }
 
   void navigateToSuccessedCogo(BuildContext context) {
-    context.push(Paths.matchedCogo);
+    context.safePush(Paths.matchedCogo);
   }
 }

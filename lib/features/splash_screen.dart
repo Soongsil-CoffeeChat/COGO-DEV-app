@@ -26,11 +26,12 @@ class _SplashScreenState extends State<SplashScreen>
     final splashViewModel = GetIt.instance<SplashViewModel>(); // getIt 사용
     splashViewModel.autoLogin().then((isLoggedIn) {
       Future.delayed(const Duration(seconds: 2), () {
+        if (!mounted) return;
         if (isLoggedIn) {
           log("=====자동로그인 성공=====");
-          context.push(Paths.home);
+          context.go(Paths.home);
         } else {
-          context.push(Paths.login);
+          context.go(Paths.login);
         }
       });
     });

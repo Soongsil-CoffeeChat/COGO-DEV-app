@@ -81,7 +81,7 @@ class MentorTimeCheckingScreen extends StatelessWidget {
                               Navigator.of(context)
                                   .popUntil((route) => route.isFirst);
                             } else {
-                              context.push(Paths.mentorDetailCompletion);
+                              context.safePush(Paths.mentorDetailCompletion);
                             }
                           },
                           text: isIntroductionComplete ? '수정하기' : '완료',

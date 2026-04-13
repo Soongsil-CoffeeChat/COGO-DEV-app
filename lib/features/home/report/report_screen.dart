@@ -47,7 +47,7 @@ class ReportScreen extends StatelessWidget {
               ),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
-                context.push(
+                context.safePush(
                   Paths.reportDetail,
                   extra: {
                     'reason': reason,

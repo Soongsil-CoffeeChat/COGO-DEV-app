@@ -67,7 +67,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                         text: '다음',
                         isClickable: viewModel.isFormValid,
                         onPressed: viewModel.isFormValid
-                            ? () => context.push(Paths.mentorQuestion1)
+                            ? () => context.safePush(Paths.mentorQuestion1)
                             : null,
                       ),
                     );
