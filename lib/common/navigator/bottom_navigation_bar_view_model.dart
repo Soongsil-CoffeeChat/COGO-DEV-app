@@ -58,9 +58,10 @@ class BottomNavigationViewModel extends ChangeNotifier {
     notifyListeners();
     navigationShell.goBranch(index);
 
-    // 다음 frame 완료 후 가드 해제
+    // 다음 frame 완료 후 가드 해제 + 탭 진입 시 새로고침
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _isSwitching = false;
+      _refreshTab(index, context);
     });
   }
 
