@@ -229,14 +229,24 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
       );
     }
     return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          _closePanel();
-          FocusScope.of(context).unfocus();
-        },
+      child: Listener(
         behavior: HitTestBehavior.translucent,
-        child: ListView.builder(
-          controller: _scrollController,
+        onPointerMove: (event) {
+          // 아래 방향 드래그 시 키보드 내리기 (스크롤 불가 상황에서도 동작)
+          if (event.delta.dy > 0) {
+            _closePanel();
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: GestureDetector(
+          onTap: () {
+            _closePanel();
+            FocusScope.of(context).unfocus();
+          },
+          behavior: HitTestBehavior.translucent,
+          child: ListView.builder(
+            controller: _scrollController,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
           itemCount: viewModel.messages.length + 1,
           itemBuilder: (context, index) {
@@ -276,6 +286,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
               ],
             );
           },
+        ),
         ),
       ),
     );
