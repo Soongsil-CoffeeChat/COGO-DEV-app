@@ -193,20 +193,21 @@ class MypageScreen extends StatelessWidget {
             ),
           ),
 
-          // 2층: 카메라 아이콘 (항상 위에 표시)
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.center,
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: const Icon(
-                  Icons.camera_alt,
-                  size: 40,
-                  color: CogoColor.systemGray03,
+          // 2층: 카메라 아이콘 (기본 이미지일 때만 표시)
+          if (!hasImage)
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: const Icon(
+                    Icons.camera_alt,
+                    size: 40,
+                    color: CogoColor.systemGray03,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
