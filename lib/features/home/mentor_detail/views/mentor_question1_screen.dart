@@ -35,7 +35,7 @@ class MentorQuestion1Screen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              '멘토링 하실 분야에 대해 자세히 알려주세요',
+                              '이런 분야에서 멘토링이 가능해요',
                               style: CogoTextStyle.body16,
                             ),
                             const SizedBox(height: 10),
@@ -63,7 +63,7 @@ class MentorQuestion1Screen extends StatelessWidget {
                         text: '다음',
                         isClickable: viewModel.isFormValid,
                         onPressed: viewModel.isFormValid
-                            ? () => context.push(Paths.mentorQuestion2)
+                            ? () => context.safePush(Paths.mentorQuestion2)
                             : null,
                       ),
                     );

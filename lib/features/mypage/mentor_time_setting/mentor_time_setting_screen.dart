@@ -137,7 +137,7 @@ class _MentorTimeSettingScreenState extends State<MentorTimeSettingScreen> {
                         child: BasicButton(
                           onPressed: () async {
                             await viewModel.putPossibleDates();
-                            context.push(Paths.timeChecking, extra: {
+                            context.safePush(Paths.timeChecking, extra: {
                               'isIntroductionComplete':
                                   viewModel.isIntroductionComplete,
                             });

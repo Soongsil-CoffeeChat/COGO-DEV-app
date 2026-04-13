@@ -1,3 +1,5 @@
+export '../common/utils/navigation_guard.dart';
+
 abstract class Paths {
   Paths._();
 

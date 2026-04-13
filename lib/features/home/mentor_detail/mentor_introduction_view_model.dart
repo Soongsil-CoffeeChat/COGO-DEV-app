@@ -87,7 +87,7 @@ class MentorIntroductionViewModel extends ChangeNotifier {
       await _mentorService.patchMentorIntroduction(
           title, description, answer1, answer2);
 
-      context.push(Paths.placeDetail);
+      context.safePush(Paths.placeDetail);
     } catch (e) {
       log('Failed to save introduction: $e');
     }

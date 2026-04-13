@@ -389,10 +389,7 @@ StatefulShellBranch _createBranch(String path, Widget child) {
     routes: [
       GoRoute(
         path: path,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: child,
-        ),
+        builder: (context, state) => child,
       ),
     ],
   );

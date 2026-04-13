@@ -197,7 +197,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
   }
 
   void report(BuildContext context){
-    context.push(
+    context.safePush(
       Paths.report,
       extra: {
         'reporterId': myId,

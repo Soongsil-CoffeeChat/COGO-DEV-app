@@ -38,6 +38,6 @@ class MemoViewModel extends ChangeNotifier {
       'possibleDateId': possibleDateId,
     };
 
-    context.push(Paths.matching, extra: extraData);
+    context.safePush(Paths.matching, extra: extraData);
   }
 }

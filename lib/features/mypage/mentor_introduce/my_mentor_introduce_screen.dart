@@ -43,7 +43,7 @@ class MyMentorIntroductionScreen extends StatelessWidget {
                           BasicButton(
                             text: "로그인 화면으로 돌아가기",
                             isClickable: true,
-                            onPressed: () => context.push(Paths.login),
+                            onPressed: () => context.go(Paths.login),
                             size: BasicButtonSize.SMALL,
                           ),
                           const SizedBox(height: 10),
@@ -100,7 +100,7 @@ class MyMentorIntroductionScreen extends StatelessWidget {
                       const SizedBox(height: 30),
 
                       // 질문 1
-                      const Text('멘토링하실 분야에 대해 자세히 알려주세요',
+                      const Text('이런 분야에서 멘토링이 가능해요',
                           style: CogoTextStyle.body16),
                       const SizedBox(height: 10),
                       BasicTextField(
@@ -114,8 +114,7 @@ class MyMentorIntroductionScreen extends StatelessWidget {
                       const SizedBox(height: 30),
 
                       // 질문 2
-                      const Text('프로젝트나 근무 경험이 있으시다면 알려주세요',
-                          style: CogoTextStyle.body16),
+                      const Text('이런 경험들을 해왔어요', style: CogoTextStyle.body16),
                       const SizedBox(height: 10),
                       BasicTextField(
                         controller: viewModel.question2Controller,

@@ -81,7 +81,7 @@ class MentorInfoScreen extends StatelessWidget {
 
                                     if (isSuccessful) {
                                       if (context.mounted) {
-                                        context.push(
+                                        context.safePush(
                                             '${Paths.agreement}/${Paths.completion}');
                                       }
                                     } else {

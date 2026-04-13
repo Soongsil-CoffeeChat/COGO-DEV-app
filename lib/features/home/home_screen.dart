@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen>
             buttonText: "멘토 프로필 작성하기",
             onPressed: () {
               Navigator.of(context).pop();
-              Future.microtask(() => context.push(Paths.mentorIntroduction));
+              Future.microtask(() => context.safePush(Paths.mentorIntroduction));
             },
           ),
         );

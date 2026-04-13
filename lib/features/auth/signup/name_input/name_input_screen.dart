@@ -85,7 +85,7 @@ class NameInputScreen extends StatelessWidget {
                                                 .setPhoneNumber(phoneNumber!);
                                             viewModel.onConfirmButtonPressed();
 
-                                            context.push(
+                                            context.safePush(
                                                 '${Paths.agreement}/${Paths.choose}');
                                           }
                                         : null,

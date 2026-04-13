@@ -54,7 +54,7 @@ class MatchedCogoViewModel extends ChangeNotifier {
       return;
     }
 
-    context.push(
+    context.safePush(
       Paths.matchedCogoDetail,
       extra: {
         'applicationId': item.applicationId,

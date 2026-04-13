@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:cogo/common/utils/navigation_guard.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+export 'package:cogo/common/utils/navigation_guard.dart';
 
 extension RoutingExtension on BuildContext {
   void popUntil(String path) {

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cogo/common/enums/interest.dart';
 import 'package:cogo/common/enums/role.dart';
+import 'package:cogo/common/utils/navigation_guard.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/coupon_service.dart';
@@ -86,6 +87,16 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  /// 로그아웃 시 인메모리 상태 초기화
+  void reset() {
+    role = null;
+    profiles = null;
+    isInitialized = false;
+    isIntroductionComplete = null;
+    _shouldShowDialog = false;
+    notifyListeners();
+  }
+
   Future<void> refreshHome() async {
     // 1) 데이터를 null로 만들어 화면에 로딩 인디케이터가 뜨게 함 (시각적 리빌드 효과)
     profiles = null;
@@ -150,11 +161,11 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void onProfileCardTapped(BuildContext context, String mentorId) {
-    context.push('${Paths.profileDetail}?mentorId=$mentorId');
+    context.safePush('${Paths.profileDetail}?mentorId=$mentorId');
   }
 
   void onSearchPressed(BuildContext context) {
-    context.push(Paths.search);
+    context.safePush(Paths.search);
   }
 
 }

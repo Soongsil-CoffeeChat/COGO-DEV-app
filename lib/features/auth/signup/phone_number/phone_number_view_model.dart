@@ -85,7 +85,7 @@ class PhoneNumberViewModel extends ChangeNotifier {
       if (_verificationCode?.toString() == codeController.text) {
         TextInput.finishAutofillContext();
 
-        context.push("${Paths.agreement}/${Paths.name}",
+        context.safePush("${Paths.agreement}/${Paths.name}",
             extra: phoneController.text);
       } else {
         errorMessage.value = '인증번호가 일치하지 않습니다.';

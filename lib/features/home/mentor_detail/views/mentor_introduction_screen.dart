@@ -36,7 +36,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                           children: [
                             BasicTextField(
                               controller: viewModel.titleController,
-                              hintText: '제목',
+                              hintText: '한 줄 소개',
                               currentCount: viewModel.tittleCharCount,
                               maxCount: 50,
                               size: BasicTextFieldSize.SMALL,
@@ -45,7 +45,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                             const SizedBox(height: 10),
                             BasicTextField(
                               controller: viewModel.descriptionController,
-                              hintText: '내용을 입력해주세요',
+                              hintText: '간단하게 자기소개 부탁드려요',
                               currentCount: viewModel.descriptionCharCount,
                               maxCount: 200,
                               size: BasicTextFieldSize.LARGE,
@@ -67,7 +67,7 @@ class MentorIntroductionScreen extends StatelessWidget {
                         text: '다음',
                         isClickable: viewModel.isFormValid,
                         onPressed: viewModel.isFormValid
-                            ? () => context.push(Paths.mentorQuestion1)
+                            ? () => context.safePush(Paths.mentorQuestion1)
                             : null,
                       ),
                     );

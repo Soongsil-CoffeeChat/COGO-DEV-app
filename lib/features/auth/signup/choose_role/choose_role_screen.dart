@@ -49,7 +49,7 @@ class ChooseRoleScreen extends StatelessWidget {
                                     // 비동기 작업 후 context가 유효한지 확인 (안전장치)
                                     if (!context.mounted) return;
 
-                                    context.push('${Paths.agreement}/${Paths.interest}');
+                                    context.safePush('${Paths.agreement}/${Paths.interest}');
                                   },
                                 ),
                               ),
@@ -62,7 +62,7 @@ class ChooseRoleScreen extends StatelessWidget {
 
                                     if (!context.mounted) return;
 
-                                    context.push('${Paths.agreement}/${Paths.interest}');
+                                    context.safePush('${Paths.agreement}/${Paths.interest}');
                                   },
                                 ),
                               ),

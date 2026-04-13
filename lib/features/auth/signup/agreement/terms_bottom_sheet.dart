@@ -153,7 +153,7 @@ class _TermsBottomSheetState extends State<TermsBottomSheet> {
     return InkWell(
       onTap: () {
         if (term.route != null) {
-          context.push(term.route!);
+          context.safePush(term.route!);
         } else {
           setState(() {
             term.agreed = !term.agreed;
@@ -204,6 +204,6 @@ class _TermsBottomSheetState extends State<TermsBottomSheet> {
 
   /// "시작하기" 버튼 눌렀을 때 (필수 약관 체크 여부 확인)
   void _onStartPressed() {
-    context.push('${Paths.agreement}/${Paths.phone}');
+    context.safePush('${Paths.agreement}/${Paths.phone}');
   }
 }

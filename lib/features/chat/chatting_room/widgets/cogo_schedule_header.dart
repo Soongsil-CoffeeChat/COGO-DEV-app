@@ -41,7 +41,7 @@ class CogoScheduleHeader extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  context.push(
+                  context.safePush(
                     Paths.matchedCogoDetail,
                     extra: {
                       'applicationId': viewModel.applicationId,

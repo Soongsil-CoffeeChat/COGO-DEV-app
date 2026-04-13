@@ -5,6 +5,8 @@ import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart'; // BasicButton, TwoButtonDialog, CogoTextStyle 등
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/features/cogo/cogo_view_model.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,7 +46,7 @@ class MypageScreen extends StatelessWidget {
                         text: "로그인 화면으로 돌아가기",
                         isClickable: true,
                         onPressed: () {
-                          context.push(Paths.login);
+                          context.go(Paths.login);
                         },
                         size: BasicButtonSize.SMALL,
                       ),
@@ -95,20 +97,20 @@ class MypageScreen extends StatelessWidget {
                         title:
                         const Text('내 정보 관리', style: CogoTextStyle.body16),
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () => context.push(Paths.myInfo),
+                        onTap: () => context.safePush(Paths.myInfo),
                       ),
                       if (user?.role == Role.ROLE_MENTOR.name) ...[
                         ListTile(
                           title: const Text('자기소개 관리',
                               style: CogoTextStyle.body16),
                           trailing: const Icon(Icons.chevron_right),
-                          onTap: () => context.push(Paths.myMentorIntroduce),
+                          onTap: () => context.safePush(Paths.myMentorIntroduce),
                         ),
                         ListTile(
                           title:
                           const Text('시간 설정', style: CogoTextStyle.body16),
                           trailing: const Icon(Icons.chevron_right),
-                          onTap: () => context.push(Paths.timeSetting),
+                          onTap: () => context.safePush(Paths.timeSetting),
                         ),
                       ],
                       ListTile(
@@ -117,6 +119,9 @@ class MypageScreen extends StatelessWidget {
                         onTap: () async {
                           await viewModel.logOut();
                           if (context.mounted) {
+                            // 모든 전역 ViewModel 인메모리 상태 초기화
+                            context.read<CogoViewModel>().reset();
+                            context.read<HomeViewModel>().reset();
                             Future.microtask(() => context.go(Paths.login));
                           }
                         },
@@ -147,7 +152,7 @@ class MypageScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         // 이미지 수정 페이지로 이동
-        await context.push(Paths.image);
+        await context.safePush(Paths.image);
 
         // 돌아왔을 때 데이터 갱신 (사진 변경 반영)
         if (context.mounted) {
@@ -188,20 +193,21 @@ class MypageScreen extends StatelessWidget {
             ),
           ),
 
-          // 2층: 카메라 아이콘 (항상 위에 표시)
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.center,
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: const Icon(
-                  Icons.camera_alt,
-                  size: 40,
-                  color: CogoColor.systemGray03,
+          // 2층: 카메라 아이콘 (기본 이미지일 때만 표시)
+          if (!hasImage)
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: const Icon(
+                    Icons.camera_alt,
+                    size: 40,
+                    color: CogoColor.systemGray03,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );

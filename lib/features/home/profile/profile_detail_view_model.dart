@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cogo/common/utils/navigation_guard.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/domain/entity/mentor_detail_entity.dart';
 import 'package:flutter/material.dart';
@@ -47,19 +48,19 @@ class ProfileDetailViewModel extends ChangeNotifier {
   }
 
   void applyForCogo(BuildContext context, int mentorId) {
-    context.push(
+    context.safePush(
       Paths.placeDetail,
       extra: {'mentorId': mentorId},
     );
   }
 
-  void report(BuildContext context){
-    context.push(
+  void report(BuildContext context) {
+    context.safePush(
       Paths.report,
       extra: {
-      'reporterId': currentUserId,
-      'reportedUserId': reportedUserId,
-    },
+        'reporterId': currentUserId,
+        'reportedUserId': reportedUserId,
+      },
     );
   }
 }

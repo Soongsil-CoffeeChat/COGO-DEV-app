@@ -142,7 +142,7 @@ class _ChatRoomTile extends StatelessWidget {
 
     return ListTile(
       onTap: () async {
-        await context.push(Paths.chattingRoom, extra: room);
+        await context.safePush(Paths.chattingRoom, extra: room);
         if (context.mounted) {
           context.read<ChatViewModel>().refreshChatRooms();
         }

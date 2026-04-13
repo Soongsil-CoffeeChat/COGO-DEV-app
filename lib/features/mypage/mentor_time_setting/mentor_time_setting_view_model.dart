@@ -151,6 +151,6 @@ class MentorTimeSettingViewModel extends ChangeNotifier {
   }
 
   void navigateToMentorTimeChecking(BuildContext context) {
-    context.push(Paths.timeChecking);
+    context.safePush(Paths.timeChecking);
   }
 }
