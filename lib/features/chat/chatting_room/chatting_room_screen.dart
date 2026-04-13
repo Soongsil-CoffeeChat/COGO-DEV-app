@@ -230,7 +230,10 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
     }
     return Expanded(
       child: GestureDetector(
-        onTap: _closePanel,
+        onTap: () {
+          _closePanel();
+          FocusScope.of(context).unfocus();
+        },
         behavior: HitTestBehavior.translucent,
         child: ListView.builder(
           controller: _scrollController,
