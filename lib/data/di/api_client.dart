@@ -37,7 +37,7 @@ class ApiClient {
 
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
-            debugPrint('[Interceptor] Authorization header 설정됨 (token 앞 20자: ${token.length > 20 ? token.substring(0, 20) : token}...)');
+            debugPrint('[Interceptor] Authorization header 설정됨 (token: $token)');
           } else {
             debugPrint('[Interceptor] 토큰 없음 (skip=$skip), path=${options.path}');
           }
