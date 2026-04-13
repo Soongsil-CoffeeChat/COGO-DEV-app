@@ -90,27 +90,35 @@ class ProfileCard extends StatelessWidget {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 8),
-                  Text(
-                    showMentorSuffix ? '$mentorName 멘토님' : mentorName,
-                    style: CogoTextStyle.body20,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    title,
-                    style: CogoTextStyle.body14,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    description,
-                    style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
-                  ),
-                ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 4),
+                    Text(
+                      showMentorSuffix ? '$mentorName 멘토님' : mentorName,
+                      style: CogoTextStyle.body20,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      title,
+                      style: CogoTextStyle.body14,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
