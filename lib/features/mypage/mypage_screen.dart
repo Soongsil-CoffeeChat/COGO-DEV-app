@@ -5,6 +5,8 @@ import 'package:cogo/common/widgets/tag_list.dart';
 import 'package:cogo/common/widgets/widgets.dart'; // BasicButton, TwoButtonDialog, CogoTextStyle 등
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/features/cogo/cogo_view_model.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -117,6 +119,9 @@ class MypageScreen extends StatelessWidget {
                         onTap: () async {
                           await viewModel.logOut();
                           if (context.mounted) {
+                            // 모든 전역 ViewModel 인메모리 상태 초기화
+                            context.read<CogoViewModel>().reset();
+                            context.read<HomeViewModel>().reset();
                             Future.microtask(() => context.go(Paths.login));
                           }
                         },

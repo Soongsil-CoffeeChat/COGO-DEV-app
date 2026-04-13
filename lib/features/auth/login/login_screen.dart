@@ -1,6 +1,8 @@
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/common/enums/account_status.dart';
 import 'package:cogo/constants/paths.dart';
+import 'package:cogo/features/cogo/cogo_view_model.dart';
+import 'package:cogo/features/home/home_view_model.dart';
 import 'package:flutter/foundation.dart'
     show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
@@ -55,6 +57,7 @@ class LoginScreen extends StatelessWidget {
                       platform: LoginPlatform.google,
                       onTap: () async {
                         await viewModel.signInWithGoogle();
+                        if (!context.mounted) return;
                         if (viewModel.loginStatus ==
                             AccountStatus.NEW_ACCOUNT.name) {
                           context.push(Paths.agreement);
@@ -62,6 +65,7 @@ class LoginScreen extends StatelessWidget {
                                 AccountStatus.EXISTING_ACCOUNT.name ||
                             viewModel.loginStatus ==
                                 AccountStatus.RESTORED_ACCOUNT.name) {
+                          _refreshViewModelsOnLogin(context);
                           context.push(Paths.home);
                         }
                       },
@@ -76,12 +80,14 @@ class LoginScreen extends StatelessWidget {
                         platform: LoginPlatform.apple,
                         onTap: () async {
                           await viewModel.signInWithApple();
+                          if (!context.mounted) return;
                           if (viewModel.loginStatus ==
                                   AccountStatus.NEW_ACCOUNT.name ||
                               viewModel.loginStatus ==
                                   AccountStatus.RESTORED_ACCOUNT.name) {
                             context.push(Paths.agreement);
                           } else {
+                            _refreshViewModelsOnLogin(context);
                             context.push(Paths.home);
                           }
                         },
@@ -188,6 +194,12 @@ class LoginScreen extends StatelessWidget {
   //     },
   //   );
   // }
+
+  /// 로그인 성공 시 전역 ViewModel을 서버 최신 데이터로 갱신
+  void _refreshViewModelsOnLogin(BuildContext context) {
+    context.read<CogoViewModel>().refreshCogo();
+    context.read<HomeViewModel>().refreshHome();
+  }
 
   Widget _loginButton({
     required LoginPlatform platform,

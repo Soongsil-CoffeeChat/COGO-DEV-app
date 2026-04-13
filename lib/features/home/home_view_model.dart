@@ -86,6 +86,16 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  /// 로그아웃 시 인메모리 상태 초기화
+  void reset() {
+    role = null;
+    profiles = null;
+    isInitialized = false;
+    isIntroductionComplete = null;
+    _shouldShowDialog = false;
+    notifyListeners();
+  }
+
   Future<void> refreshHome() async {
     // 1) 데이터를 null로 만들어 화면에 로딩 인디케이터가 뜨게 함 (시각적 리빌드 효과)
     profiles = null;
