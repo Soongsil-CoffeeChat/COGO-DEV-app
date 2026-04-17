@@ -14,7 +14,7 @@
     <application
         android:label="코고"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_logo">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
