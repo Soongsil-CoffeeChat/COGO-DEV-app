@@ -25,7 +25,7 @@ class ChattingRoomScreen extends StatefulWidget {
 }
 
 class _ChattingRoomScreenState extends State<ChattingRoomScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final CouponService _couponService = CouponService();
@@ -43,6 +43,18 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
       vsync: this,
       duration: const Duration(milliseconds: 280),
     );
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeMetrics() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+      if (bottomInset > 0 && _scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
   }
 
   void _togglePanel() {
@@ -114,6 +126,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     _scrollController.dispose();
     _panelController.dispose();
