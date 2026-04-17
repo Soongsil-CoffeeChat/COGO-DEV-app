@@ -97,7 +97,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                     onPressed: () {
                                       FocusScope.of(context)
                                           .unfocus(); // 포커스 해제
-                                      viewModel.checkPhoneVerificationCode();
+                                      viewModel.onPhoneNumberSubmitted();
                                     }),
                             ],
                           ),
@@ -243,7 +243,14 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         BasicButton(
                           text: '저장하기',
                           onPressed: viewModel.isEditable
-                              ? viewModel.updateUserInfo
+                              ? () async {
+                                  final success =
+                                      await viewModel.updateUserInfo();
+                                  if (success && context.mounted) {
+                                    SnackbarWidgt.show(
+                                        context, '저장이 완료되었습니다.');
+                                  }
+                                }
                               : null,
                           isClickable: viewModel.isEditable,
                         ),

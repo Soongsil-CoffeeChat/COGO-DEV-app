@@ -45,8 +45,8 @@ class UserService {
     }
   }
 
-  ///POST /api/v2/users 사용자 정보 수정
-  Future<UserInfoResponse> patchUserInfo(
+  ///PATCH /api/v2/users 사용자 정보 수정
+  Future<void> patchUserInfo(
       String phoneNum, String name, String? email) async {
     try {
       final response = await _apiClient.dio.patch(
@@ -60,15 +60,8 @@ class UserService {
           'phoneNum': phoneNum,
         },
       );
-      if (response.statusCode == 200) {
-        //base response로 받는건 여기서 뿐임.
-        final baseResponse = BaseResponse<UserInfoResponse>.fromJson(
-          response.data,
-          (contentJson) => UserInfoResponse.fromJson(contentJson),
-        );
-        return baseResponse.content;
-      } else {
-        throw Exception('Failed to send verification code ${response.data}');
+      if (response.statusCode != 200) {
+        throw Exception('Failed to update user info ${response.data}');
       }
     } on DioException catch (e) {
       throw Exception('Error: ${e.response?.data ?? e.message}');
