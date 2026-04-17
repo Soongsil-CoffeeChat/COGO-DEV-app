@@ -5,6 +5,7 @@ export 'components/basic_textfield.dart';
 export 'components/basic_box.dart';
 export 'components/date_picker.dart';
 export 'components/header.dart';
+export 'components/inline_error_message.dart';
 export 'horizontal_date_picker.dart';
 export 'one_button_dialog.dart';
 export 'two_button_dialog.dart';

@@ -14,6 +14,8 @@ class SecondaryTextfield extends StatelessWidget {
   /// inputFormatter 텍스트 포멧 형식 지정 해줌
   final List<TextInputFormatter> inputFormatters;
 
+  final VoidCallback? onTap;
+
   const SecondaryTextfield({
     Key? key,
     required this.labelText,
@@ -23,6 +25,7 @@ class SecondaryTextfield extends StatelessWidget {
 
     /// 기본값으로 빈 리스트로 설정
     this.inputFormatters = const [],
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -31,6 +34,7 @@ class SecondaryTextfield extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       readOnly: isEditable,
+      onTap: onTap,
       inputFormatters: inputFormatters,
       style: CogoTextStyle.body18,
       decoration: InputDecoration(

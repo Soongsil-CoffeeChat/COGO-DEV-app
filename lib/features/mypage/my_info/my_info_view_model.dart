@@ -320,14 +320,6 @@ class MyInfoViewModel extends ChangeNotifier {
     if (_isVerifyingEmail) {
       _resetEmailVerificationState();
     }
-
-    // 이메일이 기존 값과 다르면 저장 가능 상태로 변경
-    if (emailController.text != _originalEmail) {
-      isEditable = true;
-    } else {
-      isEditable = false;
-    }
-
     notifyListeners();
   }
 
