@@ -141,12 +141,18 @@ class MypageScreen extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async {
+        final oldUrl = imageUrl;
+
         // 이미지 수정 페이지로 이동
         await context.safePush(Paths.image);
 
         // 돌아왔을 때 데이터 갱신 (사진 변경 반영)
         if (context.mounted) {
           log("이미지 화면에서 복귀 -> 데이터 갱신 요청");
+          // 같은 URL이어도 새 이미지를 받아오도록 캐시 제거
+          if (oldUrl != null && oldUrl.isNotEmpty) {
+            imageCache.evict(NetworkImage(oldUrl));
+          }
           await viewModel.refreshMyPage();
         }
       },
