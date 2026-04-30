@@ -33,6 +33,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
   // ── 패널 애니메이션 ──────────────────────────────────────────
   bool _isPanelOpen = false;
   late final AnimationController _panelController;
+  bool _initialScrollDone = false;
 
   static const double _panelHeight = 200.0;
 
@@ -114,7 +115,11 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
+      if (!mounted || !_scrollController.hasClients) return;
+      if (!_initialScrollDone) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        _initialScrollDone = true;
+      } else {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 200),
