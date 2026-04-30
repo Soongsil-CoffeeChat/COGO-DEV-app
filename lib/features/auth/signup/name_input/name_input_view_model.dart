@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:dio/dio.dart';
@@ -38,23 +37,22 @@ class NameInputViewModel extends ChangeNotifier {
     notifyListeners(); // UI를 업데이트하기 위해 알림
   }
 
-  Future<void> _validateName() async {
+  void _validateName() {
     final name = nameController.text;
     final isValid = name.isNotEmpty;
     isValidName.value = isValid;
     errorMessage.value = isValid ? null : '성함을 입력해주세요';
-
-    await _secureStorage.saveUserName(name);
   }
 
   Future<void> onConfirmButtonPressed() async {
     if (isValidName.value) {
+      final currentName = nameController.text;
       final email = await _secureStorage.readUserEmail();
 
       try {
+        await _secureStorage.saveUserName(currentName);
         //잘 전송이 되어야 넘어감
-        await userService.patchUserInfo(
-            phoneNumber!, nameController.text, email);
+        await userService.patchUserInfo(phoneNumber!, currentName, email);
         notifyListeners();
       } catch (e) {
         log("Exception occurred: $e");

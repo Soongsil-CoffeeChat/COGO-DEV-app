@@ -16,6 +16,7 @@ class MyInfoScreen extends StatefulWidget {
 
 class _MyInfoScreenState extends State<MyInfoScreen> {
   late MyInfoViewModel _viewModel;
+  String? _readOnlyFieldError;
 
   @override
   void initState() {
@@ -25,6 +26,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _viewModel.initialize();
     });
+  }
+
+  void _showFieldError(String message) {
+    setState(() => _readOnlyFieldError = message);
   }
 
   @override
@@ -59,6 +64,8 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             keyboardType: TextInputType.text,
                             labelText: '이름',
                             isEditable: true,
+                            onTap: () =>
+                                _showFieldError('이름은 수정이 불가능해요'),
                           ),
                           const SizedBox(height: 20),
 
@@ -90,7 +97,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                     onPressed: () {
                                       FocusScope.of(context)
                                           .unfocus(); // 포커스 해제
-                                      viewModel.checkPhoneVerificationCode();
+                                      viewModel.onPhoneNumberSubmitted();
                                     }),
                             ],
                           ),
@@ -152,6 +159,9 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   controller: viewModel.emailController,
                                   keyboardType: TextInputType.text,
                                   labelText: '이메일 주소',
+                                  isEditable: true,
+                                  onTap: () =>
+                                      _showFieldError('이메일은 수정이 불가능해요'),
                                 ),
                               ),
                               const SizedBox(width: 10),
@@ -227,12 +237,24 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                 builder: (context, viewModel, child) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),
-                    child: BasicButton(
-                      text: '저장하기',
-                      onPressed: viewModel.isEditable
-                          ? viewModel.updateUserInfo
-                          : null,
-                      isClickable: viewModel.isEditable,
+                    child: Column(
+                      children: [
+                        InlineErrorMessage(message: _readOnlyFieldError),
+                        BasicButton(
+                          text: '저장하기',
+                          onPressed: viewModel.isEditable
+                              ? () async {
+                                  final success =
+                                      await viewModel.updateUserInfo();
+                                  if (success && context.mounted) {
+                                    SnackbarWidgt.show(
+                                        context, '저장이 완료되었습니다.');
+                                  }
+                                }
+                              : null,
+                          isClickable: viewModel.isEditable,
+                        ),
+                      ],
                     ),
                   );
                 },

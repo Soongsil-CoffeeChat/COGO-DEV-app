@@ -77,6 +77,7 @@ class CouponService {
     required String qrToken,
     required String storePin,
   }) async {
+    log('[issueCoupon] 요청 시작 — qrToken: $qrToken / storePin: $storePin');
     try {
       final response = await _apiClient.dio.post(
         _apiVersion + Apis.issueCoupon,
@@ -85,14 +86,20 @@ class CouponService {
           'storePin': storePin,
         },
       );
-      debugPrint('[issueCoupon] 응답 전체: ${response.data}');
+      log('[issueCoupon] 응답 statusCode: ${response.statusCode}');
+      log('[issueCoupon] 응답 전체: ${response.data}');
       final content = response.data['content'] as Map<String, dynamic>;
-      debugPrint('[issueCoupon] content: $content');
+      log('[issueCoupon] content: $content');
       final couponNumber = content.values.first.toString();
-      debugPrint('[issueCoupon] 추출된 쿠폰 번호: $couponNumber');
+      log('[issueCoupon] 추출된 쿠폰 번호: $couponNumber');
       return couponNumber;
+    } on DioException catch (e) {
+      log('[issueCoupon] DioException — statusCode: ${e.response?.statusCode}');
+      log('[issueCoupon] DioException — response data: ${e.response?.data}');
+      log('[issueCoupon] DioException — message: ${e.message}');
+      rethrow;
     } catch (e) {
-      log('쿠폰 발급 오류: $e');
+      log('[issueCoupon] 쿠폰 발급 오류: $e');
       rethrow;
     }
   }

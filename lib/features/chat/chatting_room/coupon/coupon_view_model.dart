@@ -24,7 +24,7 @@ class CouponViewModel extends ChangeNotifier {
   void _initIssuedDate() {
     final now = DateTime.now();
     issuedDate =
-    '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
   }
 
   Future<void> fetchCouponInfo() async {
@@ -68,9 +68,31 @@ class CouponViewModel extends ChangeNotifier {
   bool _isCouponUsed = false;
   bool get isCouponUsed => _isCouponUsed;
 
-Future<String> issueCoupon({required String qrToken, required String storePin}) async {
-    final couponNumber = await _couponService.issueCoupon(qrToken: qrToken, storePin: storePin);
-    return couponNumber;
+  bool _isSubmitting = false;
+  bool get isSubmitting => _isSubmitting;
+
+  String? _pinSubmitError;
+  String? get pinSubmitError => _pinSubmitError;
+
+  Future<String> issueCoupon(
+      {required String qrToken, required String storePin}) async {
+    debugPrint('[CouponViewModel.issueCoupon] 호출 — qrToken: $qrToken / storePin: $storePin');
+    _isSubmitting = true;
+    _pinSubmitError = null;
+    notifyListeners();
+    try {
+      final couponNumber = await _couponService.issueCoupon(
+          qrToken: qrToken, storePin: storePin);
+      debugPrint('[CouponViewModel.issueCoupon] 성공 — couponNumber: $couponNumber');
+      return couponNumber;
+    } catch (e) {
+      debugPrint('[CouponViewModel.issueCoupon] 실패 — $e');
+      _pinSubmitError = '직원 확인 코드가 올바르지 않습니다.';
+      rethrow;
+    } finally {
+      _isSubmitting = false;
+      notifyListeners();
+    }
   }
 
   void setCouponUsed(String couponNumber) {
@@ -87,18 +109,9 @@ Future<String> issueCoupon({required String qrToken, required String storePin}) 
   void _onPinChanged() {
     isValidPin.value = pinController.text.trim().isNotEmpty;
     errorMessage.value = null;
-  }
-
-  Future<void> verifyPin(BuildContext context) async {
-    final pin = pinController.text.trim();
-
-    try {
-      // TODO: API 연결 후 아래 주석 해제
-      // await _couponService.verifyPin(pin);
-
-      errorMessage.value = null;
-    } catch (e) {
-      errorMessage.value = '코드가 일치하지 않습니다. 코드를 확인해주세요.';
+    if (_pinSubmitError != null) {
+      _pinSubmitError = null;
+      notifyListeners();
     }
   }
 

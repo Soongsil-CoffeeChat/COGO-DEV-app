@@ -3,7 +3,7 @@ import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ChatInputBar extends StatelessWidget {
+class ChatInputBar extends StatefulWidget {
   const ChatInputBar({
     super.key,
     required this.controller,
@@ -32,55 +32,81 @@ class ChatInputBar extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final double spacing;
 
+  @override
+  State<ChatInputBar> createState() => _ChatInputBarState();
+}
+
+class _ChatInputBarState extends State<ChatInputBar> {
+  bool _hasText = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onTextChanged);
+    super.dispose();
+  }
+
+  void _onTextChanged() {
+    final hasText = widget.controller.text.trim().isNotEmpty;
+    if (hasText != _hasText) {
+      setState(() => _hasText = hasText);
+    }
+  }
+
   void _handleSend() {
-    final text = controller.text.trim();
+    final text = widget.controller.text.trim();
     if (text.isEmpty) return;
-    onSend(text);
-    controller.clear();
+    widget.onSend(text);
+    widget.controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding,
+      padding: widget.padding,
       child: SafeArea(
         top: false,
         child: Row(
           children: [
             // 추가 / 닫기 토글 버튼
             GestureDetector(
-              onTap: onTapPlus,
+              onTap: widget.onTapPlus,
               behavior: HitTestBehavior.opaque,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
-                child: isPanelOpen
+                child: widget.isPanelOpen
                     ? SvgPicture.asset(
-                  'assets/icons/button/x.svg',
-                  key: const ValueKey('close'),
-                )
+                        'assets/icons/button/x.svg',
+                        key: const ValueKey('close'),
+                      )
                     : SvgPicture.asset(
-                  'assets/icons/button/plus.svg',
-                  key: const ValueKey('plus'),
-                ),
+                        'assets/icons/button/plus.svg',
+                        key: const ValueKey('plus'),
+                      ),
               ),
             ),
-            SizedBox(width: spacing),
+            SizedBox(width: widget.spacing),
 
             // 입력창
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
-                  color: backgroundColor,
-                  borderRadius: BorderRadius.circular(borderRadius),
+                  color: widget.backgroundColor,
+                  borderRadius: BorderRadius.circular(widget.borderRadius),
                 ),
                 child: TextField(
-                  controller: controller,
-                  enabled: enabled,
+                  controller: widget.controller,
+                  enabled: widget.enabled,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _handleSend(),
                   decoration: InputDecoration(
-                    hintText: hintText,
+                    hintText: widget.hintText,
                     hintStyle: CogoTextStyle.body16
                         .copyWith(color: CogoColor.systemGray03),
                     border: InputBorder.none,
@@ -89,13 +115,21 @@ class ChatInputBar extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: spacing),
+            SizedBox(width: widget.spacing),
 
             // 보내기 버튼
             GestureDetector(
               onTap: _handleSend,
               behavior: HitTestBehavior.opaque,
-              child: SvgPicture.asset('assets/icons/button/send.svg'),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 150),
+                child: SvgPicture.asset(
+                  _hasText
+                      ? 'assets/icons/button/send_on.svg'
+                      : 'assets/icons/button/send.svg',
+                  key: ValueKey(_hasText),
+                ),
+              ),
             ),
           ],
         ),

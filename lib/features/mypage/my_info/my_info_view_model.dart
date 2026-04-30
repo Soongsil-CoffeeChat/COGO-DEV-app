@@ -131,6 +131,7 @@ class MyInfoViewModel extends ChangeNotifier {
       // 타이머 설정 -> 3분
       _startCodeTimer(180);
 
+      phoneVerificationCodeController.clear();
       showVerificationField.value = true;
       final cleanedPhoneNumber = phoneController.text.replaceAll('-', '');
       try {
@@ -235,20 +236,22 @@ class MyInfoViewModel extends ChangeNotifier {
   }
 
   /// 수정된 사용자 정보 저장하기
-  Future<void> updateUserInfo() async {
+  Future<bool> updateUserInfo() async {
     try {
       await userService.patchUserInfo(
           phoneController.text, nameController.text, emailController.text);
       isEditable = false;
+      notifyListeners();
+      return true;
     } catch (e) {
       log("Exception occurred: $e");
       if (e is DioException) {
         log("DioError details: ${e.response?.data}");
       }
       errorMessage.value = _message;
+      notifyListeners();
+      return false;
     }
-
-    notifyListeners();
   }
 
   /// 타이머 설정
@@ -320,14 +323,6 @@ class MyInfoViewModel extends ChangeNotifier {
     if (_isVerifyingEmail) {
       _resetEmailVerificationState();
     }
-
-    // 이메일이 기존 값과 다르면 저장 가능 상태로 변경
-    if (emailController.text != _originalEmail) {
-      isEditable = true;
-    } else {
-      isEditable = false;
-    }
-
     notifyListeners();
   }
 

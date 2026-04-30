@@ -1,7 +1,5 @@
 import 'package:cogo/common/widgets/widgets.dart';
-import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/service/user_service.dart';
-import 'package:cogo/features/auth/signup/name_input/name_input_view_model.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/coupon_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -44,39 +42,53 @@ class StaffPinEntryScreen extends StatelessWidget {
                           TextField(
                             controller: viewModel.pinController,
                             keyboardType: TextInputType.text,
-                            decoration: const InputDecoration(
+                            enabled: !viewModel.isSubmitting,
+                            decoration: InputDecoration(
                               labelText: '직원 확인 코드',
-                              labelStyle: TextStyle(color: Colors.grey),
-                              enabledBorder: UnderlineInputBorder(
+                              labelStyle: const TextStyle(color: Colors.grey),
+                              enabledBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
                               ),
-                              focusedBorder: UnderlineInputBorder(
+                              focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
                               ),
+                              errorText: viewModel.pinSubmitError,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 32.0),
                             child: Center(
-                              child: ValueListenableBuilder<bool>(
-                                valueListenable: viewModel.isValidPin,
-                                builder: (context, isValid, child) {
-                                  return BasicButton(
-                                    onPressed: isValid
-                                        ? () async {
-                                            final couponNumber = await viewModel.issueCoupon(
-                                              qrToken: qrToken,
-                                              storePin: viewModel.pinController.text.trim(),
-                                            );
-                                            if (context.mounted) context.pop(couponNumber);
-                                          }
-                                        : null,
-                                    isClickable: true,
-                                    text: '확인',
-                                    size: BasicButtonSize.SMALL,
-                                  );
-                                },
-                              ),
+                              child: viewModel.isSubmitting
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.black,
+                                    )
+                                  : ValueListenableBuilder<bool>(
+                                      valueListenable: viewModel.isValidPin,
+                                      builder: (context, isValid, child) {
+                                        return BasicButton(
+                                          onPressed: isValid
+                                              ? () async {
+                                                  final pin = viewModel.pinController.text.trim();
+                                                  debugPrint('[StaffPinEntry] 확인 버튼 탭 — qrToken: $qrToken / storePin: $pin');
+                                                  try {
+                                                    final couponNumber = await viewModel.issueCoupon(
+                                                      qrToken: qrToken,
+                                                      storePin: pin,
+                                                    );
+                                                    debugPrint('[StaffPinEntry] issueCoupon 완료 — couponNumber: $couponNumber');
+                                                    if (context.mounted) context.pop(couponNumber);
+                                                  } catch (e) {
+                                                    debugPrint('[StaffPinEntry] issueCoupon 실패 — $e');
+                                                    // 에러 메시지는 viewModel.pinSubmitError로 표시됨
+                                                  }
+                                                }
+                                              : null,
+                                          isClickable: true,
+                                          text: '확인',
+                                          size: BasicButtonSize.SMALL,
+                                        );
+                                      },
+                                    ),
                             ),
                           ),
                         ],
