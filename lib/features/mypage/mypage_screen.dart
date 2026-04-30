@@ -19,134 +19,124 @@ class MypageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Consumer<MypageViewModel>(
-            builder: (context, viewModel, child) {
-              final state = viewModel.state;
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Consumer<MypageViewModel>(
+          builder: (context, viewModel, child) {
+            final state = viewModel.state;
 
-              // 1. 로딩 상태
-              if (state.isLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
+            // 1. 로딩 상태
+            if (state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              // 2. 에러 상태
-              if (state.hasError) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        '데이터를 불러오는 중 오류가 발생했습니다.',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      const SizedBox(height: 30),
-                      BasicButton(
-                        text: "로그인 화면으로 돌아가기",
-                        isClickable: true,
-                        onPressed: () {
-                          context.go(Paths.login);
-                        },
-                        size: BasicButtonSize.SMALL,
-                      ),
-                      const SizedBox(height: 30),
-                      BasicButton(
-                        text: "다시 시도하기",
-                        isClickable: true,
-                        onPressed: () {
-                          viewModel.initialize();
-                        },
-                        size: BasicButtonSize.SMALL,
-                      )
-                    ],
-                  ),
-                );
-              }
-
-              final user = state.myPageInfo;
-
-              // 3. 정상 데이터 표시
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 13),
-                      Text(
-                        '${user?.name ?? "사용자"}님',
-                        style: CogoTextStyle.bodySB20,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 13),
-
-                      // 프로필 이미지 위젯
-                      _buildProfileImage(
-                        context,
-                        imageUrl: user?.picture,
-                        viewModel: viewModel,
-                      ),
-
-                      const SizedBox(height: 13),
-                      Center(
-                        child: TagList(tags: user?.tags ?? []),
-                      ),
-                      const SizedBox(height: 20),
-                      ListTile(
-                        title:
-                        const Text('내 정보 관리', style: CogoTextStyle.body16),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () => context.safePush(Paths.myInfo),
-                      ),
-                      if (user?.role == Role.ROLE_MENTOR.name) ...[
-                        ListTile(
-                          title: const Text('자기소개 관리',
-                              style: CogoTextStyle.body16),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () => context.safePush(Paths.myMentorIntroduce),
-                        ),
-                        ListTile(
-                          title:
-                          const Text('시간 설정', style: CogoTextStyle.body16),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () => context.safePush(Paths.timeSetting),
-                        ),
-                      ],
-                      ListTile(
-                        title: const Text('로그아웃', style: CogoTextStyle.body16),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () async {
-                          await viewModel.logOut();
-                          if (context.mounted) {
-                            // 모든 전역 ViewModel 인메모리 상태 초기화
-                            context.read<CogoViewModel>().reset();
-                            context.read<HomeViewModel>().reset();
-                            Future.microtask(() => context.go(Paths.login));
-                          }
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('탈퇴하기', style: CogoTextStyle.body16),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () => _showMentorProfileDialog(context, viewModel),
-                      ),
-                    ],
-                  ),
+            // 2. 에러 상태
+            if (state.hasError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '데이터를 불러오는 중 오류가 발생했습니다.',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    const SizedBox(height: 30),
+                    BasicButton(
+                      text: "로그인 화면으로 돌아가기",
+                      isClickable: true,
+                      onPressed: () {
+                        context.go(Paths.login);
+                      },
+                      size: BasicButtonSize.SMALL,
+                    ),
+                    const SizedBox(height: 30),
+                    BasicButton(
+                      text: "다시 시도하기",
+                      isClickable: true,
+                      onPressed: () {
+                        viewModel.initialize();
+                      },
+                      size: BasicButtonSize.SMALL,
+                    )
+                  ],
                 ),
               );
-            },
-          ),
+            }
+
+            final user = state.myPageInfo;
+
+            // 3. 정상 데이터 표시
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 13),
+                    Text(
+                      '${user?.name ?? "사용자"}님',
+                      style: CogoTextStyle.bodySB20,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 13),
+
+                    // 프로필 이미지 위젯
+                    _buildProfileImage(
+                      context,
+                      imageUrl: user?.picture,
+                      viewModel: viewModel,
+                    ),
+
+                    const SizedBox(height: 13),
+                    Center(
+                      child: TagList(tags: user?.tags ?? []),
+                    ),
+                    const SizedBox(height: 20),
+                    ListTile(
+                      title: const Text('내 정보 관리', style: CogoTextStyle.body16),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context.safePush(Paths.myInfo),
+                    ),
+                    if (user?.role == Role.ROLE_MENTOR.name) ...[
+                      ListTile(
+                        title:
+                            const Text('자기소개 관리', style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => context.safePush(Paths.myMentorIntroduce),
+                      ),
+                      ListTile(
+                        title: const Text('시간 설정', style: CogoTextStyle.body16),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => context.safePush(Paths.timeSetting),
+                      ),
+                    ],
+                    ListTile(
+                      title: const Text('로그아웃', style: CogoTextStyle.body16),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => _showLogoutDialog(context, viewModel),
+                    ),
+                    ListTile(
+                      title: const Text('탈퇴하기', style: CogoTextStyle.body16),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => _showMentorProfileDialog(context, viewModel),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
+      ),
     );
   }
 
   /// 프로필 이미지를 그리는 공통 메서드 (이미지 유무 상관없이 Stack 구조 유지)
   Widget _buildProfileImage(
-      BuildContext context, {
-        String? imageUrl,
-        required MypageViewModel viewModel,
-      }) {
+    BuildContext context, {
+    String? imageUrl,
+    required MypageViewModel viewModel,
+  }) {
     final bool hasImage = imageUrl != null && imageUrl.isNotEmpty;
 
     return GestureDetector(
@@ -170,26 +160,26 @@ class MypageScreen extends StatelessWidget {
               height: 150,
               child: hasImage
                   ? Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return const Center(child: CircularProgressIndicator());
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  log("이미지 로드 실패: $imageUrl");
-                  // 로드 실패 시 기본 이미지
-                  return SvgPicture.asset(
-                    'assets/image/empty_profile_img.svg',
-                    fit: BoxFit.cover,
-                  );
-                },
-              )
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(child: CircularProgressIndicator());
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        log("이미지 로드 실패: $imageUrl");
+                        // 로드 실패 시 기본 이미지
+                        return SvgPicture.asset(
+                          'assets/image/empty_profile_img.svg',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )
                   : SvgPicture.asset(
-                // URL이 없을 때 기본 이미지
-                'assets/image/empty_profile_img.svg',
-                fit: BoxFit.cover,
-              ),
+                      // URL이 없을 때 기본 이미지
+                      'assets/image/empty_profile_img.svg',
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
 
@@ -213,7 +203,33 @@ class MypageScreen extends StatelessWidget {
     );
   }
 
-  void _showMentorProfileDialog(BuildContext outerContext, MypageViewModel viewModel) {
+  void _showLogoutDialog(BuildContext outerContext, MypageViewModel viewModel) {
+    showDialog(
+      context: outerContext,
+      builder: (BuildContext dialogContext) {
+        return TwoButtonDialog(
+          title: "로그아웃 하시겠어요?",
+          subtitle: '로그아웃 후 다시 로그인할 수 있습니다.',
+          imagePath: 'assets/icons/3d_img/trash.png',
+          firstButtonText: '취소하기',
+          secondButtonText: '로그아웃',
+          firstOnPressed: () => Navigator.of(dialogContext).pop(),
+          secondOnPressed: () async {
+            Navigator.of(dialogContext).pop();
+            await viewModel.logOut();
+            if (outerContext.mounted) {
+              outerContext.read<CogoViewModel>().reset();
+              outerContext.read<HomeViewModel>().reset();
+              Future.microtask(() => outerContext.go(Paths.login));
+            }
+          },
+        );
+      },
+    );
+  }
+
+  void _showMentorProfileDialog(
+      BuildContext outerContext, MypageViewModel viewModel) {
     showDialog(
       context: outerContext,
       builder: (BuildContext dialogContext) {
