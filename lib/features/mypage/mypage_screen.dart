@@ -9,6 +9,7 @@ import 'package:cogo/features/cogo/cogo_view_model.dart';
 import 'package:cogo/features/home/home_view_model.dart';
 import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -143,13 +144,17 @@ class MypageScreen extends StatelessWidget {
       onTap: () async {
         final oldUrl = imageUrl;
 
-        // 이미지 수정 페이지로 이동
-        await context.safePush(Paths.image);
+        final uploaded = await showModalBottomSheet<bool>(
+          context: context,
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          builder: (_) => _ProfileImagePickerSheet(viewModel: viewModel),
+        );
 
-        // 돌아왔을 때 데이터 갱신 (사진 변경 반영)
-        if (context.mounted) {
-          log("이미지 화면에서 복귀 -> 데이터 갱신 요청");
-          // 같은 URL이어도 새 이미지를 받아오도록 캐시 제거
+        if (uploaded == true && context.mounted) {
+          log("이미지 업로드 완료 -> 데이터 갱신 요청");
           if (oldUrl != null && oldUrl.isNotEmpty) {
             imageCache.evict(NetworkImage(oldUrl));
           }
@@ -255,6 +260,85 @@ class MypageScreen extends StatelessWidget {
               Future.microtask(() => outerContext.go(Paths.login));
             }
           },
+        );
+      },
+    );
+  }
+}
+
+class _ProfileImagePickerSheet extends StatelessWidget {
+  final MypageViewModel viewModel;
+
+  const _ProfileImagePickerSheet({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: viewModel,
+      builder: (ctx, _) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // 핸들 바
+                Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: CogoColor.systemGray03,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+
+                if (viewModel.isUploading)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 32),
+                    child: CircularProgressIndicator(color: Colors.black),
+                  )
+                else ...[
+                  ListTile(
+                    leading: SvgPicture.asset(
+                      'assets/icons/button/camera_icon.svg',
+                      width: 24,
+                      height: 24,
+                    ),
+                    title: const Text('사진 촬영', style: CogoTextStyle.body16),
+                    onTap: () => viewModel.pickAndUpload(
+                      ImageSource.camera,
+                      onSuccess: () {
+                        if (ctx.mounted) Navigator.of(ctx).pop(true);
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.photo_library_outlined,
+                        size: 24, color: Colors.black),
+                    title: const Text('앨범에서 선택', style: CogoTextStyle.body16),
+                    onTap: () => viewModel.pickAndUpload(
+                      ImageSource.gallery,
+                      onSuccess: () {
+                        if (ctx.mounted) Navigator.of(ctx).pop(true);
+                      },
+                    ),
+                  ),
+                ],
+
+                if (viewModel.uploadError != null)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    child: Text(
+                      viewModel.uploadError!,
+                      style: CogoTextStyle.body14
+                          .copyWith(color: CogoColor.systemRed),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+              ],
+            ),
+          ),
         );
       },
     );
