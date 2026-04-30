@@ -1,5 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // 패키지 임포트 필요
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NetworkImageWithFallback extends StatelessWidget {
   const NetworkImageWithFallback({
@@ -23,40 +24,26 @@ class NetworkImageWithFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Fallback 이미지를 생성하는 로직을 분리 (SVG 체크)
     Widget buildFallback() {
       if (fallbackAsset.toLowerCase().endsWith('.svg')) {
-        return SvgPicture.asset(
-          fallbackAsset,
-          width: width,
-          height: height,
-          fit: fit,
-        );
+        return SvgPicture.asset(fallbackAsset, width: width, height: height, fit: fit);
       }
-      return Image.asset(
-        fallbackAsset,
-        width: width,
-        height: height,
-        fit: fit,
-      );
+      return Image.asset(fallbackAsset, width: width, height: height, fit: fit);
     }
 
-    // URL 유효성 체크 및 위젯 구성
     final image = (url != null && url!.isNotEmpty)
-        ? Image.network(
-            url!,
+        ? CachedNetworkImage(
+            imageUrl: url!,
             width: width,
             height: height,
             fit: fit,
-            // 네트워크 에러 시 SVG/PNG 구분된 fallback 호출
-            errorBuilder: (_, __, ___) => buildFallback(),
+            placeholder: (_, __) => SizedBox(width: width, height: height),
+            errorWidget: (_, __, ___) => buildFallback(),
           )
-        : buildFallback(); // URL 없을 때도 동일한 로직 호출
+        : buildFallback();
 
-    // 모양(Shape) 적용
     if (isCircle) {
-      return ClipOval(
-          child: SizedBox(width: width, height: height, child: image));
+      return ClipOval(child: SizedBox(width: width, height: height, child: image));
     }
     if (borderRadius != null) {
       return ClipRRect(borderRadius: borderRadius!, child: image);

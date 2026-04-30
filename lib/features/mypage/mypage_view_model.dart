@@ -5,13 +5,21 @@ import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/domain/entity/my_page_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MypageViewModel extends ChangeNotifier {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
   final UserService userService = GetIt.instance<UserService>();
+  final ImagePicker _picker = ImagePicker();
 
   MypageUiState _state = const MypageUiState();
   MypageUiState get state => _state;
+
+  bool _isUploading = false;
+  bool get isUploading => _isUploading;
+
+  String? _uploadError;
+  String? get uploadError => _uploadError;
 
   MypageViewModel() {
     initialize();
@@ -28,23 +36,62 @@ class MypageViewModel extends ChangeNotifier {
   }
 
   Future<void> fetchUserData() async {
-    // 1. 로딩 시작: UI를 로딩 상태로 변경하여 화면 갱신 유도
     _updateState(isLoading: true, hasError: false);
 
     try {
       log("내 정보 불러오는 중...");
       final response = await userService.getUserInfo();
       final data = MyPageInfo.fromResponse(response);
-
-      // 데이터 업데이트
       _updateState(myPageInfo: data);
       log('내 정보 조회 성공: ${data.name}');
     } catch (e) {
       log('Error fetching user data: $e');
       _updateState(hasError: true);
     } finally {
-      // 2. 로딩 종료: UI를 데이터 표시 상태로 변경
       _updateState(isLoading: false);
+    }
+  }
+
+  /// 이미지 선택 즉시 onPicked 호출(바텀시트 닫기) → 백그라운드로 업로드
+  Future<void> pickAndUpload(
+    ImageSource source, {
+    VoidCallback? onPicked,
+  }) async {
+    _uploadError = null;
+    notifyListeners();
+
+    try {
+      final XFile? file = await _picker.pickImage(source: source);
+      if (file == null) return;
+
+      // 이미지 선택 완료 → 바텀시트 즉시 닫기
+      onPicked?.call();
+
+      _isUploading = true;
+      notifyListeners();
+
+      final bool isSuccess = await userService.saveImage(file.path);
+      if (!isSuccess) {
+        _uploadError = '업로드에 실패했습니다.';
+      } else {
+        await _silentRefresh();
+      }
+    } catch (e) {
+      log('이미지 업로드 오류: $e');
+      _uploadError = '오류가 발생했습니다.';
+    } finally {
+      _isUploading = false;
+      notifyListeners();
+    }
+  }
+
+  /// 페이지 로딩 상태 없이 조용히 데이터만 갱신 (업로드 후 사용)
+  Future<void> _silentRefresh() async {
+    try {
+      final response = await userService.getUserInfo();
+      _updateState(myPageInfo: MyPageInfo.fromResponse(response));
+    } catch (e) {
+      log('Silent refresh 실패: $e');
     }
   }
 
@@ -55,6 +102,11 @@ class MypageViewModel extends ChangeNotifier {
   Future<void> signOut(BuildContext context) async {
     await userService.signOut();
     await _secureStorage.deleteAllData();
+  }
+
+  void clearUploadError() {
+    _uploadError = null;
+    notifyListeners();
   }
 
   void _updateState({

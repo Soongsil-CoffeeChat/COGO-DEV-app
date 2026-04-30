@@ -38,7 +38,6 @@ import 'package:cogo/features/home/profile/profile_detail_screen.dart';
 import 'package:cogo/features/home/report/report_detail_screen.dart';
 import 'package:cogo/features/home/report/report_screen.dart';
 import 'package:cogo/features/home/search/search_screen.dart';
-import 'package:cogo/features/mypage/image/image_upload_screen.dart';
 import 'package:cogo/features/mypage/mentor_introduce/my_mentor_introduce_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_checking/mentor_time_checking_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_screen.dart';
@@ -331,13 +330,6 @@ final AppRouter = GoRouter(
           reason: args['reason'],
         );
       },
-    ),
-    GoRoute(
-      path: Paths.image,
-      pageBuilder: (context, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ImageUploadScreen(),
-      ),
     ),
     GoRoute(
       path: Paths.qr,
