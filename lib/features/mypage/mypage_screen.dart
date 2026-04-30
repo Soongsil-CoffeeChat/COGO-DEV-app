@@ -122,25 +122,32 @@ class _MypageScreenState extends State<MypageScreen>
                     const SizedBox(height: 20),
                     ListTile(
                       title: const Text('푸시 알림', style: CogoTextStyle.body16),
-                      trailing: Switch(
-                        value: viewModel.isNotificationEnabled,
-                        onChanged: viewModel.setNotificationEnabled,
-                        thumbColor: WidgetStateProperty.resolveWith(
-                          (states) => states.contains(WidgetState.selected)
-                              ? Colors.white
-                              : Colors.black,
+                      trailing: SizedBox(
+                        height: 40,
+                        child: FittedBox(
+                          fit: BoxFit.fitHeight,
+                          child: Switch(
+                            value: viewModel.isNotificationEnabled,
+                            onChanged: viewModel.setNotificationEnabled,
+                            thumbColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                            trackColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? Colors.black
+                                  : Colors.white,
+                            ),
+                            trackOutlineColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? Colors.transparent
+                                  : Colors.black,
+                            ),
+                            trackOutlineWidth:
+                                const WidgetStatePropertyAll(1.5),
+                          ),
                         ),
-                        trackColor: WidgetStateProperty.resolveWith(
-                          (states) => states.contains(WidgetState.selected)
-                              ? Colors.black
-                              : Colors.white,
-                        ),
-                        trackOutlineColor: WidgetStateProperty.resolveWith(
-                          (states) => states.contains(WidgetState.selected)
-                              ? Colors.transparent
-                              : Colors.black,
-                        ),
-                        trackOutlineWidth: const WidgetStatePropertyAll(1.5),
                       ),
                     ),
                     ListTile(
@@ -280,8 +287,7 @@ class _MypageScreenState extends State<MypageScreen>
             padding: const EdgeInsets.only(top: 8),
             child: Text(
               viewModel.uploadError!,
-              style:
-                  CogoTextStyle.body14.copyWith(color: CogoColor.systemRed),
+              style: CogoTextStyle.body14.copyWith(color: CogoColor.systemRed),
               textAlign: TextAlign.center,
             ),
           ),
