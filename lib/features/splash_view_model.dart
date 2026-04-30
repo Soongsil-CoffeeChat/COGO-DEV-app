@@ -28,6 +28,12 @@ class SplashViewModel extends ChangeNotifier {
 
   Future<void> _registerFcmToken() async {
     try {
+      final settings =
+          await FirebaseMessaging.instance.getNotificationSettings();
+      if (settings.authorizationStatus == AuthorizationStatus.denied) {
+        log('[FCM] 알림 권한 없음 - 토큰 등록 생략');
+        return;
+      }
       final token = await FirebaseMessaging.instance.getToken();
       if (token != null) {
         await fcmService.registerFcmToken(token);

@@ -172,12 +172,22 @@ Future<void> _setupFCM() async {
     }
   });
 
-  // 토큰 확인 (콘솔 테스트용)
-  String? token = await messaging.getToken();
-  if (kDebugMode) {
-    print("==============================================");
-    print("FCM Token: $token");
-    print("==============================================");
+  // 권한이 있는 경우에만 토큰 발급
+  final granted = settings.authorizationStatus == AuthorizationStatus.authorized ||
+      settings.authorizationStatus == AuthorizationStatus.provisional;
+  if (!granted) {
+    if (kDebugMode) print('[FCM] 알림 권한 없음 - 토큰 발급 생략');
+    return;
+  }
+  try {
+    String? token = await messaging.getToken();
+    if (kDebugMode) {
+      print("==============================================");
+      print("FCM Token: $token");
+      print("==============================================");
+    }
+  } catch (e) {
+    if (kDebugMode) print('[FCM] 토큰 발급 실패: $e');
   }
 }
 
