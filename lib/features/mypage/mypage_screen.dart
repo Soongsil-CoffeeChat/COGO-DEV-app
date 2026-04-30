@@ -140,77 +140,103 @@ class MypageScreen extends StatelessWidget {
   }) {
     final bool hasImage = imageUrl != null && imageUrl.isNotEmpty;
 
-    return GestureDetector(
-      onTap: () async {
-        final oldUrl = imageUrl;
-
-        final uploaded = await showModalBottomSheet<bool>(
-          context: context,
-          backgroundColor: Colors.white,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          builder: (_) => _ProfileImagePickerSheet(viewModel: viewModel),
-        );
-
-        if (uploaded == true && context.mounted) {
-          log("이미지 업로드 완료 -> 데이터 갱신 요청");
-          if (oldUrl != null && oldUrl.isNotEmpty) {
-            imageCache.evict(NetworkImage(oldUrl));
-          }
-          await viewModel.refreshMyPage();
-        }
-      },
-      child: Stack(
-        children: [
-          // 1층: 이미지 (네트워크 이미지 or 기본 SVG)
-          ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            child: SizedBox(
-              width: double.infinity,
-              height: 150,
-              child: hasImage
-                  ? Image.network(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        log("이미지 로드 실패: $imageUrl");
-                        // 로드 실패 시 기본 이미지
-                        return SvgPicture.asset(
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: viewModel.isUploading
+              ? null
+              : () {
+                  final oldUrl = imageUrl;
+                  showModalBottomSheet<void>(
+                    context: context,
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    builder: (_) => _ProfileImagePickerSheet(
+                      viewModel: viewModel,
+                      oldImageUrl: oldUrl,
+                    ),
+                  );
+                },
+          child: Stack(
+            children: [
+              // 1층: 이미지 (네트워크 이미지 or 기본 SVG)
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 150,
+                  child: hasImage
+                      ? Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            log("이미지 로드 실패: $imageUrl");
+                            return SvgPicture.asset(
+                              'assets/image/empty_profile_img.svg',
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                      : SvgPicture.asset(
                           'assets/image/empty_profile_img.svg',
                           fit: BoxFit.cover,
-                        );
-                      },
-                    )
-                  : SvgPicture.asset(
-                      // URL이 없을 때 기본 이미지
-                      'assets/image/empty_profile_img.svg',
-                      fit: BoxFit.cover,
-                    ),
-            ),
-          ),
-
-          // 2층: 카메라 아이콘 (기본 이미지일 때만 표시)
-          if (!hasImage)
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: const Icon(
-                    Icons.camera_alt,
-                    size: 40,
-                    color: CogoColor.systemGray03,
-                  ),
+                        ),
                 ),
               ),
+
+              // 2층: 카메라 아이콘 (이미지 없을 때만)
+              if (!hasImage)
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        size: 40,
+                        color: CogoColor.systemGray03,
+                      ),
+                    ),
+                  ),
+                ),
+
+              // 3층: 업로드 중 오버레이
+              if (viewModel.isUploading)
+                const Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    child: ColoredBox(
+                      color: Colors.black54,
+                      child: Center(
+                        child: CircularProgressIndicator(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+
+        // 업로드 에러 메시지
+        if (viewModel.uploadError != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              viewModel.uploadError!,
+              style:
+                  CogoTextStyle.body14.copyWith(color: CogoColor.systemRed),
+              textAlign: TextAlign.center,
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 
@@ -268,79 +294,62 @@ class MypageScreen extends StatelessWidget {
 
 class _ProfileImagePickerSheet extends StatelessWidget {
   final MypageViewModel viewModel;
+  final String? oldImageUrl;
 
-  const _ProfileImagePickerSheet({required this.viewModel});
+  const _ProfileImagePickerSheet({
+    required this.viewModel,
+    this.oldImageUrl,
+  });
+
+  void _pick(BuildContext context, ImageSource source) {
+    viewModel.pickAndUpload(
+      source,
+      onPicked: () {
+        // 이미지 선택 직후: 캐시 제거 후 바텀시트 닫기
+        if (oldImageUrl != null && oldImageUrl!.isNotEmpty) {
+          imageCache.evict(NetworkImage(oldImageUrl!));
+        }
+        if (context.mounted) Navigator.of(context).pop();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: viewModel,
-      builder: (ctx, _) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // 핸들 바
-                Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    color: CogoColor.systemGray03,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-
-                if (viewModel.isUploading)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 32),
-                    child: CircularProgressIndicator(color: Colors.black),
-                  )
-                else ...[
-                  ListTile(
-                    leading: SvgPicture.asset(
-                      'assets/icons/button/camera_icon.svg',
-                      width: 24,
-                      height: 24,
-                    ),
-                    title: const Text('사진 촬영', style: CogoTextStyle.body16),
-                    onTap: () => viewModel.pickAndUpload(
-                      ImageSource.camera,
-                      onSuccess: () {
-                        if (ctx.mounted) Navigator.of(ctx).pop(true);
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.photo_library_outlined,
-                        size: 24, color: Colors.black),
-                    title: const Text('앨범에서 선택', style: CogoTextStyle.body16),
-                    onTap: () => viewModel.pickAndUpload(
-                      ImageSource.gallery,
-                      onSuccess: () {
-                        if (ctx.mounted) Navigator.of(ctx).pop(true);
-                      },
-                    ),
-                  ),
-                ],
-
-                if (viewModel.uploadError != null)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                    child: Text(
-                      viewModel.uploadError!,
-                      style: CogoTextStyle.body14
-                          .copyWith(color: CogoColor.systemRed),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-              ],
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // 핸들 바
+            Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: CogoColor.systemGray03,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
-          ),
-        );
-      },
+            ListTile(
+              leading: SvgPicture.asset(
+                'assets/icons/button/camera_icon.svg',
+                width: 24,
+                height: 24,
+              ),
+              title: const Text('사진 촬영', style: CogoTextStyle.body16),
+              onTap: () => _pick(context, ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined,
+                  size: 24, color: Colors.black),
+              title: const Text('앨범에서 선택', style: CogoTextStyle.body16),
+              onTap: () => _pick(context, ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

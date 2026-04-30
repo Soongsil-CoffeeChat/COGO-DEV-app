@@ -52,10 +52,10 @@ class MypageViewModel extends ChangeNotifier {
     }
   }
 
-  /// 이미지 선택 후 바로 서버에 업로드
+  /// 이미지 선택 즉시 onPicked 호출(바텀시트 닫기) → 백그라운드로 업로드
   Future<void> pickAndUpload(
     ImageSource source, {
-    VoidCallback? onSuccess,
+    VoidCallback? onPicked,
   }) async {
     _uploadError = null;
     notifyListeners();
@@ -64,15 +64,17 @@ class MypageViewModel extends ChangeNotifier {
       final XFile? file = await _picker.pickImage(source: source);
       if (file == null) return;
 
+      // 이미지 선택 완료 → 바텀시트 즉시 닫기
+      onPicked?.call();
+
       _isUploading = true;
       notifyListeners();
 
       final bool isSuccess = await userService.saveImage(file.path);
-
-      if (isSuccess) {
-        onSuccess?.call();
-      } else {
+      if (!isSuccess) {
         _uploadError = '업로드에 실패했습니다.';
+      } else {
+        await _silentRefresh();
       }
     } catch (e) {
       log('이미지 업로드 오류: $e');
@@ -80,6 +82,16 @@ class MypageViewModel extends ChangeNotifier {
     } finally {
       _isUploading = false;
       notifyListeners();
+    }
+  }
+
+  /// 페이지 로딩 상태 없이 조용히 데이터만 갱신 (업로드 후 사용)
+  Future<void> _silentRefresh() async {
+    try {
+      final response = await userService.getUserInfo();
+      _updateState(myPageInfo: MyPageInfo.fromResponse(response));
+    } catch (e) {
+      log('Silent refresh 실패: $e');
     }
   }
 
