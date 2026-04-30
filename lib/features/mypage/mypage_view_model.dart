@@ -1,8 +1,12 @@
 import 'dart:developer';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:cogo/data/repository/local/secure_storage_repository.dart';
+import 'package:cogo/data/service/fcm_service.dart';
 import 'package:cogo/data/service/user_service.dart';
 import 'package:cogo/domain/entity/my_page_info.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 class MypageViewModel extends ChangeNotifier {
   final SecureStorageRepository _secureStorage = SecureStorageRepository();
   final UserService userService = GetIt.instance<UserService>();
+  final FcmService fcmService = GetIt.instance<FcmService>();
   final ImagePicker _picker = ImagePicker();
 
   MypageUiState _state = const MypageUiState();
@@ -21,12 +26,85 @@ class MypageViewModel extends ChangeNotifier {
   String? _uploadError;
   String? get uploadError => _uploadError;
 
+  bool _isNotificationEnabled = false;
+  bool get isNotificationEnabled => _isNotificationEnabled;
+
   MypageViewModel() {
     initialize();
   }
 
   void initialize() {
     fetchUserData();
+    _loadNotificationStatus();
+  }
+
+  Future<void> _loadNotificationStatus() async {
+    if (kIsWeb) return;
+    final settings =
+        await FirebaseMessaging.instance.getNotificationSettings();
+    _isNotificationEnabled =
+        settings.authorizationStatus == AuthorizationStatus.authorized ||
+            settings.authorizationStatus == AuthorizationStatus.provisional;
+    notifyListeners();
+  }
+
+  /// 알림 토글
+  Future<void> setNotificationEnabled(bool value) async {
+    if (kIsWeb) return;
+
+    if (value) {
+      final settings =
+          await FirebaseMessaging.instance.getNotificationSettings();
+
+      if (settings.authorizationStatus == AuthorizationStatus.denied) {
+        // 권한 거부 상태 → 시스템 설정 열기
+        AppSettings.openAppSettings(type: AppSettingsType.notification);
+        return;
+      }
+
+      if (settings.authorizationStatus == AuthorizationStatus.notDetermined) {
+        final newSettings =
+            await FirebaseMessaging.instance.requestPermission(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+        if (newSettings.authorizationStatus != AuthorizationStatus.authorized &&
+            newSettings.authorizationStatus != AuthorizationStatus.provisional) {
+          return;
+        }
+      }
+
+      // 권한 있음 → 토큰 등록
+      await _registerFcmToken();
+      _isNotificationEnabled = true;
+    } else {
+      // 토글 OFF → 로컬 토큰 삭제
+      try {
+        await FirebaseMessaging.instance.deleteToken();
+        log('[FCM] 토큰 삭제 완료');
+      } catch (e) {
+        log('[FCM] 토큰 삭제 실패: $e');
+      }
+      _isNotificationEnabled = false;
+    }
+    notifyListeners();
+  }
+
+  Future<void> refreshNotificationStatus() async {
+    await _loadNotificationStatus();
+  }
+
+  Future<void> _registerFcmToken() async {
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        await fcmService.registerFcmToken(token);
+        log('[FCM] 마이페이지 토글 - 토큰 서버 등록 완료');
+      }
+    } catch (e) {
+      log('[FCM] 토큰 재등록 실패: $e');
+    }
   }
 
   /// 바텀 네비게이션 탭 재클릭 시 호출 (강제 새로고침)

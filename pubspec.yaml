@@ -81,6 +81,9 @@ dependencies:
   # 네트워크 이미지 캐싱
   cached_network_image: ^3.4.1
 
+  # 알림 설정 화면 열기
+  app_settings: ^5.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
