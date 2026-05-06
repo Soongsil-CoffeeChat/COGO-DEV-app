@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode, defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -115,11 +115,11 @@ Future<void> _setupFCM() async {
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  // 포그라운드에서도 헤드업 알림 표시 (Android)
+  // iOS 포그라운드 알림 자동 표시 비활성화 → onMessage에서 flutter_local_notifications로 처리
   await messaging.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
+    alert: false,
+    badge: false,
+    sound: false,
   );
 
   // 백그라운드 핸들러 등록
@@ -133,17 +133,19 @@ Future<void> _setupFCM() async {
       print("Title: ${message.notification?.title}");
       print("Body: ${message.notification?.body}");
       print("Data: ${message.data}");
+      print("activeChatRoomId: $activeChatRoomId");
       print("==============================================");
     }
 
     // 현재 열려있는 채팅방의 알림은 표시하지 않음
     final roomId = message.data['roomId'];
-    if (roomId != null && int.tryParse(roomId.toString()) == activeChatRoomId) {
+    if (activeChatRoomId != null &&
+        roomId != null &&
+        int.tryParse(roomId.toString()) == activeChatRoomId) {
       return;
     }
 
-    // iOS는 setForegroundNotificationPresentationOptions로 시스템이 자동 표시하므로 스킵
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) return;
+    if (kIsWeb) return;
 
     final notification = message.notification;
     if (notification != null) {
@@ -159,6 +161,11 @@ Future<void> _setupFCM() async {
             icon: '@mipmap/ic_logo',
             importance: Importance.high,
             priority: Priority.high,
+          ),
+          iOS: const DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
           ),
         ),
       );
