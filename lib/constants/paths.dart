@@ -42,6 +42,7 @@ abstract class Paths {
   static const String mentorDetailCompletion = '/mentorDetailCompletion';
 
   static const String myInfo = '/myInfo';
+  static const String notificationSetting = '/notificationSetting';
   static const String myMentorIntroduce = '/myMentorIntroduce';
   static const String timeSetting = '/timeSetting';
   static const String timeChecking = '/timeChecking';

@@ -43,6 +43,7 @@ import 'package:cogo/features/mypage/mentor_time_checking/mentor_time_checking_s
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_screen.dart';
 import 'package:cogo/features/mypage/my_info/my_info_screen.dart';
 import 'package:cogo/features/mypage/mypage_screen.dart';
+import 'package:cogo/features/mypage/notification/notification_settings_screen.dart';
 import 'package:cogo/features/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -276,6 +277,13 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const MyInfoScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.notificationSetting,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const NotificationSettingsScreen(),
       ),
     ),
     GoRoute(

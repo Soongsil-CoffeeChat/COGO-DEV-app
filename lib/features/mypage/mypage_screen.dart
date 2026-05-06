@@ -14,34 +14,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class MypageScreen extends StatefulWidget {
+class MypageScreen extends StatelessWidget {
   const MypageScreen({super.key});
-
-  @override
-  State<MypageScreen> createState() => _MypageScreenState();
-}
-
-class _MypageScreenState extends State<MypageScreen>
-    with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  /// 설정 앱에서 돌아왔을 때 알림 상태 갱신
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      context.read<MypageViewModel>().refreshNotificationStatus();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,36 +95,6 @@ class _MypageScreenState extends State<MypageScreen>
                     ),
                     const SizedBox(height: 20),
                     ListTile(
-                      title: const Text('푸시 알림', style: CogoTextStyle.body16),
-                      trailing: SizedBox(
-                        height: 40,
-                        child: FittedBox(
-                          fit: BoxFit.fitHeight,
-                          child: Switch(
-                            value: viewModel.isNotificationEnabled,
-                            onChanged: viewModel.setNotificationEnabled,
-                            thumbColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.selected)
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                            trackColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.selected)
-                                  ? Colors.black
-                                  : Colors.white,
-                            ),
-                            trackOutlineColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.selected)
-                                  ? Colors.transparent
-                                  : Colors.black,
-                            ),
-                            trackOutlineWidth:
-                                const WidgetStatePropertyAll(1.5),
-                          ),
-                        ),
-                      ),
-                    ),
-                    ListTile(
                       title: const Text('내 정보 관리', style: CogoTextStyle.body16),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.safePush(Paths.myInfo),
@@ -168,6 +112,11 @@ class _MypageScreenState extends State<MypageScreen>
                         onTap: () => context.safePush(Paths.timeSetting),
                       ),
                     ],
+                    ListTile(
+                      title: const Text('알림 설정', style: CogoTextStyle.body16),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context.safePush(Paths.notificationSetting),
+                    ),
                     ListTile(
                       title: const Text('로그아웃', style: CogoTextStyle.body16),
                       trailing: const Icon(Icons.chevron_right),
