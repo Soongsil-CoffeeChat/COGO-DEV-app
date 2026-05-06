@@ -113,6 +113,11 @@ class MypageScreen extends StatelessWidget {
                       ),
                     ],
                     ListTile(
+                      title: const Text('알림 설정', style: CogoTextStyle.body16),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context.safePush(Paths.notificationSetting),
+                    ),
+                    ListTile(
                       title: const Text('로그아웃', style: CogoTextStyle.body16),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => _showLogoutDialog(context, viewModel),
@@ -231,8 +236,7 @@ class MypageScreen extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8),
             child: Text(
               viewModel.uploadError!,
-              style:
-                  CogoTextStyle.body14.copyWith(color: CogoColor.systemRed),
+              style: CogoTextStyle.body14.copyWith(color: CogoColor.systemRed),
               textAlign: TextAlign.center,
             ),
           ),

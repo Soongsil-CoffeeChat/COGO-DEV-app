@@ -105,12 +105,13 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   enabled: widget.enabled,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _handleSend(),
+                  style: CogoTextStyle.body14,
                   decoration: InputDecoration(
                     hintText: widget.hintText,
-                    hintStyle: CogoTextStyle.body16
+                    hintStyle: CogoTextStyle.body14
                         .copyWith(color: CogoColor.systemGray03),
                     border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 5),
                   ),
                 ),
               ),

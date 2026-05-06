@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode, defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -10,38 +10,59 @@ import 'package:provider/provider.dart';
 
 import 'package:cogo/common/navigator/bottom_navigation_bar_view_model.dart';
 import 'package:cogo/data/di/get_it_locator.dart';
+import 'package:cogo/features/chat/chat_view_model.dart';
+import 'package:cogo/features/cogo/cogo_view_model.dart';
 import 'package:cogo/features/home/home_view_model.dart';
+import 'package:cogo/features/mypage/mypage_view_model.dart';
 import 'package:cogo/features/splash_view_model.dart';
+import 'package:cogo/firebase_options.dart';
 import 'package:cogo/route/routes.dart';
 
-import 'features/chat/chat_view_model.dart';
-import 'features/cogo/cogo_view_model.dart';
-import 'features/mypage/mypage_view_model.dart';
-import 'firebase_options.dart';
+// 현재 열려있는 채팅방 ID (null이면 채팅방에 없는 상태)
+int? activeChatRoomId;
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+const AndroidNotificationChannel _channel = AndroidNotificationChannel(
+  'cogo_notification',
+  'COGO 알림',
+  description: 'COGO 앱 푸시 알림',
+  importance: Importance.high,
+);
+
+const NotificationDetails _notificationDetails = NotificationDetails(
+  android: AndroidNotificationDetails(
+    'cogo_notification',
+    'COGO 알림',
+    channelDescription: 'COGO 앱 푸시 알림',
+    icon: '@drawable/ic_notification',
+    color: Color(0xFF000000),
+    importance: Importance.high,
+    priority: Priority.high,
+  ),
+  iOS: DarwinNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  ),
+);
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print("Handling a background message: ${message.messageId}");
+  if (kDebugMode) print('[FCM] 백그라운드 메시지: ${message.messageId}');
 }
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await _setupFCM();
 
-  // Splash는 모바일에서만
   if (!kIsWeb) {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  }
-
-  // dotenv는 웹에서 불가능
-  if (!kIsWeb) {
-    await dotenv.load(fileName: ".env");
+    await dotenv.load(fileName: '.env');
   }
 
   await initializeDateFormatting('ko_KR', null);
@@ -50,135 +71,94 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        // 앱 전역에서 사용할 뷰모델들을 여기서 생성합니다.
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(create: (_) => CogoViewModel()),
         ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => MypageViewModel()),
-
-        ChangeNotifierProvider(
-            create: (_) => BottomNavigationViewModel(AppRouter)),
+        ChangeNotifierProvider(create: (_) => BottomNavigationViewModel(AppRouter)),
         ChangeNotifierProvider(create: (_) => SplashViewModel()),
       ],
       child: const MyApp(),
     ),
   );
 
-  if (!kIsWeb) {
-    FlutterNativeSplash.remove();
+  if (!kIsWeb) FlutterNativeSplash.remove();
+}
+
+Future<void> _setupFCM() async {
+  final messaging = FirebaseMessaging.instance;
+
+  final settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  if (kDebugMode) print('[FCM] 권한 상태: ${settings.authorizationStatus}');
+
+  await flutterLocalNotificationsPlugin.initialize(
+    settings: const InitializationSettings(
+      android: AndroidInitializationSettings('@drawable/ic_notification'),
+      iOS: DarwinInitializationSettings(),
+    ),
+  );
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(_channel);
+
+  // iOS 포그라운드 알림 자동 표시 비활성화 → onMessage에서 flutter_local_notifications로 처리
+  await messaging.setForegroundNotificationPresentationOptions(
+    alert: false,
+    badge: false,
+    sound: false,
+  );
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  FirebaseMessaging.onMessage.listen(_onForegroundMessage);
+
+  FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    if (kDebugMode) print('[FCM] 알림 탭으로 앱 열림: ${message.notification?.title}');
+  });
+
+  final granted = settings.authorizationStatus == AuthorizationStatus.authorized ||
+      settings.authorizationStatus == AuthorizationStatus.provisional;
+  if (!granted) {
+    if (kDebugMode) print('[FCM] 알림 권한 없음 - 토큰 발급 생략');
+    return;
+  }
+
+  try {
+    final token = await messaging.getToken();
+    if (kDebugMode) print('[FCM] Token: $token');
+  } catch (e) {
+    if (kDebugMode) print('[FCM] 토큰 발급 실패: $e');
   }
 }
 
-// 현재 열려있는 채팅방 ID (null이면 채팅방에 없는 상태)
-int? activeChatRoomId;
-
-// 로컬 알림 플러그인 인스턴스
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-// Android 알림 채널 설정
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'cogo_notification', // 채널 ID
-  'COGO 알림', // 채널 이름
-  description: 'COGO 앱 푸시 알림',
-  importance: Importance.high,
-);
-
-Future<void> _setupFCM() async {
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  // 알림 권한 요청 (iOS/Web 필수)
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
+void _onForegroundMessage(RemoteMessage message) {
   if (kDebugMode) {
-    print('User granted permission: ${settings.authorizationStatus}');
+    print('[FCM] 포그라운드 수신 | title: ${message.notification?.title} | roomId: ${message.data['roomId']} | activeChatRoomId: $activeChatRoomId');
   }
 
-  // 로컬 알림 초기화
-  const AndroidInitializationSettings androidSettings =
-      AndroidInitializationSettings('@mipmap/ic_logo');
-  const DarwinInitializationSettings iosSettings =
-      DarwinInitializationSettings();
-  const InitializationSettings initSettings =
-      InitializationSettings(android: androidSettings, iOS: iosSettings);
-  await flutterLocalNotificationsPlugin.initialize(
-    settings: initSettings,
-  );
-
-  // Android 알림 채널 생성
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  // 포그라운드에서도 헤드업 알림 표시 (Android)
-  await messaging.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
-  // 백그라운드 핸들러 등록
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  // 포그라운드 메시지 수신 → 로컬 알림으로 표시
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    if (kDebugMode) {
-      print("==============================================");
-      print("포그라운드 메시지 수신!");
-      print("Title: ${message.notification?.title}");
-      print("Body: ${message.notification?.body}");
-      print("Data: ${message.data}");
-      print("==============================================");
-    }
-
-    // 현재 열려있는 채팅방의 알림은 표시하지 않음
-    final roomId = message.data['roomId'];
-    if (roomId != null && int.tryParse(roomId.toString()) == activeChatRoomId) {
-      return;
-    }
-
-    // iOS는 setForegroundNotificationPresentationOptions로 시스템이 자동 표시하므로 스킵
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) return;
-
-    final notification = message.notification;
-    if (notification != null) {
-      flutterLocalNotificationsPlugin.show(
-        id: notification.hashCode,
-        title: notification.title,
-        body: notification.body,
-        notificationDetails: NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
-            icon: '@mipmap/ic_logo',
-            importance: Importance.high,
-            priority: Priority.high,
-          ),
-        ),
-      );
-    }
-  });
-
-  // 알림 탭해서 앱 열었을 때 처리
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    if (kDebugMode) {
-      print("알림 탭으로 앱 열림: ${message.notification?.title}");
-    }
-  });
-
-  // 토큰 확인 (콘솔 테스트용)
-  String? token = await messaging.getToken();
-  if (kDebugMode) {
-    print("==============================================");
-    print("FCM Token: $token");
-    print("==============================================");
+  final roomId = message.data['roomId'];
+  if (activeChatRoomId != null &&
+      roomId != null &&
+      int.tryParse(roomId.toString()) == activeChatRoomId) {
+    return;
   }
+
+  if (kIsWeb) return;
+
+  final notification = message.notification;
+  if (notification == null) return;
+
+  flutterLocalNotificationsPlugin.show(
+    id: notification.hashCode,
+    title: notification.title,
+    body: notification.body,
+    notificationDetails: _notificationDetails,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -190,14 +170,10 @@ class MyApp extends StatelessWidget {
       routerConfig: AppRouter,
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
-        // 모바일 크기로 제한
         if (kIsWeb) {
           return Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 430,
-                minWidth: 320,
-              ),
+              constraints: const BoxConstraints(maxWidth: 430, minWidth: 320),
               child: child,
             ),
           );

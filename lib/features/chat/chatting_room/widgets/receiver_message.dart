@@ -1,3 +1,5 @@
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class ReceiverMessage extends StatelessWidget {
@@ -21,7 +23,9 @@ class ReceiverMessage extends StatelessWidget {
         if (isRead)
           const Text('읽음', style: TextStyle(fontSize: 10, color: Colors.grey)),
         const SizedBox(width: 6),
-        Text(time, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+        Text(time,
+            style:
+                CogoTextStyle.bodyR10.copyWith(color: CogoColor.systemGray03)),
         const SizedBox(width: 6),
         Flexible(
           child: Container(
@@ -31,7 +35,8 @@ class ReceiverMessage extends StatelessWidget {
               color: const Color(0xFF000000),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Text(text, style: const TextStyle(color: Colors.white)),
+            child: Text(text,
+                style: CogoTextStyle.body14.copyWith(color: CogoColor.white50)),
           ),
         ),
       ],

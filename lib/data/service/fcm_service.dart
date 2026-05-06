@@ -33,4 +33,19 @@ class FcmService {
       throw Exception('An unexpected error occurred: $e');
     }
   }
+
+  /// DELETE /api/v2/push/tokens - FCM 토큰 서버에서 삭제
+  Future<void> deleteFcmToken(String fcmToken) async {
+    try {
+      await _apiClient.dio.delete(
+        apiVersion + Apis.pushToken,
+        queryParameters: {'token': fcmToken},
+      );
+      log('[FCM] 토큰 서버 삭제 성공');
+    } on DioException catch (e) {
+      throw Exception('Error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
 }
