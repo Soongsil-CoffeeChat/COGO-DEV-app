@@ -6,8 +6,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationSettingsViewModel extends ChangeNotifier {
+  static const _prefKey = 'notification_enabled';
+
   final FcmService fcmService = GetIt.instance<FcmService>();
 
   bool _isNotificationEnabled = false;
@@ -19,15 +22,28 @@ class NotificationSettingsViewModel extends ChangeNotifier {
 
   Future<void> _loadNotificationStatus() async {
     if (kIsWeb) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getBool(_prefKey);
+
+    // OS 권한이 거부된 경우 저장값과 무관하게 OFF
     final settings = await FirebaseMessaging.instance.getNotificationSettings();
-    final wasEnabled = _isNotificationEnabled;
-    _isNotificationEnabled =
+    final osGranted =
         settings.authorizationStatus == AuthorizationStatus.authorized ||
             settings.authorizationStatus == AuthorizationStatus.provisional;
 
-    if (!wasEnabled && _isNotificationEnabled) {
-      await _registerFcmToken();
+    if (!osGranted) {
+      _isNotificationEnabled = false;
+      await prefs.setBool(_prefKey, false);
+    } else {
+      // 저장된 값이 없으면(첫 실행) ON으로 간주하고 토큰 등록
+      _isNotificationEnabled = saved ?? true;
+      if (saved == null) {
+        await _registerFcmToken();
+        await prefs.setBool(_prefKey, true);
+      }
     }
+
     notifyListeners();
   }
 
@@ -58,11 +74,18 @@ class NotificationSettingsViewModel extends ChangeNotifier {
 
       await _registerFcmToken();
       _isNotificationEnabled = true;
+      await _saveNotificationEnabled(true);
     } else {
       await _unregisterFcmToken();
       _isNotificationEnabled = false;
+      await _saveNotificationEnabled(false);
     }
     notifyListeners();
+  }
+
+  Future<void> _saveNotificationEnabled(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefKey, value);
   }
 
   Future<void> refreshNotificationStatus() async {
