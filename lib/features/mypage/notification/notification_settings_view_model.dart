@@ -59,6 +59,7 @@ class NotificationSettingsViewModel extends ChangeNotifier {
       await _registerFcmToken();
       _isNotificationEnabled = true;
     } else {
+      await _unregisterFcmToken();
       _isNotificationEnabled = false;
     }
     notifyListeners();
@@ -77,6 +78,23 @@ class NotificationSettingsViewModel extends ChangeNotifier {
       }
     } catch (e) {
       log('[FCM] 토큰 재등록 실패: $e');
+    }
+  }
+
+  Future<void> _unregisterFcmToken() async {
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        try {
+          await fcmService.deleteFcmToken(token);
+        } catch (e) {
+          log('[FCM] 서버 토큰 삭제 실패: $e');
+        }
+      }
+      await FirebaseMessaging.instance.deleteToken();
+      log('[FCM] 알림 설정 - 토큰 삭제 완료');
+    } catch (e) {
+      log('[FCM] 토큰 삭제 실패: $e');
     }
   }
 }
