@@ -100,7 +100,7 @@ Future<void> _setupFCM() async {
 
   // 로컬 알림 초기화
   const AndroidInitializationSettings androidSettings =
-      AndroidInitializationSettings('@mipmap/ic_logo');
+      AndroidInitializationSettings('@drawable/ic_notification');
   const DarwinInitializationSettings iosSettings =
       DarwinInitializationSettings();
   const InitializationSettings initSettings =
@@ -158,7 +158,7 @@ Future<void> _setupFCM() async {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            icon: '@mipmap/ic_logo',
+            icon: '@drawable/ic_notification',
             importance: Importance.high,
             priority: Priority.high,
           ),
