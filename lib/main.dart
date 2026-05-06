@@ -159,6 +159,7 @@ Future<void> _setupFCM() async {
             channel.name,
             channelDescription: channel.description,
             icon: '@drawable/ic_notification',
+            color: const Color(0xFF000000),
             importance: Importance.high,
             priority: Priority.high,
           ),
