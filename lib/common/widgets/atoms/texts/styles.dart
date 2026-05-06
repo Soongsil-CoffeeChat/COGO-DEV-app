@@ -97,4 +97,16 @@ final class CogoTextStyle {
     fontSize: 12,
     color: CogoColor.systemGray05,
   );
+
+  static const TextStyle bodyR10 = TextStyle(
+    fontFamily: "PretendardRegular",
+    fontSize: 10,
+    color: CogoColor.systemGray05,
+  );
+
+  static const TextStyle bodyR16 = TextStyle(
+    fontFamily: "PretendardRegular",
+    fontSize: 16,
+    color: CogoColor.systemGray05,
+  );
 }

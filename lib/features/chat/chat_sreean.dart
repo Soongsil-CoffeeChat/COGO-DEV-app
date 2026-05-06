@@ -156,19 +156,18 @@ class _ChatRoomTile extends StatelessWidget {
           Expanded(
             child: Text(
               room.participants.first.isDeleted
-                  ? '(알 수 없음)' : (room.participants.first.name ?? ''),
+                  ? '(알 수 없음)'
+                  : (room.participants.first.name ?? ''),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w600),
+              style: CogoTextStyle.body16,
             ),
           ),
           const SizedBox(width: 8),
           Text(
             _formatKoreanDate(room.updatedAt),
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
-            ),
+            style:
+                CogoTextStyle.bodyR10.copyWith(color: CogoColor.systemGray04),
           ),
         ],
       ),
@@ -178,7 +177,7 @@ class _ChatRoomTile extends StatelessWidget {
           room.lastChat ?? '',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.bodyMedium,
+          style: CogoTextStyle.bodyR12,
         ),
       ),
       //trailing: const _UnreadBadge(count: 1), // 서버 unreadCount 생기면 교체

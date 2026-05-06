@@ -1,4 +1,6 @@
 import 'package:cogo/common/widgets/atoms/image/network_image_with_fallback.dart';
+import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class SenderMessage extends StatelessWidget {
@@ -41,7 +43,7 @@ class SenderMessage extends StatelessWidget {
                     color: const Color(0xFFF2F2F2),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Text(text),
+                  child: Text(text, style: CogoTextStyle.body14),
                 ),
               ),
             ],
@@ -51,7 +53,8 @@ class SenderMessage extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 2),
           child: Text(
             time,
-            style: const TextStyle(fontSize: 10, color: Colors.grey),
+            style:
+                CogoTextStyle.bodyR10.copyWith(color: CogoColor.systemGray03),
           ),
         ),
       ],
