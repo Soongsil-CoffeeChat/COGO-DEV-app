@@ -46,7 +46,8 @@ class HomeViewModel extends ChangeNotifier {
     _showEventDialog = false;
   }
 
-  String _currentPart = Interest.FE.name;
+  static const String allParts = 'ALL';
+  String _currentPart = allParts;
 
   final CouponService _couponService = CouponService();
 
@@ -72,14 +73,22 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<void> getProfilesForPart(String part) async {
-    _currentPart = part; // 현재 파트 기억
+    _currentPart = part;
     try {
-      // (옵션) 탭 누를 때마다 로딩 보여주고 싶으면 여기서 profiles = null; notifyListeners();
-
-      final responseProfiles = await mentorService.getMentorPart(part);
-      profiles = responseProfiles
-          .map((response) => MentorPartEntity.fromResponse(response))
-          .toList();
+      if (part == allParts) {
+        final results = await Future.wait(
+          Interest.values.map((i) => mentorService.getMentorPart(i.name)),
+        );
+        profiles = results
+            .expand((list) => list)
+            .map((r) => MentorPartEntity.fromResponse(r))
+            .toList();
+      } else {
+        final responseProfiles = await mentorService.getMentorPart(part);
+        profiles = responseProfiles
+            .map((response) => MentorPartEntity.fromResponse(response))
+            .toList();
+      }
     } catch (error) {
       log('Error fetching mentor details: $error');
     } finally {

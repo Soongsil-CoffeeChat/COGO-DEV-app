@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
 
     _tabController = TabController(
-        length: Interest.values.length, vsync: this, initialIndex: 0);
+        length: Interest.values.length + 1, vsync: this, initialIndex: 0);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       viewModel = Provider.of<HomeViewModel>(context, listen: false);
@@ -102,12 +102,14 @@ class _HomeScreenState extends State<HomeScreen>
         if (_tabController.index != previousIndex) {
           previousIndex = _tabController.index;
           final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-          final part = Interest.values[_tabController.index].name;
+          final part = _tabController.index == 0
+              ? HomeViewModel.allParts
+              : Interest.values[_tabController.index - 1].name;
           viewModel.getProfilesForPart(part);
         }
       });
 
-      /// 인덱스 0번일 때만 refreshHome 호출
+      /// 인덱스 0번(전체)일 때만 refreshHome 호출
       _tabController.addListener(() {
         if (_tabController.index == 0 && _lastSelectedIndex != 0) {
           _lastSelectedIndex = 0;
@@ -118,8 +120,8 @@ class _HomeScreenState extends State<HomeScreen>
         }
       });
 
-      // 기본 프로필 로드
-      viewModel.getProfilesForPart(Interest.FE.name);
+      // 기본 프로필 로드 (전체 탭)
+      viewModel.getProfilesForPart(HomeViewModel.allParts);
     });
   }
 
@@ -170,14 +172,15 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildTabBar() {
+    final tabLabels = ['전체', ...Interest.values.map((i) => i.name)];
     return TabBar(
       controller: _tabController,
       isScrollable: false,
-      tabs: Interest.values
-          .map((interest) => Tab(
+      tabs: tabLabels
+          .map((label) => Tab(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text(interest.name),
+                  child: Text(label),
                 ),
               ))
           .toList(),
@@ -207,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen>
           return TabBarView(
             controller: _tabController,
             children: List.generate(
-              Interest.values.length,
+              Interest.values.length + 1,
               (index) => _buildProfileCardList(context),
             ),
           );
