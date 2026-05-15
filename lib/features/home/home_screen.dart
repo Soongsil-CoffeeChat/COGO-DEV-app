@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late HomeViewModel viewModel;
-  int _lastSelectedIndex = -1;
 
   void _onViewModelChanged() {
     if (viewModel.showReportSuccessDialog) {
@@ -96,31 +95,7 @@ class _HomeScreenState extends State<HomeScreen>
         );
       }
 
-      /// 인덱스가 변화할때마다 api 재호출
-      int previousIndex = _tabController.index;
-      _tabController.addListener(() {
-        if (_tabController.index != previousIndex) {
-          previousIndex = _tabController.index;
-          final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-          final part = _tabController.index == 0
-              ? HomeViewModel.allParts
-              : Interest.values[_tabController.index - 1].name;
-          viewModel.getProfilesForPart(part);
-        }
-      });
-
-      /// 인덱스 0번(전체)일 때만 refreshHome 호출
-      _tabController.addListener(() {
-        if (_tabController.index == 0 && _lastSelectedIndex != 0) {
-          _lastSelectedIndex = 0;
-          final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-          viewModel.refreshHome();
-        } else if (_tabController.index != 0) {
-          _lastSelectedIndex = -1;
-        }
-      });
-
-      // 기본 프로필 로드 (전체 탭)
+      // 최초 전체 데이터 로드 (이후 탭 전환은 로컬 필터링)
       viewModel.getProfilesForPart(HomeViewModel.allParts);
     });
   }
@@ -204,29 +179,29 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildTabBarView(BuildContext context) {
+    final tabParts = [HomeViewModel.allParts, ...Interest.values.map((i) => i.name)];
     return Expanded(
-      child: Consumer<HomeViewModel>(
-        builder: (context, viewModel, child) {
-          return TabBarView(
-            controller: _tabController,
-            children: List.generate(
-              Interest.values.length + 1,
-              (index) => _buildProfileCardList(context),
-            ),
-          );
-        },
+      child: TabBarView(
+        controller: _tabController,
+        children: tabParts.map((part) => _buildProfileCardList(context, part)).toList(),
       ),
     );
   }
 
-  Widget _buildProfileCardList(BuildContext context) {
+  Widget _buildProfileCardList(BuildContext context, String part) {
     return Consumer<HomeViewModel>(
       builder: (context, viewModel, child) {
-        final profiles = viewModel.profiles;
+        final allProfiles = viewModel.allProfiles;
 
-        if (profiles == null) {
+        if (allProfiles == null) {
           return const Center(child: CircularProgressIndicator());
-        } else if (profiles.isEmpty) {
+        }
+
+        final profiles = part == HomeViewModel.allParts
+            ? allProfiles
+            : allProfiles.where((m) => m.part == part).toList();
+
+        if (profiles.isEmpty) {
           return RefreshIndicator(
             onRefresh: () => viewModel.refreshHome(),
             color: Colors.black,

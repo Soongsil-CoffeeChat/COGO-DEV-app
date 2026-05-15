@@ -21,6 +21,7 @@ class HomeViewModel extends ChangeNotifier {
   bool? isIntroductionComplete;
   List<MentorPartEntity>? profiles;
   List<MentorPartEntity>? _allProfiles;
+  List<MentorPartEntity>? get allProfiles => _allProfiles;
   final MentorService mentorService = GetIt.instance<MentorService>();
   String? role;
 
