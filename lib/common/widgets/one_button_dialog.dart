@@ -23,56 +23,52 @@ class OneButtonDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     final double dialogWidth = screenWidth - 40;
-    final double dialogHeight = dialogWidth;
+    final double imageSize = (screenHeight * 0.15).clamp(80.0, 130.0);
 
     return Dialog(
       backgroundColor: Colors.white,
-      insetPadding: const EdgeInsets.all(10),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: SizedBox(
         width: dialogWidth,
-        height: dialogHeight,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    title,
-                    style: CogoTextStyle.body16,
-                  ),
-                  Text(
-                    subtitle,
-                    style: CogoTextStyle.body12
-                        .copyWith(color: CogoColor.systemGray03),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 10),
-                      child: Image.asset(
-                        imagePath,
-                        width: 130,
-                        height: 130,
-                      ),
-                    ),
-                  ),
-                  BasicButton(
-                    text: buttonText,
-                    isClickable: true,
-                    onPressed: onPressed,
-                    size: BasicButtonSize.LARGE,
-                  )
-                ],
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: CogoTextStyle.body16,
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                subtitle,
+                style: CogoTextStyle.body12
+                    .copyWith(color: CogoColor.systemGray03),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Image.asset(
+                    imagePath,
+                    width: imageSize,
+                    height: imageSize,
+                  ),
+                ),
+              ),
+              BasicButton(
+                text: buttonText,
+                isClickable: true,
+                onPressed: onPressed,
+                size: BasicButtonSize.LARGE,
+              ),
+            ],
+          ),
         ),
       ),
     );
