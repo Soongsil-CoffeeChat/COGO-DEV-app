@@ -1,5 +1,6 @@
 import 'package:cogo/common/enums/login_platform.dart';
 import 'package:cogo/common/enums/account_status.dart';
+import 'package:cogo/common/widgets/components/snack_bar_widget.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/cogo/cogo_view_model.dart';
 import 'package:cogo/features/home/home_view_model.dart';
@@ -26,23 +27,6 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child:
                 Consumer<LoginViewModel>(builder: (context, viewModel, child) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (viewModel.errorMessage != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(viewModel.errorMessage!),
-                      action: SnackBarAction(
-                        label: 'Retry',
-                        onPressed: () {
-                          viewModel.clearError();
-                          viewModel.signInWithGoogle();
-                        },
-                      ),
-                    ),
-                  );
-                }
-              });
-
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,8 +40,15 @@ class LoginScreen extends StatelessWidget {
                     child: _loginButton(
                       platform: LoginPlatform.google,
                       onTap: () async {
-                        await viewModel.signInWithGoogle();
+                        try {
+                          await viewModel.signInWithGoogle();
+                        } catch (_) {}
                         if (!context.mounted) return;
+                        if (viewModel.errorMessage != null) {
+                          SnackbarWidgt.show(context, viewModel.errorMessage!);
+                          viewModel.clearError();
+                          return;
+                        }
                         if (viewModel.loginStatus ==
                             AccountStatus.NEW_ACCOUNT.name) {
                           context.safePush(Paths.agreement);
@@ -79,8 +70,15 @@ class LoginScreen extends StatelessWidget {
                       child: _loginButton(
                         platform: LoginPlatform.apple,
                         onTap: () async {
-                          await viewModel.signInWithApple();
+                          try {
+                            await viewModel.signInWithApple();
+                          } catch (_) {}
                           if (!context.mounted) return;
+                          if (viewModel.errorMessage != null) {
+                            SnackbarWidgt.show(context, viewModel.errorMessage!);
+                            viewModel.clearError();
+                            return;
+                          }
                           if (viewModel.loginStatus ==
                                   AccountStatus.NEW_ACCOUNT.name ||
                               viewModel.loginStatus ==

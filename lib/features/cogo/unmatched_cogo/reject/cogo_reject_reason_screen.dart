@@ -1,3 +1,4 @@
+import 'package:cogo/common/widgets/components/snack_bar_widget.dart';
 import 'package:cogo/features/cogo/unmatched_cogo/reject/cogo_reject_reason_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -125,11 +126,7 @@ class _CogoRejectReasonScreenState extends State<CogoRejectReasonScreen> {
                               : _selectedReason;
 
                           if (reason == null || reason.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("거절 사유를 입력해주세요"),
-                              ),
-                            );
+                            SnackbarWidgt.show(context, '거절 사유를 입력해주세요');
                             return;
                           }
 

@@ -136,6 +136,7 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> signInWithApple() async {
     if (!isIOS) return;
+    _errorMessage = null;
 
     String redirectUri = dotenv.get("redirect_uri");
     try {

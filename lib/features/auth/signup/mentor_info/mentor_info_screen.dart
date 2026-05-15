@@ -1,5 +1,6 @@
 import 'package:cogo/common/enums/club.dart';
 import 'package:cogo/common/widgets/components/basic_box.dart';
+import 'package:cogo/common/widgets/components/snack_bar_widget.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/paths.dart';
@@ -87,13 +88,9 @@ class MentorInfoScreen extends StatelessWidget {
                                       }
                                     } else {
                                       if (context.mounted) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                viewModel.errorMessage ??
-                                                    '멘토 회원가입이 실패하였습니다.'),
-                                          ),
+                                        SnackbarWidgt.show(
+                                          context,
+                                          viewModel.errorMessage ?? '멘토 회원가입이 실패하였습니다.',
                                         );
                                       }
                                     }

@@ -1,5 +1,6 @@
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/atoms/texts/styles.dart';
+import 'package:cogo/common/widgets/components/snack_bar_widget.dart';
 import 'package:cogo/constants/colors.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
@@ -86,9 +87,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
             : eligibility.limitExceeded
                 ? '쿠폰 발급 횟수를 초과했습니다.'
                 : '쿠폰을 발급할 수 없습니다.';
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        SnackbarWidgt.show(context, message);
         return;
       }
 
@@ -100,9 +99,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('쿠폰 발급 자격 확인 중 오류가 발생했습니다.')),
-      );
+      SnackbarWidgt.show(context, '쿠폰 발급 자격 확인 중 오류가 발생했습니다.');
     }
   }
 

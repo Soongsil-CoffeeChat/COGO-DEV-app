@@ -1,3 +1,4 @@
+import 'package:cogo/common/widgets/components/snack_bar_widget.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:cogo/features/mypage/mentor_introduce/my_mentor_introduce_view_model.dart';
@@ -140,10 +141,7 @@ class MyMentorIntroductionScreen extends StatelessWidget {
                               if (isSaved) {
                                 Navigator.pop(context);
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('자기소개 저장이 실패하였습니다.')),
-                                );
+                                SnackbarWidgt.show(context, '자기소개 저장이 실패하였습니다.');
                               }
                             },
                           ),

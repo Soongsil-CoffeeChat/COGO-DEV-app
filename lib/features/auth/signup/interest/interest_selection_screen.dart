@@ -2,6 +2,7 @@ import 'package:cogo/common/enums/interest.dart';
 import 'package:cogo/common/enums/role.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
+import 'package:cogo/common/widgets/components/snack_bar_widget.dart';
 import 'package:cogo/constants/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -110,9 +111,7 @@ class InterestSelectionScreen extends StatelessWidget {
         context.safePush('${Paths.agreement}/${Paths.completion}');
       } else {
         // 실패 시 사용자에게 알림
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.')),
-        );
+        SnackbarWidgt.show(context, '회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
   }
