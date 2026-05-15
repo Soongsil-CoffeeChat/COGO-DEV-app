@@ -20,7 +20,7 @@ class MyPageInfo {
     if (response.part?.isNotEmpty ?? false) {
       tags.add(response.part!);
     }
-    if (response.club?.isNotEmpty ?? false) {
+    if ((response.club?.isNotEmpty ?? false) && response.club != 'NO_CLUB') {
       tags.add(response.club!);
     }
 

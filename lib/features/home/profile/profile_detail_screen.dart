@@ -125,7 +125,8 @@ class ProfileDetailScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 _buildTag(profile.part),
-                                _buildTag(profile.club),
+                                if (profile.club.isNotEmpty && profile.club != 'NO_CLUB')
+                                  _buildTag(profile.club),
                               ],
                             ),
                           ),

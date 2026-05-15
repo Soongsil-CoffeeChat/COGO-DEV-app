@@ -32,7 +32,7 @@ class MentorPartEntity {
       tags: [
         response.club ?? '',
         response.part ?? '',
-      ].where((tag) => tag.isNotEmpty).toList(),
+      ].where((tag) => tag.isNotEmpty && tag != 'NO_CLUB').toList(),
       part: response.part ?? '',
     );
   }
