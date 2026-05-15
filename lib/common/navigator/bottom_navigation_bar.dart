@@ -39,7 +39,13 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
                 ),
                 child: Container(
                   color: Colors.black,
-                  child: BottomNavigationBar(
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      splashFactory: NoSplash.splashFactory,
+                    ),
+                    child: BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
                     showSelectedLabels: true,
                     showUnselectedLabels: true,
@@ -72,6 +78,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
                         label: 'MY',
                       ),
                     ],
+                  ),
                   ),
                 ),
               ),

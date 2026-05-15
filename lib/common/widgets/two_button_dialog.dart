@@ -114,18 +114,6 @@ class TwoButtonDialog extends StatelessWidget {
                 ],
               ),
             ),
-            Positioned(
-              top: -50,
-              right: 0,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: SvgPicture.asset(
-                  'assets/icons/button/close.svg',
-                  width: 30,
-                  height: 30,
-                ),
-              ),
-            ),
           ],
         ),
       ),

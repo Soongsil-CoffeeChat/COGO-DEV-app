@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/club.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:cogo/constants/paths.dart';
@@ -44,11 +45,10 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'GDGoC',
-                                      onPressed: () {
-                                        viewModel.selectClub('GDGoC');
-
-                                        context.safePush(
+                                      text: Club.GDGoC.label,
+                                      onPressed: () async {
+                                        viewModel.selectClub(Club.GDGoC.serverValue);
+                                        await context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
@@ -56,10 +56,10 @@ class ClubSelectionScreen extends StatelessWidget {
                                   const SizedBox(width: 15),
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'YOURSSU',
-                                      onPressed: () {
-                                        viewModel.selectClub('YOURSSU');
-                                        context.safePush(
+                                      text: Club.YOURSSU.label,
+                                      onPressed: () async {
+                                        viewModel.selectClub(Club.YOURSSU.serverValue);
+                                        await context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
@@ -73,10 +73,10 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'UMC',
-                                      onPressed: () {
-                                        viewModel.selectClub('UMC');
-                                        context.safePush(
+                                      text: Club.UMC.label,
+                                      onPressed: () async {
+                                        viewModel.selectClub(Club.UMC.serverValue);
+                                        await context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
@@ -84,10 +84,10 @@ class ClubSelectionScreen extends StatelessWidget {
                                   const SizedBox(width: 15),
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'LIKELION',
-                                      onPressed: () {
-                                        viewModel.selectClub('LIKELION');
-                                        context.safePush(
+                                      text: Club.LIKELION.label,
+                                      onPressed: () async {
+                                        viewModel.selectClub(Club.LIKELION.serverValue);
+                                        await context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                     ),
@@ -99,10 +99,10 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'NO CLUB',
-                                      onPressed: () {
-                                        viewModel.selectClub('NO CLUB');
-                                        context.safePush(
+                                      text: Club.NO_CLUB.label,
+                                      onPressed: () async {
+                                        viewModel.selectClub(Club.NO_CLUB.serverValue);
+                                        await context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
                                       size: SBSize.LARGE,

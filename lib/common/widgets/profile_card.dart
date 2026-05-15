@@ -29,7 +29,7 @@ class ProfileCard extends StatelessWidget {
     required this.title,
     required this.description,
     this.width = 150,
-    this.height = 280,
+    this.height = 300,
     required this.onTap,
   });
 
@@ -92,25 +92,24 @@ class ProfileCard extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 4),
                     Text(
                       showMentorSuffix ? '$mentorName 멘토님' : mentorName,
                       style: CogoTextStyle.body20,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     Text(
                       title,
                       style: CogoTextStyle.body14,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     Text(
                       description,
                       style: CogoTextStyle.body12.copyWith(color: CogoColor.systemGray03),

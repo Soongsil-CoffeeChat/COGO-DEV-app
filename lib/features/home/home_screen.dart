@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late HomeViewModel viewModel;
-  int _lastSelectedIndex = -1;
 
   void _onViewModelChanged() {
     if (viewModel.showReportSuccessDialog) {
@@ -67,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
 
     _tabController = TabController(
-        length: Interest.values.length, vsync: this, initialIndex: 0);
+        length: Interest.values.length + 1, vsync: this, initialIndex: 0);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       viewModel = Provider.of<HomeViewModel>(context, listen: false);
@@ -96,30 +95,8 @@ class _HomeScreenState extends State<HomeScreen>
         );
       }
 
-      /// 인덱스가 변화할때마다 api 재호출
-      int previousIndex = _tabController.index;
-      _tabController.addListener(() {
-        if (_tabController.index != previousIndex) {
-          previousIndex = _tabController.index;
-          final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-          final part = Interest.values[_tabController.index].name;
-          viewModel.getProfilesForPart(part);
-        }
-      });
-
-      /// 인덱스 0번일 때만 refreshHome 호출
-      _tabController.addListener(() {
-        if (_tabController.index == 0 && _lastSelectedIndex != 0) {
-          _lastSelectedIndex = 0;
-          final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-          viewModel.refreshHome();
-        } else if (_tabController.index != 0) {
-          _lastSelectedIndex = -1;
-        }
-      });
-
-      // 기본 프로필 로드
-      viewModel.getProfilesForPart(Interest.FE.name);
+      // 최초 전체 데이터 로드 (이후 탭 전환은 로컬 필터링)
+      viewModel.getProfilesForPart(HomeViewModel.allParts);
     });
   }
 
@@ -170,14 +147,15 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildTabBar() {
+    final tabLabels = ['전체', ...Interest.values.map((i) => i.name)];
     return TabBar(
       controller: _tabController,
       isScrollable: false,
-      tabs: Interest.values
-          .map((interest) => Tab(
+      tabs: tabLabels
+          .map((label) => Tab(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text(interest.name),
+                  child: Text(label),
                 ),
               ))
           .toList(),
@@ -201,68 +179,81 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildTabBarView(BuildContext context) {
+    final tabParts = [HomeViewModel.allParts, ...Interest.values.map((i) => i.name)];
     return Expanded(
-      child: Consumer<HomeViewModel>(
-        builder: (context, viewModel, child) {
-          return TabBarView(
-            controller: _tabController,
-            children: List.generate(
-              Interest.values.length,
-              (index) => _buildProfileCardList(context),
-            ),
-          );
-        },
+      child: TabBarView(
+        controller: _tabController,
+        children: tabParts.map((part) => _buildProfileCardList(context, part)).toList(),
       ),
     );
   }
 
-  Widget _buildProfileCardList(BuildContext context) {
+  Widget _buildProfileCardList(BuildContext context, String part) {
     return Consumer<HomeViewModel>(
       builder: (context, viewModel, child) {
-        final profiles = viewModel.profiles;
+        final allProfiles = viewModel.allProfiles;
 
-        if (profiles == null) {
+        if (allProfiles == null) {
           return const Center(child: CircularProgressIndicator());
-        } else if (profiles.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/icons/3d_img/empty.png',
-                  height: 150,
+        }
+
+        final profiles = part == HomeViewModel.allParts
+            ? allProfiles
+            : allProfiles.where((m) => m.part == part).toList();
+
+        if (profiles.isEmpty) {
+          return RefreshIndicator(
+            onRefresh: () => viewModel.refreshHome(),
+            color: Colors.black,
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/icons/3d_img/empty.png',
+                          height: 150,
+                        ),
+                        const SizedBox(height: 20),
+                        Text('등록된 코고 멘토가 없어요',
+                            style: CogoTextStyle.body14
+                                .copyWith(color: CogoColor.systemGray03)),
+                      ],
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 20),
-                Text('등록된 코고 멘토가 없어요',
-                    style: CogoTextStyle.body14
-                        .copyWith(color: CogoColor.systemGray03)),
               ],
             ),
           );
         }
 
-        return ListView.builder(
-          shrinkWrap: true,
-          itemCount: profiles.length,
-          itemBuilder: (context, index) {
-            final profileCard = profiles[index];
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: ProfileCard(
-                picture: profileCard.picture,
-                mentorName: profileCard.mentorName,
-                tags: profileCard.tags,
-                username: profileCard.username,
-                mentorId: profileCard.mentorId,
-                title: profileCard.title,
-                description: profileCard.description,
-                onTap: () {
-                  viewModel.onProfileCardTapped(context, profileCard.mentorId);
-                },
-              ),
-            );
-          },
+        return RefreshIndicator(
+          onRefresh: () => viewModel.refreshHome(),
+          color: Colors.black,
+          child: ListView.builder(
+            itemCount: profiles.length,
+            itemBuilder: (context, index) {
+              final profileCard = profiles[index];
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: ProfileCard(
+                  picture: profileCard.picture,
+                  mentorName: profileCard.mentorName,
+                  tags: profileCard.tags,
+                  username: profileCard.username,
+                  mentorId: profileCard.mentorId,
+                  title: profileCard.title,
+                  description: profileCard.description,
+                  onTap: () {
+                    viewModel.onProfileCardTapped(context, profileCard.mentorId);
+                  },
+                ),
+              );
+            },
+          ),
         );
       },
     );
