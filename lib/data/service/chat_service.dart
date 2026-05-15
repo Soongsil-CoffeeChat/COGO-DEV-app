@@ -1,8 +1,8 @@
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
-import 'package:cogo/data/dto/response/base_response.dart';
 import 'package:cogo/data/dto/response/chat/chat_message_response.dart';
 import 'package:cogo/data/dto/response/chat/chat_room_response.dart';
+import 'package:cogo/data/dto/response/chat/cursor_chat_page_response.dart';
 import 'package:cogo/data/dto/response/chat/linked_cogo_response.dart';
 import 'package:dio/dio.dart';
 
@@ -118,6 +118,45 @@ class ChatService {
     }
   }
 
+  /// 커서 기반 채팅 메시지 조회
+  /// 최초 호출: cursor 없이 size=50 → 최신 50개
+  /// 추가 로드: nextCursorCreatedAt, nextCursorChatId 전달 → 그 이전 50개
+  Future<CursorChatPageResponse> getCursorMessages({
+    required int roomId,
+    String? cursorCreatedAt,
+    int? cursorChatId,
+    int size = 50,
+  }) async {
+    try {
+      final queryParams = <String, dynamic>{'size': size};
+      if (cursorCreatedAt != null) {
+        queryParams['cursorCreatedAt'] = cursorCreatedAt;
+      }
+      if (cursorChatId != null) {
+        queryParams['cursorChatId'] = cursorChatId;
+      }
+
+      final response = await _apiClient.dio.get(
+        '${apiVersion}chat/rooms/$roomId/cursor/messages',
+        queryParameters: queryParams,
+        options: Options(extra: {'skipAuthToken': false}),
+      );
+
+      if (response.statusCode == 200) {
+        return CursorChatPageResponse.fromJson(
+            response.data as Map<String, dynamic>);
+      } else {
+        throw Exception(
+            'Failed to fetch messages: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      _handleDioException(e);
+      throw Exception('Unreachable');
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
+
   ///채팅방과 연결된 코고 조회
   Future<LinkedCogoResponse> getConnectedApplication(int chatRoomId) async {
     try {
@@ -158,6 +197,5 @@ class ChatService {
       default:
         throw Exception('Error: ${e.response?.statusCode} ${e.message}');
     }
-    throw Exception('Unreachable');
   }
 }

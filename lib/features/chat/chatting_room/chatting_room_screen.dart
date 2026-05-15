@@ -11,7 +11,6 @@ import 'package:cogo/features/chat/chatting_room/widgets/attachment_panel.dart';
 import 'package:cogo/features/chat/chatting_room/widgets/chat_input_bar.dart';
 import 'package:cogo/features/chat/chatting_room/widgets/cogo_schedule_header.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'widgets/sender_message.dart';
 import 'widgets/receiver_message.dart';
@@ -36,6 +35,10 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
   late final AnimationController _panelController;
   bool _initialScrollDone = false;
 
+  // ── 이전 메시지 로드 ──────────────────────────────────────────
+  ChattingRoomViewModel? _viewModel;
+  bool _suppressScrollToBottom = false;
+
   static const double _panelHeight = 200.0;
 
   @override
@@ -46,6 +49,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
       duration: const Duration(milliseconds: 280),
     );
     WidgetsBinding.instance.addObserver(this);
+    _scrollController.addListener(_onScroll);
   }
 
   @override
@@ -126,9 +130,37 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
     });
   }
 
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final position = _scrollController.position;
+    // 스크롤 가능한 콘텐츠가 없거나, 상단 200px 밖이면 무시
+    if (position.maxScrollExtent == 0) return;
+    if (position.pixels > 200) return;
+
+    final vm = _viewModel;
+    if (vm == null || !vm.hasNext || vm.isLoadingMore || _suppressScrollToBottom) return;
+
+    final oldMaxExtent = position.maxScrollExtent;
+    final oldPixels = position.pixels;
+
+    _suppressScrollToBottom = true;
+    vm.loadMoreMessages().then((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_scrollController.hasClients) return;
+        final newMaxExtent = _scrollController.position.maxScrollExtent;
+        final delta = newMaxExtent - oldMaxExtent;
+        if (delta > 0) {
+          _scrollController.jumpTo(oldPixels + delta);
+        }
+        _suppressScrollToBottom = false;
+      });
+    });
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _scrollController.removeListener(_onScroll);
     _controller.dispose();
     _scrollController.dispose();
     _panelController.dispose();
@@ -146,7 +178,8 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
             appBar: _buildAppBar(context),
             body: Consumer<ChattingRoomViewModel>(
               builder: (context, viewModel, _) {
-                _scrollToBottom();
+                _viewModel = viewModel;
+                if (!_suppressScrollToBottom) _scrollToBottom();
                 return Column(
                   children: [
                     CogoScheduleHeader(
@@ -198,7 +231,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
               Text(
                 widget.room.participants.first.isDeleted
                     ? '(알 수 없음)'
-                    : (widget.room.participants.first.name ?? ''),
+                    : widget.room.participants.first.name,
                 style: CogoTextStyle.bodySB20,
               ),
               const SizedBox(width: 5),
@@ -244,7 +277,19 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
       );
     }
     return Expanded(
-      child: Listener(
+      child: Column(
+        children: [
+          if (viewModel.isLoadingMore)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 6),
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                    strokeWidth: 2, color: Colors.grey),
+              ),
+            ),
+          Expanded(child: Listener(
         behavior: HitTestBehavior.translucent,
         onPointerMove: (event) {
           // 아래 방향 드래그 시 키보드 내리기 (스크롤 불가 상황에서도 동작)
@@ -301,10 +346,13 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
               ],
             );
           },
-        ),
-        ),
-      ),
-    );
+        ),        // ListView.builder
+        ),        // GestureDetector
+        ),        // Listener
+        ),        // Expanded(child: Listener)
+        ],        // Column children
+      ),          // Column
+    );            // Expanded
   }
 
   Widget _buildNoticeItem() {

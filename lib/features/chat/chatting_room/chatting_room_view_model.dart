@@ -6,8 +6,7 @@ import 'package:cogo/data/repository/local/secure_storage_repository.dart';
 import 'package:cogo/data/service/chat_service.dart';
 import 'package:cogo/data/service/stomp_service.dart';
 import 'package:cogo/main.dart' show activeChatRoomId;
-import 'package:flutter/material.dart'; // Cupertino보다 Material 권장 (ViewModel에서는 Foundation이나 Material)
-import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ChattingRoomViewModel extends ChangeNotifier {
@@ -22,6 +21,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
   // State Variables
   List<Message> messages = [];
   bool isLoading = false;
+  bool isLoadingMore = false;
 
   String? _role;
   String? get role => _role;
@@ -32,6 +32,13 @@ class ChattingRoomViewModel extends ChangeNotifier {
 
   int? myId;
   int? reportedUserId;
+  String? _profileUrl;
+
+  // 커서 페이지네이션
+  String? _nextCursorCreatedAt;
+  int? _nextCursorChatId;
+  bool _hasNext = false;
+  bool get hasNext => _hasNext;
 
   // ===========================================================================
   // 2. Constructor & Initialization
@@ -77,19 +84,17 @@ class ChattingRoomViewModel extends ChangeNotifier {
     }
   }
 
-  /// 채팅 메시지 로드 및 STOMP 연결
+  /// 채팅 메시지 로드 및 STOMP 연결 (커서 기반)
   Future<void> _loadChatting() async {
     try {
       int roomId = room.roomId;
-      String? profileUrl;
-
       myId = await _secureStorage.getUserId();
 
       if (room.participants.isNotEmpty && myId != null) {
         try {
           final otherParticipant = room.participants.firstWhere(
-                  (p) => p.userId != myId,
-              orElse: () => room.participants.first
+            (p) => p.userId != myId,
+            orElse: () => room.participants.first,
           );
           reportedUserId = otherParticipant.userId;
           log("상대방 ID(reportedUserId) 설정 완료: $reportedUserId");
@@ -99,27 +104,24 @@ class ChattingRoomViewModel extends ChangeNotifier {
       }
 
       if (room.participants.isNotEmpty) {
-        profileUrl = room.participants.first.profileImage;
+        _profileUrl = room.participants.first.profileImage;
       }
 
-      // 1. 이전 메시지 로드 (API)
-      final page = await _service.getChattingMessages(
-        roomId: roomId,
-        page: 0,
-        size: 100,
-      );
+      // 1. 커서 기반 최신 50개 로드
+      final result = await _service.getCursorMessages(roomId: roomId, size: 50);
 
-      messages = page.content.map((msg) {
-        return Message(
-          text: msg.message,
-          time: _formatTime(msg.createdAt),
-          createdAt: msg.createdAt,
-          isMe: msg.senderId == myId,
-          profileUrl: profileUrl,
-        );
-      }).toList();
-
+      messages = result.content.map((msg) => Message(
+        text: msg.message,
+        time: _formatTime(msg.createdAt),
+        createdAt: msg.createdAt,
+        isMe: msg.senderId == myId,
+        profileUrl: _profileUrl,
+      )).toList();
       messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
+      _nextCursorCreatedAt = result.nextCursorCreatedAt;
+      _nextCursorChatId = result.nextCursorChatId;
+      _hasNext = result.hasNext;
 
       // 2. 실시간 소켓 연결 (STOMP)
       _stompService.connect(
@@ -127,28 +129,58 @@ class ChattingRoomViewModel extends ChangeNotifier {
         roomId: roomId,
         onMessage: (json) {
           final senderId = json['senderId'];
-
           final isMine = senderId.toString() == myId.toString();
-
-          if (isMine) {
-            return;
-          }
+          if (isMine) return;
 
           final now = DateTime.now();
-          messages.add(
-            Message(
-              text: json['message'],
-              time: _formatTime(now),
-              createdAt: now,
-              isMe: isMine,
-              profileUrl: profileUrl,
-            ),
-          );
+          messages.add(Message(
+            text: json['message'],
+            time: _formatTime(now),
+            createdAt: now,
+            isMe: isMine,
+            profileUrl: _profileUrl,
+          ));
           notifyListeners();
         },
       );
     } catch (e) {
       log('채팅 로드 실패: $e');
+    }
+  }
+
+  /// 이전 메시지 추가 로드 (스크롤 상단 도달 시 호출)
+  Future<void> loadMoreMessages() async {
+    if (!_hasNext || isLoadingMore) return;
+
+    isLoadingMore = true;
+    notifyListeners();
+
+    try {
+      final result = await _service.getCursorMessages(
+        roomId: room.roomId,
+        cursorCreatedAt: _nextCursorCreatedAt,
+        cursorChatId: _nextCursorChatId,
+        size: 50,
+      );
+
+      final olderMessages = result.content.map((msg) => Message(
+        text: msg.message,
+        time: _formatTime(msg.createdAt),
+        createdAt: msg.createdAt,
+        isMe: msg.senderId == myId,
+        profileUrl: _profileUrl,
+      )).toList();
+      olderMessages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
+      messages = [...olderMessages, ...messages];
+      _nextCursorCreatedAt = result.nextCursorCreatedAt;
+      _nextCursorChatId = result.nextCursorChatId;
+      _hasNext = result.hasNext;
+    } catch (e) {
+      log('이전 메시지 로드 실패: $e');
+    } finally {
+      isLoadingMore = false;
+      notifyListeners();
     }
   }
 
@@ -169,10 +201,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
     if (text.trim().isEmpty) return;
 
     // 1. 내 화면에 먼저 메시지 추가
-    final myId = await _secureStorage.getUserId();
     String? myProfileUrl;
-    if (room.participants.isNotEmpty) {}
-
     final now = DateTime.now();
     final newMessage = Message(
       text: text,
@@ -183,8 +212,6 @@ class ChattingRoomViewModel extends ChangeNotifier {
     );
     messages.add(newMessage);
     notifyListeners();
-
-    print('==== [전송 시도] 메시지: $text ====');
 
     // 2. 서버로 전송
     try {
