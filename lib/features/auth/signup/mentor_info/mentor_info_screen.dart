@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/club.dart';
 import 'package:cogo/common/widgets/components/basic_box.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/widgets.dart';
@@ -58,14 +59,14 @@ class MentorInfoScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              if (viewModel.selectedClub != 'NO CLUB') ...[
+                              if (viewModel.selectedClub != null) ...[
                                 const SizedBox(height: 16),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Expanded(
                                       child: BasicBox(
-                                        info: viewModel.selectedClub ?? '동아리',
+                                        info: Club.labelFromServerValue(viewModel.selectedClub),
                                       ),
                                     ),
                                   ],

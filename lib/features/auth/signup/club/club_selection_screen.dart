@@ -1,3 +1,4 @@
+import 'package:cogo/common/enums/club.dart';
 import 'package:cogo/common/widgets/components/header.dart';
 import 'package:cogo/common/widgets/components/secondary_button.dart';
 import 'package:cogo/constants/paths.dart';
@@ -44,10 +45,9 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'GDGoC',
+                                      text: Club.GDGoC.label,
                                       onPressed: () {
-                                        viewModel.selectClub('GDGoC');
-
+                                        viewModel.selectClub(Club.GDGoC.serverValue);
                                         context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -56,9 +56,9 @@ class ClubSelectionScreen extends StatelessWidget {
                                   const SizedBox(width: 15),
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'YOURSSU',
+                                      text: Club.YOURSSU.label,
                                       onPressed: () {
-                                        viewModel.selectClub('YOURSSU');
+                                        viewModel.selectClub(Club.YOURSSU.serverValue);
                                         context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -73,9 +73,9 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'UMC',
+                                      text: Club.UMC.label,
                                       onPressed: () {
-                                        viewModel.selectClub('UMC');
+                                        viewModel.selectClub(Club.UMC.serverValue);
                                         context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -84,9 +84,9 @@ class ClubSelectionScreen extends StatelessWidget {
                                   const SizedBox(width: 15),
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'LIKELION',
+                                      text: Club.LIKELION.label,
                                       onPressed: () {
-                                        viewModel.selectClub('LIKELION');
+                                        viewModel.selectClub(Club.LIKELION.serverValue);
                                         context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
@@ -99,9 +99,9 @@ class ClubSelectionScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: SecondaryButton(
-                                      text: 'NO CLUB',
+                                      text: Club.NO_CLUB.label,
                                       onPressed: () {
-                                        viewModel.selectClub('NO CLUB');
+                                        viewModel.selectClub(Club.NO_CLUB.serverValue);
                                         context.safePush(
                                             '${Paths.agreement}/${Paths.mentorInfo}');
                                       },
