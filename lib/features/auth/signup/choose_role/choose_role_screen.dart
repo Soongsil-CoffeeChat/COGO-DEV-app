@@ -45,11 +45,8 @@ class ChooseRoleScreen extends StatelessWidget {
                                   text: '멘토',
                                   onPressed: () async {
                                     await viewModel.selectRole(Role.ROLE_MENTOR);
-
-                                    // 비동기 작업 후 context가 유효한지 확인 (안전장치)
                                     if (!context.mounted) return;
-
-                                    context.safePush('${Paths.agreement}/${Paths.interest}');
+                                    await context.safePush('${Paths.agreement}/${Paths.interest}');
                                   },
                                 ),
                               ),
@@ -59,10 +56,8 @@ class ChooseRoleScreen extends StatelessWidget {
                                   text: '멘티',
                                   onPressed: () async {
                                     await viewModel.selectRole(Role.ROLE_MENTEE);
-
                                     if (!context.mounted) return;
-
-                                    context.safePush('${Paths.agreement}/${Paths.interest}');
+                                    await context.safePush('${Paths.agreement}/${Paths.interest}');
                                   },
                                 ),
                               ),

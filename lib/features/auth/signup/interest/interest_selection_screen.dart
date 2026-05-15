@@ -100,7 +100,7 @@ class InterestSelectionScreen extends StatelessWidget {
     // 2. 역할에 따른 분기
     if (viewModel.role == Role.ROLE_MENTOR.name) {
       // 멘토: 즉시 이동
-      context.safePush('${Paths.agreement}/${Paths.mentorClub}');
+      await context.safePush('${Paths.agreement}/${Paths.mentorClub}');
     } else {
       // 멘티: 회원가입 API 호출 후 성공 시 이동
       final bool isSuccess = await viewModel.signUpMentee(interest);
@@ -108,7 +108,7 @@ class InterestSelectionScreen extends StatelessWidget {
       if (!context.mounted) return;
 
       if (isSuccess) {
-        context.safePush('${Paths.agreement}/${Paths.completion}');
+        await context.safePush('${Paths.agreement}/${Paths.completion}');
       } else {
         // 실패 시 사용자에게 알림
         SnackbarWidgt.show(context, '회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');

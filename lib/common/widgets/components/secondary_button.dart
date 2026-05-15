@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +15,14 @@ const double _largeWidth = double.infinity;
 
 class SecondaryButton extends StatefulWidget {
   final String text;
-  final VoidCallback? onPressed;
+  final FutureOr<void> Function()? onPressed;
   final SBSize size;
 
   const SecondaryButton({
     super.key,
     required this.text,
     this.onPressed,
-    this.size = SBSize.SMALL, // 기본값 small
+    this.size = SBSize.SMALL,
   });
 
   @override
@@ -28,7 +30,6 @@ class SecondaryButton extends StatefulWidget {
 }
 
 class _SecondaryButtonState extends State<SecondaryButton> {
-  /// 버튼의 내부 상태 관리
   bool _isPressed = false;
 
   @override
@@ -39,21 +40,20 @@ class _SecondaryButtonState extends State<SecondaryButton> {
       width: width,
       height: 50,
       child: ElevatedButton(
-        onPressed: () {
-          /// 콜백 실행 시 _isPressed 상태 변경
-          setState(() {
-            _isPressed = !_isPressed;
-          });
-
-          /// 외부 onPressed 콜백 실행
-          widget.onPressed?.call();
-        },
+        onPressed: _isPressed || widget.onPressed == null
+            ? null
+            : () async {
+                setState(() => _isPressed = true);
+                await widget.onPressed!();
+                if (mounted) setState(() => _isPressed = false);
+              },
         style: ElevatedButton.styleFrom(
           backgroundColor: _isPressed ? Colors.black : CogoColor.systemGray02,
           foregroundColor: _isPressed ? Colors.white : Colors.black,
+          disabledBackgroundColor: Colors.black,
+          disabledForegroundColor: Colors.white,
           textStyle: CogoTextStyle.body18,
           shadowColor: Colors.transparent,
-          // minimumSize: Size(width, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
