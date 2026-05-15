@@ -8,6 +8,7 @@ class MentorPartEntity {
   final String title;
   final String description;
   final List<String> tags;
+  final String part;
 
   MentorPartEntity({
     required this.picture,
@@ -17,6 +18,7 @@ class MentorPartEntity {
     required this.title,
     required this.description,
     required this.tags,
+    required this.part,
   });
 
   factory MentorPartEntity.fromResponse(MentorPartResponse response) {
@@ -30,7 +32,8 @@ class MentorPartEntity {
       tags: [
         response.club ?? '',
         response.part ?? '',
-      ].where((tag) => tag.isNotEmpty).toList(), // 빈 문자열 제거
+      ].where((tag) => tag.isNotEmpty).toList(),
+      part: response.part ?? '',
     );
   }
 }

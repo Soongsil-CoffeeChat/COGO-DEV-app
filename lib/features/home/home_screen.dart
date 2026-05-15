@@ -227,45 +227,58 @@ class _HomeScreenState extends State<HomeScreen>
         if (profiles == null) {
           return const Center(child: CircularProgressIndicator());
         } else if (profiles.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/icons/3d_img/empty.png',
-                  height: 150,
+          return RefreshIndicator(
+            onRefresh: () => viewModel.refreshHome(),
+            color: Colors.black,
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/icons/3d_img/empty.png',
+                          height: 150,
+                        ),
+                        const SizedBox(height: 20),
+                        Text('등록된 코고 멘토가 없어요',
+                            style: CogoTextStyle.body14
+                                .copyWith(color: CogoColor.systemGray03)),
+                      ],
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 20),
-                Text('등록된 코고 멘토가 없어요',
-                    style: CogoTextStyle.body14
-                        .copyWith(color: CogoColor.systemGray03)),
               ],
             ),
           );
         }
 
-        return ListView.builder(
-          shrinkWrap: true,
-          itemCount: profiles.length,
-          itemBuilder: (context, index) {
-            final profileCard = profiles[index];
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: ProfileCard(
-                picture: profileCard.picture,
-                mentorName: profileCard.mentorName,
-                tags: profileCard.tags,
-                username: profileCard.username,
-                mentorId: profileCard.mentorId,
-                title: profileCard.title,
-                description: profileCard.description,
-                onTap: () {
-                  viewModel.onProfileCardTapped(context, profileCard.mentorId);
-                },
-              ),
-            );
-          },
+        return RefreshIndicator(
+          onRefresh: () => viewModel.refreshHome(),
+          color: Colors.black,
+          child: ListView.builder(
+            itemCount: profiles.length,
+            itemBuilder: (context, index) {
+              final profileCard = profiles[index];
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: ProfileCard(
+                  picture: profileCard.picture,
+                  mentorName: profileCard.mentorName,
+                  tags: profileCard.tags,
+                  username: profileCard.username,
+                  mentorId: profileCard.mentorId,
+                  title: profileCard.title,
+                  description: profileCard.description,
+                  onTap: () {
+                    viewModel.onProfileCardTapped(context, profileCard.mentorId);
+                  },
+                ),
+              );
+            },
+          ),
         );
       },
     );

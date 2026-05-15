@@ -20,6 +20,7 @@ class HomeViewModel extends ChangeNotifier {
 
   bool? isIntroductionComplete;
   List<MentorPartEntity>? profiles;
+  List<MentorPartEntity>? _allProfiles;
   final MentorService mentorService = GetIt.instance<MentorService>();
   String? role;
 
@@ -75,20 +76,20 @@ class HomeViewModel extends ChangeNotifier {
   Future<void> getProfilesForPart(String part) async {
     _currentPart = part;
     try {
-      if (part == allParts) {
+      if (_allProfiles == null) {
+        // 캐시가 없을 때만 API 호출
         final results = await Future.wait(
           Interest.values.map((i) => mentorService.getMentorPart(i.name)),
         );
-        profiles = results
+        _allProfiles = results
             .expand((list) => list)
             .map((r) => MentorPartEntity.fromResponse(r))
             .toList();
-      } else {
-        final responseProfiles = await mentorService.getMentorPart(part);
-        profiles = responseProfiles
-            .map((response) => MentorPartEntity.fromResponse(response))
-            .toList();
       }
+
+      profiles = part == allParts
+          ? _allProfiles
+          : _allProfiles!.where((m) => m.part == part).toList();
     } catch (error) {
       log('Error fetching mentor details: $error');
     } finally {
@@ -100,6 +101,7 @@ class HomeViewModel extends ChangeNotifier {
   void reset() {
     role = null;
     profiles = null;
+    _allProfiles = null;
     isInitialized = false;
     isIntroductionComplete = null;
     _shouldShowDialog = false;
@@ -107,8 +109,9 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<void> refreshHome() async {
-    // 1) 데이터를 null로 만들어 화면에 로딩 인디케이터가 뜨게 함 (시각적 리빌드 효과)
+    // 캐시 무효화 후 다시 fetch
     profiles = null;
+    _allProfiles = null;
     notifyListeners();
 
     // 2) 데이터 병렬로 다시 불러오기 (설정 + 유저정보 + 현재 탭의 리스트)
