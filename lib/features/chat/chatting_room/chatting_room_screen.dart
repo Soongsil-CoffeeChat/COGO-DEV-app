@@ -38,6 +38,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
   // ── 이전 메시지 로드 ──────────────────────────────────────────
   ChattingRoomViewModel? _viewModel;
   bool _suppressScrollToBottom = false;
+  int _lastScrolledMessageCount = 0;
 
   static const double _panelHeight = 200.0;
 
@@ -152,6 +153,7 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
         if (delta > 0) {
           _scrollController.jumpTo(oldPixels + delta);
         }
+        _lastScrolledMessageCount = _viewModel?.messages.length ?? _lastScrolledMessageCount;
         _suppressScrollToBottom = false;
       });
     });
@@ -179,7 +181,13 @@ class _ChattingRoomScreenState extends State<ChattingRoomScreen>
             body: Consumer<ChattingRoomViewModel>(
               builder: (context, viewModel, _) {
                 _viewModel = viewModel;
-                if (!_suppressScrollToBottom) _scrollToBottom();
+                if (!_suppressScrollToBottom) {
+                  final count = viewModel.messages.length;
+                  if (count > _lastScrolledMessageCount) {
+                    _lastScrolledMessageCount = count;
+                    _scrollToBottom();
+                  }
+                }
                 return Column(
                   children: [
                     CogoScheduleHeader(
