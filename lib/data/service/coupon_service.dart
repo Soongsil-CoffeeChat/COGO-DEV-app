@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart' show debugPrint;
 
 import 'package:cogo/constants/apis.dart';
 import 'package:cogo/data/di/api_client.dart';
+import 'package:cogo/data/dto/response/coupon/assigned_coupon_eligibility_response.dart';
 import 'package:cogo/data/dto/response/coupon/check_eligibility_response.dart';
 import 'package:cogo/data/dto/response/coupon/event_status_response.dart';
 import 'package:dio/dio.dart';
@@ -100,6 +101,24 @@ class CouponService {
       rethrow;
     } catch (e) {
       log('[issueCoupon] 쿠폰 발급 오류: $e');
+      rethrow;
+    }
+  }
+
+  /// GET /api/v2/assigned-coupons/eligibility - 보관함 진입 시 사전 등록 대상자 여부 및 발급 이력 조회
+  Future<AssignedCouponEligibilityResponse> getAssignedCouponEligibility() async {
+    try {
+      final response = await _apiClient.dio.get(
+        _apiVersion + Apis.getAssignedCouponEligibility,
+      );
+
+      if (response.statusCode == 200) {
+        final content = response.data['content'] as Map<String, dynamic>;
+        return AssignedCouponEligibilityResponse.fromJson(content);
+      }
+      throw Exception('보관함 자격 조회 실패: ${response.statusCode}');
+    } catch (e) {
+      log('보관함 자격 조회 오류: $e');
       rethrow;
     }
   }

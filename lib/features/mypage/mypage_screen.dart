@@ -113,6 +113,11 @@ class MypageScreen extends StatelessWidget {
                       ),
                     ],
                     ListTile(
+                      title: const Text('나의 보관함', style: CogoTextStyle.body16),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context.safePush(Paths.couponWallet),
+                    ),
+                    ListTile(
                       title: const Text('알림 설정', style: CogoTextStyle.body16),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.safePush(Paths.notificationSetting),
