@@ -66,41 +66,57 @@ class StaffPinEntryScreen extends StatelessWidget {
                                   ? const CircularProgressIndicator(
                                       color: Colors.black,
                                     )
-                                  : ValueListenableBuilder<bool>(
-                                      valueListenable: viewModel.isValidPin,
-                                      builder: (context, isValid, child) {
-                                        return BasicButton(
-                                          onPressed: isValid
-                                              ? () async {
-                                                  final pin = viewModel
-                                                      .pinController.text
-                                                      .trim();
-                                                  debugPrint(
-                                                      '[StaffPinEntry] 확인 버튼 탭 — qrToken: $qrToken / storePin: $pin');
-                                                  try {
-                                                    final couponNumber =
-                                                        await viewModel
-                                                            .issueCoupon(
-                                                      qrToken: qrToken,
-                                                      storePin: pin,
-                                                    );
-                                                    debugPrint(
-                                                        '[StaffPinEntry] issueCoupon 완료 — couponNumber: $couponNumber');
-                                                    if (context.mounted)
-                                                      context.pop(couponNumber);
-                                                  } catch (e) {
-                                                    debugPrint(
-                                                        '[StaffPinEntry] issueCoupon 실패 — $e');
-                                                    // 에러 메시지는 viewModel.pinSubmitError로 표시됨
-                                                  }
-                                                }
-                                              : null,
-                                          isClickable: true,
+                                  : viewModel.isCompleted
+                                      ? const BasicButton(
+                                          onPressed: null,
+                                          isClickable: false,
                                           text: '확인',
                                           size: BasicButtonSize.SMALL,
-                                        );
-                                      },
-                                    ),
+                                        )
+                                      : ValueListenableBuilder<bool>(
+                                          valueListenable: viewModel.isValidPin,
+                                          builder: (_, isValid, __) {
+                                            return BasicButton(
+                                              onPressed: isValid
+                                                  ? () async {
+                                                      final pin = viewModel
+                                                          .pinController.text
+                                                          .trim();
+                                                      debugPrint(
+                                                          '[StaffPinEntry] 확인 버튼 탭 — qrToken: $qrToken / storePin: $pin');
+                                                      try {
+                                                        final couponNumber =
+                                                            await viewModel
+                                                                .issueCoupon(
+                                                          qrToken: qrToken,
+                                                          storePin: pin,
+                                                        );
+                                                        debugPrint(
+                                                            '[StaffPinEntry] issueCoupon 완료 — couponNumber: $couponNumber');
+                                                        if (context.mounted) {
+                                                          await Future.delayed(
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                          );
+                                                          if (context.mounted) {
+                                                            context.pop(
+                                                                couponNumber);
+                                                          }
+                                                        }
+                                                      } catch (e) {
+                                                        debugPrint(
+                                                            '[StaffPinEntry] issueCoupon 실패 — $e');
+                                                        // 에러 메시지는 viewModel.pinSubmitError로 표시됨
+                                                      }
+                                                    }
+                                                  : null,
+                                              isClickable: isValid,
+                                              text: '확인',
+                                              size: BasicButtonSize.SMALL,
+                                            );
+                                          },
+                                        ),
                             ),
                           ),
                         ],
