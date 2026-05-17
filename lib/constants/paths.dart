@@ -57,4 +57,7 @@ abstract class Paths {
   static const String qrScanner = '/qrScanner';
   static const String staffPinEntry = '/staffPinEntry';
   static const String coupon = '/coupon';
+  static const String couponWallet = '/couponWallet';
+  static const String walletCoupon = '/walletCoupon';
+  static const String walletStaffPinEntry = '/walletStaffPinEntry';
 }

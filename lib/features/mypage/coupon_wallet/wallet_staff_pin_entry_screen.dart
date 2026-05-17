@@ -1,21 +1,20 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/colors.dart';
-import 'package:cogo/data/service/user_service.dart';
-import 'package:cogo/features/chat/chatting_room/coupon/coupon_view_model.dart';
+import 'package:cogo/constants/constants.dart';
+import 'package:cogo/features/mypage/coupon_wallet/wallet_coupon_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class StaffPinEntryScreen extends StatelessWidget {
-  final String qrToken;
-
-  const StaffPinEntryScreen({super.key, required this.qrToken});
+class WalletStaffPinEntryScreen extends StatelessWidget {
+  const WalletStaffPinEntryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => CouponViewModel(
-        userService: UserService(),
+      create: (_) => WalletCouponViewModel(
+        alreadyIssued: false,
+        isUsed: false,
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -29,13 +28,11 @@ class StaffPinEntryScreen extends StatelessWidget {
                 Header(
                   title: '매장 직원이 직접 확인 코드를 누르게 해주세요',
                   subtitle: '매장에서 사용하는 직원 확인 코드를 입력해주세요',
-                  onBackButtonPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onBackButtonPressed: () => Navigator.of(context).pop(),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 24.0),
-                  child: Consumer<CouponViewModel>(
+                  child: Consumer<WalletCouponViewModel>(
                     builder: (context, viewModel, child) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +44,8 @@ class StaffPinEntryScreen extends StatelessWidget {
                             style: CogoTextStyle.body18,
                             decoration: InputDecoration(
                               labelText: '직원 확인 코드',
-                              labelStyle: const TextStyle(color: Colors.grey),
+                              labelStyle:
+                                  const TextStyle(color: Colors.grey),
                               hintStyle: CogoTextStyle.body18
                                   .copyWith(color: CogoColor.systemGray03),
                               enabledBorder: const UnderlineInputBorder(
@@ -82,17 +80,12 @@ class StaffPinEntryScreen extends StatelessWidget {
                                                       final pin = viewModel
                                                           .pinController.text
                                                           .trim();
-                                                      debugPrint(
-                                                          '[StaffPinEntry] 확인 버튼 탭 — qrToken: $qrToken / storePin: $pin');
                                                       try {
                                                         final couponNumber =
                                                             await viewModel
                                                                 .issueCoupon(
-                                                          qrToken: qrToken,
                                                           storePin: pin,
                                                         );
-                                                        debugPrint(
-                                                            '[StaffPinEntry] issueCoupon 완료 — couponNumber: $couponNumber');
                                                         if (context.mounted) {
                                                           await Future.delayed(
                                                             const Duration(
@@ -105,8 +98,6 @@ class StaffPinEntryScreen extends StatelessWidget {
                                                           }
                                                         }
                                                       } catch (e) {
-                                                        debugPrint(
-                                                            '[StaffPinEntry] issueCoupon 실패 — $e');
                                                         // 에러 메시지는 viewModel.pinSubmitError로 표시됨
                                                       }
                                                     }

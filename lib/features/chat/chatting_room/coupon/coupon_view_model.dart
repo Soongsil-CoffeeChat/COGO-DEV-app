@@ -71,6 +71,9 @@ class CouponViewModel extends ChangeNotifier {
   bool _isSubmitting = false;
   bool get isSubmitting => _isSubmitting;
 
+  bool _isCompleted = false;
+  bool get isCompleted => _isCompleted;
+
   String? _pinSubmitError;
   String? get pinSubmitError => _pinSubmitError;
 
@@ -84,6 +87,7 @@ class CouponViewModel extends ChangeNotifier {
       final couponNumber = await _couponService.issueCoupon(
           qrToken: qrToken, storePin: storePin);
       debugPrint('[CouponViewModel.issueCoupon] 성공 — couponNumber: $couponNumber');
+      _isCompleted = true;
       return couponNumber;
     } catch (e) {
       debugPrint('[CouponViewModel.issueCoupon] 실패 — $e');

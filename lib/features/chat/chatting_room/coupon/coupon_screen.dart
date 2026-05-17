@@ -96,7 +96,7 @@ class _CouponView extends StatelessWidget {
                           const SizedBox(height: 16),
                           const _InfoRow(
                             label: '사용 방법',
-                            value: '매장에서 해당 페이지를 직원에게 보여주세요',
+                            value: '매장에서 해당 페이지를 직원에게 보여주세요.',
                           ),
                           const SizedBox(height: 16),
                           const _InfoRow(
