@@ -64,36 +64,50 @@ class WalletStaffPinEntryScreen extends StatelessWidget {
                                   ? const CircularProgressIndicator(
                                       color: Colors.black,
                                     )
-                                  : ValueListenableBuilder<bool>(
-                                      valueListenable: viewModel.isValidPin,
-                                      builder: (context, isValid, child) {
-                                        return BasicButton(
-                                          onPressed: isValid
-                                              ? () async {
-                                                  final pin = viewModel
-                                                      .pinController.text
-                                                      .trim();
-                                                  try {
-                                                    final couponNumber =
-                                                        await viewModel
-                                                            .issueCoupon(
-                                                      storePin: pin,
-                                                    );
-                                                    if (context.mounted) {
-                                                      context
-                                                          .pop(couponNumber);
-                                                    }
-                                                  } catch (e) {
-                                                    // 에러 메시지는 viewModel.pinSubmitError로 표시됨
-                                                  }
-                                                }
-                                              : null,
-                                          isClickable: true,
+                                  : viewModel.isCompleted
+                                      ? const BasicButton(
+                                          onPressed: null,
+                                          isClickable: false,
                                           text: '확인',
                                           size: BasicButtonSize.SMALL,
-                                        );
-                                      },
-                                    ),
+                                        )
+                                      : ValueListenableBuilder<bool>(
+                                          valueListenable: viewModel.isValidPin,
+                                          builder: (_, isValid, __) {
+                                            return BasicButton(
+                                              onPressed: isValid
+                                                  ? () async {
+                                                      final pin = viewModel
+                                                          .pinController.text
+                                                          .trim();
+                                                      try {
+                                                        final couponNumber =
+                                                            await viewModel
+                                                                .issueCoupon(
+                                                          storePin: pin,
+                                                        );
+                                                        if (context.mounted) {
+                                                          await Future.delayed(
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                          );
+                                                          if (context.mounted) {
+                                                            context.pop(
+                                                                couponNumber);
+                                                          }
+                                                        }
+                                                      } catch (e) {
+                                                        // 에러 메시지는 viewModel.pinSubmitError로 표시됨
+                                                      }
+                                                    }
+                                                  : null,
+                                              isClickable: isValid,
+                                              text: '확인',
+                                              size: BasicButtonSize.SMALL,
+                                            );
+                                          },
+                                        ),
                             ),
                           ),
                         ],

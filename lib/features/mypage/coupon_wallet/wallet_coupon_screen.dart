@@ -41,104 +41,115 @@ class _WalletCouponView extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<WalletCouponViewModel>();
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) {
+          context.pop(viewModel.isCouponIssued);
+        }
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+            onPressed: () => context.pop(viewModel.isCouponIssued),
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 8),
-                    Image.asset(
-                      'assets/image/eea_one_coupon.png',
-                      width: double.infinity,
-                      fit: BoxFit.fitWidth,
-                    ),
-                    const SizedBox(height: 28),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF5F5F5),
-                        borderRadius: BorderRadius.circular(16),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 8),
+                      Image.asset(
+                        'assets/image/eea_one_coupon.png',
+                        width: double.infinity,
+                        fit: BoxFit.fitWidth,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _InfoRow(
-                            label: '쿠폰번호',
-                            value: viewModel.couponNumber.isEmpty
-                                ? '직원 확인이 완료되면 쿠폰 번호가 발급됩니다.'
-                                : viewModel.couponNumber,
-                          ),
-                          const SizedBox(height: 16),
-                          _InfoRow(
-                            label: '발급 일자',
-                            value: viewModel.issuedDate,
-                          ),
-                          const SizedBox(height: 16),
-                          const _InfoRow(
-                            label: '사용 방법',
-                            value: '매장에서 해당 페이지를 직원에게 보여주세요.',
-                          ),
-                          const SizedBox(height: 16),
-                          const _InfoRow(
-                            label: '주의 사항',
-                            value:
-                                '*본 쿠폰은 이벤트로 제공되는 1회성 쿠폰으로, 해당 쿠폰을 제시하면\n4,000원 상당의 아메리카노 1잔을 드립니다.',
-                          ),
-                        ],
+                      const SizedBox(height: 28),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF5F5F5),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _InfoRow(
+                              label: '쿠폰번호',
+                              value: viewModel.couponNumber.isEmpty
+                                  ? '직원 확인이 완료되면 쿠폰 번호가 발급됩니다.'
+                                  : viewModel.couponNumber,
+                            ),
+                            const SizedBox(height: 16),
+                            _InfoRow(
+                              label: '발급일자',
+                              value: viewModel.issuedDate,
+                            ),
+                            const SizedBox(height: 16),
+                            const _InfoRow(
+                              label: '사용방법',
+                              value: '매장에서 해당 페이지를 직원에게 보여주세요.',
+                            ),
+                            const SizedBox(height: 16),
+                            const _InfoRow(
+                              label: '주의사항',
+                              value:
+                                  '*본 쿠폰은 이벤트로 제공되는 1회성 쿠폰으로, 해당 쿠폰을 제시하면\n4,000원 상당의 아메리카노 1잔을 드립니다.',
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 28),
-                    Center(
-                      child: SvgPicture.asset(
-                        'assets/image/eea_label.svg',
-                        height: 24,
-                        fit: BoxFit.contain,
+                      const SizedBox(height: 28),
+                      Center(
+                        child: SvgPicture.asset(
+                          'assets/image/eea_label.svg',
+                          height: 24,
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 28),
-                  ],
+                      const SizedBox(height: 28),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: SafeArea(
-                top: false,
-                child: BasicButton(
-                  text: viewModel.isCouponIssued ? '쿠폰 사용 완료' : '직원 확인하기',
-                  isClickable: !viewModel.isCouponIssued,
-                  size: BasicButtonSize.LARGE,
-                  onPressed: viewModel.isCouponIssued
-                      ? null
-                      : () async {
-                          final couponNumber = await context.push<String>(
-                            Paths.walletStaffPinEntry,
-                          );
-                          if (couponNumber != null && couponNumber.isNotEmpty) {
-                            viewModel.setCouponIssued(couponNumber);
-                          }
-                        },
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: SafeArea(
+                  top: false,
+                  child: BasicButton(
+                    text: viewModel.isCouponIssued ? '쿠폰 사용 완료' : '직원 확인하기',
+                    isClickable: !viewModel.isCouponIssued,
+                    size: BasicButtonSize.LARGE,
+                    onPressed: viewModel.isCouponIssued
+                        ? null
+                        : () async {
+                            final couponNumber = await context.push<String>(
+                              Paths.walletStaffPinEntry,
+                            );
+                            if (couponNumber != null &&
+                                couponNumber.isNotEmpty &&
+                                context.mounted) {
+                              await viewModel.refreshFromApi();
+                            }
+                          },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

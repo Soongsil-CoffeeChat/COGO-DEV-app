@@ -84,15 +84,20 @@ class CouponWalletScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: GestureDetector(
-                            onTap: () => context.push(
-                              Paths.walletCoupon,
-                              extra: {
-                                'alreadyIssued': eligibility.alreadyIssued,
-                                'isUsed': isUsed,
-                                'couponNumber': eligibility.couponNumber,
-                                'issuedDate': formattedDate,
-                              },
-                            ),
+                            onTap: () async {
+                              final issued = await context.push<bool>(
+                                Paths.walletCoupon,
+                                extra: {
+                                  'alreadyIssued': eligibility.alreadyIssued,
+                                  'isUsed': isUsed,
+                                  'couponNumber': eligibility.couponNumber,
+                                  'issuedDate': formattedDate,
+                                },
+                              );
+                              if (context.mounted && issued == true) {
+                                viewModel.fetchCoupons();
+                              }
+                            },
                             child: Container(
                               padding: const EdgeInsets.all(20.0),
                               decoration: BoxDecoration(

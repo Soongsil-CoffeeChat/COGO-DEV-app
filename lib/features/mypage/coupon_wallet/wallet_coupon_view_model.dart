@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cogo/data/service/coupon_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WalletCouponViewModel extends ChangeNotifier {
   WalletCouponViewModel({
@@ -34,6 +35,9 @@ class WalletCouponViewModel extends ChangeNotifier {
   bool _isSubmitting = false;
   bool get isSubmitting => _isSubmitting;
 
+  bool _isCompleted = false;
+  bool get isCompleted => _isCompleted;
+
   String? _pinSubmitError;
   String? get pinSubmitError => _pinSubmitError;
 
@@ -52,6 +56,7 @@ class WalletCouponViewModel extends ChangeNotifier {
     try {
       final couponNumber =
           await _couponService.issueAssignedCoupon(storePin: storePin);
+      _isCompleted = true;
       return couponNumber;
     } catch (e) {
       log('[WalletCouponViewModel.issueCoupon] 실패 — $e');
@@ -63,11 +68,20 @@ class WalletCouponViewModel extends ChangeNotifier {
     }
   }
 
-  void setCouponIssued(String couponNumber) {
-    _couponNumber = couponNumber;
-    _isCouponIssued = true;
-    _issuedDate = _todayFormatted();
-    notifyListeners();
+  /// PIN 인증 완료 후 서버에서 최신 발급 정보 재조회
+  Future<void> refreshFromApi() async {
+    try {
+      final response = await _couponService.getAssignedCouponEligibility();
+      _isCouponIssued = response.alreadyIssued;
+      _isCouponUsed = response.usedAt != null;
+      _couponNumber = response.couponNumber ?? '';
+      if (response.issuedAt != null) {
+        _issuedDate = DateFormat('yyyy/MM/dd').format(response.issuedAt!);
+      }
+      notifyListeners();
+    } catch (e) {
+      log('[WalletCouponViewModel.refreshFromApi] 실패 — $e');
+    }
   }
 
   void _onPinChanged() {
