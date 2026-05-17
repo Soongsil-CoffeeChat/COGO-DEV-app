@@ -123,6 +123,30 @@ class CouponService {
     }
   }
 
+  /// POST /api/v2/assigned-coupons/coupons - 사전 등록 쿠폰 발급 (PIN 인증)
+  Future<String> issueAssignedCoupon({required String storePin}) async {
+    log('[issueAssignedCoupon] 요청 시작 — storePin: $storePin');
+    try {
+      final response = await _apiClient.dio.post(
+        _apiVersion + Apis.issueAssignedCoupon,
+        data: {'storePin': storePin},
+      );
+      log('[issueAssignedCoupon] 응답 statusCode: ${response.statusCode}');
+      log('[issueAssignedCoupon] 응답 전체: ${response.data}');
+      final content = response.data['content'] as Map<String, dynamic>;
+      final couponNumber = content.values.first.toString();
+      log('[issueAssignedCoupon] 추출된 쿠폰 번호: $couponNumber');
+      return couponNumber;
+    } on DioException catch (e) {
+      log('[issueAssignedCoupon] DioException — statusCode: ${e.response?.statusCode}');
+      log('[issueAssignedCoupon] DioException — response data: ${e.response?.data}');
+      rethrow;
+    } catch (e) {
+      log('[issueAssignedCoupon] 오류: $e');
+      rethrow;
+    }
+  }
+
   /// GET /api/v2/events/qr - 멘토 인증용 QR 코드 이미지(PNG) 발급
   Future<Uint8List> getQrCode(int applicationId) async {
     try {

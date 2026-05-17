@@ -1,43 +1,45 @@
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
-import 'package:cogo/constants/paths.dart';
-import 'package:cogo/data/service/user_service.dart';
-import 'package:cogo/features/chat/chatting_room/coupon/coupon_view_model.dart';
+import 'package:cogo/features/mypage/coupon_wallet/wallet_coupon_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class CouponScreen extends StatelessWidget {
-  const CouponScreen({
+class WalletCouponScreen extends StatelessWidget {
+  const WalletCouponScreen({
     super.key,
-    required this.applicationId,
-    required this.qrToken,
+    required this.alreadyIssued,
+    required this.isUsed,
+    this.couponNumber,
+    this.issuedDate,
   });
 
-  final int applicationId;
-  final String qrToken;
+  final bool alreadyIssued;
+  final bool isUsed;
+  final String? couponNumber;
+  final String? issuedDate;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => CouponViewModel(
-        userService: UserService(),
-        applicationId: applicationId,
+      create: (_) => WalletCouponViewModel(
+        alreadyIssued: alreadyIssued,
+        isUsed: isUsed,
+        couponNumber: couponNumber,
+        issuedDate: issuedDate,
       ),
-      child: _CouponView(qrToken: qrToken),
+      child: const _WalletCouponView(),
     );
   }
 }
 
-class _CouponView extends StatelessWidget {
-  const _CouponView({required this.qrToken});
-
-  final String qrToken;
+class _WalletCouponView extends StatelessWidget {
+  const _WalletCouponView();
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<CouponViewModel>();
+    final viewModel = context.watch<WalletCouponViewModel>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -60,17 +62,12 @@ class _CouponView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 8),
-
-                    // 쿠폰 이미지 (PNG)
                     Image.asset(
-                      'assets/image/eea_coupon.png',
+                      'assets/image/eea_one_coupon.png',
                       width: double.infinity,
                       fit: BoxFit.fitWidth,
                     ),
-
                     const SizedBox(height: 28),
-
-                    // 정보 박스
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(
@@ -90,7 +87,7 @@ class _CouponView extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           _InfoRow(
-                            label: '유효 일자',
+                            label: '발급 일자',
                             value: viewModel.issuedDate,
                           ),
                           const SizedBox(height: 16),
@@ -102,15 +99,12 @@ class _CouponView extends StatelessWidget {
                           const _InfoRow(
                             label: '주의 사항',
                             value:
-                                '*본 쿠폰은 이벤트로 제공되는 1회성 쿠폰으로, 해당 쿠폰을 제시하면\n4,000원 상당의 아메리카노 2잔을 드립니다.',
+                                '*본 쿠폰은 이벤트로 제공되는 1회성 쿠폰으로, 해당 쿠폰을 제시하면\n4,000원 상당의 아메리카노 1잔을 드립니다.',
                           ),
                         ],
                       ),
                     ),
-
                     const SizedBox(height: 28),
-
-                    // 브랜드 라벨 (SVG)
                     Center(
                       child: SvgPicture.asset(
                         'assets/image/eea_label.svg',
@@ -118,31 +112,27 @@ class _CouponView extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-
                     const SizedBox(height: 28),
                   ],
                 ),
               ),
             ),
-
-            // 하단 고정 버튼
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: SafeArea(
                 top: false,
                 child: BasicButton(
-                  text: viewModel.isCouponUsed ? '쿠폰 사용 완료' : '직원 확인하기',
-                  isClickable: !viewModel.isCouponUsed,
+                  text: viewModel.isCouponIssued ? '쿠폰 사용 완료' : '직원 확인하기',
+                  isClickable: !viewModel.isCouponIssued,
                   size: BasicButtonSize.LARGE,
-                  onPressed: viewModel.isCouponUsed
+                  onPressed: viewModel.isCouponIssued
                       ? null
                       : () async {
                           final couponNumber = await context.push<String>(
-                            Paths.staffPinEntry,
-                            extra: qrToken,
+                            Paths.walletStaffPinEntry,
                           );
                           if (couponNumber != null && couponNumber.isNotEmpty) {
-                            viewModel.setCouponUsed(couponNumber);
+                            viewModel.setCouponIssued(couponNumber);
                           }
                         },
                 ),
@@ -166,14 +156,12 @@ class _InfoRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: CogoTextStyle.body14,
-        ),
+        Text(label, style: CogoTextStyle.body14),
         const SizedBox(height: 4),
-        Text(value,
-            style:
-                CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04)),
+        Text(
+          value,
+          style: CogoTextStyle.bodyR12.copyWith(color: CogoColor.systemGray04),
+        ),
       ],
     );
   }

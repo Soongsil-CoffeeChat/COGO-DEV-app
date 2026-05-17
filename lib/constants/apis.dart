@@ -51,5 +51,7 @@ abstract class Apis {
   static const String checkEligibility = "events/check-eligibility";
   static const String verifyQrToken = "events/verify-qr";
   static const String issueCoupon = "events/coupons";
-  static const String getAssignedCouponEligibility = "assigned-coupons/eligibility";
+  static const String getAssignedCouponEligibility =
+      "assigned-coupons/eligibility";
+  static const String issueAssignedCoupon = "assigned-coupons/coupons";
 }

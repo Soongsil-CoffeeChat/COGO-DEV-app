@@ -39,6 +39,8 @@ import 'package:cogo/features/home/report/report_detail_screen.dart';
 import 'package:cogo/features/home/report/report_screen.dart';
 import 'package:cogo/features/home/search/search_screen.dart';
 import 'package:cogo/features/mypage/coupon_wallet/coupon_wallet_screen.dart';
+import 'package:cogo/features/mypage/coupon_wallet/wallet_coupon_screen.dart';
+import 'package:cogo/features/mypage/coupon_wallet/wallet_staff_pin_entry_screen.dart';
 import 'package:cogo/features/mypage/mentor_introduce/my_mentor_introduce_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_checking/mentor_time_checking_screen.dart';
 import 'package:cogo/features/mypage/mentor_time_setting/mentor_time_setting_screen.dart';
@@ -387,6 +389,28 @@ final AppRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const CouponWalletScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Paths.walletCoupon,
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>? ?? {};
+        return MaterialPage(
+          key: state.pageKey,
+          child: WalletCouponScreen(
+            alreadyIssued: extra['alreadyIssued'] as bool? ?? false,
+            isUsed: extra['isUsed'] as bool? ?? false,
+            couponNumber: extra['couponNumber'] as String?,
+            issuedDate: extra['issuedDate'] as String?,
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: Paths.walletStaffPinEntry,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const WalletStaffPinEntryScreen(),
       ),
     ),
   ],

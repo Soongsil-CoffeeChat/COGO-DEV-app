@@ -1,8 +1,8 @@
+import 'package:cogo/common/widgets/components/tag.dart';
 import 'package:cogo/common/widgets/widgets.dart';
 import 'package:cogo/constants/constants.dart';
 import 'package:cogo/features/mypage/coupon_wallet/coupon_wallet_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CouponWalletScreen extends StatelessWidget {
@@ -71,54 +71,7 @@ class CouponWalletScreen extends StatelessWidget {
                         );
                       }
 
-                      // 발급 이력이 있는 경우 — 쿠폰 카드 표시
-                      if (eligibility.alreadyIssued) {
-                        final formattedDate = eligibility.issuedAt != null
-                            ? DateFormat('yyyy/MM/dd')
-                                .format(eligibility.issuedAt!)
-                            : '-';
-                        final isUsed = eligibility.usedAt != null;
-
-                        return Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Container(
-                              padding: const EdgeInsets.all(20.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    eligibility.couponNumber ?? '-',
-                                    style: CogoTextStyle.body16,
-                                  ),
-                                  Text(
-                                    isUsed ? '사용 완료' : '미사용',
-                                    style: CogoTextStyle.body12.copyWith(
-                                      color: isUsed
-                                          ? CogoColor.systemGray03
-                                          : CogoColor.systemGray05,
-                                    ),
-                                  ),
-                                  Text(
-                                    formattedDate,
-                                    style: CogoTextStyle.body12.copyWith(
-                                      color: CogoColor.systemGray03,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-
-                      // 발급 가능한 경우 (eligible=true && alreadyIssued=false)
+                      // eligible=true: 발급 여부와 관계없이 동일 카드, alreadyIssued면 사용 완료 태그 표시
                       return Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
@@ -129,13 +82,17 @@ class CouponWalletScreen extends StatelessWidget {
                               border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   'eea cafe 아메리카노 1잔 무료 쿠폰',
                                   style: CogoTextStyle.body16,
                                 ),
+                                if (eligibility.alreadyIssued)
+                                  const Tag(
+                                    title: '사용완료',
+                                  ),
                               ],
                             ),
                           ),
