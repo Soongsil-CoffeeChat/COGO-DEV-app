@@ -15,8 +15,8 @@ import 'package:cogo/features/auth/signup/name_input/name_input_screen.dart';
 import 'package:cogo/features/auth/signup/phone_number/phone_number_screen.dart';
 import 'package:cogo/features/chat/chat_sreean.dart';
 import 'package:cogo/features/chat/chatting_room/chatting_room_screen.dart';
+import 'package:cogo/features/chat/chatting_room/coupon/qr_scanner_view_model.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/qr_scanner_screen.dart';
-import 'package:cogo/features/chat/chatting_room/coupon/qr_screen.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/coupon_screen.dart';
 import 'package:cogo/features/chat/chatting_room/coupon/staff_pin_entry_screen.dart';
 import 'package:cogo/features/cogo/cogo_screen.dart';
@@ -57,15 +57,15 @@ final AppRouter = GoRouter(
     GoRoute(
         path: Paths.splash,
         pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: SplashScreen(),
-        )),
+              key: state.pageKey,
+              child: SplashScreen(),
+            )),
     GoRoute(
         path: Paths.login,
         pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: const LoginScreen(),
-        )),
+              key: state.pageKey,
+              child: const LoginScreen(),
+            )),
 
     ///회원가입
     GoRoute(
