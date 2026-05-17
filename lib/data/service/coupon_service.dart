@@ -59,7 +59,7 @@ class CouponService {
     try {
       final response = await _apiClient.dio.post(
         _apiVersion + Apis.verifyQrToken,
-        queryParameters: {'qrToken': qrToken},
+        data: {'qrToken': qrToken},
         options: Options(extra: {'skipAuthToken': false}),
       );
 
@@ -82,7 +82,7 @@ class CouponService {
     try {
       final response = await _apiClient.dio.post(
         _apiVersion + Apis.issueCoupon,
-        queryParameters: {
+        data: {
           'qrToken': qrToken,
           'storePin': storePin,
         },
@@ -106,7 +106,8 @@ class CouponService {
   }
 
   /// GET /api/v2/assigned-coupons/eligibility - 보관함 진입 시 사전 등록 대상자 여부 및 발급 이력 조회
-  Future<AssignedCouponEligibilityResponse> getAssignedCouponEligibility() async {
+  Future<AssignedCouponEligibilityResponse>
+      getAssignedCouponEligibility() async {
     try {
       final response = await _apiClient.dio.get(
         _apiVersion + Apis.getAssignedCouponEligibility,
