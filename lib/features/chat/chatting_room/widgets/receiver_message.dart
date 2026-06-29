@@ -20,12 +20,23 @@ class ReceiverMessage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        if (isRead)
-          const Text('읽음', style: TextStyle(fontSize: 10, color: Colors.grey)),
-        const SizedBox(width: 6),
-        Text(time,
-            style:
-                CogoTextStyle.bodyR10.copyWith(color: CogoColor.systemGray03)),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (!isRead)
+              Text(
+                '1',
+                style: CogoTextStyle.bodyR10
+                    .copyWith(color: CogoColor.systemGray03),
+              ),
+            Text(
+              time,
+              style:
+                  CogoTextStyle.bodyR10.copyWith(color: CogoColor.systemGray03),
+            ),
+          ],
+        ),
         const SizedBox(width: 6),
         Flexible(
           child: Container(

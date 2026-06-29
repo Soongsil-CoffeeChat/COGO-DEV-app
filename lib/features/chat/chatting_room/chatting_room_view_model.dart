@@ -206,6 +206,19 @@ class ChattingRoomViewModel extends ChangeNotifier {
     }
   }
 
+  /// 내가 보낸 메시지 전체를 읽음 처리 (상대방이 읽었을 때 호출)
+  void markMyMessagesAsRead() {
+    bool changed = false;
+    messages = messages.map((msg) {
+      if (msg.isMe && !msg.isRead) {
+        changed = true;
+        return msg.copyWith(isRead: true);
+      }
+      return msg;
+    }).toList();
+    if (changed) notifyListeners();
+  }
+
   /// 메시지 전송
   void sendMessage(String text) async {
     if (text.trim().isEmpty) return;
@@ -330,4 +343,22 @@ class Message {
     this.isRead = false,
     this.profileUrl,
   });
+
+  Message copyWith({
+    String? text,
+    String? time,
+    DateTime? createdAt,
+    bool? isMe,
+    bool? isRead,
+    String? profileUrl,
+  }) {
+    return Message(
+      text: text ?? this.text,
+      time: time ?? this.time,
+      createdAt: createdAt ?? this.createdAt,
+      isMe: isMe ?? this.isMe,
+      isRead: isRead ?? this.isRead,
+      profileUrl: profileUrl ?? this.profileUrl,
+    );
+  }
 }
