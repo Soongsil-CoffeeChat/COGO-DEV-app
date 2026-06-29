@@ -61,6 +61,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
       await Future.wait([
         _loadChatting(),
         _getConnectedApplication(),
+        _markAsRead(),
       ]);
     } catch (e) {
       log('초기화 중 오류 발생: $e');
@@ -181,6 +182,15 @@ class ChattingRoomViewModel extends ChangeNotifier {
     } finally {
       isLoadingMore = false;
       notifyListeners();
+    }
+  }
+
+  /// 채팅방 읽음 처리
+  Future<void> _markAsRead() async {
+    try {
+      await _service.postReadChatRoom(room.roomId);
+    } catch (e) {
+      log('읽음 처리 실패: $e');
     }
   }
 

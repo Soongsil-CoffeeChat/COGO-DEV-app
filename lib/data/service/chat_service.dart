@@ -157,6 +157,23 @@ class ChatService {
     }
   }
 
+  /// 채팅방 읽음 처리
+  Future<void> postReadChatRoom(int roomId) async {
+    try {
+      final res = await _apiClient.dio.post(
+        '${apiVersion}chat/rooms/$roomId/read',
+        options: Options(extra: {'skipAuthToken': false}),
+      );
+      if (res.statusCode != 200) {
+        throw Exception('Failed to mark room as read: ${res.statusCode}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Network error: ${e.response?.data ?? e.message}');
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
+
   ///채팅방과 연결된 코고 조회
   Future<LinkedCogoResponse> getConnectedApplication(int chatRoomId) async {
     try {
