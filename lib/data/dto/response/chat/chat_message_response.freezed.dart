@@ -294,7 +294,9 @@ mixin _$ChatMessageResponse {
   int get chatId => throw _privateConstructorUsedError;
   int get senderId => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
+  bool get isReadByOtherUser => throw _privateConstructorUsedError;
 
   /// Serializes this ChatMessageResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -312,7 +314,13 @@ abstract class $ChatMessageResponseCopyWith<$Res> {
           ChatMessageResponse value, $Res Function(ChatMessageResponse) then) =
       _$ChatMessageResponseCopyWithImpl<$Res, ChatMessageResponse>;
   @useResult
-  $Res call({int chatId, int senderId, String message, DateTime createdAt});
+  $Res call(
+      {int chatId,
+      int senderId,
+      String message,
+      String type,
+      DateTime createdAt,
+      bool isReadByOtherUser});
 }
 
 /// @nodoc
@@ -333,7 +341,9 @@ class _$ChatMessageResponseCopyWithImpl<$Res, $Val extends ChatMessageResponse>
     Object? chatId = null,
     Object? senderId = null,
     Object? message = null,
+    Object? type = null,
     Object? createdAt = null,
+    Object? isReadByOtherUser = null,
   }) {
     return _then(_value.copyWith(
       chatId: null == chatId
@@ -348,10 +358,18 @@ class _$ChatMessageResponseCopyWithImpl<$Res, $Val extends ChatMessageResponse>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isReadByOtherUser: null == isReadByOtherUser
+          ? _value.isReadByOtherUser
+          : isReadByOtherUser // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -364,7 +382,13 @@ abstract class _$$ChatMessageResponseImplCopyWith<$Res>
       __$$ChatMessageResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int chatId, int senderId, String message, DateTime createdAt});
+  $Res call(
+      {int chatId,
+      int senderId,
+      String message,
+      String type,
+      DateTime createdAt,
+      bool isReadByOtherUser});
 }
 
 /// @nodoc
@@ -383,7 +407,9 @@ class __$$ChatMessageResponseImplCopyWithImpl<$Res>
     Object? chatId = null,
     Object? senderId = null,
     Object? message = null,
+    Object? type = null,
     Object? createdAt = null,
+    Object? isReadByOtherUser = null,
   }) {
     return _then(_$ChatMessageResponseImpl(
       chatId: null == chatId
@@ -398,10 +424,18 @@ class __$$ChatMessageResponseImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isReadByOtherUser: null == isReadByOtherUser
+          ? _value.isReadByOtherUser
+          : isReadByOtherUser // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -413,7 +447,9 @@ class _$ChatMessageResponseImpl implements _ChatMessageResponse {
       {required this.chatId,
       required this.senderId,
       required this.message,
-      required this.createdAt});
+      required this.type,
+      required this.createdAt,
+      this.isReadByOtherUser = false});
 
   factory _$ChatMessageResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatMessageResponseImplFromJson(json);
@@ -425,11 +461,16 @@ class _$ChatMessageResponseImpl implements _ChatMessageResponse {
   @override
   final String message;
   @override
+  final String type;
+  @override
   final DateTime createdAt;
+  @override
+  @JsonKey()
+  final bool isReadByOtherUser;
 
   @override
   String toString() {
-    return 'ChatMessageResponse(chatId: $chatId, senderId: $senderId, message: $message, createdAt: $createdAt)';
+    return 'ChatMessageResponse(chatId: $chatId, senderId: $senderId, message: $message, type: $type, createdAt: $createdAt, isReadByOtherUser: $isReadByOtherUser)';
   }
 
   @override
@@ -441,14 +482,17 @@ class _$ChatMessageResponseImpl implements _ChatMessageResponse {
             (identical(other.senderId, senderId) ||
                 other.senderId == senderId) &&
             (identical(other.message, message) || other.message == message) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.isReadByOtherUser, isReadByOtherUser) ||
+                other.isReadByOtherUser == isReadByOtherUser));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, chatId, senderId, message, createdAt);
+  int get hashCode => Object.hash(runtimeType, chatId, senderId, message, type,
+      createdAt, isReadByOtherUser);
 
   /// Create a copy of ChatMessageResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -472,7 +516,9 @@ abstract class _ChatMessageResponse implements ChatMessageResponse {
       {required final int chatId,
       required final int senderId,
       required final String message,
-      required final DateTime createdAt}) = _$ChatMessageResponseImpl;
+      required final String type,
+      required final DateTime createdAt,
+      final bool isReadByOtherUser}) = _$ChatMessageResponseImpl;
 
   factory _ChatMessageResponse.fromJson(Map<String, dynamic> json) =
       _$ChatMessageResponseImpl.fromJson;
@@ -484,7 +530,11 @@ abstract class _ChatMessageResponse implements ChatMessageResponse {
   @override
   String get message;
   @override
+  String get type;
+  @override
   DateTime get createdAt;
+  @override
+  bool get isReadByOtherUser;
 
   /// Create a copy of ChatMessageResponse
   /// with the given fields replaced by the non-null parameter values.

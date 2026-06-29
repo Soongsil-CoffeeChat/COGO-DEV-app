@@ -24,7 +24,9 @@ class ChatMessageResponse with _$ChatMessageResponse {
     required int chatId,
     required int senderId,
     required String message,
+    required String type,
     required DateTime createdAt,
+    @Default(false) bool isReadByOtherUser,
   }) = _ChatMessageResponse;
 
   factory ChatMessageResponse.fromJson(Map<String, dynamic> json) =>

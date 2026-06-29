@@ -116,6 +116,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
         time: _formatTime(msg.createdAt),
         createdAt: msg.createdAt,
         isMe: msg.senderId == myId,
+        isRead: msg.isReadByOtherUser,
         profileUrl: _profileUrl,
       )).toList();
       messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
@@ -169,6 +170,7 @@ class ChattingRoomViewModel extends ChangeNotifier {
         time: _formatTime(msg.createdAt),
         createdAt: msg.createdAt,
         isMe: msg.senderId == myId,
+        isRead: msg.isReadByOtherUser,
         profileUrl: _profileUrl,
       )).toList();
       olderMessages.sort((a, b) => a.createdAt.compareTo(b.createdAt));

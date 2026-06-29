@@ -34,7 +34,9 @@ _$ChatMessageResponseImpl _$$ChatMessageResponseImplFromJson(
       chatId: (json['chatId'] as num).toInt(),
       senderId: (json['senderId'] as num).toInt(),
       message: json['message'] as String,
+      type: json['type'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
+      isReadByOtherUser: json['isReadByOtherUser'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$ChatMessageResponseImplToJson(
@@ -43,5 +45,7 @@ Map<String, dynamic> _$$ChatMessageResponseImplToJson(
       'chatId': instance.chatId,
       'senderId': instance.senderId,
       'message': instance.message,
+      'type': instance.type,
       'createdAt': instance.createdAt.toIso8601String(),
+      'isReadByOtherUser': instance.isReadByOtherUser,
     };
