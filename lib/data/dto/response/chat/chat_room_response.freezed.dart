@@ -317,6 +317,8 @@ mixin _$ChatRoom {
   String? get lastChat => throw _privateConstructorUsedError;
   @JsonKey(name: 'updatedAt')
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'unreadCount')
+  int get unreadCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'participants')
   List<Participant> get participants => throw _privateConstructorUsedError;
 
@@ -339,6 +341,7 @@ abstract class $ChatRoomCopyWith<$Res> {
       {@JsonKey(name: 'roomId') int roomId,
       @JsonKey(name: 'lastChat') String? lastChat,
       @JsonKey(name: 'updatedAt') DateTime updatedAt,
+      @JsonKey(name: 'unreadCount') int unreadCount,
       @JsonKey(name: 'participants') List<Participant> participants});
 }
 
@@ -360,6 +363,7 @@ class _$ChatRoomCopyWithImpl<$Res, $Val extends ChatRoom>
     Object? roomId = null,
     Object? lastChat = freezed,
     Object? updatedAt = null,
+    Object? unreadCount = null,
     Object? participants = null,
   }) {
     return _then(_value.copyWith(
@@ -375,6 +379,10 @@ class _$ChatRoomCopyWithImpl<$Res, $Val extends ChatRoom>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      unreadCount: null == unreadCount
+          ? _value.unreadCount
+          : unreadCount // ignore: cast_nullable_to_non_nullable
+              as int,
       participants: null == participants
           ? _value.participants
           : participants // ignore: cast_nullable_to_non_nullable
@@ -395,6 +403,7 @@ abstract class _$$ChatRoomImplCopyWith<$Res>
       {@JsonKey(name: 'roomId') int roomId,
       @JsonKey(name: 'lastChat') String? lastChat,
       @JsonKey(name: 'updatedAt') DateTime updatedAt,
+      @JsonKey(name: 'unreadCount') int unreadCount,
       @JsonKey(name: 'participants') List<Participant> participants});
 }
 
@@ -414,6 +423,7 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
     Object? roomId = null,
     Object? lastChat = freezed,
     Object? updatedAt = null,
+    Object? unreadCount = null,
     Object? participants = null,
   }) {
     return _then(_$ChatRoomImpl(
@@ -429,6 +439,10 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      unreadCount: null == unreadCount
+          ? _value.unreadCount
+          : unreadCount // ignore: cast_nullable_to_non_nullable
+              as int,
       participants: null == participants
           ? _value._participants
           : participants // ignore: cast_nullable_to_non_nullable
@@ -444,6 +458,7 @@ class _$ChatRoomImpl implements _ChatRoom {
       {@JsonKey(name: 'roomId') required this.roomId,
       @JsonKey(name: 'lastChat') this.lastChat,
       @JsonKey(name: 'updatedAt') required this.updatedAt,
+      @JsonKey(name: 'unreadCount') required this.unreadCount,
       @JsonKey(name: 'participants')
       required final List<Participant> participants})
       : _participants = participants;
@@ -460,6 +475,9 @@ class _$ChatRoomImpl implements _ChatRoom {
   @override
   @JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
+  @override
+  @JsonKey(name: 'unreadCount')
+  final int unreadCount;
   final List<Participant> _participants;
   @override
   @JsonKey(name: 'participants')
@@ -471,7 +489,7 @@ class _$ChatRoomImpl implements _ChatRoom {
 
   @override
   String toString() {
-    return 'ChatRoom(roomId: $roomId, lastChat: $lastChat, updatedAt: $updatedAt, participants: $participants)';
+    return 'ChatRoom(roomId: $roomId, lastChat: $lastChat, updatedAt: $updatedAt, unreadCount: $unreadCount, participants: $participants)';
   }
 
   @override
@@ -484,6 +502,8 @@ class _$ChatRoomImpl implements _ChatRoom {
                 other.lastChat == lastChat) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
+            (identical(other.unreadCount, unreadCount) ||
+                other.unreadCount == unreadCount) &&
             const DeepCollectionEquality()
                 .equals(other._participants, _participants));
   }
@@ -491,7 +511,7 @@ class _$ChatRoomImpl implements _ChatRoom {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, roomId, lastChat, updatedAt,
-      const DeepCollectionEquality().hash(_participants));
+      unreadCount, const DeepCollectionEquality().hash(_participants));
 
   /// Create a copy of ChatRoom
   /// with the given fields replaced by the non-null parameter values.
@@ -514,6 +534,7 @@ abstract class _ChatRoom implements ChatRoom {
       {@JsonKey(name: 'roomId') required final int roomId,
       @JsonKey(name: 'lastChat') final String? lastChat,
       @JsonKey(name: 'updatedAt') required final DateTime updatedAt,
+      @JsonKey(name: 'unreadCount') required final int unreadCount,
       @JsonKey(name: 'participants')
       required final List<Participant> participants}) = _$ChatRoomImpl;
 
@@ -529,6 +550,9 @@ abstract class _ChatRoom implements ChatRoom {
   @override
   @JsonKey(name: 'updatedAt')
   DateTime get updatedAt;
+  @override
+  @JsonKey(name: 'unreadCount')
+  int get unreadCount;
   @override
   @JsonKey(name: 'participants')
   List<Participant> get participants;

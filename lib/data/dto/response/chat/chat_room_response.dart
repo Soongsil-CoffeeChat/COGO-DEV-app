@@ -24,6 +24,7 @@ class ChatRoom with _$ChatRoom {
     @JsonKey(name: 'roomId') required int roomId,
     @JsonKey(name: 'lastChat') String? lastChat,
     @JsonKey(name: 'updatedAt') required DateTime updatedAt,
+    @JsonKey(name: 'unreadCount') required int unreadCount,
     @JsonKey(name: 'participants') required List<Participant> participants,
   }) = _ChatRoom;
 

@@ -180,7 +180,7 @@ class _ChatRoomTile extends StatelessWidget {
           style: CogoTextStyle.bodyR12,
         ),
       ),
-      //trailing: const _UnreadBadge(count: 1), // 서버 unreadCount 생기면 교체
+      trailing: room.unreadCount > 0 ? _UnreadBadge(count: room.unreadCount) : null,
     );
   }
 }
@@ -202,7 +202,6 @@ class _CircleAvatarPlaceholder extends StatelessWidget {
     );
   }
 }
-/*
 class _UnreadBadge extends StatelessWidget {
   const _UnreadBadge({required this.count});
   final int count;
@@ -226,6 +225,5 @@ class _UnreadBadge extends StatelessWidget {
     );
   }
 }
-*/
 
 String _formatKoreanDate(DateTime dt) => '${dt.month}월 ${dt.day}일';

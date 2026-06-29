@@ -35,6 +35,7 @@ _$ChatRoomImpl _$$ChatRoomImplFromJson(Map<String, dynamic> json) =>
       roomId: (json['roomId'] as num).toInt(),
       lastChat: json['lastChat'] as String?,
       updatedAt: DateTime.parse(json['updatedAt'] as String),
+      unreadCount: (json['unreadCount'] as num).toInt(),
       participants: (json['participants'] as List<dynamic>)
           .map((e) => Participant.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -45,6 +46,7 @@ Map<String, dynamic> _$$ChatRoomImplToJson(_$ChatRoomImpl instance) =>
       'roomId': instance.roomId,
       'lastChat': instance.lastChat,
       'updatedAt': instance.updatedAt.toIso8601String(),
+      'unreadCount': instance.unreadCount,
       'participants': instance.participants,
     };
 
